@@ -1,3 +1,3 @@
-# FaceAnlyzer frontend
+# FaceAnlyzer Frontend
 
 ## Run locally
