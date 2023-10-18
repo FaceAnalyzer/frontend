@@ -1,5 +1,33 @@
 # FaceAnalyzer - Frontend Project
 
+## Run locally
+
+To run the application locally, you will need to have Node >= 14 on your local development machine. 
+
+After cloning the project, navigate inside it and run in terminal:
+```
+npm install
+```
+This will make sure all necessary dependencies are installed. If there are any high severity issues or vulnerabilites, run 
+```
+npm audit //--force
+```
+so all preexisting dependencies are updated to the latest ones. Next, the project needs to be compiled using the following line:
+```
+npm run build
+```
+
+Lastly, run the test or run the application server. The application will be run on ```http://localhost:3000```.
+
+```
+npm test  // run application tests
+npm start  // start the application
+```
+
+The page automatically reloads after editing and saving.
+
+
+
 ## Git Workflow
 
 ### Branches
