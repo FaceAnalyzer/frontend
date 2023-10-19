@@ -10,13 +10,12 @@ npm install
 ```
 This will make sure all necessary dependencies are installed. If there are any high severity issues or vulnerabilites, run 
 ```
-npm audit fix //--force
+npm audit fix
 ```
 so all preexisting dependencies are updated to the latest ones.
 
 ```
-// npm run build (not needed for now)
-npm run dev
+npm start
 ```
 
 This starts your app in development mode, rebuilding assets on file changes. The application will be run on ```http://localhost:3000```.
