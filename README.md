@@ -10,19 +10,16 @@ npm install
 ```
 This will make sure all necessary dependencies are installed. If there are any high severity issues or vulnerabilites, run 
 ```
-npm audit //--force
+npm audit fix //--force
 ```
-so all preexisting dependencies are updated to the latest ones. Next, the project needs to be compiled using the following line:
-```
-npm run build
-```
-
-Lastly, run the test or run the application server. The application will be run on ```http://localhost:3000```.
+so all preexisting dependencies are updated to the latest ones.
 
 ```
-npm test  // run application tests
-npm start  // start the application
+// npm run build (not needed for now)
+npm run dev
 ```
+
+This starts your app in development mode, rebuilding assets on file changes. The application will be run on ```http://localhost:3000```.
 
 The page automatically reloads after editing and saving.
 
