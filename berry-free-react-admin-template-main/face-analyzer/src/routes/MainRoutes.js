@@ -17,6 +17,10 @@ const UtilsTablerIcons = Loadable(lazy(() => import('views/utilities/TablerIcons
 // sample page routing
 const SamplePage = Loadable(lazy(() => import('views/sample-page')));
 
+// 13 - user creates experiments routing
+const Main = Loadable(lazy(() => import('views/dashboard/main')));
+const Experiments = Loadable(lazy(() => import('views/projects/experiments'))); 
+
 // ==============================|| MAIN ROUTING ||============================== //
 
 const MainRoutes = {
@@ -33,6 +37,19 @@ const MainRoutes = {
         {
           path: 'default',
           element: <DashboardDefault />
+        },
+        {
+          path: 'main',
+          element: <Main />
+        }
+      ]
+    },
+    {
+      path: 'projects',
+      children: [
+        {
+          path: 'experiments',
+          element: <Experiments />
         }
       ]
     },
