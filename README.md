@@ -29,7 +29,7 @@ The page automatically reloads after editing and saving.
 ### Branches
 
 - **main**: The main branch represents the production-ready code. Deployments are made from this branch.
-- **develop**: The develop branch is the integration branch for feature development. New features are developed and tested here before merging into the main branch.
+- **development**: The development branch is the integration branch for feature development. New features are developed and tested here before merging into the main branch.
 
 ### Commit Messages
 
