@@ -4,28 +4,20 @@ import React, { /*useCallback,*/ useEffect, useRef } from 'react';
 const WebcamSetup = ({onStreamReady}) => {
     const webcamRef = useRef(null);
 
-    /*
-    const handleStreamReady = useCallback((stream) => {
-        console.log("Stream ready:", stream);
-        onStreamReady(webcamRef.current);
-        webcamRef.current.srcObject = stream;
-    }, [onStreamReady]);
-    */
-
     useEffect(() => {
         navigator.mediaDevices
         .getUserMedia({ video: true})
         .then((stream) => {
             webcamRef.current.srcObject = stream;
-            onStreamReady(stream);
+            onStreamReady(webcamRef);
         })
         .catch((error) => {
             console.error('Error accessing webcam:', error);
         });
 
-        onStreamReady(webcamRef);
-
+        
         return() => {
+            console.log("remove")
             if(webcamRef && webcamRef.current.srcObject){
                 const tracks = webcamRef.current.srcObject.getTracks();
                 tracks.forEach((track) => {
@@ -34,9 +26,9 @@ const WebcamSetup = ({onStreamReady}) => {
             }
             
         };
-    }, [onStreamReady]);
+    }, []);
 
-    return <video className="video" ref={webcamRef} width="640px" height="480px" autoPlay playsInline></video>
+    return <video className="video" ref={webcamRef} width="640px" height="480px" autoPlay playsInline hidden></video>
 };
 
 export default WebcamSetup;
