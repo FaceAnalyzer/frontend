@@ -1,4 +1,5 @@
 import React from 'react';
+
 import {styled, useTheme} from '@mui/material/styles';
 import {Box, Button, FormControl, FormHelperText, Grid, InputLabel, OutlinedInput, Typography} from '@mui/material';
 import MainCard from "../../ui-component/cards/MainCard";
@@ -6,6 +7,9 @@ import * as Yup from "yup";
 import {Formik} from "formik";
 import useScriptRef from "../../hooks/useScriptRef";
 import AnimateButton from "../../ui-component/extended/AnimateButton";
+import {Modal, ModalBody, ModalContent, ModalFooter, ModalOverlay} from "./ModalComponents";
+import axios from "axios";
+import {ADD_EXPERIMENT_API} from "./BackendEndpoints";
 
 const CardWrapper = styled(MainCard)(({ theme }) => ({
   backgroundColor: '#fff',
@@ -15,68 +19,37 @@ const CardWrapper = styled(MainCard)(({ theme }) => ({
   position: 'relative',
 }));
 
-const ModalOverlay = styled('div')({
-  position: 'fixed',
-  top: 0,
-  left: 0,
-  width: '100%',
-  height: '100%',
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-  zIndex: 1000, /* Ensure it's on top of other content */
-});
-
-const Modal = styled('div')({
-  background: '#fff',
-  borderRadius: '1rem',
-  boxShadow: '0 0 10px rgba(0, 0, 0, 0.2)',
-  maxWidth: {
-    xs: 400,
-    lg: 475,
-  },
-  margin: {
-    xs: 2.5,
-    md: 3,
-  },
-  '& > *': {
-    flexGrow: 1,
-    flexBasis: '50%',
-  },
-});
-
-const ModalContent = styled('div')({
-  padding: '20px',
-});
-
-// const ModalHeader = styled('div')({
-//   display: 'flex',
-//   justifyContent: 'space between',
-//   alignItems: 'center',
-//   borderBottom: '1px solid #ccc',
-//   padding: '10px 20px',
-// });
-
-const ModalBody = styled('div')({
-  padding: '20px',
-});
-
-const ModalFooter = styled('div')({
-  borderTop: '1px solid #ccc',
-  display: 'flex',
-  justifyContent: 'flex-end',
-  alignItems: 'center',
-  padding: '10px 20px',
-});
-
 // ===========================|| ADD EXPERIMENT MODAL ||=========================== //
 
 const AddExperimentModal = ({ showModal, closeModal }) => {
   const theme = useTheme();
   const scriptedRef = useScriptRef();
 
-  // const submitNewExperiment = () => {
-  // };
+  const handleSave = async (values, {setErrors, setStatus}) => {
+    try {
+
+      axios.post(ADD_EXPERIMENT_API, JSON.stringify(values))
+          .then(response => {
+            this.setState({articleId: response.data.id});
+            if (response.status === 200) {
+              // Refresh the page after a successful submission
+              window.location.reload();
+            } else {
+              const data = response.data;
+              setErrors(data.errors);
+              setStatus({success: false});
+            }
+          });
+
+    } catch (err) {
+      console.error(err);
+      setErrors({submit: err.message});
+      setStatus({success: false});
+    } finally {
+      // setSubmitting(false);
+    }
+  };
+
 
   return (
       <CardWrapper border={false} content={false} >
@@ -97,7 +70,8 @@ const AddExperimentModal = ({ showModal, closeModal }) => {
                     onSubmit={async (values, { setErrors, setStatus }) => {
                       try {
                         if (scriptedRef.current) {
-                          setStatus({ success: true });
+                          await handleSave(values, {setErrors, setStatus});
+                          // setStatus({ success: true });
                         }
                       } catch (err) {
                         console.error(err);
@@ -160,7 +134,14 @@ const AddExperimentModal = ({ showModal, closeModal }) => {
                   </ModalBody>
                   <ModalFooter>
                     <AnimateButton>
-                      <Button disableElevation disabled={isSubmitting} fullWidth size="medium" type="submit" variant="contained" color="secondary">
+                      <Button
+                          disableElevation
+                          disabled={isSubmitting}
+                          fullWidth
+                          size="medium"
+                          type="submit"
+                          variant="contained"
+                          color="secondary">
                         Save
                       </Button>
                     </AnimateButton>
