@@ -1,16 +1,17 @@
+import React, {useState} from 'react';
 import PropTypes from 'prop-types';
-// import { useState } from 'react';
 
 // material-ui
-import { styled, useTheme } from '@mui/material/styles';
-import { Avatar, Box, Grid,  Typography } from '@mui/material';
+import {styled, useTheme} from '@mui/material/styles';
+import {Avatar, Box, Grid, Typography} from '@mui/material';
 
 // project imports
 import MainCard from 'ui-component/cards/MainCard';
 import SkeletonEarningCard from 'ui-component/cards/Skeleton/EarningCard';
 
 // assets
-import { IconFlask, IconPlus } from '@tabler/icons';
+import {IconFlask, IconPlus} from '@tabler/icons';
+import AddExperimentModal from './AddExperimentModal';
 
 const CardWrapper = styled(MainCard)(({ theme }) => ({
   backgroundColor: '#fff',
@@ -25,10 +26,15 @@ const CardWrapper = styled(MainCard)(({ theme }) => ({
 
 const AddExperimentCard = ({ isLoading }) => {
   const theme = useTheme();
+  const [showModal, setShowModal] = useState(false);
 
-  const handleClick = () => {
+  const openModal = () => {
+    setShowModal(true);
   };
 
+  const closeModal = () => {
+    setShowModal(false);
+  };
 
   return (
     <>
@@ -36,6 +42,7 @@ const AddExperimentCard = ({ isLoading }) => {
         <SkeletonEarningCard />
       ) : (
         <CardWrapper border={false} content={false}>
+          <AddExperimentModal showModal={showModal} closeModal={closeModal}/>
           <Box sx={{ p: 2.25 }}>
             <Grid container direction="column">
               <Grid item>
@@ -70,7 +77,7 @@ const AddExperimentCard = ({ isLoading }) => {
                       }}
                       aria-controls="add-new-experiment-card"
                       aria-haspopup="true"
-                      onClick={handleClick}
+                      onClick={openModal}
                     >
                       <IconPlus fontSize="inherit" />
                     </Avatar>
