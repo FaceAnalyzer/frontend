@@ -39,15 +39,15 @@ const ExperimentCard = ({ isLoading }) => {
     setAnchorEl(null);
   };
 
-
+  
   /**
    * Handles the edit action for the experiment card.
    * Redirects the user to the experiment page.
-   *
+   * 
    * TODO. This is a temporary solution.
    * Done using forwardRef in other parts of the code.
-   * Will need to move to correct experiment in the future.
-   *
+   * Will need to move to correct experiment in the future. 
+   * 
    * @returns {void}
    */
   const handleEdit = () => {
