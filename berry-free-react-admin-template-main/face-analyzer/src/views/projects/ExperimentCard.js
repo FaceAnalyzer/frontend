@@ -13,6 +13,7 @@ import SkeletonEarningCard from 'ui-component/cards/Skeleton/EarningCard';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import {  DeleteForever, Download, Edit } from '@mui/icons-material';
 import { IconFlask } from '@tabler/icons';
+import { forwardRef } from 'react';
 
 const CardWrapper = styled(MainCard)(({ theme }) => ({
   backgroundColor: theme.palette.secondary.dark,
@@ -36,8 +37,19 @@ const ExperimentCard = ({ isLoading }) => {
     setAnchorEl(null);
   };
 
+  
+  /**
+   * Handles the edit action for the experiment card.
+   * Redirects the user to the experiment page.
+   * 
+   * TODO. This is a temporary solution.
+   * Done using forwardRef in other parts of the code.
+   * Will need to move to correct experiment in the future. 
+   * 
+   * @returns {void}
+   */
   const handleEdit = () => {
-    navigate('/experiment');
+    window.location.href = '/experiment';
   }
 
   return (
