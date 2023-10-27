@@ -11,7 +11,7 @@ import SkeletonEarningCard from 'ui-component/cards/Skeleton/EarningCard';
 
 // assets
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import {DeleteForever, Download} from '@mui/icons-material';
+import {DeleteForever, Download, Edit} from '@mui/icons-material';
 import {IconFlask} from '@tabler/icons';
 import DeletePopup from "./DeletePopup";
 
@@ -37,6 +37,10 @@ const ExperimentCard = ({ isLoading }) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const handleEdit = () => {
+    navigate('/experiment');
+  }
 
   const openDeleteModal = () => {
     setShowDeleteModal(true);
@@ -114,7 +118,7 @@ const ExperimentCard = ({ isLoading }) => {
                       <MenuItem onClick={handleClose}>
                         <Download sx={{ mr: 1.75 }} /> Export
                       </MenuItem>
-                      <MenuItem onClick={handleClose}>
+                      <MenuItem onClick={handleEdit}>
                         <Edit sx={{ mr: 1.75 }} /> Edit
                       </MenuItem>
                       <MenuItem onClick={onDeleteClick}
