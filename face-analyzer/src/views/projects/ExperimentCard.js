@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
-import {useState} from 'react';
+import { useState } from 'react';
 
 // material-ui
-import {styled, useTheme} from '@mui/material/styles';
-import {Avatar, Box, Grid, Menu, MenuItem, Typography} from '@mui/material';
+import { styled, useTheme } from '@mui/material/styles';
+import { Avatar, Box, Grid, Menu, MenuItem, Typography } from '@mui/material';
 
 // project imports
 import MainCard from 'ui-component/cards/MainCard';
@@ -114,10 +114,13 @@ const ExperimentCard = ({ isLoading }) => {
                       <MenuItem onClick={handleClose}>
                         <Download sx={{ mr: 1.75 }} /> Export
                       </MenuItem>
+                      <MenuItem onClick={handleClose}>
+                        <Edit sx={{ mr: 1.75 }} /> Edit
+                      </MenuItem>
                       <MenuItem onClick={onDeleteClick}
                                 sx={{color: 'red'}}>
                         <DeleteForever sx={{mr: 1.75}}/> Delete
-                      </MenuItem> 
+                      </MenuItem>
                     </Menu>
                   </Grid>
                 </Grid>
