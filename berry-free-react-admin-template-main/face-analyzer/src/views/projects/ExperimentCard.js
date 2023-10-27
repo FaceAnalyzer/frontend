@@ -11,7 +11,7 @@ import SkeletonEarningCard from 'ui-component/cards/Skeleton/EarningCard';
 
 // assets
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import {  DeleteForever, Download } from '@mui/icons-material';
+import {  DeleteForever, Download, Edit } from '@mui/icons-material';
 import { IconFlask } from '@tabler/icons';
 
 const CardWrapper = styled(MainCard)(({ theme }) => ({
@@ -96,8 +96,11 @@ const ExperimentCard = ({ isLoading }) => {
                         <Download sx={{ mr: 1.75 }} /> Export
                       </MenuItem>
                       <MenuItem onClick={handleClose}>
-                        <DeleteForever sx={{ mr: 1.75 }} /> Delete 
+                        <Edit sx={{ mr: 1.75 }} /> Edit 
                       </MenuItem> 
+                      <MenuItem onClick={handleClose}>
+                        <DeleteForever sx={{ mr: 1.75 }} /> Delete
+                      </MenuItem>
                     </Menu>
                   </Grid>
                 </Grid>
