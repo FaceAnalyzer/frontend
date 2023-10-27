@@ -13,7 +13,6 @@ import SkeletonEarningCard from 'ui-component/cards/Skeleton/EarningCard';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import {  DeleteForever, Download, Edit } from '@mui/icons-material';
 import { IconFlask } from '@tabler/icons';
-import { forwardRef } from 'react';
 
 const CardWrapper = styled(MainCard)(({ theme }) => ({
   backgroundColor: theme.palette.secondary.dark,
