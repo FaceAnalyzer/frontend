@@ -36,6 +36,10 @@ const ExperimentCard = ({ isLoading }) => {
     setAnchorEl(null);
   };
 
+  const handleEdit = () => {
+    navigate('/experiment');
+  }
+
   return (
     <>
       {isLoading ? (
@@ -95,7 +99,7 @@ const ExperimentCard = ({ isLoading }) => {
                       <MenuItem onClick={handleClose}>
                         <Download sx={{ mr: 1.75 }} /> Export
                       </MenuItem>
-                      <MenuItem onClick={handleClose}>
+                      <MenuItem onClick={handleEdit}>
                         <Edit sx={{ mr: 1.75 }} /> Edit 
                       </MenuItem> 
                       <MenuItem onClick={handleClose}>
