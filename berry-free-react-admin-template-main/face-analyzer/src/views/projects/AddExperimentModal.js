@@ -45,8 +45,6 @@ const AddExperimentModal = ({ showModal, closeModal }) => {
       console.error(err);
       setErrors({submit: err.message});
       setStatus({success: false});
-    } finally {
-      // setSubmitting(false);
     }
   };
 
