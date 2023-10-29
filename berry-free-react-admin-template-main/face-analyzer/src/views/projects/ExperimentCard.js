@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
-import { useState } from 'react';
+import {useState} from 'react';
 
 // material-ui
-import { styled, useTheme } from '@mui/material/styles';
-import { Avatar, Box, Grid, Menu, MenuItem, Typography } from '@mui/material';
+import {styled, useTheme} from '@mui/material/styles';
+import {Avatar, Box, Grid, Menu, MenuItem, Typography} from '@mui/material';
 
 // project imports
 import MainCard from 'ui-component/cards/MainCard';
@@ -11,8 +11,9 @@ import SkeletonEarningCard from 'ui-component/cards/Skeleton/EarningCard';
 
 // assets
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import {  DeleteForever, Download } from '@mui/icons-material';
-import { IconFlask } from '@tabler/icons';
+import {DeleteForever, Download} from '@mui/icons-material';
+import {IconFlask} from '@tabler/icons';
+import DeletePopup from "./DeletePopup";
 
 const CardWrapper = styled(MainCard)(({ theme }) => ({
   backgroundColor: theme.palette.secondary.dark,
@@ -27,6 +28,7 @@ const ExperimentCard = ({ isLoading }) => {
   const theme = useTheme();
 
   const [anchorEl, setAnchorEl] = useState(null);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -36,12 +38,29 @@ const ExperimentCard = ({ isLoading }) => {
     setAnchorEl(null);
   };
 
+  const openDeleteModal = () => {
+    setShowDeleteModal(true);
+  };
+
+  const closeDeleteModal = () => {
+    setShowDeleteModal(false);
+  };
+
+  const onDeleteClick = () => {
+    handleClose();
+    openDeleteModal();
+  }
+
   return (
     <>
       {isLoading ? (
         <SkeletonEarningCard />
       ) : (
         <CardWrapper border={false} content={false}>
+          <DeletePopup showModal={showDeleteModal}
+                       closeModal={closeDeleteModal}
+                       deleteName={'Experiment name'}
+                       deleteId={1}></DeletePopup>
           <Box sx={{ p: 2.25 }}>
             <Grid container direction="column">
               <Grid item>
@@ -95,8 +114,9 @@ const ExperimentCard = ({ isLoading }) => {
                       <MenuItem onClick={handleClose}>
                         <Download sx={{ mr: 1.75 }} /> Export
                       </MenuItem>
-                      <MenuItem onClick={handleClose}>
-                        <DeleteForever sx={{ mr: 1.75 }} /> Delete 
+                      <MenuItem onClick={onDeleteClick}
+                                sx={{color: 'red'}}>
+                        <DeleteForever sx={{mr: 1.75}}/> Delete
                       </MenuItem> 
                     </Menu>
                   </Grid>
