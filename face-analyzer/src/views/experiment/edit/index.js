@@ -1,4 +1,6 @@
 import { Grid, Typography } from "@mui/material";
+import { IconDeviceFloppy } from "@tabler/icons";
+import { Button } from "@mui/material";
 
 const gridSpacing = 2;
 
@@ -19,7 +21,12 @@ const ExperimentEdit = () => {
                 Experiment Description
             </Typography>
             <textarea rows="4" cols="50" placeholder="Experiment Description" />
-            <button>Save</button>
+            <Button variant="contained" color="info">
+              <IconDeviceFloppy color='black'/>
+              <Typography sx={{ color: 'black' }}>
+                Save
+              </Typography>
+            </Button>
         </Grid>
     );
 }
