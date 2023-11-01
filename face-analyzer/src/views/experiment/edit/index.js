@@ -21,7 +21,7 @@ const ExperimentEdit = () => {
                 Experiment Description
             </Typography>
             <textarea rows="4" cols="50" placeholder="Experiment Description" />
-            <Button variant="contained" color="info">
+            <Button variant="contained" color="info" href= '/projects/experiments'>
               <IconDeviceFloppy color='black'/>
               <Typography sx={{ color: 'black' }}>
                 Save
