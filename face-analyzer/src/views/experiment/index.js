@@ -36,7 +36,7 @@ const Experiment = () => {
               </Typography>
             </Button>
           </Box>
-          <Box sx={{ ml: 10 }}>
+          <Box sx={{ ml: 1 }}>
             <Button variant="contained" color="info" href="/experiment/edit">
               <IconEdit color='black'/>
               <Typography sx={{ color: 'black' }}>
