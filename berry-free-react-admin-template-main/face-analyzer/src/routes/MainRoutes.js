@@ -23,6 +23,7 @@ const Experiments = Loadable(lazy(() => import('views/projects/experiments')));
 
   
 const Experiment  = Loadable(lazy(() => import('views/experiment')));
+const Edit = Loadable(lazy(() => import('views/experiment/edit')));
 
 // ==============================|| MAIN ROUTING ||============================== //
 
@@ -108,6 +109,10 @@ const MainRoutes = {
     {
       path: 'experiment',
       element: <Experiment />
+    },
+    {
+      path: 'experiment/edit',
+      element: <Edit />
     }
   ]
 };

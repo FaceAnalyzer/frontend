@@ -23,13 +23,13 @@ const Experiment = () => {
     <Grid container spacing={gridSpacing} sx={{ padding: '16px' }}>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
         <Typography variant="h4" sx={{ mb: 2 }}>
-          {/* This should be loaded from backend */}
+          {/* Text below should be loaded from backend */}
           Experiment Title 
         </Typography>
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <Box sx={{ ml: 1 }}>
             <Button variant="contained" color="error" href="/experiment/delete">
-              {/* The href should include a specific ID for the experiment */}
+              {/* href/onclick should open a dialog box asking for conformation for deletion*/}
               <IconTrashOff color='black' />
               <Typography sx={{ color: 'black' }}>
                 Delete experiment
@@ -37,7 +37,7 @@ const Experiment = () => {
             </Button>
           </Box>
           <Box sx={{ ml: 1 }}>
-            <Button variant="contained" color="info" href="/experiment/edit">
+            <Button variant="contained" color="info" href='/experiment/edit'>
               <IconEdit color='black'/>
               <Typography sx={{ color: 'black' }}>
                 Edit experiment
