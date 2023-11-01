@@ -1,21 +1,16 @@
-import { useEffect, useState } from 'react';
 
-// material-ui
-import { Grid } from '@mui/material';
+// ==============================|| EXPERIMENT DASHBOARD ||============================== //
 
-// project imports
-import { gridSpacing } from 'store/constant';
 
-// ==============================|| EXPERIMENTS DASHBOARD ||============================== //
-
-import { Typography } from '@mui/material';
+import { Box, Grid } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 import { IconEdit, IconTrashOff } from '@tabler/icons';
-
+import { useEffect, useState } from 'react';
+import { gridSpacing } from 'store/constant';
 /**
  * Experiment view component.
  * @returns {JSX.Element} Experiment view JSX.Element.
  */
-import { Box } from '@mui/material';
 
 const Experiment = () => {
   const [, setLoading] = useState(true);
@@ -26,20 +21,30 @@ const Experiment = () => {
 
   return (
     <Grid container spacing={gridSpacing} sx={{ padding: '16px' }}>
-      <Typography variant="h4" sx={{ mb: 2 }}>
-        Experiment Title
-      </Typography>
-      <Box sx={{ ml: 70 }}>
-        <IconTrashOff color='red' />
-        <Typography variant="h6" sx={{ mb: 2 }}>
-          Delete experiment
-        </Typography> 
-      </Box>
-      <Box sx={{ ml: 10 }}>
-        <IconEdit/>
-        <Typography variant="h6" sx={{ mb: 2 }}>
-          Edit experiment
-        </Typography> 
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
+        <Typography variant="h4" sx={{ mb: 2 }}>
+          {/* This should be loaded from backend */}
+          Experiment Title 
+        </Typography>
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <Box sx={{ ml: 1 }}>
+            <Button variant="contained" color="error" href="/experiment/delete">
+              {/* The href should include a specific ID for the experiment */}
+              <IconTrashOff color='black' />
+              <Typography sx={{ color: 'black' }}>
+                Delete experiment
+              </Typography>
+            </Button>
+          </Box>
+          <Box sx={{ ml: 10 }}>
+            <Button variant="contained" color="info" href="/experiment/edit">
+              <IconEdit color='black'/>
+              <Typography sx={{ color: 'black' }}>
+                Edit experiment
+              </Typography>
+            </Button>
+          </Box>
+        </Box>
       </Box>
       <Grid item lg={4} md={6} sm={6} xs={12}>
       </Grid>
