@@ -1,8 +1,8 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import WebcamSetup from './WebcamSetup';
 import WebcamCanvas from './WebcamCanvas';
 
-const WebcamComponent = () => {
+const WebcamComponent = ({canvasRef, isLoading}) => {
     const [videoStream, setVideoStream] = useState(null);
 
     const handleStreamReady = (webcamRef) => {
@@ -10,11 +10,16 @@ const WebcamComponent = () => {
     };
 
     return (
-        
-        <div id="inner-container">
-            <WebcamSetup onStreamReady={handleStreamReady}/>
-            <WebcamCanvas videoStream={videoStream}/>
-        </div>
+        <>
+        {isLoading ? (
+            <></>
+        ) : (
+            <div id="inner-container">
+                <WebcamSetup onStreamReady={handleStreamReady}/>
+                <WebcamCanvas videoStream={videoStream} canvasRef={canvasRef}/>
+            </div>
+        )}
+        </>
         
     );
 };

@@ -1,15 +1,15 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useRef} from 'react';
 
 // ===========================|| Canvas ||=========================== //
-const WebcamCanvas = ({videoStream}) => {
-    const canvasRef = useRef(null);
+const WebcamCanvas = ({videoStream, canvasRef}) => {
     const bgCanvasRef = useRef(null);
 
     useEffect(() => {
         const canvas = canvasRef.current;
-        const bgCanvas = bgCanvasRef.current;
+        //const bgCanvas = bgCanvasRef.current;
 
         const ctx = canvas.getContext('2d');
+        ctx.willReadFrequently = true;
         //const bgCtx = bgCanvas.getContext('2d');
 
         const drawFrame = () => {
