@@ -7,9 +7,9 @@ import * as Yup from "yup";
 import {Formik} from "formik";
 import useScriptRef from "../../hooks/useScriptRef";
 import AnimateButton from "../../ui-component/extended/AnimateButton";
-import {Modal, ModalBody, ModalContent, ModalFooter, ModalOverlay} from "./ModalComponents";
+import {Modal, ModalBody, ModalContent, ModalFooter, ModalOverlay} from "./../projects/ModalComponents";
 import axios from "axios";
-import {ADD_EXPERIMENT_API} from "./BackendEndpoints";
+// import {ADD_EXPERIMENT_API} from "./BackendEndpoints";
 
 const CardWrapper = styled(MainCard)(({ theme }) => ({
   backgroundColor: '#fff',
@@ -21,7 +21,7 @@ const CardWrapper = styled(MainCard)(({ theme }) => ({
 
 // ===========================|| ADD EXPERIMENT MODAL ||=========================== //
 
-const AddExperimentModal = ({ showModal, closeModal }) => {
+const EditExperimentModal = ({ showModal, closeModal }) => {
   const theme = useTheme();
   const scriptedRef = useScriptRef();
 
@@ -173,4 +173,4 @@ const AddExperimentModal = ({ showModal, closeModal }) => {
   );
 };
 
-export default AddExperimentModal;
+export default EditExperimentModal;
