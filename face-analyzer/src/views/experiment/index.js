@@ -5,14 +5,15 @@ import { Grid } from '@mui/material';
 
 // project imports
 import { gridSpacing } from 'store/constant';
-import ExperimentHeader from './ExperimentHeader';
 import VideoCard from './VideoCard';
 import AddVideoCard from './AddVideoCard';
+import ExperimentHeader from './ExperimentHeader';
 
 // ==============================|| EXPERIMENTS DASHBOARD ||============================== //
 
 const Experiment = () => {
   const [isLoading, setLoading] = useState(true);
+
   useEffect(() => {
     setLoading(false);
   }, []);
@@ -24,6 +25,12 @@ const Experiment = () => {
         <Grid container spacing={gridSpacing}>
           <Grid item lg={4} md={6} sm={6} xs={12}>
             <AddVideoCard isLoading={isLoading} />
+          </Grid>
+          <Grid item lg={4} md={6} sm={6} xs={12}>
+            <VideoCard isLoading={isLoading} />
+          </Grid>
+          <Grid item lg={4} md={6} sm={6} xs={12}>
+            <VideoCard isLoading={isLoading} />
           </Grid>
           <Grid item lg={4} md={6} sm={6} xs={12}>
             <VideoCard isLoading={isLoading} />

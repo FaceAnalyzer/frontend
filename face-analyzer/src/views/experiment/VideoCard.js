@@ -11,7 +11,6 @@ import SkeletonEarningCard from 'ui-component/cards/Skeleton/EarningCard';
 
 // assets
 import {  DeleteForever } from '@mui/icons-material';
-import { IconBrandYoutube } from '@tabler/icons';
 
 const CardWrapper = styled(MainCard)(({ theme }) => ({
     backgroundColor: theme.palette.secondary.dark,
@@ -44,18 +43,6 @@ const VideoCard = ({ isLoading }) => {
                             <Grid item>
                                 <Grid container justifyContent="space-between">
                                     <Grid item>
-                                        <Avatar
-                                            variant="rounded"
-                                            sx={{
-                                                ...theme.typography.commonAvatar,
-                                                ...theme.typography.largeAvatar,
-                                                backgroundColor: theme.palette.secondary.light,
-                                                color: theme.palette.secondary.dark,
-                                                mt: 1
-                                            }}
-                                        >
-                                            <IconBrandYoutube />
-                                        </Avatar>
                                     </Grid>
                                     <Grid item>
                                         <Avatar
