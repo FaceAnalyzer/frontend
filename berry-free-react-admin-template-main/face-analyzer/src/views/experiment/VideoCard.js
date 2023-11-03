@@ -80,7 +80,8 @@ const VideoCard = ({ isLoading }) => {
                             <Grid item>
                                 <Grid container alignItems="center">
                                     <Grid item>
-                                        <Typography sx={{ fontSize: '2.125rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75 }}>Video name</Typography>
+                                        <img src="https://i.ytimg.com/vi/xxxxxxxxxxx/hqdefault.jpg" alt="YouTube thumbnail" /> 
+                                        {/* this should use youtube api with url to find thumbnail imo */}
                                     </Grid>
                                 </Grid>
                             </Grid>
@@ -92,19 +93,19 @@ const VideoCard = ({ isLoading }) => {
                                         color: theme.palette.secondary[200]
                                     }}
                                 >
-                                    Video Description
+                                    Video Title
                                 </Typography>
                             </Grid>
                         </Grid>
                     </Box>
                 </CardWrapper>
-            )}
-        </>
-    );
+      )}
+    </>
+  );
 };
 
 VideoCard.propTypes = {
-    isLoading: PropTypes.bool
+  isLoading: PropTypes.bool
 };
 
 export default VideoCard;
