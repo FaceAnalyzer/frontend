@@ -7,9 +7,9 @@ import * as Yup from "yup";
 import {Formik} from "formik";
 import useScriptRef from "../../hooks/useScriptRef";
 import AnimateButton from "../../ui-component/extended/AnimateButton";
-import {Modal, ModalBody, ModalContent, ModalFooter, ModalOverlay} from "./ModalComponents";
+import {Modal, ModalBody, ModalContent, ModalFooter, ModalOverlay} from "../projects/ModalComponents";
 import axios from "axios";
-import {UPDATE_EXPERIMENT_API} from "./BackendEndpoints";
+import {ADD_VIDEO_API} from "../projects/BackendEndpoints";
 
 const CardWrapper = styled(MainCard)(({ theme }) => ({
     backgroundColor: '#fff',
@@ -19,17 +19,18 @@ const CardWrapper = styled(MainCard)(({ theme }) => ({
     position: 'relative',
 }));
 
-// ===========================|| EDIT EXPERIMENT MODAL ||=========================== //
+// ===========================|| ADD VIDEO MODAL ||=========================== //
 
-const EditExperimentModal = ({ showModal, closeModal, initialValues }) => {
+const AddVideoModal = ({ showModal, closeModal }) => {
     const theme = useTheme();
     const scriptedRef = useScriptRef();
 
-    const handleUpdate = async (values, {setErrors, setStatus}) => {
+    const handleSave = async (values, {setErrors, setStatus}) => {
         try {
 
-            axios.put(UPDATE_EXPERIMENT_API, JSON.stringify(values))
+            axios.post(ADD_VIDEO_API, JSON.stringify(values))
                     .then(response => {
+                        this.setState({videoId: response.data.id});
                         if (response.status === 200) {
                             // Refresh the page after a successful submission
                             window.location.reload();
@@ -56,16 +57,22 @@ const EditExperimentModal = ({ showModal, closeModal, initialValues }) => {
                         <ModalOverlay>
                             <Modal>
                                 <Formik
-                                        initialValues={initialValues}
+                                        initialValues={{
+                                            title: '',
+                                            description: '',
+                                            url: '',
+                                            submit: null
+                                        }}
                                         validationSchema={Yup.object().shape({
-                                            name: Yup.string().max(255).required('Experiment name is required'),
-                                            description: Yup.string().max(255)
+                                            title: Yup.string().max(255).required('Video title is required'),
+                                            description: Yup.string().max(255),
+                                            url: Yup.string().url().required('Video URL is required')
                                         })}
 
                                         onSubmit={async (values, { setErrors, setStatus }) => {
                                             try {
                                                 if (scriptedRef.current) {
-                                                    await handleUpdate(values, {setErrors, setStatus});
+                                                    await handleSave(values, {setErrors, setStatus});
                                                     // setStatus({ success: true });
                                                 }
                                             } catch (err) {
@@ -89,39 +96,51 @@ const EditExperimentModal = ({ showModal, closeModal, initialValues }) => {
                                                     color: theme.palette.secondary.dark,
                                                     mb: 1
                                                 }}>
-                                                    Edit experiment
+                                                    Add video
                                                 </Typography>
                                             </Grid>
                                         </Grid>
 
 
-                                                <FormControl fullWidth error={Boolean(touched.name && errors.name)} sx={{ ...theme.typography.customInput }}>
-                                                    <InputLabel htmlFor="experimentName">Name</InputLabel>
+                                                <FormControl fullWidth error={Boolean(touched.title && errors.title)} sx={{ ...theme.typography.customInput }}>
+                                                    <InputLabel htmlFor="videoTitle">Title</InputLabel>
                                                     <OutlinedInput
-                                                            id="experimentName"
+                                                            id="videoTitle"
                                                             type="text"
-                                                            name="name"
+                                                            name="title"
                                                             onBlur={handleBlur}
                                                             onChange={handleChange}
-                                                            value={initialValues.name}
                                                     />
-                                                {touched.name && errors.name && (
-                                                    <FormHelperText error id="experimentNameHandler">
-                                                {errors.name}
+                                                {touched.title && errors.title && (
+                                                    <FormHelperText error id="videoTitleHandler">
+                                                {errors.title}
                                             </FormHelperText>
                                             )}
                                                 </FormControl>
 
                                                 <FormControl fullWidth sx={{ ...theme.typography.customInput }}>
-                                                    <InputLabel htmlFor="experimentDescription">Description</InputLabel>
+                                                    <InputLabel htmlFor="videoDescription">Description</InputLabel>
                                                     <OutlinedInput
-                                                            id="experimentDescription"
+                                                            id="videoDescription"
                                                             type="name"
                                                             name="description"
-                                                            value={initialValues.description}
+                                                    />
+                                                </FormControl>
+
+                                                <FormControl fullWidth error={Boolean(touched.url && errors.url)} sx={{ ...theme.typography.customInput }}>
+                                                    <InputLabel htmlFor="videoUrl">URL</InputLabel>
+                                                    <OutlinedInput
+                                                            id="videoUrl"
+                                                            type="text"
+                                                            name="url"
                                                             onBlur={handleBlur}
                                                             onChange={handleChange}
                                                     />
+                                                {touched.url && errors.url && (
+                                                    <FormHelperText error id="videoUrlHandler">
+                                                {errors.url}
+                                            </FormHelperText>
+                                            )}
                                                 </FormControl>
 
                                                 {errors.submit && (
@@ -141,7 +160,7 @@ const EditExperimentModal = ({ showModal, closeModal, initialValues }) => {
                                                     type="submit"
                                                     variant="contained"
                                                     color="secondary">
-                                                Update
+                                                Save
                                             </Button>
                                         </AnimateButton>
                                         <AnimateButton>
@@ -172,4 +191,4 @@ const EditExperimentModal = ({ showModal, closeModal, initialValues }) => {
     );
 };
 
-export default EditExperimentModal;
+export default AddVideoModal;
