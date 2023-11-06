@@ -30,8 +30,8 @@ const DeletePopup = ({ showModal, closeModal, deleteName, deleteId }) => {
                 .then(response => {
                     this.setState({articleId: response.data.id});
                     if (response.status === 200) {
-                        // Refresh the page after a successful submission
-                        window.location.reload();
+                        // Redirect to project's experiments page
+                        window.location.href = '/projects/experiments';
                     } else {
                         const data = response.data;
                         setErrors(data.errors);
