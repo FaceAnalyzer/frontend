@@ -1,13 +1,13 @@
-import { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 
 // material-ui
-import { Grid } from '@mui/material';
+import {Grid} from '@mui/material';
 
 // project imports
-import { gridSpacing } from 'store/constant';
+import {gridSpacing} from 'store/constant';
 import VideoCard from './VideoCard';
 import AddVideoCard from './AddVideoCard';
-import ExperimentHeader from './ExperimentHeader';
+import ExperimentHeader from "./ExperimentHeader";
 
 // ==============================|| EXPERIMENTS DASHBOARD ||============================== //
 
@@ -20,8 +20,8 @@ const Experiment = () => {
 
   return (
     <Grid container spacing={gridSpacing} sx={{padding: '16px'}}>
-      <ExperimentHeader />
       <Grid item xs={12}>
+        <ExperimentHeader/>
         <Grid container spacing={gridSpacing}>
           <Grid item lg={4} md={6} sm={6} xs={12}>
             <AddVideoCard isLoading={isLoading} />

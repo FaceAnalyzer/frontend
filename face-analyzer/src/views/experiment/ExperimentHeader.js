@@ -1,40 +1,96 @@
-import React from 'react';
-import { Button, Typography, Box, Grid } from '@mui/material';
-import { IconEdit, IconTrashOff } from '@tabler/icons';
+import React, {useState} from 'react';
+import {useTheme} from "@mui/material/styles";
+import DeletePopup from "../projects/DeletePopup";
+import EditExperimentModal from "./EditExperimentModal";
+import {Box, Button, Card, CardHeader, Typography} from "@mui/material";
+import {gridSpacing} from "../../store/constant";
+import AnimateButton from "../../ui-component/extended/AnimateButton";
+import {IconEdit, IconTrashOff} from "@tabler/icons";
+
+// ===========================|| EXPERIMENT HEADER ||=========================== //
 
 const ExperimentHeader = () => {
+    const theme = useTheme();
+
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [showEditModal, setShowEditModal] = useState(false);
+
+    const experimentValues = {
+        id: 1,
+        name: "Experiment name",
+        description: "Experiment description"
+    };
+
+    const openDeleteModal = () => {
+        setShowDeleteModal(true);
+    };
+
+    const closeDeleteModal = () => {
+        setShowDeleteModal(false);
+    };
+
+    const onDeleteClick = () => {
+        openDeleteModal();
+    }
+
+    const onEditClick = () => {
+        openEditModal();
+    }
+
+    const openEditModal = () => {
+        setShowEditModal(true);
+    };
+
+    const closeEditModal = () => {
+        setShowEditModal(false);
+    };
 
     return (
-        <Grid container spacing={2} sx={{ mb: 2 }}>
-            <Grid item xs={6}>
-                <Typography variant="h4">
-                    {/* Text below should be loaded from backend */}
-                    Experiment Title 
-                </Typography>
-            </Grid>
-            <Grid item xs={6} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    <Box sx={{ ml: 1 }}>
-                        <Button variant="contained" color="info" href="experiment/edit">
-                            {/* href/onclick should open a dialog box asking for conformation for edit*/}
-                            <IconEdit color='black'/>
-                            <Typography sx={{ color: 'black' }}>
-                                Edit experiment
-                            </Typography>
-                        </Button>
-                    </Box>
-                    <Box sx={{ ml: 1 }}>
-                        <Button variant="contained" color="error" href="/experiment/delete">
-                            {/* href/onclick should open a dialog box asking for conformation for deletion*/}
-                            <IconTrashOff color='black' />
-                            <Typography sx={{ color: 'black' }}>
-                                Delete experiment
-                            </Typography>
-                        </Button>
+        <Box>
+            <DeletePopup showModal={showDeleteModal}
+                         closeModal={closeDeleteModal}
+                         deleteName={'Experiment name'}
+                         deleteId={1}></DeletePopup>
+            <EditExperimentModal showModal={showEditModal}
+                                 closeModal={closeEditModal}
+                                 initialValues={experimentValues}></EditExperimentModal>
+            <Card sx={{marginBottom: gridSpacing}}>
+                <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
+                    <CardHeader title={
+                        <Typography sx={{
+                            fontSize: '1.5rem',
+                            fontWeight: 500
+                        }}>
+                            {experimentValues.name}</Typography>
+                    }/>
+                    <Box sx={{display: 'flex', gap: 1, pr: 2}}>
+                        <AnimateButton>
+                            <Button
+                                disableElevation
+                                onClick={onEditClick}
+                                variant="contained"
+                                color="secondary"
+                            >
+                                <IconEdit/> Edit
+                            </Button>
+                        </AnimateButton>
+                        <AnimateButton>
+                            <Button
+                                onClick={onDeleteClick}
+                                sx={{
+                                    color: 'grey.700',
+                                    backgroundColor: theme.palette.grey[50],
+                                    borderColor: theme.palette.grey[100]
+                                }}
+                            >
+                                <IconTrashOff/> Delete
+                            </Button>
+                        </AnimateButton>
                     </Box>
                 </Box>
-            </Grid>
-        </Grid>
+            </Card>
+
+        </Box>
     );
 };
 

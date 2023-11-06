@@ -9,6 +9,7 @@ import useScriptRef from "../../hooks/useScriptRef";
 import AnimateButton from "../../ui-component/extended/AnimateButton";
 import {Modal, ModalBody, ModalContent, ModalFooter, ModalOverlay} from "../projects/ModalComponents";
 import axios from "axios";
+import {EDIT_EXPERIMENT_API} from "../projects/BackendEndpoints";
 
 const CardWrapper = styled(MainCard)(({ theme }) => ({
     backgroundColor: '#fff',
@@ -20,14 +21,14 @@ const CardWrapper = styled(MainCard)(({ theme }) => ({
 
 // ===========================|| EDIT EXPERIMENT MODAL ||=========================== //
 
-const EditExperimentModal = ({ showModal, closeModal, initialValues }) => {
+const EditExperimentModal = ({showModal, closeModal, initialValues}) => {
     const theme = useTheme();
     const scriptedRef = useScriptRef();
 
     const handleUpdate = async (values, {setErrors, setStatus}) => {
         try {
 
-            axios.put(UPDATE_EXPERIMENT_API, JSON.stringify(values))
+            axios.put(EDIT_EXPERIMENT_API, JSON.stringify(values))
                     .then(response => {
                         if (response.status === 200) {
                             // Refresh the page after a successful submission
@@ -78,6 +79,8 @@ const EditExperimentModal = ({ showModal, closeModal, initialValues }) => {
 
                                     {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched }) => (
                                             <form noValidate onSubmit={handleSubmit}>
+                                                <input name={'id'} value={initialValues.id} readOnly={true}
+                                                       hidden={true}/>
                                 <ModalContent>
                                     <ModalBody>
                                         <Grid container alignItems="center">
@@ -102,7 +105,7 @@ const EditExperimentModal = ({ showModal, closeModal, initialValues }) => {
                                                             name="name"
                                                             onBlur={handleBlur}
                                                             onChange={handleChange}
-                                                            value={initialValues.name}
+                                                            defaultValue={initialValues.name}
                                                     />
                                                 {touched.name && errors.name && (
                                                     <FormHelperText error id="experimentNameHandler">
@@ -117,9 +120,9 @@ const EditExperimentModal = ({ showModal, closeModal, initialValues }) => {
                                                             id="experimentDescription"
                                                             type="name"
                                                             name="description"
-                                                            value={initialValues.description}
                                                             onBlur={handleBlur}
                                                             onChange={handleChange}
+                                                            defaultValue={initialValues.description}
                                                     />
                                                 </FormControl>
 

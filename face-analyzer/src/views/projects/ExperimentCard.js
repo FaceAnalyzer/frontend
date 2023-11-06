@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
-import { useState } from 'react';
+import {useState} from 'react';
 
 // material-ui
-import { styled, useTheme } from '@mui/material/styles';
-import { Avatar, Box, Grid, Menu, MenuItem, Typography } from '@mui/material';
+import {styled, useTheme} from '@mui/material/styles';
+import {Avatar, Box, Grid, Menu, MenuItem, Typography} from '@mui/material';
 
 // project imports
 import MainCard from 'ui-component/cards/MainCard';
@@ -11,10 +11,10 @@ import SkeletonEarningCard from 'ui-component/cards/Skeleton/EarningCard';
 
 // assets
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import {  DeleteForever, Download, Edit } from '@mui/icons-material';
-import { IconFlask } from '@tabler/icons';
-import { forwardRef } from 'react';
+import {DeleteForever, Download, Edit} from '@mui/icons-material';
+import {IconFlask} from '@tabler/icons';
 import DeletePopup from "./DeletePopup";
+import EditExperimentModal from "../experiment/EditExperimentModal";
 
 const CardWrapper = styled(MainCard)(({ theme }) => ({
   backgroundColor: theme.palette.secondary.dark,
@@ -30,6 +30,12 @@ const ExperimentCard = ({ isLoading }) => {
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const experimentValues = {
+    id: 1,
+    name: "Experiment name",
+    description: "Experiment description"
+  };
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -39,18 +45,7 @@ const ExperimentCard = ({ isLoading }) => {
     setAnchorEl(null);
   };
 
-  
-  /**
-   * Handles the edit action for the experiment card.
-   * Redirects the user to the experiment page.
-   * 
-   * TODO. This is a temporary solution.
-   * Done using forwardRef in other parts of the code.
-   * Will need to move to correct experiment in the future. 
-   * 
-   * @returns {void}
-   */
-  const handleEdit = () => {
+  const openExperiment = () => {
     window.location.href = '/experiment';
   }
 
@@ -67,6 +62,19 @@ const ExperimentCard = ({ isLoading }) => {
     openDeleteModal();
   }
 
+  const onEditClick = () => {
+    handleClose();
+    openEditModal();
+  }
+
+  const openEditModal = () => {
+    setShowEditModal(true);
+  };
+
+  const closeEditModal = () => {
+    setShowEditModal(false);
+  };
+
   return (
     <>
       {isLoading ? (
@@ -77,6 +85,9 @@ const ExperimentCard = ({ isLoading }) => {
                        closeModal={closeDeleteModal}
                        deleteName={'Experiment name'}
                        deleteId={1}></DeletePopup>
+          <EditExperimentModal showModal={showEditModal}
+                               closeModal={closeEditModal}
+                               initialValues={experimentValues}></EditExperimentModal>
           <Box sx={{ p: 2.25 }}>
             <Grid container direction="column">
               <Grid item>
@@ -91,6 +102,7 @@ const ExperimentCard = ({ isLoading }) => {
                         color: theme.palette.secondary.dark,
                         mt: 1
                       }}
+                      onClick={openExperiment}
                     >
                       <IconFlask />
                     </Avatar>
@@ -130,7 +142,7 @@ const ExperimentCard = ({ isLoading }) => {
                       <MenuItem onClick={handleClose}>
                         <Download sx={{ mr: 1.75 }} /> Export
                       </MenuItem>
-                      <MenuItem onClick={handleEdit}>
+                      <MenuItem onClick={onEditClick}>
                         <Edit sx={{ mr: 1.75 }} /> Edit
                       </MenuItem>
                       <MenuItem onClick={onDeleteClick}
