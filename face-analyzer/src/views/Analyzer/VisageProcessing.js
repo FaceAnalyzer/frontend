@@ -1,5 +1,5 @@
 import {useContext, useEffect} from "react";
-import {AnalysisDataContext} from "./AnalysisContext";
+import {AnalysisDataContext} from "./AnalysisDataContext";
 
 /*
 Used to handle processing of the data gathered from the webcam canvas. After initializing the license manager, sets
@@ -65,7 +65,7 @@ const VisageProcessing = ({canvasRef, isLoading}) => {
             //console.log("conf:", m_Tracker.getConfiguration());
 
             /*
-            If the tracking is successful (e.g. if it finds a face), use its result for analysis.
+            If the tracking is successful (i.e. if it finds a face), use its result for analysis.
             Else, handle the possible failure - I think it can be left empty, or maybe inform the user a face cannot be
             found (might be useful in low-light situations?).
              */
