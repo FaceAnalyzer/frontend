@@ -26,7 +26,6 @@ const AddExperimentModal = ({ showModal, closeModal }) => {
   const scriptedRef = useScriptRef();
 
   const handleSave = async (values, {setErrors, setStatus}) => {
-      values={"name": "naziv","description": "opis", "projectId": 0};
     try {
         console.log(ADD_EXPERIMENT_API)
       axios.post(ADD_EXPERIMENT_API, JSON.stringify(values), {headers: {"accept": "text/plain", "Content-Type": "application/json"}})
