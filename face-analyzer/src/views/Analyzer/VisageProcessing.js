@@ -2,6 +2,7 @@ import {useContext, useEffect} from "react";
 import {AnalysisDataContext} from "./AnalysisDataContext";
 import {saveDataToLocalStorage} from "./AnalysisDataFunctions";
 
+
 /*
 Used to handle processing of the data gathered from the webcam canvas. After initializing the license manager, sets
 up the tracker and analyser, and then processes the data on a set interval.
