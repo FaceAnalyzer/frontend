@@ -27,10 +27,11 @@ const AddExperimentModal = ({ showModal, closeModal }) => {
 
   const handleSave = async (values, {setErrors, setStatus}) => {
     try {
+      values.projectId = 1; // Hard coded for MVP
       axios.post(ADD_EXPERIMENT_API, JSON.stringify(values), {headers: {"accept": "text/plain", "Content-Type": "application/json"}})
           .then(response => {
-            this.setState({articleId: response.data.id});
-            if (response.status === 200) {
+            // this.setState({articleId: response.data.id});
+            if (response.status === 201) {
               // Refresh the page after a successful submission
               window.location.reload();
             } else {
@@ -68,7 +69,7 @@ const AddExperimentModal = ({ showModal, closeModal }) => {
                       try {
                         if (scriptedRef.current) {
                           await handleSave(values, {setErrors, setStatus});
-                          // setStatus({ success: true });
+                          setStatus({ success: true });
                         }
                       } catch (err) {
                         console.error(err);
@@ -117,8 +118,9 @@ const AddExperimentModal = ({ showModal, closeModal }) => {
                           <InputLabel htmlFor="experimentDescription">Description</InputLabel>
                           <OutlinedInput
                               id="experimentDescription"
-                              type="name"
+                              type="text"
                               name="description"
+                              onChange={handleChange}
                           />
                         </FormControl>
 
