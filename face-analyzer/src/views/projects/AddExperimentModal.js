@@ -27,8 +27,7 @@ const AddExperimentModal = ({ showModal, closeModal }) => {
 
   const handleSave = async (values, {setErrors, setStatus}) => {
     try {
-
-      axios.post(ADD_EXPERIMENT_API, JSON.stringify(values))
+      axios.post(ADD_EXPERIMENT_API, JSON.stringify(values), {headers: {"accept": "text/plain", "Content-Type": "application/json"}})
           .then(response => {
             this.setState({articleId: response.data.id});
             if (response.status === 200) {
