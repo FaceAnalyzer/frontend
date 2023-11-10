@@ -2,7 +2,6 @@ import {useContext, useEffect} from "react";
 import {AnalysisDataContext} from "./AnalysisDataContext";
 import {saveDataToLocalStorage} from "./AnalysisDataFunctions";
 
-
 /*
 Used to handle processing of the data gathered from the webcam canvas. After initializing the license manager, sets
 up the tracker and analyser, and then processes the data on a set interval.
@@ -92,7 +91,6 @@ const VisageProcessing = ({canvasRef, isLoading, isRecording}) => {
                 let probabilities = tmpAnalysisData.getEmotionProbabilities();
                 probabilities["time"] = Date.now() - startTime;
                 updateAnalysisData(probabilities);
-
             }
             else{
                 //We can end up here if no faces are detected at any point, or if the tracker is not properly initialized
