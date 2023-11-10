@@ -1,5 +1,6 @@
 import {useContext, useEffect} from "react";
 import {AnalysisDataContext} from "./AnalysisDataContext";
+import {saveDataToLocalStorage} from "./AnalysisDataFunctions";
 
 /*
 Used to handle processing of the data gathered from the webcam canvas. After initializing the license manager, sets
@@ -18,7 +19,15 @@ const VisageProcessing = ({canvasRef, isLoading}) => {
     //Analysis interval in ms
     const analysisInterval = 100;
 
-    const {setAnalysisData} = useContext(AnalysisDataContext);
+    const {analysisData, setAnalysisData} = useContext(AnalysisDataContext);
+
+    const updateAnalysisData = (newData) => {
+        setAnalysisData(newData);
+    }
+
+    useEffect(() => {
+        saveDataToLocalStorage(analysisData)
+    }, [analysisData]);
 
     useEffect(() => {
         if(isLoading){
@@ -47,7 +56,7 @@ const VisageProcessing = ({canvasRef, isLoading}) => {
         var pixels = new Uint8ClampedArray(VisageModule.HEAPU8.buffer, ppixels, frameWidth*frameHeight*4);
 
         //Perform analysis at a fixed interval
-        setInterval(function() {
+        const interval = setInterval(function() {
             var trackerStatus = [];
             tmpAnalysisData = new VisageModule.AnalysisData();
 
@@ -71,16 +80,12 @@ const VisageProcessing = ({canvasRef, isLoading}) => {
              */
             if(trackerStatus[0] === VisageModule.VisageTrackerStatus.TRACK_STAT_OK.value){
                 m_FaceAnalyser.analyseStream(frameWidth, frameHeight, ppixels, faceDataArray.get(0),
-                    VisageModule.VFAFlags.VFA_AGE.value + VisageModule.VFAFlags.VFA_GENDER.value
-                    + VisageModule.VFAFlags.VFA_EMOTION.value,
+                    VisageModule.VFAFlags.VFA_EMOTION.value,
                     tmpAnalysisData, 0);
 
-                setAnalysisData(tmpAnalysisData);
+                //setAnalysisData(tmpAnalysisData);
+                updateAnalysisData(tmpAnalysisData.getEmotionProbabilities());
 
-                //Use analysis results
-                //console.log("Age:", analysisData.getAge());
-                //console.log("Gender:", analysisData.getGender());
-                //console.log("Emotions:", analysisData.getEmotionProbabilities());
             }
             else{
                 //We can end up here if no faces are detected at any point, or if the tracker is not properly initialized
@@ -89,10 +94,7 @@ const VisageProcessing = ({canvasRef, isLoading}) => {
         }, analysisInterval);
 
         //Release the memory allocated for the various operations.
-        return(() => {
-            //m_Tracker.delete();
-            //m_FaceAnalyser.delete();
-        })
+        return(() => clearInterval(interval));
     }, [canvasRef, isLoading]);
 }
 

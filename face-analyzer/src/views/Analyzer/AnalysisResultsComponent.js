@@ -18,6 +18,10 @@ const AnalysisResultsComponent = ({ isLoading }) => {
     const theme = useTheme();
     const {analysisData} = useContext(AnalysisDataContext);
 
+    const getLatestData = (index) => {
+        return analysisData[index];
+    }
+
     //emotions = analysisData.getEmotionProbabilities();
 
     return (
@@ -47,7 +51,7 @@ const AnalysisResultsComponent = ({ isLoading }) => {
                                                 Anger
                                             </Typography>
                                         }
-                                        secondary={<Typography variant="h4"> {analysisData.getEmotionProbabilities()[0]} </Typography>}
+                                        secondary={<Typography variant="h4"> {getLatestData(0)} </Typography>}
                                     />
                                 </ListItem>
                                 <ListItem alignItems="center" disableGutters sx={{ py: 0 }}>
@@ -68,7 +72,7 @@ const AnalysisResultsComponent = ({ isLoading }) => {
                                                 Disgust
                                             </Typography>
                                         }
-                                        secondary={<Typography variant="h4"> {analysisData.getEmotionProbabilities()[1]} </Typography>}
+                                        secondary={<Typography variant="h4"> {getLatestData(1)} </Typography>}
                                     />
                                 </ListItem>
                                 <ListItem alignItems="center" disableGutters sx={{ py: 0 }}>
@@ -89,7 +93,7 @@ const AnalysisResultsComponent = ({ isLoading }) => {
                                                 Fear
                                             </Typography>
                                         }
-                                        secondary={<Typography variant="h4"> {analysisData.getEmotionProbabilities()[2]} </Typography>}
+                                        secondary={<Typography variant="h4"> {getLatestData(2)} </Typography>}
                                     />
                                 </ListItem>
                                 <ListItem alignItems="center" disableGutters sx={{ py: 0 }}>
@@ -110,7 +114,7 @@ const AnalysisResultsComponent = ({ isLoading }) => {
                                                 Happiness
                                             </Typography>
                                         }
-                                        secondary={<Typography variant="h4"> {analysisData.getEmotionProbabilities()[3]} </Typography>}
+                                        secondary={<Typography variant="h4"> {getLatestData(3)} </Typography>}
                                     />
                                 </ListItem>
                                 <ListItem alignItems="center" disableGutters sx={{ py: 0 }}>
@@ -131,7 +135,7 @@ const AnalysisResultsComponent = ({ isLoading }) => {
                                                 Sadness
                                             </Typography>
                                         }
-                                        secondary={<Typography variant="h4"> {analysisData.getEmotionProbabilities()[4]} </Typography>}
+                                        secondary={<Typography variant="h4"> {getLatestData(4)} </Typography>}
                                     />
                                 </ListItem>
                                 <ListItem alignItems="center" disableGutters sx={{ py: 0 }}>
@@ -152,7 +156,7 @@ const AnalysisResultsComponent = ({ isLoading }) => {
                                                 Surprise
                                             </Typography>
                                         }
-                                        secondary={<Typography variant="h4"> {analysisData.getEmotionProbabilities()[5]} </Typography>}
+                                        secondary={<Typography variant="h4"> {getLatestData(5)} </Typography>}
                                     />
                                 </ListItem>
                                 <ListItem alignItems="center" disableGutters sx={{ py: 0 }}>
@@ -173,7 +177,7 @@ const AnalysisResultsComponent = ({ isLoading }) => {
                                                 Neutral
                                             </Typography>
                                         }
-                                        secondary={<Typography variant="h4"> {analysisData.getEmotionProbabilities()[6]} </Typography>}
+                                        secondary={<Typography variant="h4"> {getLatestData(6)} </Typography>}
                                     />
                                 </ListItem>
                             </List>

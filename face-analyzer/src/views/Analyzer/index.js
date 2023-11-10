@@ -14,7 +14,15 @@ const Analyzer = () => {
     }, []);
 
     const canvasRef = useRef(null);
-    var [analysisData, setAnalysisData] = useState(new VisageModule.AnalysisData());
+    const [analysisData, setAnalysisData] = useState({
+        0: 0.0,
+        1: 0.0,
+        2: 0.0,
+        3: 0.0,
+        4: 0.0,
+        5: 0.0,
+        6: 0.0
+    });
 
     return (
         <AnalysisDataContext.Provider value={{analysisData, setAnalysisData}}>
