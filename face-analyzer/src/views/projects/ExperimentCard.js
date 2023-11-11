@@ -13,7 +13,7 @@ import SkeletonEarningCard from 'ui-component/cards/Skeleton/EarningCard';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import {DeleteForever, Download, Edit} from '@mui/icons-material';
 import {IconFlask} from '@tabler/icons';
-import DeletePopup from "./DeletePopup";
+import DeleteExperimentPopup from "./DeleteExperimentPopup";
 import EditExperimentModal from "../experiment/EditExperimentModal";
 
 const CardWrapper = styled(MainCard)(({ theme }) => ({
@@ -76,10 +76,10 @@ const ExperimentCard = ({isLoading, data}) => {
         <SkeletonEarningCard />
       ) : (
         <CardWrapper border={false} content={false}>
-          <DeletePopup showModal={showDeleteModal}
-                       closeModal={closeDeleteModal}
-                       deleteName={data.name}
-                       deleteId={data.id}></DeletePopup>
+          <DeleteExperimentPopup showModal={showDeleteModal}
+                                 closeModal={closeDeleteModal}
+                                 deleteName={data.name}
+                                 deleteId={data.id}></DeleteExperimentPopup>
           <EditExperimentModal showModal={showEditModal}
                                closeModal={closeEditModal}
                                initialValues={data}></EditExperimentModal>

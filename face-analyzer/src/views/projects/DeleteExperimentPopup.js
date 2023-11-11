@@ -20,7 +20,7 @@ const CardWrapper = styled(MainCard)(({ theme }) => ({
 
 // ===========================|| DELETE MODAL ||=========================== //
 
-const DeletePopup = ({ showModal, closeModal, deleteName, deleteId }) => {
+const DeleteExperimentPopup = ({showModal, closeModal, deleteName, deleteId}) => {
     const theme = useTheme();
     const scriptedRef = useScriptRef();
 
@@ -142,4 +142,4 @@ const DeletePopup = ({ showModal, closeModal, deleteName, deleteId }) => {
     );
 };
 
-export default DeletePopup;
+export default DeleteExperimentPopup;

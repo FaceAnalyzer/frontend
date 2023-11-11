@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {useTheme} from "@mui/material/styles";
-import DeletePopup from "../projects/DeletePopup";
+import DeleteExperimentPopup from "../projects/DeleteExperimentPopup";
 import EditExperimentModal from "./EditExperimentModal";
 import {Box, Button, Card, CardHeader, Typography} from "@mui/material";
 import {gridSpacing} from "../../store/constant";
@@ -47,10 +47,10 @@ const ExperimentHeader = () => {
 
     return (
         <Box>
-            <DeletePopup showModal={showDeleteModal}
-                         closeModal={closeDeleteModal}
-                         deleteName={'Experiment name'}
-                         deleteId={1}></DeletePopup>
+            <DeleteExperimentPopup showModal={showDeleteModal}
+                                   closeModal={closeDeleteModal}
+                                   deleteName={'Experiment name'}
+                                   deleteId={1}></DeleteExperimentPopup>
             <EditExperimentModal showModal={showEditModal}
                                  closeModal={closeEditModal}
                                  initialValues={experimentValues}></EditExperimentModal>
