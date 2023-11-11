@@ -54,7 +54,7 @@ const ExperimentHeader = () => {
             <EditExperimentModal showModal={showEditModal}
                                  closeModal={closeEditModal}
                                  initialValues={experimentValues}></EditExperimentModal>
-            <Card sx={{marginBottom: gridSpacing}}>
+            <Card sx={{marginBottom: gridSpacing, backgroundColor: 'inherit'}}>
                 <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
                     <CardHeader title={
                         <Typography sx={{
@@ -78,9 +78,8 @@ const ExperimentHeader = () => {
                             <Button
                                 onClick={onDeleteClick}
                                 sx={{
-                                    color: 'grey.700',
+                                    color: theme.palette.grey[700],
                                     backgroundColor: theme.palette.grey[50],
-                                    borderColor: theme.palette.grey[100]
                                 }}
                             >
                                 <IconTrashOff/> Delete
