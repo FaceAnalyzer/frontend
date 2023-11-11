@@ -26,10 +26,11 @@ const DeletePopup = ({ showModal, closeModal, deleteName, deleteId }) => {
 
     const handleDelete = async (values, {setErrors, setStatus}) => {
         try {
-            axios.delete(DELETE_EXPERIMENT_API, JSON.stringify(values))
+            axios.delete(DELETE_EXPERIMENT_API + '/' + deleteId)
                 .then(response => {
-                    this.setState({articleId: response.data.id});
-                    if (response.status === 200) {
+                    // this.setState({articleId: response.data.id});
+                    console.log(response.status)
+                    if (response.status === 204) {
                         // Redirect to project's experiments page
                         window.location.href = '/projects/experiments';
                     } else {
@@ -73,7 +74,6 @@ const DeletePopup = ({ showModal, closeModal, deleteName, deleteId }) => {
 
                             {({ errors, handleSubmit, isSubmitting }) => (
                                 <form noValidate onSubmit={handleSubmit}>
-                                    <input name={'id'} value={deleteId} readOnly={true} hidden={true}/>
                                     <ModalContent>
                                         <ModalBody>
                                             <Grid container alignItems="center">

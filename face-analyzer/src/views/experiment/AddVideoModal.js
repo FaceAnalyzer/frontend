@@ -31,7 +31,7 @@ const AddVideoModal = ({ showModal, closeModal }) => {
             axios.post(ADD_VIDEO_API, JSON.stringify(values))
                     .then(response => {
                         this.setState({videoId: response.data.id});
-                        if (response.status === 200) {
+                        if (response.ok) {
                             // Refresh the page after a successful submission
                             window.location.reload();
                         } else {

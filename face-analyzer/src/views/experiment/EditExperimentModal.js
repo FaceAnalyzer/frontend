@@ -9,7 +9,7 @@ import useScriptRef from "../../hooks/useScriptRef";
 import AnimateButton from "../../ui-component/extended/AnimateButton";
 import {Modal, ModalBody, ModalContent, ModalFooter, ModalOverlay} from "../projects/ModalComponents";
 import axios from "axios";
-import {EDIT_EXPERIMENT_API} from "../projects/BackendEndpoints";
+import {DEFAULT_API_CONFIG, EDIT_EXPERIMENT_API} from "../projects/BackendEndpoints";
 
 const CardWrapper = styled(MainCard)(({ theme }) => ({
     backgroundColor: '#fff',
@@ -24,14 +24,19 @@ const CardWrapper = styled(MainCard)(({ theme }) => ({
 const EditExperimentModal = ({showModal, closeModal, initialValues}) => {
     const theme = useTheme();
     const scriptedRef = useScriptRef();
+    const experimentId = initialValues.id;
+    const experiment = {
+        name: initialValues.name,
+        description: initialValues.description,
+        projectId: initialValues.projectId
+    };
 
     const handleUpdate = async (values, {setErrors, setStatus}) => {
         try {
-
-            axios.put(EDIT_EXPERIMENT_API, JSON.stringify(values))
+            console.log(JSON.stringify(values));
+            axios.put(EDIT_EXPERIMENT_API + '/' + experimentId, JSON.stringify(values), DEFAULT_API_CONFIG)
                     .then(response => {
                         if (response.status === 200) {
-                            // Refresh the page after a successful submission
                             window.location.reload();
                         } else {
                             const data = response.data;
@@ -56,7 +61,7 @@ const EditExperimentModal = ({showModal, closeModal, initialValues}) => {
                         <ModalOverlay>
                             <Modal>
                                 <Formik
-                                        initialValues={initialValues}
+                                    initialValues={experiment}
                                         validationSchema={Yup.object().shape({
                                             name: Yup.string().max(255).required('Experiment name is required'),
                                             description: Yup.string().max(255)
@@ -79,8 +84,6 @@ const EditExperimentModal = ({showModal, closeModal, initialValues}) => {
 
                                     {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched }) => (
                                             <form noValidate onSubmit={handleSubmit}>
-                                                <input name={'id'} value={initialValues.id} readOnly={true}
-                                                       hidden={true}/>
                                 <ModalContent>
                                     <ModalBody>
                                         <Grid container alignItems="center">
@@ -105,7 +108,7 @@ const EditExperimentModal = ({showModal, closeModal, initialValues}) => {
                                                             name="name"
                                                             onBlur={handleBlur}
                                                             onChange={handleChange}
-                                                            defaultValue={initialValues.name}
+                                                            defaultValue={experiment.name}
                                                     />
                                                 {touched.name && errors.name && (
                                                     <FormHelperText error id="experimentNameHandler">
@@ -122,7 +125,7 @@ const EditExperimentModal = ({showModal, closeModal, initialValues}) => {
                                                             name="description"
                                                             onBlur={handleBlur}
                                                             onChange={handleChange}
-                                                            defaultValue={initialValues.description}
+                                                            defaultValue={experiment.description}
                                                     />
                                                 </FormControl>
 
