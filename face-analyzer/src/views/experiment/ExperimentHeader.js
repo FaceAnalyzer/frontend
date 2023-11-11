@@ -9,17 +9,13 @@ import {IconEdit, IconTrashOff} from "@tabler/icons";
 
 // ===========================|| EXPERIMENT HEADER ||=========================== //
 
-const ExperimentHeader = () => {
+const ExperimentHeader = ({data}) => {
     const theme = useTheme();
 
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [showEditModal, setShowEditModal] = useState(false);
 
-    const experimentValues = {
-        id: 1,
-        name: "Experiment name",
-        description: "Experiment description"
-    };
+    const experiment = data;
 
     const openDeleteModal = () => {
         setShowDeleteModal(true);
@@ -49,11 +45,11 @@ const ExperimentHeader = () => {
         <Box>
             <DeleteExperimentPopup showModal={showDeleteModal}
                                    closeModal={closeDeleteModal}
-                                   deleteName={'Experiment name'}
-                                   deleteId={1}></DeleteExperimentPopup>
+                                   deleteName={experiment.name}
+                                   deleteId={experiment.id}></DeleteExperimentPopup>
             <EditExperimentModal showModal={showEditModal}
                                  closeModal={closeEditModal}
-                                 initialValues={experimentValues}></EditExperimentModal>
+                                 initialValues={experiment}></EditExperimentModal>
             <Card sx={{marginBottom: gridSpacing, backgroundColor: 'inherit'}}>
                 <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
                     <CardHeader title={
@@ -61,7 +57,7 @@ const ExperimentHeader = () => {
                             fontSize: '1.5rem',
                             fontWeight: 500
                         }}>
-                            {experimentValues.name}</Typography>
+                            {experiment.name}</Typography>
                     }/>
                     <Box sx={{display: 'flex', gap: 1, pr: 2}}>
                         <AnimateButton>

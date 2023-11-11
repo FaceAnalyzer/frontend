@@ -24,7 +24,7 @@ const Experiments = () => {
         // Filter items where projectId is 1
         const filteredExperimentList = items.filter((item) => item.projectId === 1);
         console.log('Experiment List:', filteredExperimentList);
-        
+
         setExperimentList(filteredExperimentList);
         setLoading(false);
       } catch (error) {
@@ -41,9 +41,7 @@ const Experiments = () => {
         <Grid item lg={4} md={6} sm={6} xs={12}>
           <AddExperimentCard isLoading={isLoading}/>
         </Grid>
-
-        {/* Dynamically render ExperimentCard components based on experimentList */}
-        {experimentList.map((experiment) => (
+        {experimentList && experimentList.map((experiment) => (
             <Grid key={experiment.id} item lg={4} md={6} sm={6} xs={12}>
               <ExperimentCard isLoading={isLoading} data={experiment}/>
             </Grid>

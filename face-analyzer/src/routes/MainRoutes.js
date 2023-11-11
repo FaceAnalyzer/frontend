@@ -1,4 +1,4 @@
-import { lazy } from 'react';
+import {lazy} from 'react';
 
 // project imports
 import MainLayout from 'layout/MainLayout';
@@ -114,7 +114,7 @@ const MainRoutes = {
       element: <SamplePage />
     },
     {
-      path: 'experiment',
+      path: 'experiment/:experimentId',
       element: <Experiment />
     },
     {

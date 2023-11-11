@@ -1,16 +1,16 @@
 import PropTypes from 'prop-types';
-import { useState } from 'react';
+import {useState} from 'react';
 
 // material-ui
-import { styled, useTheme } from '@mui/material/styles';
-import { Avatar, Box, Grid, Typography } from '@mui/material';
+import {styled, useTheme} from '@mui/material/styles';
+import {Avatar, Box, Grid, Typography} from '@mui/material';
 
 // project imports
 import MainCard from 'ui-component/cards/MainCard';
 import SkeletonEarningCard from 'ui-component/cards/Skeleton/EarningCard';
 
 // assets
-import {  DeleteForever } from '@mui/icons-material';
+import {DeleteForever} from '@mui/icons-material';
 
 const CardWrapper = styled(MainCard)(({ theme }) => ({
     backgroundColor: theme.palette.secondary.dark,
@@ -21,7 +21,7 @@ const CardWrapper = styled(MainCard)(({ theme }) => ({
 
 // ===========================|| VIDEO CARD ||=========================== //
 
-const VideoCard = ({ isLoading }) => {
+const VideoCard = ({isLoading, stimulus}) => {
     const theme = useTheme();
 
     const [, setAnchorEl] = useState(null);
@@ -30,7 +30,7 @@ const VideoCard = ({ isLoading }) => {
         setAnchorEl(event.currentTarget);
     };
 
-
+    console.log(stimulus);
 
     return (
         <>

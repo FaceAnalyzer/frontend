@@ -32,6 +32,8 @@ const ExperimentCard = ({isLoading, data}) => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
 
+  const experiment = data;
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -41,7 +43,7 @@ const ExperimentCard = ({isLoading, data}) => {
   };
 
   const openExperiment = () => {
-    window.location.href = '/experiment';
+    window.location.href = '/experiment/' + experiment.id;
   }
 
   const openDeleteModal = () => {
@@ -78,11 +80,11 @@ const ExperimentCard = ({isLoading, data}) => {
         <CardWrapper border={false} content={false}>
           <DeleteExperimentPopup showModal={showDeleteModal}
                                  closeModal={closeDeleteModal}
-                                 deleteName={data.name}
-                                 deleteId={data.id}></DeleteExperimentPopup>
+                                 deleteName={experiment.name}
+                                 deleteId={experiment.id}></DeleteExperimentPopup>
           <EditExperimentModal showModal={showEditModal}
                                closeModal={closeEditModal}
-                               initialValues={data}></EditExperimentModal>
+                               initialValues={experiment}></EditExperimentModal>
           <Box sx={{ p: 2.25 }}>
             <Grid container direction="column">
               <Grid item>
@@ -152,7 +154,13 @@ const ExperimentCard = ({isLoading, data}) => {
                 <Grid container alignItems="center">
                   <Grid item>
                     <Typography
-                        sx={{fontSize: '2.125rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75}}>{data.name}</Typography>
+                        sx={{
+                          fontSize: '2.125rem',
+                          fontWeight: 500,
+                          mr: 1,
+                          mt: 1.75,
+                          mb: 0.75
+                        }}>{experiment.name}</Typography>
                   </Grid>
                 </Grid>
               </Grid>
@@ -164,7 +172,7 @@ const ExperimentCard = ({isLoading, data}) => {
                     color: theme.palette.secondary[200]
                   }}
                 >
-                  {data.description}
+                  {experiment.description}
                 </Typography>
               </Grid>
             </Grid>
