@@ -86,13 +86,6 @@ const NavItem = ({ item, level }) => {
             {item.title}
           </Typography>
         }
-        secondary={
-          item.caption && (
-            <Typography variant="caption" sx={{ ...theme.typography.subMenuCaption }} display="block" gutterBottom>
-              {item.caption}
-            </Typography>
-          )
-        }
       />
       {item.chip && (
         <Chip
