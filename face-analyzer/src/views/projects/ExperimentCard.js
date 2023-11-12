@@ -13,7 +13,7 @@ import SkeletonEarningCard from 'ui-component/cards/Skeleton/EarningCard';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import {DeleteForever, Download, Edit} from '@mui/icons-material';
 import {IconFlask} from '@tabler/icons';
-import DeletePopup from "./DeletePopup";
+import DeleteExperimentModal from "./DeleteExperimentModal";
 import EditExperimentModal from "../experiment/EditExperimentModal";
 
 const CardWrapper = styled(MainCard)(({ theme }) => ({
@@ -25,17 +25,14 @@ const CardWrapper = styled(MainCard)(({ theme }) => ({
 
 // ===========================|| EXPERIMENT CARD ||=========================== //
 
-const ExperimentCard = ({ isLoading }) => {
+const ExperimentCard = ({isLoading, data}) => {
   const theme = useTheme();
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
-  const experimentValues = {
-    id: 1,
-    name: "Experiment name",
-    description: "Experiment description"
-  };
+
+  const experiment = data;
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -46,7 +43,7 @@ const ExperimentCard = ({ isLoading }) => {
   };
 
   const openExperiment = () => {
-    window.location.href = '/experiment';
+    window.location.href = '/experiment/' + experiment.id;
   }
 
   const openDeleteModal = () => {
@@ -81,13 +78,13 @@ const ExperimentCard = ({ isLoading }) => {
         <SkeletonEarningCard />
       ) : (
         <CardWrapper border={false} content={false}>
-          <DeletePopup showModal={showDeleteModal}
-                       closeModal={closeDeleteModal}
-                       deleteName={'Experiment name'}
-                       deleteId={1}></DeletePopup>
+          <DeleteExperimentModal showModal={showDeleteModal}
+                                 closeModal={closeDeleteModal}
+                                 deleteName={experiment.name}
+                                 deleteId={experiment.id}></DeleteExperimentModal>
           <EditExperimentModal showModal={showEditModal}
                                closeModal={closeEditModal}
-                               initialValues={experimentValues}></EditExperimentModal>
+                               initialValues={experiment}></EditExperimentModal>
           <Box sx={{ p: 2.25 }}>
             <Grid container direction="column">
               <Grid item>
@@ -156,7 +153,14 @@ const ExperimentCard = ({ isLoading }) => {
               <Grid item>
                 <Grid container alignItems="center">
                   <Grid item>
-                    <Typography sx={{ fontSize: '2.125rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75 }}>Experiment name</Typography>
+                    <Typography
+                        sx={{
+                          fontSize: '2.125rem',
+                          fontWeight: 500,
+                          mr: 1,
+                          mt: 1.75,
+                          mb: 0.75
+                        }}>{experiment.name}</Typography>
                   </Grid>
                 </Grid>
               </Grid>
@@ -168,7 +172,7 @@ const ExperimentCard = ({ isLoading }) => {
                     color: theme.palette.secondary[200]
                   }}
                 >
-                  Experiment Description
+                  {experiment.description}
                 </Typography>
               </Grid>
             </Grid>

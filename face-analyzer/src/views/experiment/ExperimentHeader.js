@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {useTheme} from "@mui/material/styles";
-import DeletePopup from "../projects/DeletePopup";
+import DeleteExperimentModal from "../projects/DeleteExperimentModal";
 import EditExperimentModal from "./EditExperimentModal";
 import {Box, Button, Card, CardHeader, Typography} from "@mui/material";
 import {gridSpacing} from "../../store/constant";
@@ -9,17 +9,13 @@ import {IconEdit, IconTrashOff} from "@tabler/icons";
 
 // ===========================|| EXPERIMENT HEADER ||=========================== //
 
-const ExperimentHeader = () => {
+const ExperimentHeader = ({data}) => {
     const theme = useTheme();
 
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [showEditModal, setShowEditModal] = useState(false);
 
-    const experimentValues = {
-        id: 1,
-        name: "Experiment name",
-        description: "Experiment description"
-    };
+    const experiment = data;
 
     const openDeleteModal = () => {
         setShowDeleteModal(true);
@@ -47,21 +43,21 @@ const ExperimentHeader = () => {
 
     return (
         <Box>
-            <DeletePopup showModal={showDeleteModal}
-                         closeModal={closeDeleteModal}
-                         deleteName={'Experiment name'}
-                         deleteId={1}></DeletePopup>
+            <DeleteExperimentModal showModal={showDeleteModal}
+                                   closeModal={closeDeleteModal}
+                                   deleteName={experiment.name}
+                                   deleteId={experiment.id}></DeleteExperimentModal>
             <EditExperimentModal showModal={showEditModal}
                                  closeModal={closeEditModal}
-                                 initialValues={experimentValues}></EditExperimentModal>
-            <Card sx={{marginBottom: gridSpacing}}>
+                                 initialValues={experiment}></EditExperimentModal>
+            <Card sx={{marginBottom: gridSpacing, backgroundColor: 'inherit'}}>
                 <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
                     <CardHeader title={
                         <Typography sx={{
                             fontSize: '1.5rem',
                             fontWeight: 500
                         }}>
-                            {experimentValues.name}</Typography>
+                            {experiment.name}</Typography>
                     }/>
                     <Box sx={{display: 'flex', gap: 1, pr: 2}}>
                         <AnimateButton>
@@ -78,9 +74,8 @@ const ExperimentHeader = () => {
                             <Button
                                 onClick={onDeleteClick}
                                 sx={{
-                                    color: 'grey.700',
+                                    color: theme.palette.grey[700],
                                     backgroundColor: theme.palette.grey[50],
-                                    borderColor: theme.palette.grey[100]
                                 }}
                             >
                                 <IconTrashOff/> Delete

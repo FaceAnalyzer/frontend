@@ -9,7 +9,7 @@ import useScriptRef from "../../hooks/useScriptRef";
 import AnimateButton from "../../ui-component/extended/AnimateButton";
 import {Modal, ModalBody, ModalContent, ModalFooter, ModalOverlay} from "./ModalComponents";
 import axios from "axios";
-import {ADD_EXPERIMENT_API} from "./BackendEndpoints";
+import {ADD_EXPERIMENT_API, DEFAULT_API_CONFIG} from "./BackendEndpoints";
 
 const CardWrapper = styled(MainCard)(({ theme }) => ({
   backgroundColor: '#fff',
@@ -28,7 +28,7 @@ const AddExperimentModal = ({ showModal, closeModal }) => {
   const handleSave = async (values, {setErrors, setStatus}) => {
     try {
       values.projectId = 1; // Hard coded for MVP
-      axios.post(ADD_EXPERIMENT_API, JSON.stringify(values), {headers: {"accept": "text/plain", "Content-Type": "application/json"}})
+      axios.post(ADD_EXPERIMENT_API, JSON.stringify(values), DEFAULT_API_CONFIG)
           .then(response => {
             // this.setState({articleId: response.data.id});
             if (response.status === 201) {

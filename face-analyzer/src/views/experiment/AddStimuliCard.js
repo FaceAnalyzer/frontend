@@ -10,8 +10,8 @@ import MainCard from 'ui-component/cards/MainCard';
 import SkeletonEarningCard from 'ui-component/cards/Skeleton/EarningCard';
 
 // assets
-import {IconVideo, IconPlus} from '@tabler/icons';
-import AddVideoModal from './AddVideoModal';
+import {IconPlus, IconVideo} from '@tabler/icons';
+import AddStimuliModal from './AddStimuliModal';
 
 const CardWrapper = styled(MainCard)(({ theme }) => ({
     backgroundColor: '#fff',
@@ -22,11 +22,12 @@ const CardWrapper = styled(MainCard)(({ theme }) => ({
     position: 'relative'
 }));
 
-// ===========================|| ADD VIDEO CARD ||=========================== //
+// ===========================|| ADD STIMULI CARD ||=========================== //
 
-const AddVideoCard = ({ isLoading }) => {
+const AddStimuliCard = ({isLoading, experimentId}) => {
     const theme = useTheme();
     const [showModal, setShowModal] = useState(false);
+    const ID = parseInt(experimentId);
 
     const openModal = () => {
         setShowModal(true);
@@ -42,7 +43,7 @@ const AddVideoCard = ({ isLoading }) => {
                 <SkeletonEarningCard />
             ) : (
                 <CardWrapper border={false} content={false}>
-                    <AddVideoModal showModal={showModal} closeModal={closeModal}/>
+                    <AddStimuliModal showModal={showModal} closeModal={closeModal} experimentId={ID}/>
                     <Box sx={{ p: 2.25 }}>
                         <Grid container direction="column">
                             <Grid item>
@@ -87,7 +88,9 @@ const AddVideoCard = ({ isLoading }) => {
                             <Grid item>
                                 <Grid container alignItems="center">
                                     <Grid item>
-                                        <Typography sx={{ fontSize: '2.125rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75 }}>Add video</Typography>
+                                        <Typography
+                                            sx={{fontSize: '2.125rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75}}>Add
+                                            stimuli</Typography>
                                     </Grid>
                                 </Grid>
                             </Grid>
@@ -99,7 +102,7 @@ const AddVideoCard = ({ isLoading }) => {
                                         color: theme.palette.secondary[200]
                                     }}
                                 >
-                                    Click to add a new video.
+                                    Click to add a new stimulus.
                                 </Typography>
                             </Grid>
                         </Grid>
@@ -110,8 +113,8 @@ const AddVideoCard = ({ isLoading }) => {
     );
 };
 
-AddVideoCard.propTypes = {
+AddStimuliCard.propTypes = {
     isLoading: PropTypes.bool
 };
 
-export default AddVideoCard;
+export default AddStimuliCard;

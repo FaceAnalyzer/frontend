@@ -8,9 +8,9 @@ import useScriptRef from "../../hooks/useScriptRef";
 import AnimateButton from "../../ui-component/extended/AnimateButton";
 import {Modal, ModalBody, ModalContent, ModalFooter, ModalOverlay} from "./ModalComponents";
 import axios from "axios";
-import {DELETE_EXPERIMENT_API} from "./BackendEndpoints";
+import {DELETE_STIMULI_API} from "../projects/BackendEndpoints";
 
-const CardWrapper = styled(MainCard)(({ theme }) => ({
+const CardWrapper = styled(MainCard)(({theme}) => ({
     backgroundColor: '#fff',
     borderColor: theme.palette.secondary.dark,
     borderWidth: '1rem',
@@ -18,20 +18,21 @@ const CardWrapper = styled(MainCard)(({ theme }) => ({
     position: 'relative',
 }));
 
-// ===========================|| DELETE MODAL ||=========================== //
+// ===========================|| DELETE STIMULI MODAL ||=========================== //
 
-const DeletePopup = ({ showModal, closeModal, deleteName, deleteId }) => {
+const DeleteStimuliModal = ({showModal, closeModal, experimentId, deleteName, deleteId}) => {
     const theme = useTheme();
     const scriptedRef = useScriptRef();
 
     const handleDelete = async (values, {setErrors, setStatus}) => {
         try {
-            axios.delete(DELETE_EXPERIMENT_API, JSON.stringify(values))
+            axios.delete(DELETE_STIMULI_API + '/' + deleteId)
                 .then(response => {
-                    this.setState({articleId: response.data.id});
-                    if (response.status === 200) {
+                    // this.setState({articleId: response.data.id});
+                    console.log(response.status)
+                    if (response.status === 204) {
                         // Redirect to project's experiments page
-                        window.location.href = '/projects/experiments';
+                        window.location.href = '/experiment/' + experimentId;
                     } else {
                         const data = response.data;
                         setErrors(data.errors);
@@ -48,7 +49,7 @@ const DeletePopup = ({ showModal, closeModal, deleteName, deleteId }) => {
 
 
     return (
-        <CardWrapper border={false} content={false} >
+        <CardWrapper border={false} content={false}>
             {showModal && (
                 <ModalOverlay>
                     <Modal>
@@ -56,7 +57,7 @@ const DeletePopup = ({ showModal, closeModal, deleteName, deleteId }) => {
                             initialValues={{
                                 id: {deleteId},
                             }}
-                            onSubmit={async (values, { setErrors, setStatus }) => {
+                            onSubmit={async (values, {setErrors, setStatus}) => {
                                 try {
                                     if (scriptedRef.current) {
                                         await handleDelete(values, {setErrors, setStatus});
@@ -65,15 +66,14 @@ const DeletePopup = ({ showModal, closeModal, deleteName, deleteId }) => {
                                 } catch (err) {
                                     console.error(err);
                                     if (scriptedRef.current) {
-                                        setStatus({ success: false });
-                                        setErrors({ submit: err.message });
+                                        setStatus({success: false});
+                                        setErrors({submit: err.message});
                                     }
                                 }
                             }}>
 
-                            {({ errors, handleSubmit, isSubmitting }) => (
+                            {({errors, handleSubmit, isSubmitting}) => (
                                 <form noValidate onSubmit={handleSubmit}>
-                                    <input name={'id'} value={deleteId} readOnly={true} hidden={true}/>
                                     <ModalContent>
                                         <ModalBody>
                                             <Grid container alignItems="center">
@@ -84,13 +84,13 @@ const DeletePopup = ({ showModal, closeModal, deleteName, deleteId }) => {
                                                         color: theme.palette.secondary.dark,
                                                         mb: 1
                                                     }}>
-                                                        Delete experiment
+                                                        Delete stimulus
                                                     </Typography>
                                                 </Grid>
                                             </Grid>
 
                                             {errors.submit && (
-                                                <Box sx={{ mt: 3 }}>
+                                                <Box sx={{mt: 3}}>
                                                     <FormHelperText error>{errors.submit}</FormHelperText>
                                                 </Box>
                                             )}
@@ -142,4 +142,4 @@ const DeletePopup = ({ showModal, closeModal, deleteName, deleteId }) => {
     );
 };
 
-export default DeletePopup;
+export default DeleteStimuliModal;
