@@ -124,7 +124,7 @@ const StimuliCard = ({isLoading, data}) => {
                                                 mr: 1,
                                                 mt: 1.75,
                                                 mb: 0.75
-                                            }}>Stimulus Title</Typography>
+                                            }}>{stimulus.name}</Typography>
                                     </Grid>
                                 </Grid>
                             </Grid>

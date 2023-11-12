@@ -26,6 +26,7 @@ const Experiments = Loadable(lazy(() => import('views/projects/experiments')));
 
 const Experiment  = Loadable(lazy(() => import('views/experiment')));
 const Stimuli = Loadable(lazy(() => import('views/stimuli')));
+const Stats = Loadable(lazy(() => import('views/stimuli/charts')));
 const Edit = Loadable(lazy(() => import('views/experiment/edit')));
 
 // ==============================|| MAIN ROUTING ||============================== //
@@ -120,6 +121,10 @@ const MainRoutes = {
     {
       path: 'reaction/:reactionId',
       element: <Analyzer />
+    },
+    {
+      path: 'statistics',
+      element: <Stats/>
     },
     {
       path: 'experiment/edit',

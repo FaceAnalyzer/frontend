@@ -10,31 +10,33 @@ import {IconGraph, IconTrashOff} from "@tabler/icons";
 const StimuliHeader = ({stimulus}) => {
     const theme = useTheme();
 
+    const showStats = () => {
+        window.location.href = '/statistics';
+    }
+
     return (
         <Box>
             <Card sx={{marginBottom: gridSpacing, backgroundColor: 'inherit'}}>
                 <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
-                    <Box>
-                        <CardHeader title={
-                            <Typography sx={{
-                                fontSize: '1.5rem',
-                                fontWeight: 500
-                            }}>
-                                Stimulus Title {/*stimulus.title*/}
-                            </Typography>
-                        } subheader={
-                            <Typography>
-                                {stimulus.description}
-                            </Typography>
-                        }/>
-                    </Box>
-
+                    <CardHeader title={
+                        <Typography sx={{
+                            fontSize: '1.5rem',
+                            fontWeight: 500
+                        }}>
+                            {stimulus.name}
+                        </Typography>
+                    } subheader={
+                        <Typography>
+                            {stimulus.description}
+                        </Typography>
+                    }/>
                     <Box sx={{display: 'flex', gap: 1, pr: 2}}>
                         <AnimateButton>
                             <Button
                                 disableElevation
                                 variant="contained"
                                 color="secondary"
+                                onClick={showStats}
                             >
                                 <IconGraph/> Statistics
                             </Button>
