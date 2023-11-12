@@ -27,7 +27,8 @@ const Stats = () => {
         <Grid container spacing={gridSpacing} sx={{padding: '16px'}}>
             <Grid item xs={12}>
                 <ChartHeader activeButton={activeButton}
-                             setActiveButton={setActiveButton}/>
+                             setActiveButton={setActiveButton}
+                             reactionData={dummyData}/>
             </Grid>
             {activeButton === 'overTime' && (
                 <Grid item lg={8} md={12} sm={12} xs={12}>

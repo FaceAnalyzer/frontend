@@ -2,14 +2,19 @@ import React from 'react';
 import {useTheme} from "@mui/material/styles";
 import {Box, Button} from "@mui/material";
 import AnimateButton from "../../../ui-component/extended/AnimateButton";
+import {IconDownload} from "@tabler/icons";
 
 // ===========================|| CHART HEADER ||=========================== //
 
-const ChartHeader = ({activeButton, setActiveButton}) => {
+const ChartHeader = ({activeButton, setActiveButton, reactionData}) => {
     const theme = useTheme();
 
     const handleButtonClick = (buttonType) => {
         setActiveButton(buttonType);
+    };
+
+    const downloadCsv = () => {
+        console.log(reactionData);
     };
 
     return (
@@ -44,6 +49,18 @@ const ChartHeader = ({activeButton, setActiveButton}) => {
                             disableElevation
                         >
                             Emotions distribution
+                        </Button>
+                    </AnimateButton>
+                </Box>
+                <Box>
+                    <AnimateButton>
+                        <Button
+                            sx={{color: theme.palette.secondary}}
+                            variant={'contained'}
+                            disableElevation
+                            onClick={downloadCsv}
+                        >
+                            <IconDownload/> Export CSV
                         </Button>
                     </AnimateButton>
                 </Box>
