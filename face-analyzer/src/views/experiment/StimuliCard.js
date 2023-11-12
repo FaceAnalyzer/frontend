@@ -8,7 +8,8 @@ import {Avatar, Box, Grid, Typography} from '@mui/material';
 // project imports
 import MainCard from 'ui-component/cards/MainCard';
 import SkeletonEarningCard from 'ui-component/cards/Skeleton/EarningCard';
-import {DeleteForever} from "@mui/icons-material";
+import {DeleteForever, YouTube} from "@mui/icons-material";
+import {IconVideo} from "@tabler/icons";
 
 // assets
 
@@ -25,11 +26,15 @@ const StimuliCard = ({isLoading, data}) => {
     const theme = useTheme();
     const stimulus = data;
 
-    const match = stimulus.link.match(/[?&]v=([^&]+)/);
-    const urlHash = match ? match[1] : null;
-    const imageSource = 'https://i.ytimg.com/vi/' + urlHash + '/default.jpg';
+    // const match = stimulus.link.match(/[?&]v=([^&]+)/);
+    // const urlHash = match ? match[1] : null;
+    // const imageSource = 'https://i.ytimg.com/vi/' + urlHash + '/default.jpg';
 
     const [, setAnchorEl] = useState(null);
+
+    const openStimulusLink = () => {
+        window.open(stimulus.link, '_blank');
+    };
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -46,6 +51,37 @@ const StimuliCard = ({isLoading, data}) => {
                             <Grid item>
                                 <Grid container justifyContent="space-between">
                                     <Grid item>
+                                        <Grid container justifyContent="center">
+                                            <Grid item sx={{paddingRight: '5px'}}>
+                                                <Avatar
+                                                    variant="rounded"
+                                                    sx={{
+                                                        ...theme.typography.commonAvatar,
+                                                        ...theme.typography.largeAvatar,
+                                                        backgroundColor: theme.palette.secondary.light,
+                                                        color: theme.palette.secondary.dark,
+                                                        mt: 1
+                                                    }}
+                                                >
+                                                    <IconVideo/>
+                                                </Avatar>
+                                            </Grid>
+                                            <Grid item sx={{paddingLeft: '5px'}}>
+                                                <Avatar
+                                                    variant="rounded"
+                                                    sx={{
+                                                        ...theme.typography.commonAvatar,
+                                                        ...theme.typography.largeAvatar,
+                                                        backgroundColor: theme.palette.secondary.light,
+                                                        color: theme.palette.secondary.dark,
+                                                        mt: 1
+                                                    }}
+                                                    onClick={openStimulusLink}
+                                                >
+                                                    <YouTube/>
+                                                </Avatar>
+                                            </Grid>
+                                        </Grid>
                                     </Grid>
                                     <Grid item>
                                         <Avatar
@@ -61,16 +97,29 @@ const StimuliCard = ({isLoading, data}) => {
                                             aria-haspopup="true"
                                             onClick={handleClick}
                                         >
-                                            <DeleteForever fontSize="inherit" />
+                                            <DeleteForever fontSize="inherit"/>
                                         </Avatar>
-                                        </Grid>
-
+                                    </Grid>
                                 </Grid>
                             </Grid>
+                            {/*<Grid item>*/}
+                            {/*    <Grid container alignItems="center">*/}
+                            {/*        <Grid item>*/}
+                            {/*            <img src={imageSource} alt="YouTube thumbnail"/>*/}
+                            {/*        </Grid>*/}
+                            {/*    </Grid>*/}
+                            {/*</Grid>*/}
                             <Grid item>
                                 <Grid container alignItems="center">
                                     <Grid item>
-                                        <img src={imageSource} alt="YouTube thumbnail"/>
+                                        <Typography
+                                            sx={{
+                                                fontSize: '2.125rem',
+                                                fontWeight: 500,
+                                                mr: 1,
+                                                mt: 1.75,
+                                                mb: 0.75
+                                            }}>Stimulus Title</Typography>
                                     </Grid>
                                 </Grid>
                             </Grid>
