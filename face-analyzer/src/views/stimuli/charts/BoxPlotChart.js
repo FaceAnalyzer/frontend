@@ -1,30 +1,47 @@
 import {Grid} from "@mui/material";
 import Chart from "react-apexcharts";
-import {boxPlotData} from "./dummy-chart-data";
 import {useTheme} from "@mui/material/styles";
+import {dummyBoxPlotData} from "./dummy-chart-data";
 
 // ==============================|| BOX PLOT CHART ||============================== //
 
-const BoxPlotChart = () => {
+const BoxPlotChart = (boxPlotData) => {
     const theme = useTheme();
 
     const data = [];
-    Object.entries(boxPlotData).forEach(([emotion, values]) => {
+    const unmappedData = boxPlotData.boxPlotData;
+
+    Object.entries(unmappedData).forEach(([emotion, values]) => {
         data.push({
             x: emotion,
             y: values.slice().sort((a, b) => a - b)
         });
     });
+
+    const testData = [];
+    Object.entries(dummyBoxPlotData).forEach(([emotion, values]) => {
+        testData.push({
+            x: emotion,
+            y: values.slice().sort((a, b) => a - b)
+        });
+    });
+    console.log("testData");
+    console.log(testData);
+    console.log("data");
     console.log(data);
 
-    return (<Grid container spacing={2}>
+    const maxY = Math.max(...data.flatMap(({y}) => y));
+    console.log(maxY);
+
+    return (
+        <Grid container spacing={2}>
             <Grid item lg={12} md={12} sm={12} xs={12}>
                 <Chart
                     type="boxPlot"
                     series={[
                         {
                             type: 'boxPlot',
-                            data: data
+                            data: testData
                         }
                     ]}
                     options={{
@@ -43,23 +60,11 @@ const BoxPlotChart = () => {
                                     lower: theme.palette.primary[200]
                                 }
                             }
+                        },
+                        yaxis: {
+                            max: maxY
                         }
                     }}
-                    // series={[{data: [boxPlotData[emotion]]}]}
-                    // options={{
-                    //     chart: {
-                    //         sparkline: {
-                    //             enabled: true
-                    //         }
-                    //     },
-                    //     colors: [boxPlotData[emotion]],
-                    //     title: {
-                    //         text: emotion,
-                    //         style: {
-                    //             fontSize: '14px'
-                    //         }
-                    //     }
-                    // }}
                 />
             </Grid>
         </Grid>

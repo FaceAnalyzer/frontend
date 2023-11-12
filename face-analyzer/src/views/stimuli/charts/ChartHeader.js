@@ -1,6 +1,6 @@
 import React from 'react';
 import {useTheme} from "@mui/material/styles";
-import {Box, Button} from "@mui/material";
+import {Box, Button, CardHeader, Typography} from "@mui/material";
 import AnimateButton from "../../../ui-component/extended/AnimateButton";
 import {IconDownload} from "@tabler/icons";
 
@@ -19,6 +19,14 @@ const ChartHeader = ({activeButton, setActiveButton, reactionData}) => {
 
     return (
         <Box>
+            <CardHeader title={
+                <Typography sx={{
+                    fontSize: '1.5rem',
+                    fontWeight: 500
+                }}>
+                    Stephan Horvat III
+                </Typography>
+            }/>
             <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
                 <Box sx={{display: 'flex', gap: 1, pr: 2}}>
                     <AnimateButton>
