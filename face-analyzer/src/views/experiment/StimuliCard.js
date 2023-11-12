@@ -32,9 +32,13 @@ const StimuliCard = ({isLoading, data}) => {
 
     const [, setAnchorEl] = useState(null);
 
-    const openStimulusLink = () => {
+    const openStimuliLink = () => {
         window.open(stimulus.link, '_blank');
     };
+
+    const openStimuli = () => {
+        window.location.href = '/stimuli/' + stimulus.id;
+    }
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -62,6 +66,7 @@ const StimuliCard = ({isLoading, data}) => {
                                                         color: theme.palette.secondary.dark,
                                                         mt: 1
                                                     }}
+                                                    onClick={openStimuli}
                                                 >
                                                     <IconVideo/>
                                                 </Avatar>
@@ -76,7 +81,7 @@ const StimuliCard = ({isLoading, data}) => {
                                                         color: theme.palette.secondary.dark,
                                                         mt: 1
                                                     }}
-                                                    onClick={openStimulusLink}
+                                                    onClick={openStimuliLink}
                                                 >
                                                     <YouTube/>
                                                 </Avatar>

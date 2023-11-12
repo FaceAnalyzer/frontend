@@ -22,10 +22,10 @@ const SamplePage = Loadable(lazy(() => import('views/sample-page')));
 
 // 13 - user creates experiments routing
 const Main = Loadable(lazy(() => import('views/dashboard/main')));
-const Experiments = Loadable(lazy(() => import('views/projects/experiments'))); 
+const Experiments = Loadable(lazy(() => import('views/projects/experiments')));
 
-  
 const Experiment  = Loadable(lazy(() => import('views/experiment')));
+const Stimuli = Loadable(lazy(() => import('views/stimuli')));
 const Edit = Loadable(lazy(() => import('views/experiment/edit')));
 
 // ==============================|| MAIN ROUTING ||============================== //
@@ -116,6 +116,10 @@ const MainRoutes = {
     {
       path: 'experiment/:experimentId',
       element: <Experiment />
+    },
+    {
+      path: 'stimuli/:stimuliId',
+      element: <Stimuli/>
     },
     {
       path: 'experiment/edit',
