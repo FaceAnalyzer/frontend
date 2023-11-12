@@ -16,6 +16,7 @@ import {AnalysisDataContext} from "../reactions/AnalysisDataContext";
 import {saveNewReaction} from "../reactions/AnalysisDataFunctions";
 import {Videocam, VideocamOff} from "@mui/icons-material";
 import {useTheme} from "@mui/material/styles";
+import ReactionsContent from "./ReactionsContent";
 
 // ==============================|| STIMULUS DASHBOARD ||============================== //
 
@@ -58,6 +59,7 @@ const Stimuli = () => {
 
     const saveReaction = () => {
         saveNewReaction(stimuliId);
+        window.location.reload();
     };
 
     const canvasRef = useRef(null);
@@ -128,6 +130,9 @@ const Stimuli = () => {
                             </Button>
                         </Box>
                     </AnalysisDataContext.Provider>
+                </Grid>
+                <Grid item lg={12} md={12} sm={12} xs={12}>
+                    <ReactionsContent stimuliId={stimuliId}/>
                 </Grid>
 
             </Grid>

@@ -123,7 +123,7 @@ const MainRoutes = {
       element: <Analyzer />
     },
     {
-      path: 'statistics',
+      path: 'reaction/:reactionId/statistics',
       element: <Stats/>
     },
     {

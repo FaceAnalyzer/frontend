@@ -9,11 +9,14 @@ import Chart from "react-apexcharts";
 import {dummyData} from "./dummy-chart-data";
 import ChartHeader from "./ChartHeader";
 import BoxPlotChart from "./BoxPlotChart";
+import {useParams} from "react-router";
 
 // ==============================|| STATISTICS DASHBOARD ||============================== //
 
 const Stats = () => {
     // const theme = useTheme();
+    const {reactionId} = useParams();
+
     const [isLoading, setLoading] = useState(true);
     console.log(isLoading); //stop lint errors
 
@@ -21,7 +24,7 @@ const Stats = () => {
 
     useEffect(() => {
         setLoading(false);
-    }, []);
+    }, [reactionId]);
 
     return (
         <Grid container spacing={gridSpacing} sx={{padding: '16px'}}>

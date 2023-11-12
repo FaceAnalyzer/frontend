@@ -3,16 +3,12 @@ import {useTheme} from "@mui/material/styles";
 import {Box, Button, Card, CardHeader, Typography} from "@mui/material";
 import {gridSpacing} from "../../store/constant";
 import AnimateButton from "../../ui-component/extended/AnimateButton";
-import {IconGraph, IconTrashOff} from "@tabler/icons";
+import {IconTrashOff} from "@tabler/icons";
 
 // ===========================|| STIMULI HEADER ||=========================== //
 
 const StimuliHeader = ({stimulus}) => {
     const theme = useTheme();
-
-    const showStats = () => {
-        window.location.href = '/statistics';
-    }
 
     return (
         <Box>
@@ -31,16 +27,6 @@ const StimuliHeader = ({stimulus}) => {
                         </Typography>
                     }/>
                     <Box sx={{display: 'flex', gap: 1, pr: 2}}>
-                        <AnimateButton>
-                            <Button
-                                disableElevation
-                                variant="contained"
-                                color="secondary"
-                                onClick={showStats}
-                            >
-                                <IconGraph/> Statistics
-                            </Button>
-                        </AnimateButton>
                         <AnimateButton>
                             <Button
                                 sx={{
