@@ -9,7 +9,6 @@ import {IconGraph, IconTrashOff} from "@tabler/icons";
 
 const StimuliHeader = ({stimulus}) => {
     const theme = useTheme();
-    console.log(stimulus)
 
     const showStats = () => {
         window.location.href = '/statistics';
@@ -25,6 +24,10 @@ const StimuliHeader = ({stimulus}) => {
                             fontWeight: 500
                         }}>
                             {stimulus.name}
+                        </Typography>
+                    } subheader={
+                        <Typography>
+                            {stimulus.description}
                         </Typography>
                     }/>
                     <Box sx={{display: 'flex', gap: 1, pr: 2}}>

@@ -39,7 +39,7 @@ const Experiment = () => {
         setLoading(false);
 
         console.log(experiment);
-        console.log(stimuliList);
+        console.log(stimuliItems);
       } catch (error) {
         console.error('Error fetching experiment or stimuli data:', error);
         setLoading(false); // Set loading to false even in case of an error

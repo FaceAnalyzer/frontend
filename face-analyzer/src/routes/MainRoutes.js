@@ -8,7 +8,7 @@ import Loadable from 'ui-component/Loadable';
 const DashboardDefault = Loadable(lazy(() => import('views/projects/experiments')));
 
 // analyzer routing
-const Analyzer = Loadable(lazy(() => import('views/Analyzer')));
+const Analyzer = Loadable(lazy(() => import('views/reactions')));
 
 // utilities routing
 const UtilsTypography = Loadable(lazy(() => import('views/utilities/Typography')));
@@ -60,10 +60,6 @@ const MainRoutes = {
           element: <Experiments />
         }
       ]
-    },
-    {
-      path: 'analyzer',
-      element: <Analyzer />
     },
     {
       path: 'utils',
@@ -121,6 +117,10 @@ const MainRoutes = {
     {
       path: 'stimuli/:stimuliId',
       element: <Stimuli/>
+    },
+    {
+      path: 'reaction/:reactionId',
+      element: <Analyzer />
     },
     {
       path: 'statistics',
