@@ -11,6 +11,10 @@ const StimuliHeader = ({stimulus}) => {
     const theme = useTheme();
     console.log(stimulus)
 
+    const showStats = () => {
+        window.location.href = '/statistics';
+    }
+
     return (
         <Box>
             <Card sx={{marginBottom: gridSpacing, backgroundColor: 'inherit'}}>
@@ -20,7 +24,7 @@ const StimuliHeader = ({stimulus}) => {
                             fontSize: '1.5rem',
                             fontWeight: 500
                         }}>
-                            Stimulus Title
+                            {stimulus.name}
                         </Typography>
                     }/>
                     <Box sx={{display: 'flex', gap: 1, pr: 2}}>
@@ -29,6 +33,7 @@ const StimuliHeader = ({stimulus}) => {
                                 disableElevation
                                 variant="contained"
                                 color="secondary"
+                                onClick={showStats}
                             >
                                 <IconGraph/> Statistics
                             </Button>
