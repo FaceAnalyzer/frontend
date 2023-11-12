@@ -58,6 +58,10 @@ const ExperimentHeader = ({data}) => {
                             fontWeight: 500
                         }}>
                             {experiment.name}</Typography>
+                    } subheader={
+                        <Typography>
+                            {experiment.description}
+                        </Typography>
                     }/>
                     <Box sx={{display: 'flex', gap: 1, pr: 2}}>
                         <AnimateButton>
