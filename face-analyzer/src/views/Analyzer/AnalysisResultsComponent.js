@@ -180,6 +180,27 @@ const AnalysisResultsComponent = ({ isLoading }) => {
                                         secondary={<Typography variant="h4"> {getLatestData(6)} </Typography>}
                                     />
                                 </ListItem>
+                                <ListItem alignItems="center" disableGutters sx={{ py: 0 }}>
+                                    <ListItemText
+                                        sx={{
+                                            py: 0,
+                                            mt: 0.45,
+                                            mb: 0.45
+                                        }}
+                                        primary={
+                                            <Typography
+                                                variant="subtitle2"
+                                                sx={{
+                                                    color: theme.palette.grey[500],
+                                                    mt: 0.5
+                                                }}
+                                            >
+                                                Time
+                                            </Typography>
+                                        }
+                                        secondary={<Typography variant="h4"> {getLatestData("time")} </Typography>}
+                                    />
+                                </ListItem>
                             </List>
                         </Box>
                     </CardWrapper>

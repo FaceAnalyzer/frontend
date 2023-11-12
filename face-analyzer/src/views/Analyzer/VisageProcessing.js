@@ -6,7 +6,7 @@ import {saveDataToLocalStorage} from "./AnalysisDataFunctions";
 Used to handle processing of the data gathered from the webcam canvas. After initializing the license manager, sets
 up the tracker and analyser, and then processes the data on a set interval.
  */
-const VisageProcessing = ({canvasRef, isLoading}) => {
+const VisageProcessing = ({canvasRef, isLoading, isRecording}) => {
     var m_Tracker,
         m_FaceAnalyser,
         tmpAnalysisData,
@@ -33,6 +33,8 @@ const VisageProcessing = ({canvasRef, isLoading}) => {
         if(isLoading){
             return;
         }
+
+        if(isRecording){
         //Initializing the license manager - IMPORTANT
         VisageModule.initializeLicenseManager("./728-647-708-712-368-939-525-416-088-305-748.vlc");
 
@@ -55,8 +57,10 @@ const VisageProcessing = ({canvasRef, isLoading}) => {
         var ppixels = VisageModule._malloc(frameWidth*frameHeight*4);
         var pixels = new Uint8ClampedArray(VisageModule.HEAPU8.buffer, ppixels, frameWidth*frameHeight*4);
 
+        let startTime = Date.now();
+
         //Perform analysis at a fixed interval
-        const interval = setInterval(function() {
+        const recording = () => {
             var trackerStatus = [];
             tmpAnalysisData = new VisageModule.AnalysisData();
 
@@ -84,18 +88,22 @@ const VisageProcessing = ({canvasRef, isLoading}) => {
                     tmpAnalysisData, 0);
 
                 //setAnalysisData(tmpAnalysisData);
-                updateAnalysisData(tmpAnalysisData.getEmotionProbabilities());
+                let probabilities = tmpAnalysisData.getEmotionProbabilities();
+                probabilities["time"] = Date.now() - startTime;
+                updateAnalysisData(probabilities);
 
             }
             else{
                 //We can end up here if no faces are detected at any point, or if the tracker is not properly initialized
                 //console.error("Tracker error!", trackerStatus);
             }
-        }, analysisInterval);
+        }
+        const interval = setInterval(recording, analysisInterval);
 
         //Release the memory allocated for the various operations.
         return(() => clearInterval(interval));
-    }, [canvasRef, isLoading]);
+        }
+    }, [canvasRef, isLoading, isRecording]);
 }
 
 export default VisageProcessing;

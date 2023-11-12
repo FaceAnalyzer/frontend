@@ -61,7 +61,7 @@ const MainRoutes = {
       ]
     },
     {
-      path: 'analyzer',
+      path: 'experiment/recordReaction',
       element: <Analyzer />
     },
     {

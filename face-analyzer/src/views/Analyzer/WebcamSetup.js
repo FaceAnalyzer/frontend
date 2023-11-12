@@ -18,13 +18,19 @@ const WebcamSetup = ({onStreamReady}) => {
         
         return() => {
             console.log("remove")
-            if(webcamRef && webcamRef.current.srcObject){
-                const tracks = webcamRef.current.srcObject.getTracks();
-                tracks.forEach((track) => {
-                    track.stop();
-                });
+            try {
+                if (webcamRef && webcamRef.current.srcObject) {
+                    const tracks = webcamRef.current.srcObject.getTracks();
+                    tracks.forEach((track) => {
+                        track.stop();
+                    });
+                }
+            } catch (e) {
+                if (e instanceof TypeError){
+                    //ignore
+                }
+                else throw e;
             }
-            
         };
     }, []);
 
