@@ -50,22 +50,9 @@ const Experiment = () => {
   }, [experimentId]);
 
   return (
-<<<<<<< HEAD
       <Grid container spacing={gridSpacing} sx={{padding: '16px'}}>
         <Grid item xs={12}>
           <ExperimentHeader data={experimentData}/>
-=======
-    <Grid container spacing={gridSpacing} sx={{padding: '16px'}}>
-      <Grid item xs={12}>
-        <ExperimentHeader/>
-        <Grid container spacing={gridSpacing}>
-          <Grid item lg={4} md={6} sm={6} xs={12}>
-            <AddVideoCard isLoading={isLoading} />
-          </Grid>
-          <Grid item lg={4} md={6} sm={6} xs={12}>
-            <VideoCard isLoading={isLoading} />
-          </Grid>
->>>>>>> 6482ac1 (Reactions save)
         </Grid>
         <Grid item lg={4} md={6} sm={6} xs={12}>
           <AddStimuliCard isLoading={isLoading} experimentId={experimentId}/>
