@@ -7,6 +7,7 @@ import { Box, List, ListItem, ListItemText, Typography } from '@mui/material';
 
 // project imports
 import MainCard from 'ui-component/cards/MainCard';
+import PropTypes from "prop-types";
 
 // styles
 const CardWrapper = styled(MainCard)(() => ({
@@ -208,6 +209,10 @@ const AnalysisResultsComponent = ({ isLoading }) => {
             )}
         </>
     );
+}
+
+AnalysisResultsComponent.propTypes = {
+    isLoading: PropTypes.bool
 }
 
 export default AnalysisResultsComponent;

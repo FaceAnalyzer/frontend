@@ -1,4 +1,4 @@
-import {useContext, useEffect} from "react";
+import {useCallback, useContext, useEffect} from "react";
 import {AnalysisDataContext} from "./AnalysisDataContext";
 import {saveDataToLocalStorage} from "./AnalysisDataFunctions";
 
@@ -7,23 +7,14 @@ Used to handle processing of the data gathered from the webcam canvas. After ini
 up the tracker and analyser, and then processes the data on a set interval.
  */
 const VisageProcessing = ({canvasRef, isLoading, isRecording}) => {
-    var m_Tracker,
-        m_FaceAnalyser,
-        tmpAnalysisData,
-        faceData,
-        faceDataArray,
-        frameWidth,
-        frameHeight,
-        canvas;
-
     //Analysis interval in ms
     const analysisInterval = 100;
 
     const {analysisData, setAnalysisData} = useContext(AnalysisDataContext);
 
-    const updateAnalysisData = (newData) => {
+    const updateAnalysisData = useCallback((newData) => {
         setAnalysisData(newData);
-    }
+    }, [setAnalysisData]);
 
     useEffect(() => {
         saveDataToLocalStorage(analysisData)
@@ -38,6 +29,14 @@ const VisageProcessing = ({canvasRef, isLoading, isRecording}) => {
         //Initializing the license manager - IMPORTANT
         VisageModule.initializeLicenseManager("./728-647-708-712-368-939-525-416-088-305-748.vlc");
 
+        var m_Tracker,
+            m_FaceAnalyser,
+            tmpAnalysisData,
+            faceData,
+            faceDataArray,
+            frameWidth,
+            frameHeight,
+            canvas;
 
         canvas = canvasRef.current;
         console.log("Processing");
@@ -102,7 +101,7 @@ const VisageProcessing = ({canvasRef, isLoading, isRecording}) => {
         //Release the memory allocated for the various operations.
         return(() => clearInterval(interval));
         }
-    }, [canvasRef, isLoading, isRecording]);
+    }, [canvasRef, isLoading, isRecording, updateAnalysisData]);
 }
 
 export default VisageProcessing;

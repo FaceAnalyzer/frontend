@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import WebcamSetup from './WebcamSetup';
 import WebcamCanvas from './WebcamCanvas';
+import PropTypes from "prop-types";
 
 const WebcamComponent = ({canvasRef, isLoading}) => {
     const [videoStream, setVideoStream] = useState(null);
@@ -22,6 +23,11 @@ const WebcamComponent = ({canvasRef, isLoading}) => {
         </>
         
     );
+};
+
+WebcamComponent.propTypes = {
+    canvasRef: PropTypes.object,
+    isLoading: PropTypes.bool
 };
 
 export default WebcamComponent;

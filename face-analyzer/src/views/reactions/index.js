@@ -5,10 +5,12 @@ import {useEffect, useRef, useState} from "react";
 import {AnalysisDataContext} from "./AnalysisDataContext";
 import {saveNewReaction} from "./AnalysisDataFunctions";
 import {Grid, Button} from "@mui/material";
+import {useParams} from "react-router";
 
 // ==============================|| Analyzer ||============================== //
 
-const Analyzer = () => {
+const Reaction = () => {
+    const {stimuliId} = useParams();
     const [isLoading, setLoading] = useState(true);
     const [isRecording, setIsRecording] = useState(false);
 
@@ -21,7 +23,7 @@ const Analyzer = () => {
     };
 
     const saveReaction = () => {
-        saveNewReaction();
+        saveNewReaction(stimuliId).then();
     };
 
     const canvasRef = useRef(null);
@@ -67,4 +69,4 @@ const Analyzer = () => {
     );
 };
 
-export default Analyzer;
+export default Reaction;

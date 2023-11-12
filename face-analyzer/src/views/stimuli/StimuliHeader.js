@@ -9,20 +9,26 @@ import {IconGraph, IconTrashOff} from "@tabler/icons";
 
 const StimuliHeader = ({stimulus}) => {
     const theme = useTheme();
-    console.log(stimulus)
 
     return (
         <Box>
             <Card sx={{marginBottom: gridSpacing, backgroundColor: 'inherit'}}>
                 <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
-                    <CardHeader title={
-                        <Typography sx={{
-                            fontSize: '1.5rem',
-                            fontWeight: 500
-                        }}>
-                            Stimulus Title
-                        </Typography>
-                    }/>
+                    <Box>
+                        <CardHeader title={
+                            <Typography sx={{
+                                fontSize: '1.5rem',
+                                fontWeight: 500
+                            }}>
+                                Stimulus Title {/*stimulus.title*/}
+                            </Typography>
+                        } subheader={
+                            <Typography>
+                                {stimulus.description}
+                            </Typography>
+                        }/>
+                    </Box>
+
                     <Box sx={{display: 'flex', gap: 1, pr: 2}}>
                         <AnimateButton>
                             <Button

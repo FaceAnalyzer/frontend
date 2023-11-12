@@ -1,4 +1,6 @@
 import React, {useEffect} from 'react';
+import PropTypes from "prop-types";
+import WebcamSetup from "./WebcamSetup";
 
 // ===========================|| Canvas ||=========================== //
 const WebcamCanvas = ({videoStream, canvasRef}) => {
@@ -28,14 +30,19 @@ const WebcamCanvas = ({videoStream, canvasRef}) => {
         }
 
         return() => cancelAnimationFrame(animationFrameId);
-    }, [videoStream]);
+    }, [videoStream, canvasRef]);
     
 
     return(
         <>
-            <canvas id='webcamCanvas' ref={canvasRef} width={640} height={480}></canvas>
+            <canvas id='webcamCanvas' ref={canvasRef} width={640} height={480} hidden></canvas>
         </>
     );
 };
+
+WebcamCanvas.propTypes = {
+    videoStream: PropTypes.object,
+    canvasRef: PropTypes.object
+}
 
 export default WebcamCanvas;
