@@ -5,8 +5,8 @@ import {Grid} from '@mui/material';
 
 // project imports
 import {gridSpacing} from 'store/constant';
-import VideoCard from './VideoCard';
-import AddVideoCard from './AddVideoCard';
+import StimuliCard from './StimuliCard';
+import AddStimuliCard from './AddStimuliCard';
 import ExperimentHeader from "./ExperimentHeader";
 import {useParams} from "react-router";
 import axios from "axios";
@@ -32,7 +32,8 @@ const Experiment = () => {
         const stimuliResponse = await axios.get(GET_STIMULI_API, {
           params: {ID},
         });
-        const {stimuliItems} = stimuliResponse.data;
+
+        const stimuliItems = stimuliResponse.data.items.filter((item) => item.experimentId === ID);
         setStimuliList(stimuliItems);
 
         setLoading(false);
@@ -53,14 +54,14 @@ const Experiment = () => {
         <Grid item xs={12}>
           <ExperimentHeader data={experimentData}/>
         </Grid>
-        {stimuliList && stimuliList.map((stimulus, index) => (
-            <Grid item key={index} lg={4} md={6} sm={6} xs={12}>
-              <VideoCard isLoading={isLoading} stimulus={stimulus}/>
+        <Grid item lg={4} md={6} sm={6} xs={12}>
+          <AddStimuliCard isLoading={isLoading} experimentId={experimentId}/>
+        </Grid>
+        {stimuliList && stimuliList.map((stimulus) => (
+            <Grid item key={stimulus.id} lg={4} md={6} sm={6} xs={12}>
+              <StimuliCard isLoading={isLoading} data={stimulus}/>
             </Grid>
         ))}
-        <Grid item lg={4} md={6} sm={6} xs={12}>
-          <AddVideoCard isLoading={isLoading}/>
-        </Grid>
       </Grid>
   );
 };

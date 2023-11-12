@@ -8,9 +8,9 @@ import {Avatar, Box, Grid, Typography} from '@mui/material';
 // project imports
 import MainCard from 'ui-component/cards/MainCard';
 import SkeletonEarningCard from 'ui-component/cards/Skeleton/EarningCard';
+import {DeleteForever} from "@mui/icons-material";
 
 // assets
-import {DeleteForever} from '@mui/icons-material';
 
 const CardWrapper = styled(MainCard)(({ theme }) => ({
     backgroundColor: theme.palette.secondary.dark,
@@ -19,18 +19,21 @@ const CardWrapper = styled(MainCard)(({ theme }) => ({
     position: 'relative'
 }));
 
-// ===========================|| VIDEO CARD ||=========================== //
+// ===========================|| STIMULI CARD ||=========================== //
 
-const VideoCard = ({isLoading, stimulus}) => {
+const StimuliCard = ({isLoading, data}) => {
     const theme = useTheme();
+    const stimulus = data;
+
+    const match = stimulus.link.match(/[?&]v=([^&]+)/);
+    const urlHash = match ? match[1] : null;
+    const imageSource = 'https://i.ytimg.com/vi/' + urlHash + '/default.jpg';
 
     const [, setAnchorEl] = useState(null);
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
-
-    console.log(stimulus);
 
     return (
         <>
@@ -54,7 +57,7 @@ const VideoCard = ({isLoading, stimulus}) => {
                                                 color: theme.palette.secondary[200],
                                                 zIndex: 1
                                             }}
-                                            aria-controls="menu-video-card"
+                                            aria-controls="menu-stimulus-card"
                                             aria-haspopup="true"
                                             onClick={handleClick}
                                         >
@@ -67,8 +70,7 @@ const VideoCard = ({isLoading, stimulus}) => {
                             <Grid item>
                                 <Grid container alignItems="center">
                                     <Grid item>
-                                        <img src="https://i.ytimg.com/vi/xxxxxxxxxxx/hqdefault.jpg" alt="YouTube thumbnail" /> 
-                                        {/* this should use youtube api with url to find thumbnail imo */}
+                                        <img src={imageSource} alt="YouTube thumbnail"/>
                                     </Grid>
                                 </Grid>
                             </Grid>
@@ -80,7 +82,7 @@ const VideoCard = ({isLoading, stimulus}) => {
                                         color: theme.palette.secondary[200]
                                     }}
                                 >
-                                    Video Title
+                                    {stimulus.description}
                                 </Typography>
                             </Grid>
                         </Grid>
@@ -91,8 +93,8 @@ const VideoCard = ({isLoading, stimulus}) => {
   );
 };
 
-VideoCard.propTypes = {
+StimuliCard.propTypes = {
   isLoading: PropTypes.bool
 };
 
-export default VideoCard;
+export default StimuliCard;
