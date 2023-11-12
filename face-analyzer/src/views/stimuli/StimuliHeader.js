@@ -24,7 +24,7 @@ const StimuliHeader = ({stimulus}) => {
                             fontSize: '1.5rem',
                             fontWeight: 500
                         }}>
-                            Stimulus Title
+                            {stimulus.name}
                         </Typography>
                     }/>
                     <Box sx={{display: 'flex', gap: 1, pr: 2}}>

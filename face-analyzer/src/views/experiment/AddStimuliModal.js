@@ -55,12 +55,14 @@ const AddStimuliModal = ({showModal, closeModal, experimentId}) => {
                             <Modal>
                                 <Formik
                                         initialValues={{
+                                            name: '',
                                             description: '',
                                             link: '',
                                             experimentId: experimentId,
                                             submit: null
                                         }}
                                         validationSchema={Yup.object().shape({
+                                            name: Yup.string().max(255).required('Name is required'),
                                             description: Yup.string().max(255),
                                             link: Yup.string().url().required('YouTube link is required')
                                         })}
@@ -97,20 +99,20 @@ const AddStimuliModal = ({showModal, closeModal, experimentId}) => {
                                             </Grid>
                                         </Grid>
 
-                                        <FormControl fullWidth error={Boolean(touched.link && errors.link)}
+                                        <FormControl fullWidth error={Boolean(touched.name && errors.name)}
                                                      sx={{...theme.typography.customInput}}>
-                                            <InputLabel htmlFor="stimulusLink">YouTube link</InputLabel>
-                                                    <OutlinedInput
-                                                        id="stimulusLink"
-                                                        type="text"
-                                                        name="link"
-                                                        onBlur={handleBlur}
-                                                        onChange={handleChange}
-                                                    />
-                                            {touched.link && errors.link && (
-                                                <FormHelperText error id="stimulusLinkHandler">
-                                                    {errors.link}
-                                            </FormHelperText>
+                                            <InputLabel htmlFor="stimulusName">Name</InputLabel>
+                                            <OutlinedInput
+                                                id="stimulusName"
+                                                type="text"
+                                                name="name"
+                                                onBlur={handleBlur}
+                                                onChange={handleChange}
+                                            />
+                                            {touched.name && errors.name && (
+                                                <FormHelperText error id="stimulusNameHandler">
+                                                    {errors.name}
+                                                </FormHelperText>
                                             )}
                                         </FormControl>
 
@@ -122,6 +124,23 @@ const AddStimuliModal = ({showModal, closeModal, experimentId}) => {
                                                 name="description"
                                                 onChange={handleChange}
                                             />
+                                        </FormControl>
+
+                                        <FormControl fullWidth error={Boolean(touched.link && errors.link)}
+                                                     sx={{...theme.typography.customInput}}>
+                                            <InputLabel htmlFor="stimulusLink">YouTube link</InputLabel>
+                                            <OutlinedInput
+                                                id="stimulusLink"
+                                                type="text"
+                                                name="link"
+                                                onBlur={handleBlur}
+                                                onChange={handleChange}
+                                            />
+                                            {touched.link && errors.link && (
+                                                <FormHelperText error id="stimulusLinkHandler">
+                                                    {errors.link}
+                                                </FormHelperText>
+                                            )}
                                         </FormControl>
 
                                         {errors.submit && (
