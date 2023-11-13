@@ -19,15 +19,10 @@ const handleSaveReaction = async (values) => {
                 }
                 console.log("Response", response);
             }).catch((e) => {
-            console.log("RANI SE OLOVKOM JEBEM TI OCA I SINA", e);
         });
-        console.log("TU SAM");
-
     }
     catch(e){
         console.error(e);
-    } finally {
-        console.log("Ipak smo tu.");
     }
 };
 
@@ -76,10 +71,5 @@ export const saveNewReaction = async (stimuliId) => {
         participantName: "Participant Name",
         emotionReadings: tempReadings
     }
-
-    console.log("storing", forStoring);
-
     await handleSaveReaction(forStoring);
-
-    console.log("Stored", forStoring);
 };
