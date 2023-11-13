@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import {useState} from 'react';
 
 // material-ui
 import {styled, useTheme} from '@mui/material/styles';
@@ -10,6 +9,8 @@ import MainCard from 'ui-component/cards/MainCard';
 import SkeletonEarningCard from 'ui-component/cards/Skeleton/EarningCard';
 import {DeleteForever, YouTube} from "@mui/icons-material";
 import {IconVideo} from "@tabler/icons";
+import DeleteStimuliModal from "./DeleteStimuliModal";
+import {useState} from "react";
 
 // assets
 
@@ -26,11 +27,11 @@ const StimuliCard = ({isLoading, data}) => {
     const theme = useTheme();
     const stimulus = data;
 
+    const [showModal, setShowModal] = useState(false);
+
     // const match = stimulus.link.match(/[?&]v=([^&]+)/);
     // const urlHash = match ? match[1] : null;
     // const imageSource = 'https://i.ytimg.com/vi/' + urlHash + '/default.jpg';
-
-    const [, setAnchorEl] = useState(null);
 
     const openStimuliLink = () => {
         window.open(stimulus.link, '_blank');
@@ -40,8 +41,12 @@ const StimuliCard = ({isLoading, data}) => {
         window.location.href = '/stimuli/' + stimulus.id;
     }
 
-    const handleClick = (event) => {
-        setAnchorEl(event.currentTarget);
+    const openModal = () => {
+        setShowModal(true);
+    };
+
+    const closeModal = () => {
+        setShowModal(false);
     };
 
     return (
@@ -50,6 +55,7 @@ const StimuliCard = ({isLoading, data}) => {
                 <SkeletonEarningCard />
             ) : (
                 <CardWrapper border={false} content={false}>
+                    <DeleteStimuliModal showModal={showModal} closeModal={closeModal} data={data}></DeleteStimuliModal>
                     <Box sx={{ p: 2.25 }}>
                         <Grid container direction="column">
                             <Grid item>
@@ -100,7 +106,7 @@ const StimuliCard = ({isLoading, data}) => {
                                             }}
                                             aria-controls="menu-stimulus-card"
                                             aria-haspopup="true"
-                                            onClick={handleClick}
+                                            onClick={openModal}
                                         >
                                             <DeleteForever fontSize="inherit"/>
                                         </Avatar>
