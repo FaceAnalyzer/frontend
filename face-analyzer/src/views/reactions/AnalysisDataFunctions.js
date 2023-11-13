@@ -18,8 +18,7 @@ const handleSaveReaction = async (values) => {
                     console.error(response.data.errors);
                 }
                 console.log("Response", response);
-            }).catch((e) => {
-        });
+            });
     }
     catch(e){
         console.error(e);
