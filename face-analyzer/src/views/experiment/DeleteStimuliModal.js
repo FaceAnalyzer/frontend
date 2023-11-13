@@ -6,9 +6,9 @@ import MainCard from "../../ui-component/cards/MainCard";
 import {Formik} from "formik";
 import useScriptRef from "../../hooks/useScriptRef";
 import AnimateButton from "../../ui-component/extended/AnimateButton";
-import {Modal, ModalBody, ModalContent, ModalFooter, ModalOverlay} from "./ModalComponents";
+import {Modal, ModalBody, ModalContent, ModalFooter, ModalOverlay} from "../projects/ModalComponents";
 import axios from "axios";
-import {DELETE_STIMULI_API} from "../projects/BackendEndpoints";
+import {DEFAULT_API_CONFIG, DELETE_STIMULI_BY_ID_API} from "../projects/BackendEndpoints";
 
 const CardWrapper = styled(MainCard)(({theme}) => ({
     backgroundColor: '#fff',
@@ -20,30 +20,25 @@ const CardWrapper = styled(MainCard)(({theme}) => ({
 
 // ===========================|| DELETE STIMULI MODAL ||=========================== //
 
-const DeleteStimuliModal = ({showModal, closeModal, experimentId, deleteName, deleteId}) => {
+const DeleteStimuliModal = ({showModal, closeModal, data, deleteId, deleteName}) => {
     const theme = useTheme();
     const scriptedRef = useScriptRef();
 
-    const handleDelete = async (values, {setErrors, setStatus}) => {
-        try {
-            axios.delete(DELETE_STIMULI_API + '/' + deleteId)
+    const handleDelete = () => {
+        try{
+            axios.delete(DELETE_STIMULI_BY_ID_API.replace("{id}", data.id), DEFAULT_API_CONFIG)
                 .then(response => {
-                    // this.setState({articleId: response.data.id});
-                    console.log(response.status)
                     if (response.status === 204) {
-                        // Redirect to project's experiments page
-                        window.location.href = '/experiment/' + experimentId;
-                    } else {
-                        const data = response.data;
-                        setErrors(data.errors);
-                        setStatus({success: false});
+                        window.location.reload();
                     }
-                });
-
-        } catch (err) {
-            console.error(err);
-            setErrors({submit: err.message});
-            setStatus({success: false});
+                    else{
+                        const data = response.data;
+                        console.error("resp:", response);
+                        console.error("Error deleting stimuli:", data.errors);
+                    }
+                })
+        } catch(e) {
+            console.error("Error deleting stimuli:", e);
         }
     };
 
