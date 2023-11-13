@@ -7,7 +7,7 @@ import {Box, Button, Grid} from '@mui/material';
 import {gridSpacing} from 'store/constant';
 import {useParams} from "react-router";
 import axios from "axios";
-import {GET_STIMULI_API} from "../projects/BackendEndpoints";
+import {GET_STIMULI_BY_ID_API} from "../projects/BackendEndpoints";
 import StimuliHeader from "./StimuliHeader";
 import WebcamComponent from "../reactions/WebcamComponent";
 import VisageProcessing from "../reactions/VisageProcessing";
@@ -36,7 +36,7 @@ const Stimuli = () => {
                 const ID = parseInt(stimuliId);
                 console.log("ID", ID);
 
-                const stimuliResponse = await axios.get(GET_STIMULI_API + '/' + stimuliId);
+                const stimuliResponse = await axios.get(GET_STIMULI_BY_ID_API.replace('{id}', stimuliId));
                 console.log("response",stimuliResponse);
                 const items = stimuliResponse.data;
                 //TODO: how to do this in a more consistent way?
@@ -60,8 +60,9 @@ const Stimuli = () => {
     };
 
     const saveReaction = () => {
-        saveNewReaction(stimuliId);
-        window.location.reload();
+        saveNewReaction(stimuliId).then(result => {
+              window.location.reload();
+          })
     };
 
     const canvasRef = useRef(null);

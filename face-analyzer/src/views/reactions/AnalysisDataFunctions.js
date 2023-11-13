@@ -7,9 +7,9 @@ const dataKey = "analysisData"
 
 const emotion_types = ["Anger", "Disgust", "Fear", "Happiness", "Sadness", "Surprise", "Neutral"];
 
-const handleSaveReaction = (values) => {
+const handleSaveReaction = async (values) => {
     try{
-        axios.post(ADD_REACTION_API, JSON.stringify(values), DEFAULT_API_CONFIG)
+        await axios.post(ADD_REACTION_API, JSON.stringify(values), DEFAULT_API_CONFIG)
             .then(response => {
                 if (response.status === 201 || response.status === 200) {
                     return response.data.id;
@@ -17,6 +17,7 @@ const handleSaveReaction = (values) => {
                 else{
                     console.error(response.data.errors);
                 }
+                console.log("Response", response);
             });
     }
     catch(e){
@@ -69,8 +70,5 @@ export const saveNewReaction = async (stimuliId) => {
         participantName: "Participant Name",
         emotionReadings: tempReadings
     }
-
-    console.log("storing", forStoring);
-
-    handleSaveReaction(forStoring);
+    await handleSaveReaction(forStoring);
 };

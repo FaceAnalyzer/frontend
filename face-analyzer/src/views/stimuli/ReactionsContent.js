@@ -36,9 +36,6 @@ const ReactionsContent = ({stimuliId}) => {
         fetchData();
     }, [stimuliId]);
 
-    console.log(isLoading);
-    console.log(reactionsData);
-
     const showStats = (reactionId) => {
         window.location.href = '/reaction/' + reactionId + '/statistics';
     }
