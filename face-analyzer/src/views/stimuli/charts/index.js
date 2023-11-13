@@ -111,18 +111,6 @@ const Stats = () => {
         });
     };
 
-    const generateBoxPlotData = (emotionColor, emotionData) => {
-        const boxPlotData = {};
-
-        Object.keys(emotionColor).forEach((emotion) => {
-            if (emotionData[emotion]) {
-                boxPlotData[emotion] = emotionData[emotion].map((item) => item.value);
-            }
-        });
-
-        return boxPlotData;
-    };
-
     useEffect(() => {
 
         const emotionColor = {
@@ -151,6 +139,7 @@ const Stats = () => {
                 const reaction = reactionResponse.data.items.filter((item) => item.id === ID)[0];
                 console.log(reaction);
                 setReactionData(reaction);
+                //
 
                 const emotionsResponse = await axios.get(GET_EMOTIONS_API.replace('{id}', reactionId));
                 console.log("emotions", emotionsResponse);
@@ -161,8 +150,7 @@ const Stats = () => {
                 const chartData = createChartConfigs(emotionColor, groupedAndSortedData);
                 setLineChartData(chartData);
 
-                const generatedBoxPlotData = generateBoxPlotData(emotionColor, groupedAndSortedData);
-                setBoxPlotData(generatedBoxPlotData);
+                setBoxPlotData(groupedAndSortedData);
 
                 setLoading(false);
 
