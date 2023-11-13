@@ -3,6 +3,7 @@ import {useTheme} from "@mui/material/styles";
 import {Box, Button, CardHeader, Typography} from "@mui/material";
 import AnimateButton from "../../../ui-component/extended/AnimateButton";
 import {IconDownload} from "@tabler/icons";
+import PropTypes from "prop-types";
 
 // ===========================|| CHART HEADER ||=========================== //
 
@@ -76,5 +77,12 @@ const ChartHeader = ({activeButton, setActiveButton, emotionsData, reactionData}
         </Box>
     );
 };
+
+ChartHeader.propTypes = {
+    activeButton: PropTypes.string,
+    setActiveButton: PropTypes.func,
+    emotionsData: PropTypes.array,
+    reactionData: PropTypes.object
+}
 
 export default ChartHeader;

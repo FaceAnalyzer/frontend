@@ -6,6 +6,7 @@ import MainCard from "../../ui-component/cards/MainCard";
 import AnimateButton from "../../ui-component/extended/AnimateButton";
 import {IconGraph, IconTrashOff} from "@tabler/icons";
 import {useTheme} from "@mui/material/styles";
+import PropTypes from "prop-types";
 
 // ===========================|| REACTIONS HEADER ||=========================== //
 
@@ -94,5 +95,9 @@ const ReactionsContent = ({stimuliId}) => {
 
     );
 };
+
+ReactionsContent.propTypes = {
+    stimuliId: PropTypes.number
+}
 
 export default ReactionsContent;

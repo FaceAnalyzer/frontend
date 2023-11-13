@@ -4,6 +4,7 @@ import {Box, Button, Card, CardHeader, Typography} from "@mui/material";
 import {gridSpacing} from "../../store/constant";
 import AnimateButton from "../../ui-component/extended/AnimateButton";
 import {IconTrashOff} from "@tabler/icons";
+import PropTypes from "prop-types";
 
 // ===========================|| STIMULI HEADER ||=========================== //
 
@@ -44,5 +45,9 @@ const StimuliHeader = ({stimulus}) => {
         </Box>
     );
 };
+
+StimuliHeader.propTypes = {
+    stimulus: PropTypes.object
+}
 
 export default StimuliHeader;
