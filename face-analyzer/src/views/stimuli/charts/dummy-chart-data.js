@@ -83,5 +83,5 @@ export const dummyData = Object.keys(emotions).map((emotion) => {
         }]
     };
 });
-export const boxPlotData = generateBoxPlotData(emotions);
+export const dummyBoxPlotData = generateBoxPlotData(emotions);
 

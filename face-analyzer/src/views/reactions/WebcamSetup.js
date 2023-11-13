@@ -1,7 +1,6 @@
 /* eslint-disable jsx-a11y/media-has-caption */
 import React, { /*useCallback,*/ useEffect, useRef } from 'react';
 import PropTypes from "prop-types";
-import StimuliCard from "../experiment/StimuliCard";
 
 const WebcamSetup = ({onStreamReady}) => {
     const webcamRef = useRef(null);

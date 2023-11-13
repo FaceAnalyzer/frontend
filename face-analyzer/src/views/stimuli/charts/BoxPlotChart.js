@@ -1,30 +1,58 @@
 import {Grid} from "@mui/material";
 import Chart from "react-apexcharts";
-import {boxPlotData} from "./dummy-chart-data";
 import {useTheme} from "@mui/material/styles";
 
 // ==============================|| BOX PLOT CHART ||============================== //
 
-const BoxPlotChart = () => {
+const BoxPlotChart = (boxPlotData) => {
     const theme = useTheme();
 
-    const data = [];
-    Object.entries(boxPlotData).forEach(([emotion, values]) => {
-        data.push({
-            x: emotion,
-            y: values.slice().sort((a, b) => a - b)
-        });
-    });
-    console.log(data);
+    const calculateMedian = (arr) => {
+        const middle = Math.floor(arr.length / 2);
+        //If the array is of an even length, return the average of the two middle values
+        if(arr.length % 2 === 0){
+            return (arr[middle - 1] + arr[middle]) / 2;
+        }
+        //Else return the middle value
+        else{
+            return arr[middle];
+        }
+    }
 
-    return (<Grid container spacing={2}>
+    const calculateBoxPlotData = (data) => {
+        const sortedData = data.slice().sort((a, b) => a - b);
+
+        const median = calculateMedian(sortedData);
+        const q1 = calculateMedian(sortedData.slice(0, Math.floor(sortedData.length / 2)));
+        const q3 = calculateMedian(sortedData.slice(Math.ceil(sortedData.length / 2)));
+
+        const min = sortedData[0];
+        const max = sortedData[sortedData.length - 1];
+
+        return [min, q1, median, q3, max];
+    };
+
+    const testBoxData = [];
+    const rawData = boxPlotData.boxPlotData;
+    for(let key in rawData){
+        const emotionData = []
+        rawData[key].forEach((entry) => {
+            emotionData.push(entry["value"]);
+        })
+
+        testBoxData.push({x: key, y: calculateBoxPlotData(emotionData)});
+    }
+    //console.log("tbd", testBoxData);
+
+    return (
+        <Grid container spacing={2}>
             <Grid item lg={12} md={12} sm={12} xs={12}>
                 <Chart
                     type="boxPlot"
                     series={[
                         {
                             type: 'boxPlot',
-                            data: data
+                            data: testBoxData
                         }
                     ]}
                     options={{
@@ -43,23 +71,13 @@ const BoxPlotChart = () => {
                                     lower: theme.palette.primary[200]
                                 }
                             }
+                        },
+                        yaxis: {
+                            max: 1.0,
+                            min: 0.0,
+                            decimalsInFloat: 2
                         }
                     }}
-                    // series={[{data: [boxPlotData[emotion]]}]}
-                    // options={{
-                    //     chart: {
-                    //         sparkline: {
-                    //             enabled: true
-                    //         }
-                    //     },
-                    //     colors: [boxPlotData[emotion]],
-                    //     title: {
-                    //         text: emotion,
-                    //         style: {
-                    //             fontSize: '14px'
-                    //         }
-                    //     }
-                    // }}
                 />
             </Grid>
         </Grid>

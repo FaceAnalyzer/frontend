@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 
 // material-ui
-import {Box, Button, Card, Grid} from '@mui/material';
+import {Box, Button, Grid} from '@mui/material';
 
 // project imports
 import {gridSpacing} from 'store/constant';
@@ -14,14 +14,21 @@ import VisageProcessing from "../reactions/VisageProcessing";
 import AnalysisResultsComponent from "../reactions/AnalysisResultsComponent";
 import {AnalysisDataContext} from "../reactions/AnalysisDataContext";
 import {saveNewReaction} from "../reactions/AnalysisDataFunctions";
+import {Videocam, VideocamOff} from "@mui/icons-material";
+import {useTheme} from "@mui/material/styles";
+import ReactionsContent from "./ReactionsContent";
 
 // ==============================|| STIMULUS DASHBOARD ||============================== //
 
 const Stimuli = () => {
+    const theme = useTheme();
+
     const {stimuliId} = useParams();
-    const [stimuliData, setStimuliData] = useState([]);
+    const [stimuliData, setStimuliData] = useState({});
     const [isLoading, setLoading] = useState(true);
     const [isRecording, setIsRecording] = useState(false);
+
+    const id = parseInt(stimuliId);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -54,6 +61,7 @@ const Stimuli = () => {
 
     const saveReaction = () => {
         saveNewReaction(stimuliId);
+        window.location.reload();
     };
 
     const canvasRef = useRef(null);
@@ -77,51 +85,59 @@ const Stimuli = () => {
                 </Grid>
             </Grid>
             <Grid container spacing={gridSpacing} sx={{padding: '16px'}}>
-                <Grid item>
+
+                <Grid item lg={6} md={12} sm={12} xs={12}>
                     <Box>
-                        <Card sx={{marginBottom: gridSpacing, backgroundColor: 'inherit'}}>
-                            <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
-                                <Box>
-                                    <iframe width="560" height="315"
-                                            src={stimuliData.link}
-                                            title="YouTube video player"
-                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                                            allowFullScreen>
-                                    </iframe>
-                                </Box>
-                                <Box sx={{display: 'flex', flexDirection: 'column', gap: 1, pr: 2}}>
-                                    <AnalysisDataContext.Provider value={{analysisData, setAnalysisData}}>
-                                        <Box>
-                                            <WebcamComponent canvasRef={canvasRef} isLoading={isLoading}/>
-                                            <VisageProcessing canvasRef={canvasRef} isLoading={isLoading} isRecording={isRecording}/>
-                                            <AnalysisResultsComponent analysisData={analysisData} isLoading={isLoading}/>
-                                        </Box>
-
-                                        <Box>
-                                            <Button variant="contained" onClick={toggleRecording}>
-                                                {isRecording ? (
-                                                    "Stop Recording"
-                                                ) : (
-                                                    "Start Recording")
-                                                }
-                                            </Button>
-
-                                            <Button variant="contained" onClick={saveReaction}>
-                                                Save
-                                            </Button>
-                                        </Box>
-                                    </AnalysisDataContext.Provider>
-                                </Box>
-                            </Box>
-                        </Card>
+                        <iframe width={'100%'}
+                                height={'300px'}
+                                src={stimuliData.link}
+                                title="YouTube video player"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                allowFullScreen>
+                        </iframe>
                     </Box>
                 </Grid>
+                <Grid item lg={6} md={12} sm={12} xs={12}>
+                    <AnalysisDataContext.Provider value={{analysisData, setAnalysisData}}>
+                        <WebcamComponent canvasRef={canvasRef} isLoading={isLoading}/>
+                        <VisageProcessing canvasRef={canvasRef} isLoading={isLoading}
+                                          isRecording={isRecording}/>
+
+                        <AnalysisResultsComponent analysisData={analysisData} isLoading={isLoading}/>
+
+                        <Box sx={{display: 'flex', gap: '1rem', padding: '1rem', justifyContent: 'center'}}>
+                            <Button variant={isRecording ? '' : 'contained'}
+                                    sx={isRecording ? {
+                                        color: theme.palette.grey[700],
+                                        backgroundColor: theme.palette.grey[50],
+                                    } : {
+                                        color: theme.palette.secondary
+                                    }}
+                                    onClick={toggleRecording}
+                                    disableElevation>
+                                {isRecording ? (<>
+                                    <VideocamOff/>
+                                    Stop Recording
+                                </>) : (<>
+                                    <Videocam/>
+                                    Start Recording
+                                </>)
+                                }
+                            </Button>
+
+                            <Button variant="contained"
+                                    onClick={saveReaction}
+                                    disableElevation>
+                                Save
+                            </Button>
+                        </Box>
+                    </AnalysisDataContext.Provider>
+                </Grid>
+                <Grid item lg={12} md={12} sm={12} xs={12}>
+                    <ReactionsContent stimuliId={id}/>
+                </Grid>
+
             </Grid>
-            {/*{reactionList && reactionList.map((stimulus) => (*/}
-            {/*    <Grid item key={reaction.id} lg={4} md={6} sm={6} xs={12}>*/}
-            {/*        <StimuliCard isLoading={isLoading} data={reaction}/>*/}
-            {/*    </Grid>*/}
-            {/*))}*/}
         </>
     );
 };
