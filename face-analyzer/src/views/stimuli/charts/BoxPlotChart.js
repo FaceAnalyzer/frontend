@@ -62,7 +62,9 @@ const BoxPlotChart = (boxPlotData) => {
                             }
                         },
                         yaxis: {
-                            max: maxY
+                            max: 1.0,
+                            min: 0.0,
+                            decimalsInFloat: 2
                         }
                     }}
                 />

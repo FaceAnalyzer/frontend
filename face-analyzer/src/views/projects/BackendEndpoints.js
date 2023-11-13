@@ -8,6 +8,7 @@ export const ADD_STIMULI_API = process.env.REACT_APP_BACKEND_API_URL + '/stimuli
 export const EDIT_STIMULI_API = process.env.REACT_APP_BACKEND_API_URL + '/stimuli';
 export const DELETE_STIMULI_API = process.env.REACT_APP_BACKEND_API_URL + '/stimuli';
 export const GET_REACTIONS_API = process.env.REACT_APP_BACKEND_API_URL + '/reactions';
+export const GET_REACTIONS_BY_ID_API = process.env.REACT_APP_BACKEND_API_URL + '/reactions/{id}';
 export const GET_EMOTIONS_API = process.env.REACT_APP_BACKEND_API_URL + '/reactions/{id}/emotions';
 export const DEFAULT_API_CONFIG = {
     headers: {

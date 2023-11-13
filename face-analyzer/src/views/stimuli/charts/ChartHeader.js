@@ -6,7 +6,7 @@ import {IconDownload} from "@tabler/icons";
 
 // ===========================|| CHART HEADER ||=========================== //
 
-const ChartHeader = ({activeButton, setActiveButton, reactionData}) => {
+const ChartHeader = ({activeButton, setActiveButton, emotionsData, reactionData}) => {
     const theme = useTheme();
 
     const handleButtonClick = (buttonType) => {
@@ -14,7 +14,7 @@ const ChartHeader = ({activeButton, setActiveButton, reactionData}) => {
     };
 
     const downloadCsv = () => {
-        console.log(reactionData);
+        console.log(emotionsData);
     };
 
     return (
@@ -24,7 +24,7 @@ const ChartHeader = ({activeButton, setActiveButton, reactionData}) => {
                     fontSize: '1.5rem',
                     fontWeight: 500
                 }}>
-                    Stephan Horvat III
+                    {reactionData.participantName}
                 </Typography>
             }/>
             <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>

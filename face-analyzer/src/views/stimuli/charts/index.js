@@ -10,7 +10,7 @@ import ChartHeader from "./ChartHeader";
 import BoxPlotChart from "./BoxPlotChart";
 import {useParams} from "react-router";
 import axios from "axios";
-import {GET_EMOTIONS_API} from "../../projects/BackendEndpoints";
+import {GET_EMOTIONS_API, GET_REACTIONS_API} from "../../projects/BackendEndpoints";
 
 // ==============================|| STATISTICS DASHBOARD ||============================== //
 
@@ -18,6 +18,7 @@ const Stats = () => {
     // const theme = useTheme();
     const {reactionId} = useParams();
     const [lineChartData, setLineChartData] = useState([]);
+    const [reactionData, setReactionData] = useState([]);
     const [boxPlotData, setBoxPlotData] = useState({});
 
     const [isLoading, setLoading] = useState(true);
@@ -138,6 +139,19 @@ const Stats = () => {
             try {
                 const ID = parseInt(reactionId);
 
+                /* TODO replace the following with this when the endpoint is fixed
+                const reactionResponse = await axios.get(GET_REACTIONS_BY_ID_API.replace('{id}', reactionId));
+                console.log(GET_REACTIONS_BY_ID_API.replace('{id}', reactionId));
+                console.log(reactionResponse.data);
+                setReactionData(reactionResponse.data);
+                */
+
+                //Temporary workaround
+                const reactionResponse = await axios.get(GET_REACTIONS_API);
+                const reaction = reactionResponse.data.items.filter((item) => item.id === ID)[0];
+                console.log(reaction);
+                setReactionData(reaction);
+
                 const emotionsResponse = await axios.get(GET_EMOTIONS_API.replace('{id}', reactionId));
                 console.log("emotions", emotionsResponse);
                 const items = emotionsResponse.data.items.filter((item) => item.reactionId === ID);
@@ -166,7 +180,9 @@ const Stats = () => {
             <Grid item xs={12}>
                 <ChartHeader activeButton={activeButton}
                              setActiveButton={setActiveButton}
-                             reactionData={lineChartData}/>
+                             emotionsData={lineChartData}
+                             reactionData={reactionData}
+                />
             </Grid>
             {activeButton === 'overTime' && (
                 <Grid item lg={8} md={12} sm={12} xs={12}>
