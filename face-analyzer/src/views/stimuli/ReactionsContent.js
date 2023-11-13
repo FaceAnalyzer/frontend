@@ -7,6 +7,7 @@ import AnimateButton from "../../ui-component/extended/AnimateButton";
 import {IconGraph, IconTrashOff} from "@tabler/icons";
 import {useTheme} from "@mui/material/styles";
 import PropTypes from "prop-types";
+import DeleteReactionModal from "./DeleteReactionModal";
 
 // ===========================|| REACTIONS HEADER ||=========================== //
 
@@ -14,6 +15,15 @@ const ReactionsContent = ({stimuliId}) => {
     const theme = useTheme();
     const [reactionsData, setReactionsData] = useState([]);
     const [isLoading, setLoading] = useState(true);
+    const [showModal, setShowModal] = useState(false);
+
+    const openModal = () => {
+        setShowModal(true);
+    }
+
+    const closeModal = () => {
+        setShowModal(false);
+    }
 
     useEffect(() => {
         const fetchData = async () => {
@@ -63,6 +73,7 @@ const ReactionsContent = ({stimuliId}) => {
                             {reaction.participantName}
                         </Typography>
                     }/>
+                    <DeleteReactionModal showModal={showModal} closeModal={closeModal} reactionId={reaction.id}></DeleteReactionModal>
                     <Box sx={{display: 'flex', gap: 1, pr: 2}}>
                         <AnimateButton>
                             <Button
@@ -84,6 +95,7 @@ const ReactionsContent = ({stimuliId}) => {
                                     border: 'solid 1px',
                                     borderColor: theme.palette.grey[700]
                                 }}
+                                onClick={openModal}
                             >
                                 <IconTrashOff/> Delete
                             </Button>
