@@ -18,7 +18,7 @@ const Stats = () => {
     // const theme = useTheme();
     const {reactionId} = useParams();
     const [lineChartData, setLineChartData] = useState([]);
-    const [reactionData, setReactionData] = useState([]);
+    const [reactionData, setReactionData] = useState({});
     const [boxPlotData, setBoxPlotData] = useState({});
 
     const [isLoading, setLoading] = useState(true);

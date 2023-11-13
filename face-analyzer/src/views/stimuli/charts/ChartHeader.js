@@ -14,6 +14,11 @@ const ChartHeader = ({activeButton, setActiveButton, emotionsData, reactionData}
         setActiveButton(buttonType);
     };
 
+    const convertToCSV = () => {
+        console.log(emotionsData);
+        downloadCsv();
+    }
+
     const downloadCsv = () => {
         console.log(emotionsData);
     };
@@ -67,7 +72,7 @@ const ChartHeader = ({activeButton, setActiveButton, emotionsData, reactionData}
                             sx={{color: theme.palette.secondary}}
                             variant={'contained'}
                             disableElevation
-                            onClick={downloadCsv}
+                            onClick={convertToCSV}
                         >
                             <IconDownload/> Export CSV
                         </Button>
