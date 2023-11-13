@@ -18,8 +18,8 @@ const Stats = () => {
     // const theme = useTheme();
     const {reactionId} = useParams();
     const [lineChartData, setLineChartData] = useState([]);
+    const [emotionsData, setEmotionsData] = useState({});
     const [reactionData, setReactionData] = useState({});
-    const [boxPlotData, setBoxPlotData] = useState({});
 
     const [isLoading, setLoading] = useState(true);
     console.log(isLoading); //stop lint errors
@@ -150,7 +150,7 @@ const Stats = () => {
                 const chartData = createChartConfigs(emotionColor, groupedAndSortedData);
                 setLineChartData(chartData);
 
-                setBoxPlotData(groupedAndSortedData);
+                setEmotionsData(groupedAndSortedData);
 
                 setLoading(false);
 
@@ -168,7 +168,7 @@ const Stats = () => {
             <Grid item xs={12}>
                 <ChartHeader activeButton={activeButton}
                              setActiveButton={setActiveButton}
-                             emotionsData={lineChartData}
+                             emotionsData={emotionsData}
                              reactionData={reactionData}
                 />
             </Grid>
@@ -190,7 +190,7 @@ const Stats = () => {
             )}
             {activeButton === 'distribution' && (
                 <Grid item lg={8} md={12} sm={12} xs={12}>
-                    <BoxPlotChart boxPlotData={boxPlotData}/>
+                    <BoxPlotChart boxPlotData={emotionsData}/>
                 </Grid>
             )}
         </Grid>

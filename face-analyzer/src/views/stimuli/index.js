@@ -24,9 +24,11 @@ const Stimuli = () => {
     const theme = useTheme();
 
     const {stimuliId} = useParams();
-    const [stimuliData, setStimuliData] = useState([]);
+    const [stimuliData, setStimuliData] = useState({});
     const [isLoading, setLoading] = useState(true);
     const [isRecording, setIsRecording] = useState(false);
+
+    const id = parseInt(stimuliId);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -132,7 +134,7 @@ const Stimuli = () => {
                     </AnalysisDataContext.Provider>
                 </Grid>
                 <Grid item lg={12} md={12} sm={12} xs={12}>
-                    <ReactionsContent stimuliId={stimuliId}/>
+                    <ReactionsContent stimuliId={id}/>
                 </Grid>
 
             </Grid>
