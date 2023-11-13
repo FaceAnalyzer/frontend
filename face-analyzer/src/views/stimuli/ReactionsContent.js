@@ -14,7 +14,7 @@ import DeleteReactionModal from "./DeleteReactionModal";
 const ReactionsContent = ({stimuliId}) => {
     const theme = useTheme();
     const [reactionsData, setReactionsData] = useState([]);
-    const [isLoading, setLoading] = useState(true);
+    const [, setLoading] = useState(true);
     const [showModal, setShowModal] = useState(false);
 
     const openModal = () => {
