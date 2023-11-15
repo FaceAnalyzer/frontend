@@ -24,6 +24,9 @@ const SamplePage = Loadable(lazy(() => import('views/sample-page')));
 const Main = Loadable(lazy(() => import('views/dashboard/main')));
 const Experiments = Loadable(lazy(() => import('views/projects/experiments')));
 
+// User management
+const UserManagement = Loadable(lazy(() => import('views/users/user_management')));
+
 const Experiment  = Loadable(lazy(() => import('views/experiment')));
 const Stimuli = Loadable(lazy(() => import('views/stimuli')));
 const Stats = Loadable(lazy(() => import('views/stimuli/charts')));
@@ -129,6 +132,10 @@ const MainRoutes = {
     {
       path: 'experiment/edit',
       element: <Edit />
+    },
+    {
+      path: 'users',
+      element: <UserManagement />
     }
   ]
 };
