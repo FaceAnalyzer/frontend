@@ -14,7 +14,7 @@ const user_management = {
             type: 'item',
             url: '/users',
             icon: IconUser,
-            breadcrumbs: false
+            breadcrumbs: true
         }
     ]
 };
