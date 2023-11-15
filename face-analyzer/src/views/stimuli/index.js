@@ -60,7 +60,7 @@ const Stimuli = () => {
     };
 
     const saveReaction = () => {
-        saveNewReaction(stimuliId).then(result => {
+        saveNewReaction(stimuliId).then(() => {
               window.location.reload();
           })
     };
