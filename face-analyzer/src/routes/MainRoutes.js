@@ -4,8 +4,10 @@ import {lazy} from 'react';
 import MainLayout from 'layout/MainLayout';
 import Loadable from 'ui-component/Loadable';
 
+const Analyzer = Loadable(lazy(() => import('views/reactions')));
 const Projects = Loadable(lazy(() => import('views/projects/projects')));
 const Experiments = Loadable(lazy(() => import('views/projects/experiments')));
+
 // User management
 const UserManagement = Loadable(lazy(() => import('views/users/user_management')));
 
