@@ -70,9 +70,8 @@ const Stimuli = () => {
     };
 
     const saveReaction = () => {
-        saveNewReaction(stimuliId).then(result => {
-            console.log(result);
-            window.location.reload();
+        saveNewReaction(stimuliId).then(() => {
+              window.location.reload();
           })
     };
 
