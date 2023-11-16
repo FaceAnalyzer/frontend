@@ -2,13 +2,13 @@ import React from 'react';
 
 import {styled, useTheme} from '@mui/material/styles';
 import {Box, Button, FormHelperText, Grid, Typography} from '@mui/material';
-import MainCard from "../../ui-component/cards/MainCard";
+import MainCard from "../../cards/MainCard";
 import {Formik} from "formik";
-import useScriptRef from "../../hooks/useScriptRef";
-import AnimateButton from "../../ui-component/extended/AnimateButton";
-import {Modal, ModalBody, ModalContent, ModalFooter, ModalOverlay} from "../projects/ModalComponents";
+import useScriptRef from "../../../hooks/useScriptRef";
+import AnimateButton from "../../extended/AnimateButton";
+import {Modal, ModalBody, ModalContent, ModalFooter, ModalOverlay} from "../ModalComponents";
 import axios from "axios";
-import {DELETE_REACTIONS_BY_ID_API, DEFAULT_API_CONFIG} from "../projects/BackendEndpoints";
+import {DELETE_REACTIONS_BY_ID_API, DEFAULT_API_CONFIG} from "../../../endpoints/BackendEndpoints";
 
 const CardWrapper = styled(MainCard)(({theme}) => ({
     backgroundColor: '#fff',

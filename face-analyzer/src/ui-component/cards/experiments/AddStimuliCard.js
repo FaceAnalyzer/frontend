@@ -11,7 +11,7 @@ import SkeletonEarningCard from 'ui-component/cards/Skeleton/EarningCard';
 
 // assets
 import {IconPlus, IconVideo} from '@tabler/icons';
-import AddStimuliModal from './AddStimuliModal';
+import AddStimuliModal from '../../modals/experiments/AddStimuliModal';
 
 const CardWrapper = styled(MainCard)(({ theme }) => ({
     backgroundColor: '#fff',

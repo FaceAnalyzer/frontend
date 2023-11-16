@@ -4,10 +4,10 @@ import {useEffect, useState} from 'react';
 import {Grid} from '@mui/material';
 
 // project imports
-import ExperimentCard from './ExperimentCard';
-import AddExperimentCard from './AddExperimentCard';
+import ExperimentCard from '../../ui-component/cards/projects/ExperimentCard';
+import AddExperimentCard from '../../ui-component/cards/projects/AddExperimentCard';
 import axios from "axios";
-import {GET_EXPERIMENT_API} from "./BackendEndpoints";
+import {GET_EXPERIMENT_API} from "../../endpoints/BackendEndpoints";
 
 // ==============================|| EXPERIMENTS DASHBOARD ||============================== //
 

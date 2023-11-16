@@ -1,13 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import {Box, Button, CardHeader, Typography} from "@mui/material";
 import axios from "axios";
-import {GET_REACTIONS_API} from "../projects/BackendEndpoints";
+import {GET_REACTIONS_API} from "../../endpoints/BackendEndpoints";
 import MainCard from "../../ui-component/cards/MainCard";
 import AnimateButton from "../../ui-component/extended/AnimateButton";
 import {IconGraph, IconTrashOff} from "@tabler/icons";
 import {useTheme} from "@mui/material/styles";
 import PropTypes from "prop-types";
-import DeleteReactionModal from "./DeleteReactionModal";
+import DeleteReactionModal from "../../ui-component/modals/stimuli/DeleteReactionModal";
 
 // ===========================|| REACTIONS HEADER ||=========================== //
 

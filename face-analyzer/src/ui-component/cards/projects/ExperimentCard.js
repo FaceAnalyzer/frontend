@@ -13,8 +13,8 @@ import SkeletonEarningCard from 'ui-component/cards/Skeleton/EarningCard';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import {DeleteForever, Download, Edit} from '@mui/icons-material';
 import {IconFlask} from '@tabler/icons';
-import DeleteExperimentModal from "./DeleteExperimentModal";
-import EditExperimentModal from "../experiment/EditExperimentModal";
+import DeleteExperimentModal from "../../modals/projects/DeleteExperimentModal";
+import EditExperimentModal from "../../modals/experiments/EditExperimentModal";
 
 const CardWrapper = styled(MainCard)(({ theme }) => ({
   backgroundColor: theme.palette.secondary.dark,

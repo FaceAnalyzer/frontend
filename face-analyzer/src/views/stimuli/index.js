@@ -7,7 +7,7 @@ import {Box, Button, Grid} from '@mui/material';
 import {gridSpacing} from 'store/constant';
 import {useParams} from "react-router";
 import axios from "axios";
-import {GET_STIMULI_BY_ID_API} from "../projects/BackendEndpoints";
+import {GET_STIMULI_BY_ID_API} from "../../endpoints/BackendEndpoints";
 import StimuliHeader from "./StimuliHeader";
 import WebcamComponent from "../reactions/WebcamComponent";
 import VisageProcessing from "../reactions/VisageProcessing";

@@ -10,7 +10,7 @@ import ChartHeader from "./ChartHeader";
 import BoxPlotChart from "./BoxPlotChart";
 import {useParams} from "react-router";
 import axios from "axios";
-import {GET_EMOTIONS_API, GET_REACTIONS_BY_ID_API} from "../../projects/BackendEndpoints";
+import {GET_EMOTIONS_API, GET_REACTIONS_BY_ID_API} from "../../../endpoints/BackendEndpoints";
 
 // ==============================|| STATISTICS DASHBOARD ||============================== //
 
