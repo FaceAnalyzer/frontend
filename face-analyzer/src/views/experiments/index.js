@@ -5,12 +5,12 @@ import {Grid} from '@mui/material';
 
 // project imports
 import {gridSpacing} from 'store/constant';
-import StimuliCard from './StimuliCard';
-import AddStimuliCard from './AddStimuliCard';
+import StimuliCard from '../../ui-component/cards/experiments/StimuliCard';
+import AddStimuliCard from '../../ui-component/cards/experiments/AddStimuliCard';
 import ExperimentHeader from "./ExperimentHeader";
 import {useParams} from "react-router";
 import axios from "axios";
-import {GET_EXPERIMENT_API, GET_STIMULI_API} from "../projects/BackendEndpoints";
+import {GET_EXPERIMENT_API, GET_STIMULI_API} from "../../endpoints/BackendEndpoints";
 
 // ==============================|| EXPERIMENTS DASHBOARD ||============================== //
 

@@ -24,10 +24,10 @@ const SamplePage = Loadable(lazy(() => import('views/sample-page')));
 const Main = Loadable(lazy(() => import('views/dashboard/main')));
 const Experiments = Loadable(lazy(() => import('views/projects/experiments')));
 
-const Experiment  = Loadable(lazy(() => import('views/experiment')));
+const Experiment  = Loadable(lazy(() => import('views/experiments')));
 const Stimuli = Loadable(lazy(() => import('views/stimuli')));
 const Stats = Loadable(lazy(() => import('views/stimuli/charts')));
-const Edit = Loadable(lazy(() => import('views/experiment/edit')));
+const Edit = Loadable(lazy(() => import('views/experiments/edit')));
 
 // ==============================|| MAIN ROUTING ||============================== //
 

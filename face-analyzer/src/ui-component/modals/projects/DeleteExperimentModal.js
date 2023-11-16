@@ -2,15 +2,15 @@ import React from 'react';
 
 import {styled, useTheme} from '@mui/material/styles';
 import {Box, Button, FormHelperText, Grid, Typography} from '@mui/material';
-import MainCard from "../../ui-component/cards/MainCard";
+import MainCard from "../../cards/MainCard";
 import {Formik} from "formik";
-import useScriptRef from "../../hooks/useScriptRef";
-import AnimateButton from "../../ui-component/extended/AnimateButton";
-import {Modal, ModalBody, ModalContent, ModalFooter, ModalOverlay} from "../projects/ModalComponents";
+import useScriptRef from "../../../hooks/useScriptRef";
+import AnimateButton from "../../extended/AnimateButton";
+import {Modal, ModalBody, ModalContent, ModalFooter, ModalOverlay} from "../ModalComponents";
 import axios from "axios";
-import {DEFAULT_API_CONFIG, DELETE_STIMULI_BY_ID_API} from "../projects/BackendEndpoints";
+import {DELETE_EXPERIMENT_API} from "../../../endpoints/BackendEndpoints";
 
-const CardWrapper = styled(MainCard)(({theme}) => ({
+const CardWrapper = styled(MainCard)(({ theme }) => ({
     backgroundColor: '#fff',
     borderColor: theme.palette.secondary.dark,
     borderWidth: '1rem',
@@ -18,33 +18,38 @@ const CardWrapper = styled(MainCard)(({theme}) => ({
     position: 'relative',
 }));
 
-// ===========================|| DELETE STIMULI MODAL ||=========================== //
+// ===========================|| DELETE MODAL ||=========================== //
 
-const DeleteStimuliModal = ({showModal, closeModal, data, deleteId, deleteName}) => {
+const DeleteExperimentModal = ({showModal, closeModal, deleteName, deleteId}) => {
     const theme = useTheme();
     const scriptedRef = useScriptRef();
 
-    const handleDelete = () => {
-        try{
-            axios.delete(DELETE_STIMULI_BY_ID_API.replace("{id}", data.id), DEFAULT_API_CONFIG)
+    const handleDelete = async (values, {setErrors, setStatus}) => {
+        try {
+            axios.delete(DELETE_EXPERIMENT_API + '/' + deleteId)
                 .then(response => {
+                    // this.setState({articleId: response.data.id});
+                    console.log(response.status)
                     if (response.status === 204) {
-                        window.location.reload();
-                    }
-                    else{
+                        // Redirect to project's experiments page
+                        window.location.href = '/projects/experiments';
+                    } else {
                         const data = response.data;
-                        console.error("resp:", response);
-                        console.error("Error deleting stimuli:", data.errors);
+                        setErrors(data.errors);
+                        setStatus({success: false});
                     }
-                })
-        } catch(e) {
-            console.error("Error deleting stimuli:", e);
+                });
+
+        } catch (err) {
+            console.error(err);
+            setErrors({submit: err.message});
+            setStatus({success: false});
         }
     };
 
 
     return (
-        <CardWrapper border={false} content={false}>
+        <CardWrapper border={false} content={false} >
             {showModal && (
                 <ModalOverlay>
                     <Modal>
@@ -52,7 +57,7 @@ const DeleteStimuliModal = ({showModal, closeModal, data, deleteId, deleteName})
                             initialValues={{
                                 id: {deleteId},
                             }}
-                            onSubmit={async (values, {setErrors, setStatus}) => {
+                            onSubmit={async (values, { setErrors, setStatus }) => {
                                 try {
                                     if (scriptedRef.current) {
                                         await handleDelete(values, {setErrors, setStatus});
@@ -61,13 +66,13 @@ const DeleteStimuliModal = ({showModal, closeModal, data, deleteId, deleteName})
                                 } catch (err) {
                                     console.error(err);
                                     if (scriptedRef.current) {
-                                        setStatus({success: false});
-                                        setErrors({submit: err.message});
+                                        setStatus({ success: false });
+                                        setErrors({ submit: err.message });
                                     }
                                 }
                             }}>
 
-                            {({errors, handleSubmit, isSubmitting}) => (
+                            {({ errors, handleSubmit, isSubmitting }) => (
                                 <form noValidate onSubmit={handleSubmit}>
                                     <ModalContent>
                                         <ModalBody>
@@ -79,13 +84,13 @@ const DeleteStimuliModal = ({showModal, closeModal, data, deleteId, deleteName})
                                                         color: theme.palette.secondary.dark,
                                                         mb: 1
                                                     }}>
-                                                        Delete stimulus
+                                                        Delete experiment
                                                     </Typography>
                                                 </Grid>
                                             </Grid>
 
                                             {errors.submit && (
-                                                <Box sx={{mt: 3}}>
+                                                <Box sx={{ mt: 3 }}>
                                                     <FormHelperText error>{errors.submit}</FormHelperText>
                                                 </Box>
                                             )}
@@ -137,4 +142,4 @@ const DeleteStimuliModal = ({showModal, closeModal, data, deleteId, deleteName})
     );
 };
 
-export default DeleteStimuliModal;
+export default DeleteExperimentModal;

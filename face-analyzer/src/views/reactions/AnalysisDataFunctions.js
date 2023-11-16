@@ -1,6 +1,5 @@
 import axios from "axios";
-import {ADD_REACTION_API} from "./BackendEndpoints";
-import {DEFAULT_API_CONFIG} from "../projects/BackendEndpoints";
+import {ADD_REACTION_API, DEFAULT_API_CONFIG} from "../../endpoints/BackendEndpoints";
 
 let firstRun = true;
 const dataKey = "analysisData"

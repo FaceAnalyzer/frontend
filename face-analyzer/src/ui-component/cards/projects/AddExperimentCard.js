@@ -11,7 +11,7 @@ import SkeletonEarningCard from 'ui-component/cards/Skeleton/EarningCard';
 
 // assets
 import {IconFlask, IconPlus} from '@tabler/icons';
-import AddExperimentModal from './AddExperimentModal';
+import AddExperimentModal from '../../modals/projects/AddExperimentModal';
 
 const CardWrapper = styled(MainCard)(({ theme }) => ({
   backgroundColor: '#fff',
