@@ -1,18 +1,20 @@
 import PropTypes from 'prop-types';
-import {useState} from 'react';
 
 // material-ui
 import {styled, useTheme} from '@mui/material/styles';
-import {Avatar, Box, Grid, Menu, MenuItem, Typography} from '@mui/material';
 
 // project imports
 import MainCard from 'ui-component/cards/MainCard';
 import SkeletonEarningCard from 'ui-component/cards/Skeleton/EarningCard';
+import {Avatar, Box, Grid, Menu, MenuItem, Typography} from "@mui/material";
+import {IconFileAnalytics} from "@tabler/icons";
+import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
+import {DeleteForever, Edit} from "@mui/icons-material";
+import {useState} from "react";
+import EditProjectModal from "../../modals/projects/EditProjectModal";
+import DeleteProjectModal from "../../modals/projects/DeleteProjectModal";
 
 // assets
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import {DeleteForever, Download, Edit} from '@mui/icons-material';
-import {IconFlask} from '@tabler/icons';
 
 const CardWrapper = styled(MainCard)(({theme}) => ({
     backgroundColor: theme.palette.secondary.dark,
@@ -23,14 +25,18 @@ const CardWrapper = styled(MainCard)(({theme}) => ({
 
 // ===========================|| PROJECT CARD ||=========================== //
 
-const ProjectCard = ({isLoading, data}) => {
+const ProjectCard = ({isLoading}) => {
+
     const theme = useTheme();
 
     const [anchorEl, setAnchorEl] = useState(null);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [showEditModal, setShowEditModal] = useState(false);
 
-    const project = data;
+    const project = {
+        id: 1,
+        name: "Project name"
+    };
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -41,7 +47,7 @@ const ProjectCard = ({isLoading, data}) => {
     };
 
     const openProject = () => {
-        // window.location.href = '/project/' + project.id;
+        // window.location.href = '/experiment/' + experiment.id;
     }
 
     const openDeleteModal = () => {
@@ -70,25 +76,19 @@ const ProjectCard = ({isLoading, data}) => {
         setShowEditModal(false);
     };
 
-    // stop lint errors - remove after implementation
-    closeEditModal();
-    closeDeleteModal();
-    console.log(showDeleteModal);
-    console.log(showEditModal);
-
     return (
         <>
             {isLoading ? (
                 <SkeletonEarningCard/>
             ) : (
                 <CardWrapper border={false} content={false}>
-                    {/*<DeleteProjectModal showModal={showDeleteModal}*/}
-                    {/*                       closeModal={closeDeleteModal}*/}
-                    {/*                       deleteName={project.name}*/}
-                    {/*                       deleteId={project.id}></DeleteProjectModal>*/}
-                    {/*<EditProjectModal showModal={showEditModal}*/}
-                    {/*                     closeModal={closeEditModal}*/}
-                    {/*                     initialValues={project}></EditProjectModal>*/}
+                    <DeleteProjectModal showModal={showDeleteModal}
+                                        closeModal={closeDeleteModal}
+                                        deleteName={project.name}
+                                        deleteId={project.id}></DeleteProjectModal>
+                    <EditProjectModal showModal={showEditModal}
+                                      closeModal={closeEditModal}
+                                      initialValues={project}></EditProjectModal>
                     <Box sx={{p: 2.25}}>
                         <Grid container direction="column">
                             <Grid item>
@@ -105,7 +105,7 @@ const ProjectCard = ({isLoading, data}) => {
                                             }}
                                             onClick={openProject}
                                         >
-                                            <IconFlask/>
+                                            <IconFileAnalytics/>
                                         </Avatar>
                                     </Grid>
                                     <Grid item>
@@ -140,9 +140,9 @@ const ProjectCard = ({isLoading, data}) => {
                                                 horizontal: 'right'
                                             }}
                                         >
-                                            <MenuItem onClick={handleClose}>
-                                                <Download sx={{mr: 1.75}}/> Export
-                                            </MenuItem>
+                                            {/*<MenuItem onClick={handleClose}>*/}
+                                            {/*    <Download sx={{mr: 1.75}}/> Export*/}
+                                            {/*</MenuItem>*/}
                                             <MenuItem onClick={onEditClick}>
                                                 <Edit sx={{mr: 1.75}}/> Edit
                                             </MenuItem>
@@ -164,9 +164,20 @@ const ProjectCard = ({isLoading, data}) => {
                                                 mr: 1,
                                                 mt: 1.75,
                                                 mb: 0.75
-                                            }}>{project.name}</Typography>
+                                            }}>Project name</Typography>
                                     </Grid>
                                 </Grid>
+                            </Grid>
+                            <Grid item sx={{mb: 1.25}}>
+                                <Typography
+                                    sx={{
+                                        fontSize: '1rem',
+                                        fontWeight: 500,
+                                        color: theme.palette.secondary[200]
+                                    }}
+                                >
+                                    Find all your project items here.
+                                </Typography>
                             </Grid>
                         </Grid>
                     </Box>
@@ -180,4 +191,4 @@ ProjectCard.propTypes = {
     isLoading: PropTypes.bool
 };
 
-export default ProjectCard;
+export default ProjectCard; 

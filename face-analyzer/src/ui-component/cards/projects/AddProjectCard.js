@@ -10,7 +10,7 @@ import MainCard from 'ui-component/cards/MainCard';
 import SkeletonEarningCard from 'ui-component/cards/Skeleton/EarningCard';
 
 // assets
-import {IconFlask, IconPlus} from '@tabler/icons';
+import {IconFileAnalytics, IconPlus} from '@tabler/icons';
 import AddProjectModal from "../../modals/projects/AddProjectModal";
 
 const CardWrapper = styled(MainCard)(({theme}) => ({
@@ -58,7 +58,7 @@ const AddProjectCard = ({isLoading}) => {
                                                 mt: 1
                                             }}
                                         >
-                                            <IconFlask/>
+                                            <IconFileAnalytics/>
                                         </Avatar>
                                     </Grid>
                                     <Grid item>

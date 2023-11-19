@@ -27,16 +27,22 @@ const Projects = () => {
         fetchProjectData();
     }, []);
 
+    // stop lint errors
+    console.log(projectList);
+
     return (
         <Grid container spacing={3}>
             <Grid item lg={4} md={6} sm={6} xs={12}>
                 <AddProjectCard isLoading={isLoading}/>
             </Grid>
-            {projectList && projectList.map((experiment) => (
-                <Grid key={experiment.id} item lg={4} md={6} sm={6} xs={12}>
-                    <ProjectCard isLoading={isLoading} data={experiment}/>
-                </Grid>
-            ))}
+            {/*{projectList && projectList.map((project) => (*/}
+            {/*    <Grid key={project.id} item lg={4} md={6} sm={6} xs={12}>*/}
+            {/*        <ProjectCard isLoading={isLoading} data={project}/>*/}
+            {/*    </Grid>*/}
+            {/*))}*/}
+            <Grid item lg={4} md={6} sm={6} xs={12}>
+                <ProjectCard isLoading={isLoading}/>
+            </Grid>
         </Grid>
     );
 };

@@ -11,7 +11,7 @@ import SkeletonEarningCard from 'ui-component/cards/Skeleton/EarningCard';
 
 // assets
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import {DeleteForever, Download, Edit} from '@mui/icons-material';
+import {DeleteForever, Edit} from '@mui/icons-material';
 import {IconFlask} from '@tabler/icons';
 import DeleteExperimentModal from "../../modals/projects/DeleteExperimentModal";
 import EditExperimentModal from "../../modals/experiments/EditExperimentModal";
@@ -136,9 +136,9 @@ const ExperimentCard = ({isLoading, data}) => {
                         horizontal: 'right'
                       }}
                     >
-                      <MenuItem onClick={handleClose}>
-                        <Download sx={{ mr: 1.75 }} /> Export
-                      </MenuItem>
+                      {/*<MenuItem onClick={handleClose}>*/}
+                      {/*  <Download sx={{ mr: 1.75 }} /> Export*/}
+                      {/*</MenuItem>*/}
                       <MenuItem onClick={onEditClick}>
                         <Edit sx={{ mr: 1.75 }} /> Edit
                       </MenuItem>
