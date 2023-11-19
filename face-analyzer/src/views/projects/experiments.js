@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 
 // material-ui
 import {Grid} from '@mui/material';
@@ -8,12 +8,16 @@ import ExperimentCard from '../../ui-component/cards/projects/ExperimentCard';
 import AddExperimentCard from '../../ui-component/cards/projects/AddExperimentCard';
 import axios from "axios";
 import {GET_EXPERIMENT_API} from "../../endpoints/BackendEndpoints";
+import {gridSpacing} from "../../store/constant";
+import ProjectHeader from "./ProjectHeader";
 
 // ==============================|| EXPERIMENTS DASHBOARD ||============================== //
 
 const Experiments = () => {
   const [isLoading, setLoading] = useState(true);
   const [experimentList, setExperimentList] = useState([]);
+
+  const projectData = {id: 1, name: "Project name"};
 
   useEffect(() => {
     const fetchExperimentData = async () => {
@@ -37,7 +41,10 @@ const Experiments = () => {
 
 
   return (
-      <Grid container spacing={3}>
+      <Grid container spacing={gridSpacing} sx={{padding: '16px'}}>
+        <Grid item xs={12}>
+          <ProjectHeader data={projectData}/>
+        </Grid>
         <Grid item lg={4} md={6} sm={6} xs={12}>
           <AddExperimentCard isLoading={isLoading}/>
         </Grid>
