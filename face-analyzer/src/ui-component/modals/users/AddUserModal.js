@@ -1,6 +1,6 @@
 import {styled, useTheme} from "@mui/material/styles";
-import useScriptRef from "../../hooks/useScriptRef";
-import {Modal, ModalBody, ModalContent, ModalFooter, ModalOverlay} from "../../ui-component/modals/ModalComponents";
+import useScriptRef from "../../../hooks/useScriptRef";
+import {Modal, ModalBody, ModalContent, ModalFooter, ModalOverlay} from "../ModalComponents";
 import {Formik} from "formik";
 import * as Yup from "yup";
 import {
@@ -14,10 +14,10 @@ import {
     Select,
     Typography
 } from "@mui/material";
-import AnimateButton from "../../ui-component/extended/AnimateButton";
+import AnimateButton from "../../extended/AnimateButton";
 import React from "react";
-import MainCard from "../../ui-component/cards/MainCard";
-import {ADD_USERS_API} from "../../endpoints/BackendEndpoints";
+import MainCard from "../../cards/MainCard";
+import {ADD_USERS_API} from "../../../endpoints/BackendEndpoints";
 import axios from "axios";
 
 const CardWrapper = styled(MainCard)(({ theme }) => ({

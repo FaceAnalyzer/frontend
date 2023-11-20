@@ -3,7 +3,7 @@ import {Button, Paper} from "@mui/material";
 import {DataGrid} from "@mui/x-data-grid";
 import LinearProgress from "@mui/material/LinearProgress";
 import clsx from "clsx";
-import DeleteUserModal from "./DeleteUserModal";
+import DeleteUserModal from "../../ui-component/modals/users/DeleteUserModal";
 
 const placeholderUsers = [
     {
