@@ -10,6 +10,7 @@ const Experiments = Loadable(lazy(() => import('views/projects/experiments')));
 // User management
 const UserManagement = Loadable(lazy(() => import('views/users/user_management')));
 
+
 const Experiment  = Loadable(lazy(() => import('views/experiments')));
 const Stimuli = Loadable(lazy(() => import('views/stimuli')));
 const Stats = Loadable(lazy(() => import('views/stimuli/charts')));
