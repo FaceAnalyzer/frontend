@@ -3,10 +3,22 @@ import useScriptRef from "../../hooks/useScriptRef";
 import {Modal, ModalBody, ModalContent, ModalFooter, ModalOverlay} from "../../ui-component/modals/ModalComponents";
 import {Formik} from "formik";
 import * as Yup from "yup";
-import {Box, Button, FormControl, FormHelperText, Grid, InputLabel, OutlinedInput, Typography} from "@mui/material";
+import {
+    Box,
+    Button,
+    FormControl,
+    FormHelperText,
+    Grid,
+    InputLabel,
+    OutlinedInput,
+    Select,
+    Typography
+} from "@mui/material";
 import AnimateButton from "../../ui-component/extended/AnimateButton";
 import React from "react";
 import MainCard from "../../ui-component/cards/MainCard";
+import {ADD_USERS_API} from "../../endpoints/BackendEndpoints";
+import axios from "axios";
 
 const CardWrapper = styled(MainCard)(({ theme }) => ({
     backgroundColor: '#fff',
@@ -23,12 +35,14 @@ const AddUserModal = ({showModal, closeModal}) => {
 
     const handleSave = async (values, {setErrors, setStatus}) => {
         try {
-            /*
-            axios.post(ADD_USER_API, JSON.stringify(values), DEFAULT_API_CONFIG)
+            console.log(values);
+            alert("User " + values.username + " added!");
+            axios.post(ADD_USERS_API, JSON.stringify(values))
                 .then(response => {
                     // this.setState({articleId: response.data.id});
                     if (response.status === 201) {
                         // Refresh the page after a successful submission
+                        console.log("Response:", response);
                         window.location.reload();
                     } else {
                         const data = response.data;
@@ -36,8 +50,6 @@ const AddUserModal = ({showModal, closeModal}) => {
                         setStatus({success: false});
                     }
                 });
-
-             */
 
         } catch (err) {
             console.error(err);
@@ -58,7 +70,7 @@ const AddUserModal = ({showModal, closeModal}) => {
                                 username: '',
                                 password: '',
                                 email: '',
-                                contact: '',
+                                contactNumber: '',
                                 role: '',
                                 submit: null
                             }}
@@ -90,7 +102,7 @@ const AddUserModal = ({showModal, closeModal}) => {
                                 }
                             }}>
 
-                            {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched }) => (
+                            {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched , values}) => (
                                 <form noValidate onSubmit={handleSubmit}>
                                     <ModalContent>
                                         <ModalBody>
@@ -165,8 +177,62 @@ const AddUserModal = ({showModal, closeModal}) => {
                                                     onChange={handleChange}
                                                 />
                                                 {touched.password && errors.password && (
-                                                    <FormHelperText error id="usernameHandler">
+                                                    <FormHelperText error id="passwordHandler">
                                                         {errors.password}
+                                                    </FormHelperText>
+                                                )}
+                                            </FormControl>
+
+                                            <FormControl fullWidth error={Boolean(touched.email && errors.email)} sx={{ ...theme.typography.customInput }}>
+                                                <InputLabel htmlFor="email">Email</InputLabel>
+                                                <OutlinedInput
+                                                    id="email"
+                                                    type="text"
+                                                    name="email"
+                                                    onBlur={handleBlur}
+                                                    onChange={handleChange}
+                                                />
+                                                {touched.email && errors.email && (
+                                                    <FormHelperText error id="emailHandler">
+                                                        {errors.email}
+                                                    </FormHelperText>
+                                                )}
+                                            </FormControl>
+
+                                            <FormControl fullWidth error={Boolean(touched.contactNumber && errors.contactNumber)} sx={{ ...theme.typography.customInput }}>
+                                                <InputLabel htmlFor="contactNumber">Contact</InputLabel>
+                                                <OutlinedInput
+                                                    id="contactNumber"
+                                                    type="text"
+                                                    name="contactNumber"
+                                                    onBlur={handleBlur}
+                                                    onChange={handleChange}
+                                                />
+                                                {touched.contactNumber && errors.contactNumber && (
+                                                    <FormHelperText error id="contactNumberHandler">
+                                                        {errors.contactNumber}
+                                                    </FormHelperText>
+                                                )}
+                                            </FormControl>
+
+                                            <FormControl fullWidth error={Boolean(touched.role && errors.role)} sx={{ ...theme.typography.customInput }}>
+                                                <Select
+                                                    native
+                                                    value={values.role || ''}
+                                                    onChange={handleChange}
+                                                    onBlur={handleBlur}
+                                                    inputProps={{
+                                                        name: 'role',
+                                                        id: 'role',
+                                                    }}
+                                                >
+                                                    <option value={""} disabled>Select Role</option>
+                                                    <option value={"Admin"}>Admin</option>
+                                                    <option value={"Researcher"}>Researcher</option>
+                                                </Select>
+                                                {touched.role && errors.role && (
+                                                    <FormHelperText error id="roleHandler">
+                                                        {errors.role}
                                                     </FormHelperText>
                                                 )}
                                             </FormControl>
