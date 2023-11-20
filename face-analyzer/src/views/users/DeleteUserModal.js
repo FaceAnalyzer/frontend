@@ -6,7 +6,7 @@ import MainCard from "../../ui-component/cards/MainCard";
 import {Formik} from "formik";
 import useScriptRef from "../../hooks/useScriptRef";
 import AnimateButton from "../../ui-component/extended/AnimateButton";
-import {Modal, ModalBody, ModalContent, ModalFooter, ModalOverlay} from "../projects/ModalComponents";
+import {Modal, ModalBody, ModalContent, ModalFooter, ModalOverlay} from "../../ui-component/modals/ModalComponents";
 
 const CardWrapper = styled(MainCard)(({ theme }) => ({
     backgroundColor: '#fff',

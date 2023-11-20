@@ -1,6 +1,6 @@
 import {styled, useTheme} from "@mui/material/styles";
 import useScriptRef from "../../hooks/useScriptRef";
-import {Modal, ModalBody, ModalContent, ModalFooter, ModalOverlay} from "../projects/ModalComponents";
+import {Modal, ModalBody, ModalContent, ModalFooter, ModalOverlay} from "../../ui-component/modals/ModalComponents";
 import {Formik} from "formik";
 import * as Yup from "yup";
 import {Box, Button, FormControl, FormHelperText, Grid, InputLabel, OutlinedInput, Typography} from "@mui/material";

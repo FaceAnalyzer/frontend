@@ -51,8 +51,7 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(({
   }
 }));
 
-// Axios
-// TODO: Really shouldn't use hardcoded (admin) tokens :)
+//Axios config defaults
 import axios from 'axios';
 axios.defaults.headers.common['Authorization'] = 'bearer ' + process.env.REACT_APP_ADMIN_TOKEN;
 axios.defaults.headers.common['Accept'] = 'text/plain';
