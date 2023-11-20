@@ -2,7 +2,7 @@
 import UserDataGrid from "./UserDataGrid";
 import {Button, Grid} from "@mui/material";
 import React, {useState} from "react";
-import AddUserModal from "./AddUserModal";
+import AddUserModal from "../../ui-component/modals/users/AddUserModal";
 
 // ==============================|| EXPERIMENTS DASHBOARD ||============================== //
 
