@@ -25,6 +25,13 @@ export const GET_EMOTIONS_API = process.env.REACT_APP_BACKEND_API_URL + '/reacti
 export const ADD_EMOTION_API = process.env.REACT_APP_BACKEND_API_URL + '/emotions';
 export const ADD_REACTION_API = process.env.REACT_APP_BACKEND_API_URL + '/reactions';
 
+//Users
+export const ADD_USERS_API = process.env.REACT_APP_BACKEND_API_URL + '/users';
+export const GET_USERS_API = process.env.REACT_APP_BACKEND_API_URL + '/users';
+export const GET_USER_BY_ID_API = process.env.REACT_APP_BACKEND_API_URL + '/users/{id}';
+export const PUT_USER_BY_ID_API = process.env.REACT_APP_BACKEND_API_URL + '/users/{id}';
+export const DELETE_USER_BY_ID_API = process.env.REACT_APP_BACKEND_API_URL + '/users/{id}';
+
 //Miscellaneous
 export const DEFAULT_API_CONFIG = {
     headers: {
