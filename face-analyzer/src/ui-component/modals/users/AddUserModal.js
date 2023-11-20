@@ -32,24 +32,26 @@ const CardWrapper = styled(MainCard)(({ theme }) => ({
 const AddUserModal = ({showModal, closeModal}) => {
     const theme = useTheme();
     const scriptedRef = useScriptRef();
+    const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
 
     const handleSave = async (values, {setErrors, setStatus}) => {
         try {
-            console.log(values);
-            alert("User " + values.username + " added!");
             axios.post(ADD_USERS_API, JSON.stringify(values))
                 .then(response => {
                     // this.setState({articleId: response.data.id});
                     if (response.status === 201) {
                         // Refresh the page after a successful submission
-                        console.log("Response:", response);
                         window.location.reload();
                     } else {
                         const data = response.data;
                         setErrors(data.errors);
                         setStatus({success: false});
                     }
-                });
+                }).catch(response => {
+                    const data = response.data;
+                    setErrors(data);
+                    setStatus({success: false});
+            });
 
         } catch (err) {
             console.error(err);
@@ -83,7 +85,7 @@ const AddUserModal = ({showModal, closeModal}) => {
                                     .required('Password is required'),
 
                                 email: Yup.string().email('Invalid email').required('Email is required'),
-                                contact: Yup.string().max(32),
+                                contactNumber: Yup.string().matches(phoneRegExp, 'Invalid contact number').required('Contact number is required'),
                                 role: Yup.string().required('Role is required')
                             })}
 
