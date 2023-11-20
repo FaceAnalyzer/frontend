@@ -10,7 +10,7 @@ const Experiments = Loadable(lazy(() => import('views/projects/experiments')));
 // User management
 const UserManagement = Loadable(lazy(() => import('views/users/user_management')));
 
-const Experiment  = Loadable(lazy(() => import('views/experiment')));
+const Experiment  = Loadable(lazy(() => import('views/experiments')));
 const Stimuli = Loadable(lazy(() => import('views/stimuli')));
 const Stats = Loadable(lazy(() => import('views/stimuli/charts')));
 
@@ -42,7 +42,6 @@ const MainRoutes = {
       element: <Stimuli/>
     },
     {
-<<<<<<< HEAD
       path: 'reaction',
       children: [
         {
@@ -50,22 +49,10 @@ const MainRoutes = {
           element: <Stats/>
         },
       ]
-=======
-      path: 'reaction/:reactionId',
-      element: <Analyzer />
-    },
-    {
-      path: 'reaction/:reactionId/statistics',
-      element: <Stats/>
-    },
-    {
-      path: 'experiment/edit',
-      element: <Edit />
     },
     {
       path: 'users',
       element: <UserManagement />
->>>>>>> 7fbeae1 (WIP user list)
     }
   ]
 };
