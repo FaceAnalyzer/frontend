@@ -7,6 +7,8 @@ import {Formik} from "formik";
 import useScriptRef from "../../../hooks/useScriptRef";
 import AnimateButton from "../../extended/AnimateButton";
 import {Modal, ModalBody, ModalContent, ModalFooter, ModalOverlay} from "../ModalComponents";
+import axios from "axios";
+import {DELETE_USER_BY_ID_API} from "../../../endpoints/BackendEndpoints";
 
 const CardWrapper = styled(MainCard)(({ theme }) => ({
     backgroundColor: '#fff',
@@ -26,14 +28,13 @@ const DeleteUserModal = ({showModal, closeModal, userForDeletion}) => {
 
     const handleDelete = async (values, {setErrors, setStatus}) => {
         try {
-            /*
-            axios.delete(DELETE_EXPERIMENT_API + '/' + deleteId)
+            await axios.delete(DELETE_USER_BY_ID_API.replace('{id}', deleteId))
                 .then(response => {
                     // this.setState({articleId: response.data.id});
                     console.log(response.status)
                     if (response.status === 204) {
-                        // Redirect to project's experiments page
-                        window.location.href = '/projects/experiments';
+                        // Redirect to users page
+                        window.location.href = '/users';
                     } else {
                         const data = response.data;
                         setErrors(data.errors);
@@ -41,7 +42,6 @@ const DeleteUserModal = ({showModal, closeModal, userForDeletion}) => {
                     }
                 });
 
-             */
             console.log("Delete user:", userForDeletion);
 
         } catch (err) {
