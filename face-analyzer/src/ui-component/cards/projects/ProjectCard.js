@@ -25,7 +25,7 @@ const CardWrapper = styled(MainCard)(({theme}) => ({
 
 // ===========================|| PROJECT CARD ||=========================== //
 
-const ProjectCard = ({isLoading}) => {
+const ProjectCard = ({isLoading, data}) => {
 
     const theme = useTheme();
 
@@ -33,10 +33,7 @@ const ProjectCard = ({isLoading}) => {
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [showEditModal, setShowEditModal] = useState(false);
 
-    const project = {
-        id: 1,
-        name: "Project name"
-    };
+    const project = data;
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -164,7 +161,7 @@ const ProjectCard = ({isLoading}) => {
                                                 mr: 1,
                                                 mt: 1.75,
                                                 mb: 0.75
-                                            }}>Project name</Typography>
+                                            }}>{project.name}</Typography>
                                     </Grid>
                                 </Grid>
                             </Grid>

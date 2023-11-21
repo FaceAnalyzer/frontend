@@ -7,6 +7,8 @@ import {Formik} from "formik";
 import useScriptRef from "../../../hooks/useScriptRef";
 import AnimateButton from "../../extended/AnimateButton";
 import {Modal, ModalBody, ModalContent, ModalFooter, ModalOverlay} from "../ModalComponents";
+import {DELETE_PROJECT_API} from "../../../endpoints/BackendEndpoints";
+import axios from "axios";
 
 const CardWrapper = styled(MainCard)(({theme}) => ({
     backgroundColor: '#fff',
@@ -24,22 +26,17 @@ const DeleteExperimentModal = ({showModal, closeModal, deleteName, deleteId}) =>
 
     const handleDelete = async (values, {setErrors, setStatus}) => {
         try {
-            // axios.delete(DELETE_PROJECT_API + '/' + deleteId)
-            //     .then(response => {
-            //         console.log(response.status)
-            //
-            //     });
-
-            const response = {status: 204, data: "error"};
-            if (response.status === 204) {
-                // Redirect to projects page
-                window.location.href = '/projects/projects';
-            } else {
-                const data = response.data;
-                setErrors(data.errors);
-                setStatus({success: false});
-            }
-
+            axios.delete(DELETE_PROJECT_API.replace("{id}", deleteId))
+                .then(response => {
+                    if (response.status === 204) {
+                        // Redirect to projects page
+                        window.location.href = '/projects/projects';
+                    } else {
+                        const data = response.data;
+                        setErrors(data.errors);
+                        setStatus({success: false});
+                    }
+                });
         } catch (err) {
             console.error(err);
             setErrors({submit: err.message});

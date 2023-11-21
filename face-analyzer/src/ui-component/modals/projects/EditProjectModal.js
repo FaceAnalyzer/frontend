@@ -8,6 +8,8 @@ import {Formik} from "formik";
 import useScriptRef from "../../../hooks/useScriptRef";
 import AnimateButton from "../../extended/AnimateButton";
 import {Modal, ModalBody, ModalContent, ModalFooter, ModalOverlay} from "../ModalComponents";
+import {DEFAULT_API_CONFIG, EDIT_PROJECT_API} from "../../../endpoints/BackendEndpoints";
+import axios from "axios";
 
 const CardWrapper = styled(MainCard)(({theme}) => ({
     backgroundColor: '#fff',
@@ -31,19 +33,16 @@ const EditProjectModal = ({showModal, closeModal, initialValues}) => {
         try {
             console.log(JSON.stringify(values));
             console.log(projectId);
-            // axios.put(EDIT_PROJECT_API + '/' + projectId, JSON.stringify(values), DEFAULT_API_CONFIG)
-            //     .then(response => {
-            //
-            //     });
-            const response = {status: 200, data: "error"};
-            if (response.status === 200) {
-                window.location.reload();
-            } else {
-                const data = response.data;
-                setErrors(data.errors);
-                setStatus({success: false});
-            }
-
+            axios.put(EDIT_PROJECT_API.replace("{id}", projectId), JSON.stringify(values), DEFAULT_API_CONFIG)
+                .then(response => {
+                    if (response.status === 200) {
+                        window.location.reload();
+                    } else {
+                        const data = response.data;
+                        setErrors(data.errors);
+                        setStatus({success: false});
+                    }
+                });
         } catch (err) {
             console.error(err);
             setErrors({submit: err.message});
