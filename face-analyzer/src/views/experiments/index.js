@@ -10,7 +10,7 @@ import AddStimuliCard from '../../ui-component/cards/experiments/AddStimuliCard'
 import ExperimentHeader from "./ExperimentHeader";
 import {useParams} from "react-router";
 import axios from "axios";
-import {GET_EXPERIMENTS_API, GET_STIMULI_API} from "../../endpoints/BackendEndpoints";
+import {GET_EXPERIMENTS_API, GET_PROJECT_BY_ID_API, GET_STIMULI_API} from "../../endpoints/BackendEndpoints";
 
 // ==============================|| EXPERIMENTS DASHBOARD ||============================== //
 
@@ -18,6 +18,7 @@ const Experiment = () => {
   const {experimentId} = useParams();
   const [stimuliList, setStimuliList] = useState([]);
   const [experimentData, setExperimentData] = useState([]);
+  const [projectData, setProjectData] = useState([]);
   const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -28,6 +29,9 @@ const Experiment = () => {
         const {items} = experimentResponse.data;
         const experiment = items.filter((item) => item.id === ID)[0];
         setExperimentData(experiment);
+
+        const projectResponse = await axios.get(GET_PROJECT_BY_ID_API.replace("{id}", experiment.projectId));
+        setProjectData(projectResponse.data.items[0]);
 
         const stimuliResponse = await axios.get(GET_STIMULI_API, {
           params: {ID},
@@ -52,7 +56,7 @@ const Experiment = () => {
   return (
       <Grid container spacing={gridSpacing} sx={{padding: '16px'}}>
         <Grid item xs={12}>
-          <ExperimentHeader data={experimentData}/>
+          <ExperimentHeader data={experimentData} projectData={projectData}/>
         </Grid>
         <Grid item lg={4} md={6} sm={6} xs={12}>
           <AddStimuliCard isLoading={isLoading} experimentId={experimentId}/>

@@ -12,6 +12,7 @@ export const ADD_EXPERIMENT_API = process.env.REACT_APP_BACKEND_API_URL + '/expe
 export const DELETE_EXPERIMENT_API = process.env.REACT_APP_BACKEND_API_URL + '/experiments';
 export const EDIT_EXPERIMENT_API = process.env.REACT_APP_BACKEND_API_URL + '/experiments';
 export const GET_EXPERIMENTS_API = process.env.REACT_APP_BACKEND_API_URL + '/experiments';
+export const GET_EXPERIMENT_BY_ID_API = process.env.REACT_APP_BACKEND_API_URL + '/experiments/{id}';
 
 //Stimuli
 export const GET_STIMULI_API = process.env.REACT_APP_BACKEND_API_URL + '/stimuli';
