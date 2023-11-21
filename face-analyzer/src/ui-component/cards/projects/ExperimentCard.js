@@ -80,8 +80,7 @@ const ExperimentCard = ({isLoading, data}) => {
         <CardWrapper border={false} content={false}>
           <DeleteExperimentModal showModal={showDeleteModal}
                                  closeModal={closeDeleteModal}
-                                 deleteName={experiment.name}
-                                 deleteId={experiment.id}></DeleteExperimentModal>
+                                 data={experiment}></DeleteExperimentModal>
           <EditExperimentModal showModal={showEditModal}
                                closeModal={closeEditModal}
                                initialValues={experiment}></EditExperimentModal>

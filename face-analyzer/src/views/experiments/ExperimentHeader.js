@@ -5,7 +5,7 @@ import EditExperimentModal from "../../ui-component/modals/experiments/EditExper
 import {Box, Button, Card, CardHeader, Typography} from "@mui/material";
 import {gridSpacing} from "../../store/constant";
 import AnimateButton from "../../ui-component/extended/AnimateButton";
-import {IconEdit, IconTrashOff} from "@tabler/icons";
+import {IconEdit, IconFlask, IconTrashOff} from "@tabler/icons";
 
 // ===========================|| EXPERIMENT HEADER ||=========================== //
 
@@ -45,24 +45,28 @@ const ExperimentHeader = ({data}) => {
         <Box>
             <DeleteExperimentModal showModal={showDeleteModal}
                                    closeModal={closeDeleteModal}
-                                   deleteName={experiment.name}
-                                   deleteId={experiment.id}></DeleteExperimentModal>
+                                   data={experiment}>
+            </DeleteExperimentModal>
             <EditExperimentModal showModal={showEditModal}
                                  closeModal={closeEditModal}
                                  initialValues={experiment}></EditExperimentModal>
             <Card sx={{marginBottom: gridSpacing, backgroundColor: 'inherit'}}>
                 <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
-                    <CardHeader title={
-                        <Typography sx={{
-                            fontSize: '1.5rem',
-                            fontWeight: 500
-                        }}>
-                            {experiment.name}</Typography>
-                    } subheader={
-                        <Typography>
-                            {experiment.description}
-                        </Typography>
-                    }/>
+                    <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'space-around'}}>
+                        <IconFlask/>
+                        <CardHeader title={
+                            <Typography sx={{
+                                fontSize: '1.5rem',
+                                fontWeight: 500
+                            }}>
+                                {experiment.name}
+                            </Typography>
+                        } subheader={
+                            <Typography>
+                                {experiment.description}
+                            </Typography>
+                        }/>
+                    </Box>
                     <Box sx={{display: 'flex', gap: 1, pr: 2}}>
                         <AnimateButton>
                             <Button

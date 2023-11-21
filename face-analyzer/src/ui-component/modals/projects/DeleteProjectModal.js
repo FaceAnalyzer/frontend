@@ -20,9 +20,10 @@ const CardWrapper = styled(MainCard)(({theme}) => ({
 
 // ===========================|| DELETE MODAL ||=========================== //
 
-const DeleteExperimentModal = ({showModal, closeModal, deleteName, deleteId}) => {
+const DeleteProjectModal = ({showModal, closeModal, data}) => {
     const theme = useTheme();
     const scriptedRef = useScriptRef();
+    const deleteId = data.id;
 
     const handleDelete = async (values, {setErrors, setStatus}) => {
         try {
@@ -30,7 +31,7 @@ const DeleteExperimentModal = ({showModal, closeModal, deleteName, deleteId}) =>
                 .then(response => {
                     if (response.status === 204) {
                         // Redirect to projects page
-                        window.location.href = '/projects/projects';
+                        window.location.href = '/projects';
                     } else {
                         const data = response.data;
                         setErrors(data.errors);
@@ -93,7 +94,7 @@ const DeleteExperimentModal = ({showModal, closeModal, deleteName, deleteId}) =>
                                             )}
 
                                             <Typography variant="body2">
-                                                Are you sure you want to delete <strong>{deleteName}</strong>?
+                                                Are you sure you want to delete <strong>{data.name}</strong>?
                                                 This action is irreversible!
                                             </Typography>
 
@@ -139,4 +140,4 @@ const DeleteExperimentModal = ({showModal, closeModal, deleteName, deleteId}) =>
     );
 };
 
-export default DeleteExperimentModal;
+export default DeleteProjectModal;

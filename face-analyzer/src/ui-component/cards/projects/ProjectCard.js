@@ -81,8 +81,7 @@ const ProjectCard = ({isLoading, data}) => {
                 <CardWrapper border={false} content={false}>
                     <DeleteProjectModal showModal={showDeleteModal}
                                         closeModal={closeDeleteModal}
-                                        deleteName={project.name}
-                                        deleteId={project.id}></DeleteProjectModal>
+                                        data={project}></DeleteProjectModal>
                     <EditProjectModal showModal={showEditModal}
                                       closeModal={closeEditModal}
                                       initialValues={project}></EditProjectModal>

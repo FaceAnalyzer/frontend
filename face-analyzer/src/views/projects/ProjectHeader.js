@@ -5,7 +5,7 @@ import EditProjectModal from "../../ui-component/modals/projects/EditProjectModa
 import {Box, Button, Card, CardHeader, Typography} from "@mui/material";
 import {gridSpacing} from "../../store/constant";
 import AnimateButton from "../../ui-component/extended/AnimateButton";
-import {IconEdit, IconTrashOff} from "@tabler/icons";
+import {IconEdit, IconFileAnalytics, IconTrashOff} from "@tabler/icons";
 
 // ===========================|| PROJECT HEADER ||=========================== //
 
@@ -45,20 +45,23 @@ const ProjectHeader = ({data}) => {
         <Box>
             <DeleteProjectModal showModal={showDeleteModal}
                                 closeModal={closeDeleteModal}
-                                deleteName={project.name}
-                                deleteId={project.id}></DeleteProjectModal>
+                                data={project}></DeleteProjectModal>
             <EditProjectModal showModal={showEditModal}
                               closeModal={closeEditModal}
                               initialValues={project}></EditProjectModal>
             <Card sx={{marginBottom: gridSpacing, backgroundColor: 'inherit'}}>
                 <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
-                    <CardHeader title={
-                        <Typography sx={{
-                            fontSize: '1.5rem',
-                            fontWeight: 500
-                        }}>
-                            {project.name}</Typography>
-                    }/>
+                    <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'space-around'}}>
+                        <IconFileAnalytics/>
+                        <CardHeader title={
+                            <Typography sx={{
+                                fontSize: '1.5rem',
+                                fontWeight: 500
+                            }}>
+                                {project.name}
+                            </Typography>
+                        }/>
+                    </Box>
                     <Box sx={{display: 'flex', gap: 1, pr: 2}}>
                         <AnimateButton>
                             <Button

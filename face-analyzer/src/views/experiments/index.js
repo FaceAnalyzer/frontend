@@ -10,7 +10,7 @@ import AddStimuliCard from '../../ui-component/cards/experiments/AddStimuliCard'
 import ExperimentHeader from "./ExperimentHeader";
 import {useParams} from "react-router";
 import axios from "axios";
-import {GET_EXPERIMENT_API, GET_STIMULI_API} from "../../endpoints/BackendEndpoints";
+import {GET_EXPERIMENTS_API, GET_STIMULI_API} from "../../endpoints/BackendEndpoints";
 
 // ==============================|| EXPERIMENTS DASHBOARD ||============================== //
 
@@ -24,7 +24,7 @@ const Experiment = () => {
     const fetchData = async () => {
       try {
         const ID = parseInt(experimentId);
-        const experimentResponse = await axios.get(GET_EXPERIMENT_API);
+        const experimentResponse = await axios.get(GET_EXPERIMENTS_API);
         const {items} = experimentResponse.data;
         const experiment = items.filter((item) => item.id === ID)[0];
         setExperimentData(experiment);

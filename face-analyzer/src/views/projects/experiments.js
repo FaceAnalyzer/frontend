@@ -7,7 +7,7 @@ import {Grid} from '@mui/material';
 import ExperimentCard from '../../ui-component/cards/projects/ExperimentCard';
 import AddExperimentCard from '../../ui-component/cards/projects/AddExperimentCard';
 import axios from "axios";
-import {GET_EXPERIMENT_API} from "../../endpoints/BackendEndpoints";
+import {GET_EXPERIMENTS_API, GET_PROJECT_BY_ID_API} from "../../endpoints/BackendEndpoints";
 import {gridSpacing} from "../../store/constant";
 import ProjectHeader from "./ProjectHeader";
 import {useParams} from "react-router";
@@ -21,18 +21,22 @@ const Experiments = () => {
   const [isLoading, setLoading] = useState(true);
 
   const [experimentList, setExperimentList] = useState([]);
+  const [projectData, setProjectData] = useState({});
 
-  const projectData = {id: 1, name: "Project name"};
   useEffect(() => {
     const fetchExperimentData = async () => {
       try {
-        const response = await axios.get(GET_EXPERIMENT_API);
-        const {items} = response.data;
+        const experimentResponse = await axios.get(GET_EXPERIMENTS_API);
+        const {items} = experimentResponse.data;
+
+        const projectResponse = await axios.get(GET_PROJECT_BY_ID_API.replace("{id}", projectId));
+        const fetchedProject = projectResponse.data.items[0];
 
         const filteredExperimentList = items.filter((item) => item.projectId === ID);
         console.log('Experiment List:', filteredExperimentList);
 
         setExperimentList(filteredExperimentList);
+        setProjectData(fetchedProject);
         setLoading(false);
       } catch (error) {
         console.error('Error fetching experiment data:', error.message);
@@ -40,7 +44,7 @@ const Experiments = () => {
     };
 
     fetchExperimentData();
-  }, []);
+  }, [ID, projectId]);
 
 
   return (

@@ -11,7 +11,7 @@ export const REMOVE_RESEARCHER_FROM_PROJECT_API = process.env.REACT_APP_BACKEND_
 export const ADD_EXPERIMENT_API = process.env.REACT_APP_BACKEND_API_URL + '/experiments';
 export const DELETE_EXPERIMENT_API = process.env.REACT_APP_BACKEND_API_URL + '/experiments';
 export const EDIT_EXPERIMENT_API = process.env.REACT_APP_BACKEND_API_URL + '/experiments';
-export const GET_EXPERIMENT_API = process.env.REACT_APP_BACKEND_API_URL + '/experiments';
+export const GET_EXPERIMENTS_API = process.env.REACT_APP_BACKEND_API_URL + '/experiments';
 
 //Stimuli
 export const GET_STIMULI_API = process.env.REACT_APP_BACKEND_API_URL + '/stimuli';
