@@ -1,18 +1,18 @@
 import PropTypes from 'prop-types';
-import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { useLocation, useNavigate } from 'react-router';
+import {useEffect, useState} from 'react';
+import {useSelector} from 'react-redux';
+import {useLocation, useNavigate} from 'react-router';
 
 // material-ui
-import { useTheme } from '@mui/material/styles';
-import { Collapse, List, ListItemButton, ListItemIcon, ListItemText, Typography } from '@mui/material';
+import {useTheme} from '@mui/material/styles';
+import {Collapse, List, ListItemButton, ListItemIcon, ListItemText, Typography} from '@mui/material';
 
 // project imports
 import NavItem from '../NavItem';
 
 // assets
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
-import { IconChevronDown, IconChevronUp } from '@tabler/icons';
+import {IconChevronDown, IconChevronUp} from '@tabler/icons';
 
 // ==============================|| SIDEBAR MENU LIST COLLAPSE ITEMS ||============================== //
 
@@ -27,10 +27,16 @@ const NavCollapse = ({ menu, level }) => {
   const handleClick = () => {
     setOpen(!open);
     setSelected(!selected ? menu.id : null);
-    if (menu?.id !== 'authentication') {
+      if (menu?.id === undefined) {
       navigate(menu.children[0]?.url);
     }
   };
+
+    const handleMenuTextClick = () => {
+        if (menu?.url) {
+            navigate(menu.url);
+        }
+    };
 
   const { pathname } = useLocation();
   const checkOpenForParent = (child, id) => {
@@ -107,7 +113,10 @@ const NavCollapse = ({ menu, level }) => {
         <ListItemIcon sx={{ my: 'auto', minWidth: !menu.icon ? 18 : 36 }}>{menuIcon}</ListItemIcon>
         <ListItemText
           primary={
-            <Typography variant={selected === menu.id ? 'h5' : 'body1'} color="inherit" sx={{ my: 'auto' }}>
+              <Typography variant={selected === menu.id ? 'h5' : 'body1'}
+                          color="inherit"
+                          sx={{my: 'auto'}}
+                          onClick={handleMenuTextClick}>
               {menu.title}
             </Typography>
           }

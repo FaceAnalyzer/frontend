@@ -21,13 +21,13 @@ const CardWrapper = styled(MainCard)(({ theme }) => ({
 
 // ===========================|| ADD EXPERIMENT MODAL ||=========================== //
 
-const AddExperimentModal = ({ showModal, closeModal }) => {
+const AddExperimentModal = ({showModal, closeModal, projectId}) => {
   const theme = useTheme();
   const scriptedRef = useScriptRef();
 
   const handleSave = async (values, {setErrors, setStatus}) => {
     try {
-      values.projectId = 1; // Hard coded for MVP
+      values.projectId = projectId;
       axios.post(ADD_EXPERIMENT_API, JSON.stringify(values), DEFAULT_API_CONFIG)
           .then(response => {
             // this.setState({articleId: response.data.id});

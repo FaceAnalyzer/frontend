@@ -1,14 +1,93 @@
 // material-ui
-import { Typography } from '@mui/material';
+import {Typography} from '@mui/material';
 
 // project imports
 import NavGroup from './NavGroup';
-import menuItem from 'menu-items';
+import {IconBuildingFactory2, IconFileAnalytics, IconFlask} from "@tabler/icons";
+import axios from "axios";
+import {GET_EXPERIMENTS_API, GET_PROJECTS_API} from "../../../../endpoints/BackendEndpoints";
 
 // ==============================|| SIDEBAR MENU LIST ||============================== //
 
 const MenuList = () => {
-  const navItems = menuItem.items.map((item) => {
+
+  const projects = {
+    id: 'projectManagement',
+    title: 'Project Management',
+    type: 'group',
+    children: [
+      {
+        id: 'projects',
+        title: 'Projects',
+        type: 'collapse',
+        url: '/projects',
+        icon: IconBuildingFactory2,
+        breadcrumbs: false,
+        children: []
+      }
+    ]
+  };
+
+  const getProjects = async () => {
+    try {
+      const response = await axios.get(GET_PROJECTS_API);
+      const {items} = response.data;
+      return items;
+    } catch (error) {
+      console.error('Error fetching projects:', error);
+      return [];
+    }
+  };
+
+  const getExperiments = async () => {
+    try {
+      const response = await axios.get(GET_EXPERIMENTS_API);
+      const {items} = response.data;
+      return items;
+    } catch (error) {
+      console.error('Error fetching projects:', error);
+      return [];
+    }
+  };
+
+  const updateProjects = async () => {
+    const fetchedProjects = await getProjects();
+
+    const updatedProjects = await Promise.all(
+        fetchedProjects.map(async (project) => {
+          const experiments = await getExperiments(project.id);
+
+          return {
+            id: `project-${project.id}`,
+            title: project.name,
+            type: 'collapse',
+            icon: IconFileAnalytics,
+            url: `/project/${project.id}`,
+            breadcrumbs: false,
+            children: experiments.map((experiment) => ({
+              id: `experiment-${experiment.id}`,
+              title: experiment.name,
+              type: 'item',
+              url: `/experiment/${experiment.id}`,
+              icon: IconFlask,
+              breadcrumbs: false,
+            })),
+          };
+        })
+    );
+
+    projects.children[0].children = updatedProjects;
+  };
+
+  updateProjects().then();
+
+
+  const menuItems = {
+    items: [projects]
+  }
+
+  const navItems = menuItems.items.map((item) => {
+    console.log(item);
     switch (item.type) {
       case 'group':
         return <NavGroup key={item.id} item={item} />;

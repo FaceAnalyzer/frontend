@@ -55,7 +55,8 @@ const StimuliCard = ({isLoading, data}) => {
                 <SkeletonEarningCard />
             ) : (
                 <CardWrapper border={false} content={false}>
-                    <DeleteStimuliModal showModal={showModal} closeModal={closeModal} data={data}></DeleteStimuliModal>
+                    <DeleteStimuliModal showModal={showModal} closeModal={closeModal}
+                                        data={stimulus}></DeleteStimuliModal>
                     <Box sx={{ p: 2.25 }}>
                         <Grid container direction="column">
                             <Grid item>

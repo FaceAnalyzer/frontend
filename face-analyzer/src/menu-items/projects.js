@@ -1,7 +1,8 @@
 // assets
-import { IconFlask } from '@tabler/icons';
 
 // ==============================|| PROJECT MENU ITEMS ||============================== //
+
+import {IconFileAnalytics} from "@tabler/icons";
 
 const projects = {
   id: 'projects',
@@ -13,7 +14,7 @@ const projects = {
       title: 'Project A',
       type: 'item',
       url: '/projects/experiments',
-      icon: IconFlask,
+      icon: IconFileAnalytics,
       breadcrumbs: false
     }
   ]

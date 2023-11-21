@@ -1,8 +1,18 @@
+//Project
+export const ADD_PROJECT_API = process.env.REACT_APP_BACKEND_API_URL + '/projects';
+export const EDIT_PROJECT_API = process.env.REACT_APP_BACKEND_API_URL + '/projects/{id}';
+export const DELETE_PROJECT_API = process.env.REACT_APP_BACKEND_API_URL + '/projects/{id}';
+export const GET_PROJECTS_API = process.env.REACT_APP_BACKEND_API_URL + '/projects';
+export const GET_PROJECT_BY_ID_API = process.env.REACT_APP_BACKEND_API_URL + '/projects/{id}';
+export const ADD_RESEARCHER_TO_PROJECT_API = process.env.REACT_APP_BACKEND_API_URL + '/projects/{id}/researcher/add';
+export const REMOVE_RESEARCHER_FROM_PROJECT_API = process.env.REACT_APP_BACKEND_API_URL + '/projects/{id}/researcher/remove';
+
 //Experiment
 export const ADD_EXPERIMENT_API = process.env.REACT_APP_BACKEND_API_URL + '/experiments';
 export const DELETE_EXPERIMENT_API = process.env.REACT_APP_BACKEND_API_URL + '/experiments';
 export const EDIT_EXPERIMENT_API = process.env.REACT_APP_BACKEND_API_URL + '/experiments';
-export const GET_EXPERIMENT_API = process.env.REACT_APP_BACKEND_API_URL + '/experiments';
+export const GET_EXPERIMENTS_API = process.env.REACT_APP_BACKEND_API_URL + '/experiments';
+export const GET_EXPERIMENT_BY_ID_API = process.env.REACT_APP_BACKEND_API_URL + '/experiments/{id}';
 
 //Stimuli
 export const GET_STIMULI_API = process.env.REACT_APP_BACKEND_API_URL + '/stimuli';
@@ -11,9 +21,6 @@ export const ADD_STIMULI_API = process.env.REACT_APP_BACKEND_API_URL + '/stimuli
 export const EDIT_STIMULI_API = process.env.REACT_APP_BACKEND_API_URL + '/stimuli';
 export const DELETE_STIMULI_API = process.env.REACT_APP_BACKEND_API_URL + '/stimuli';
 export const DELETE_STIMULI_BY_ID_API = process.env.REACT_APP_BACKEND_API_URL + '/stimuli/{id}';
-
-//Project
-export const ADD_PROJECT_API = process.env.REACT_APP_BACKEND_API_URL + '/project';
 
 //Reactions
 export const GET_REACTIONS_API = process.env.REACT_APP_BACKEND_API_URL + '/reactions';
