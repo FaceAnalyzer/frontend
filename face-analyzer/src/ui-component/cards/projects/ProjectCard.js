@@ -44,7 +44,7 @@ const ProjectCard = ({isLoading, data}) => {
     };
 
     const openProject = () => {
-        // window.location.href = '/experiment/' + experiment.id;
+        window.location.href = '/project/' + project.id;
     }
 
     const openDeleteModal = () => {

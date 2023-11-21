@@ -18,20 +18,15 @@ const MainRoutes = {
   children: [
     {
       path: '/',
-      element: <Experiments/>
+      element: <Projects/>
     },
     {
       path: 'projects',
-      children: [
-        {
-          path: 'experiments',
-          element: <Experiments />
-        },
-        {
-          path: 'projects',
-          element: <Projects/>
-        }
-      ]
+      element: <Projects/>
+    },
+    {
+      path: 'project/:projectId',
+      element: <Experiments/>
     },
     {
       path: 'experiment/:experimentId',
