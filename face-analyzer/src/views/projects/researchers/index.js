@@ -10,6 +10,7 @@ import {
 import ProjectResearcherHeader from "./ResearcherHeader";
 import {useParams} from "react-router";
 import ResearcherDataGrid from "./ResearcherDataGrid";
+import AddUserToProjectModal from "../../../ui-component/modals/projects/researchers/AddUserToProjectModal";
 
 // ==============================|| PROJECT RESEARCHERS DASHBOARD ||============================== //
 
@@ -21,6 +22,16 @@ const ProjectResearchers = () => {
     const [usersOnProjectList, setUsersOnProjectList] = useState([]);
     const [usersNotOnProjectList, setUsersNotOnProjectList] = useState([]);
     const [projectData, setProjectData] = useState({});
+
+    const [showModal, setShowModal] = useState(false);
+
+    const openModal = () => {
+        setShowModal(true);
+    };
+
+    const closeModal = () => {
+        setShowModal(false);
+    };
 
     useEffect(() => {
         const fetchProjectAndUsers = async () => {
@@ -53,13 +64,16 @@ const ProjectResearchers = () => {
     return (
         <>
             {/*TODO: finish up modal*/}
-            {/*<AddUserToProjectModal/>*/}
+            <AddUserToProjectModal showModal={showModal}
+                                   closeModal={closeModal}
+                                   projectData={projectData}
+                                   usersNotOnProjectData={usersNotOnProjectList}/>
             <Grid container sx={{mb: 2}}>
                 <Grid item xs={12}>
                     <ProjectResearcherHeader data={projectData}/>
                 </Grid>
                 <Grid item>
-                    <Button variant="contained" disableElevation>
+                    <Button variant="contained" disableElevation onClick={openModal}>
                         Add researcher
                     </Button>
                 </Grid>

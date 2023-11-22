@@ -40,6 +40,7 @@ export const PUT_USER_BY_ID_API = process.env.REACT_APP_BACKEND_API_URL + '/user
 export const DELETE_USER_BY_ID_API = process.env.REACT_APP_BACKEND_API_URL + '/users/{id}';
 export const GET_USERS_BY_PROJECT_ID_API = process.env.REACT_APP_BACKEND_API_URL + '/users?ProjectId={id}&Role=Researcher';
 export const GET_RESEARCHERS_API = process.env.REACT_APP_BACKEND_API_URL + '/users?Role=Researcher';
+export const ADD_RESEARCHERS_TO_PROJECT_API = process.env.REACT_APP_BACKEND_API_URL + '/projects/{id}/researcher/add';
 
 //Miscellaneous
 export const DEFAULT_API_CONFIG = {
