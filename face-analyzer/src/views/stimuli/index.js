@@ -60,6 +60,7 @@ const Stimuli = () => {
     };
 
     const saveReaction = () => {
+        // eslint-disable-next-line no-unused-vars
         saveNewReaction(stimuliId).then(result => {
               window.location.reload();
           })
