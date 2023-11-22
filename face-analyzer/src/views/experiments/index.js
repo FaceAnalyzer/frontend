@@ -31,7 +31,7 @@ const Experiment = () => {
         setExperimentData(experiment);
 
         const projectResponse = await axios.get(GET_PROJECT_BY_ID_API.replace("{id}", experiment.projectId));
-        setProjectData(projectResponse.data.items[0]);
+        setProjectData(projectResponse.data);
 
         const stimuliResponse = await axios.get(GET_STIMULI_API, {
           params: {ID},
@@ -41,9 +41,6 @@ const Experiment = () => {
         setStimuliList(stimuliItems);
 
         setLoading(false);
-
-        console.log(experiment);
-        console.log(stimuliItems);
       } catch (error) {
         console.error('Error fetching experiment or stimuli data:', error);
         setLoading(false); // Set loading to false even in case of an error
