@@ -14,6 +14,11 @@ jobs:
         working-directory: face-analyzer
     steps:
     - uses: actions/checkout@v3
+    - name: Login to Docker registry
+      uses: docker/login-action@v1
+      with:
+        username: ${{ secrets.DOCKER_REGISTRY_USERNAME }}
+        password: ${{ secrets.DOCKER_REGISTRY_TOKEN }}
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag plavy/faceanalyzer-frontend:${{ github.sha }}
     - name: Push the Docker image
