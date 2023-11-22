@@ -5,6 +5,7 @@ import React, {useEffect, useState} from "react";
 import AddUserModal from "../../ui-component/modals/users/AddUserModal";
 import axios from "axios";
 import {GET_USERS_API} from "../../endpoints/BackendEndpoints";
+import UserManagementHeader from "./UserManagementHeader";
 
 // ==============================|| EXPERIMENTS DASHBOARD ||============================== //
 
@@ -52,6 +53,9 @@ const UserManagement = () => {
                           existingEmails={existingEmails}
                           existingUsernames={existingUsernames}/>
             <Grid container sx={{mb: 2}}>
+                <Grid item xs={12}>
+                    <UserManagementHeader/>
+                </Grid>
                 <Grid item xs={8} sm={6} md={4} lg={2} xl={1}>
                     <Button onClick={openAddModal} variant="contained" disableElevation>
                         Add user
