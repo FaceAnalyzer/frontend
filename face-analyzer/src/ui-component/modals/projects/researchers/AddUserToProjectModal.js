@@ -8,7 +8,7 @@ import * as Yup from "yup";
 import {Box, Button, FormControl, FormHelperText, Grid, Select, Typography} from "@mui/material";
 import AnimateButton from "../../../extended/AnimateButton";
 import axios from "axios";
-import {ADD_RESEARCHERS_TO_PROJECT_API} from "../../../../endpoints/BackendEndpoints";
+import {ADD_RESEARCHER_TO_PROJECT_API} from "../../../../endpoints/BackendEndpoints";
 import useScriptRef from "../../../../hooks/useScriptRef";
 
 const CardWrapper = styled(MainCard)(({theme}) => ({
@@ -30,7 +30,7 @@ const AddUserToProjectModal = ({showModal, closeModal, usersNotOnProjectData, pr
     const handleSave = (values, {setErrors, setStatus}) => {
         const items = {researchersIds: [values.researcherId]};
         try {
-            axios.put(ADD_RESEARCHERS_TO_PROJECT_API.replace('{id}', project.id), JSON.stringify(items))
+            axios.put(ADD_RESEARCHER_TO_PROJECT_API.replace('{id}', project.id), JSON.stringify(items))
                 .then(response => {
                     if (response.status === 204) {
                         window.location.reload();

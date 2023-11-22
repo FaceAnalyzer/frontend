@@ -7,6 +7,8 @@ import useScriptRef from "../../../../hooks/useScriptRef";
 import MainCard from "../../../cards/MainCard";
 import AnimateButton from "../../../extended/AnimateButton";
 import {Modal, ModalBody, ModalContent, ModalFooter, ModalOverlay} from "../../ModalComponents";
+import {REMOVE_RESEARCHER_FROM_PROJECT_API} from "../../../../endpoints/BackendEndpoints";
+import axios from "axios";
 
 const CardWrapper = styled(MainCard)(({theme}) => ({
     backgroundColor: '#fff',
@@ -26,21 +28,24 @@ const RemoveUserFromProjectModal = ({showModal, closeModal, userForRemoval}) => 
 
     const handleDelete = async (values, {setErrors, setStatus}) => {
         try {
-            // await axios.delete(DELETE_USER_BY_ID_API.replace('{id}', deleteId))
-            //     .then(response => {
-            //         // this.setState({articleId: response.data.id});
-            //         console.log(response.status)
-            //         if (response.status === 204) {
-            //             // Redirect to users page
-            //             window.location.href = '/users';
-            //         } else {
-            //             const data = response.data;
-            //             setErrors(data.errors);
-            //             setStatus({success: false});
-            //         }
-            //     });
-            //
-            // console.log("Delete user:", userForRemoval);
+            await axios.put(REMOVE_RESEARCHER_FROM_PROJECT_API.replace('{id}', deleteId),
+                {
+                    "researchersIds": [deleteId]
+                })
+                .then(response => {
+                    // this.setState({articleId: response.data.id});
+                    console.log(response.status)
+                    if (response.status === 204) {
+                        // Redirect to users page
+                        window.location.href = '/users';
+                    } else {
+                        const data = response.data;
+                        setErrors(data.errors);
+                        setStatus({success: false});
+                    }
+                });
+
+            console.log("Delete user:", userForRemoval);
 
         } catch (err) {
             console.error(err);
@@ -99,7 +104,7 @@ const RemoveUserFromProjectModal = ({showModal, closeModal, userForRemoval}) => 
 
                                             <Typography variant="body2">
                                                 Are you sure you want to remove
-                                                user <strong>{deleteUsername}</strong> from project?
+                                                user <strong>{deleteUsername}</strong> from this project?
                                             </Typography>
 
                                         </ModalBody>

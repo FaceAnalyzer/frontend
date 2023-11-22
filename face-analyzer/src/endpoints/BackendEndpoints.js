@@ -4,8 +4,6 @@ export const EDIT_PROJECT_API = process.env.REACT_APP_BACKEND_API_URL + '/projec
 export const DELETE_PROJECT_API = process.env.REACT_APP_BACKEND_API_URL + '/projects/{id}';
 export const GET_PROJECTS_API = process.env.REACT_APP_BACKEND_API_URL + '/projects';
 export const GET_PROJECT_BY_ID_API = process.env.REACT_APP_BACKEND_API_URL + '/projects/{id}';
-export const ADD_RESEARCHER_TO_PROJECT_API = process.env.REACT_APP_BACKEND_API_URL + '/projects/{id}/researcher/add';
-export const REMOVE_RESEARCHER_FROM_PROJECT_API = process.env.REACT_APP_BACKEND_API_URL + '/projects/{id}/researcher/remove';
 
 //Experiment
 export const ADD_EXPERIMENT_API = process.env.REACT_APP_BACKEND_API_URL + '/experiments';
@@ -40,7 +38,7 @@ export const PUT_USER_BY_ID_API = process.env.REACT_APP_BACKEND_API_URL + '/user
 export const DELETE_USER_BY_ID_API = process.env.REACT_APP_BACKEND_API_URL + '/users/{id}';
 export const GET_USERS_BY_PROJECT_ID_API = process.env.REACT_APP_BACKEND_API_URL + '/users?ProjectId={id}&Role=Researcher';
 export const GET_RESEARCHERS_API = process.env.REACT_APP_BACKEND_API_URL + '/users?Role=Researcher';
-export const ADD_RESEARCHERS_TO_PROJECT_API = process.env.REACT_APP_BACKEND_API_URL + '/projects/{id}/researcher/add';
+export const ADD_RESEARCHER_TO_PROJECT_API = process.env.REACT_APP_BACKEND_API_URL + '/projects/{id}/researcher/add';
 export const REMOVE_RESEARCHER_FROM_PROJECT_API = process.env.REACT_APP_BACKEND_API_URL + '/projects/{id}/researcher/remove';
 
 //Miscellaneous
