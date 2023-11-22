@@ -38,6 +38,7 @@ export const GET_USERS_API = process.env.REACT_APP_BACKEND_API_URL + '/users';
 export const GET_USER_BY_ID_API = process.env.REACT_APP_BACKEND_API_URL + '/users/{id}';
 export const PUT_USER_BY_ID_API = process.env.REACT_APP_BACKEND_API_URL + '/users/{id}';
 export const DELETE_USER_BY_ID_API = process.env.REACT_APP_BACKEND_API_URL + '/users/{id}';
+export const GET_USERS_BY_PROJECT_ID_API = process.env.REACT_APP_BACKEND_API_URL + '/users?ProjectId={id}&Role=Researcher';
 
 //Miscellaneous
 export const DEFAULT_API_CONFIG = {
