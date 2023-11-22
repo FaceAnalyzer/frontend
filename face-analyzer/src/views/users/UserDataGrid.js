@@ -68,7 +68,7 @@ const UserDataGrid = () => {
         //{field: "password", headerName: "Column 2", width: 150},
         {field: "actions", headerName: "Actions", minWidth: 100, flex: 2, renderCell: (params) => {
                 return (
-                    <Button onClick={() => onClickDeleteUser(params.row)} variant="contained">
+                    <Button onClick={() => onClickDeleteUser(params.row)} variant="contained" disableElevation>
                         Delete
                     </Button>
                 );
