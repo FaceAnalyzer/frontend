@@ -14,8 +14,6 @@ RUN npm install
 
 COPY . .
 
-RUN mv *.vlc public/
-
 RUN npm run build
 
 EXPOSE 3000

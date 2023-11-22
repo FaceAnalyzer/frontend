@@ -19,7 +19,7 @@ jobs:
       with:
         base64-encoded-secret: ${{ secrets.VISAGE_SDK_LICENSE }}
         filename: "728-647-708-712-368-939-525-416-088-964-238.vlc"
-        working-directory: face-analyzer
+        working-directory: face-analyzer/public
     - name: Login to Docker registry
       uses: docker/login-action@v1
       with:
