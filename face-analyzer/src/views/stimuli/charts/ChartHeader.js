@@ -1,15 +1,30 @@
 import React from 'react';
 import {useTheme} from "@mui/material/styles";
-import {Box, Button, CardHeader, Typography} from "@mui/material";
+import {Box, Button, CardHeader, Link, Typography} from "@mui/material";
 import AnimateButton from "../../../ui-component/extended/AnimateButton";
-import {IconDownload} from "@tabler/icons";
+import {IconDownload, IconFileAnalytics, IconFlask, IconGraph, IconVideo} from "@tabler/icons";
 import PropTypes from "prop-types";
 import Papa from "papaparse";
 
 // ===========================|| CHART HEADER ||=========================== //
 
-const ChartHeader = ({activeButton, setActiveButton, emotionsData, reactionData}) => {
+const ChartHeader = ({
+                         activeButton,
+                         setActiveButton,
+                         emotionsData,
+                         reactionData,
+                         stimuliData,
+                         experimentData,
+                         projectData
+                     }) => {
     const theme = useTheme();
+
+    const stimuli = stimuliData;
+    const stimuliId = stimuli.id;
+    const experiment = experimentData;
+    const experimentId = experiment.id;
+    const project = projectData;
+    const projectId = project.id;
 
     const handleButtonClick = (buttonType) => {
         setActiveButton(buttonType);
@@ -78,14 +93,50 @@ const ChartHeader = ({activeButton, setActiveButton, emotionsData, reactionData}
 
     return (
         <Box>
-            <CardHeader title={
-                <Typography sx={{
-                    fontSize: '1.5rem',
-                    fontWeight: 500
-                }}>
-                    {reactionData.participantName}
-                </Typography>
-            }/>
+            <Box>
+                <CardHeader sx={{padding: '5px'}}
+                            subheader={
+                                <Box sx={{display: 'flex'}}>
+                                    <Link href={`/project/${projectId}`}
+                                          sx={{color: theme.palette.grey[500], textDecoration: 'none'}}
+                                    >
+                                        <Box sx={{display: 'flex', alignItems: 'center'}}>
+                                            <IconFileAnalytics/>
+                                            <Typography sx={{fontWeight: 500}}>{project.name}</Typography>
+                                        </Box>
+                                    </Link>
+                                    &nbsp;
+                                    <Link href={`/experiment/${experimentId}`}
+                                          sx={{color: theme.palette.grey[500], textDecoration: 'none'}}
+                                    >
+                                        <Box sx={{display: 'flex', alignItems: 'center'}}>
+                                            <IconFlask/>
+                                            <Typography sx={{fontWeight: 500}}>{experiment.name}</Typography>
+                                        </Box>
+                                    </Link>
+                                    &nbsp;
+                                    <Link href={`/stimuli/${stimuliId}`}
+                                          sx={{color: theme.palette.grey[500], textDecoration: 'none'}}
+                                    >
+                                        <Box sx={{display: 'flex', alignItems: 'center'}}>
+                                            <IconVideo/>
+                                            <Typography sx={{fontWeight: 500}}>{stimuli.name}</Typography>
+                                        </Box>
+                                    </Link>
+                                </Box>
+                            }/>
+            </Box>
+            <Box sx={{display: 'flex', alignItems: 'center'}}>
+                <IconGraph/>
+                <CardHeader title={
+                    <Typography sx={{
+                        fontSize: '1.5rem',
+                        fontWeight: 500
+                    }}>
+                        {reactionData.participantName}
+                    </Typography>
+                }/>
+            </Box>
             <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
                 <Box sx={{display: 'flex', gap: 1, pr: 2}}>
                     <AnimateButton>

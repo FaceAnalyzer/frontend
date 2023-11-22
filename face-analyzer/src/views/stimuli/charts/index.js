@@ -10,7 +10,13 @@ import ChartHeader from "./ChartHeader";
 import BoxPlotChart from "./BoxPlotChart";
 import {useParams} from "react-router";
 import axios from "axios";
-import {GET_EMOTIONS_API, GET_REACTIONS_BY_ID_API} from "../../../endpoints/BackendEndpoints";
+import {
+    GET_EMOTIONS_API,
+    GET_EXPERIMENT_BY_ID_API,
+    GET_PROJECT_BY_ID_API,
+    GET_REACTIONS_BY_ID_API,
+    GET_STIMULI_BY_ID_API
+} from "../../../endpoints/BackendEndpoints";
 
 // ==============================|| STATISTICS DASHBOARD ||============================== //
 
@@ -20,6 +26,9 @@ const Stats = () => {
     const [lineChartData, setLineChartData] = useState([]);
     const [emotionsData, setEmotionsData] = useState({});
     const [reactionData, setReactionData] = useState({});
+    const [stimuliData, setStimuliData] = useState({});
+    const [experimentData, setExperimentData] = useState({});
+    const [projectData, setProjectData] = useState({});
 
     const [isLoading, setLoading] = useState(true);
     console.log(isLoading); //stop lint errors
@@ -129,8 +138,20 @@ const Stats = () => {
 
 
                 const reactionResponse = await axios.get(GET_REACTIONS_BY_ID_API.replace('{id}', reactionId));
-                setReactionData(reactionResponse.data);
+                const reactionItem = reactionResponse.data;
+                setReactionData(reactionItem);
 
+                const stimuliResponse = await axios.get(GET_STIMULI_BY_ID_API.replace('{id}', reactionItem.stimuliId));
+                const stimuliItem = stimuliResponse.data;
+                setStimuliData(stimuliItem);
+
+                const experimentResponse = await axios.get(GET_EXPERIMENT_BY_ID_API.replace('{id}', stimuliItem.experimentId));
+                const experimentItem = experimentResponse.data;
+                setExperimentData(experimentItem);
+
+                const projectResponse = await axios.get(GET_PROJECT_BY_ID_API.replace('{id}', experimentItem.projectId));
+                const projectItem = projectResponse.data.items[0];
+                setProjectData(projectItem);
 
                 //Temporary workaround
                 /*
@@ -170,6 +191,9 @@ const Stats = () => {
                              setActiveButton={setActiveButton}
                              emotionsData={emotionsData}
                              reactionData={reactionData}
+                             stimuliData={stimuliData}
+                             experimentData={experimentData}
+                             projectData={projectData}
                 />
             </Grid>
             {activeButton === 'overTime' && (
