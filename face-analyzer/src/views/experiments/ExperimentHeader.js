@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {useTheme} from "@mui/material/styles";
 import DeleteExperimentModal from "../../ui-component/modals/projects/DeleteExperimentModal";
 import EditExperimentModal from "../../ui-component/modals/experiments/EditExperimentModal";
-import {Box, Button, Card, CardHeader, Link, Typography} from "@mui/material";
+import {Box, Button, Card, CardHeader, Link, Typography, useMediaQuery} from "@mui/material";
 import {gridSpacing} from "../../store/constant";
 import AnimateButton from "../../ui-component/extended/AnimateButton";
 import {IconEdit, IconFileAnalytics, IconFlask, IconTrashOff} from "@tabler/icons";
@@ -11,6 +11,7 @@ import {IconEdit, IconFileAnalytics, IconFlask, IconTrashOff} from "@tabler/icon
 
 const ExperimentHeader = ({data, projectData}) => {
     const theme = useTheme();
+    const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
     const projectId = data.projectId;
     console.log(projectId);
 
@@ -92,7 +93,10 @@ const ExperimentHeader = ({data, projectData}) => {
                                     variant="contained"
                                     color="secondary"
                                 >
-                                    <IconEdit/> Edit
+                                    <IconEdit/>
+                                    <Typography sx={{display: isSmallScreen ? 'none' : 'flex'}}>
+                                        Edit
+                                    </Typography>
                                 </Button>
                             </AnimateButton>
                             <AnimateButton>
@@ -103,7 +107,10 @@ const ExperimentHeader = ({data, projectData}) => {
                                         backgroundColor: theme.palette.grey[50],
                                     }}
                                 >
-                                    <IconTrashOff/> Delete
+                                    <IconTrashOff/>
+                                    <Typography sx={{display: isSmallScreen ? 'none' : 'flex'}}>
+                                        Delete
+                                    </Typography>
                                 </Button>
                             </AnimateButton>
                         </Box>

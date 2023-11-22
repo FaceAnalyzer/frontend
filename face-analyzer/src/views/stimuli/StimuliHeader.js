@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {useTheme} from "@mui/material/styles";
-import {Box, Button, Card, CardHeader, Link, Typography} from "@mui/material";
+import {Box, Button, Card, CardHeader, Link, Typography, useMediaQuery} from "@mui/material";
 import {gridSpacing} from "../../store/constant";
 import AnimateButton from "../../ui-component/extended/AnimateButton";
 import {IconChevronRight, IconFileAnalytics, IconFlask, IconTrashOff, IconVideo} from "@tabler/icons";
@@ -11,6 +11,8 @@ import DeleteStimuliModal from "../../ui-component/modals/experiments/DeleteStim
 
 const StimuliHeader = ({stimulus, experimentData, projectData}) => {
     const theme = useTheme();
+    const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+
     const [showModal, setShowModal] = useState(false);
 
     const experiment = experimentData;
@@ -80,7 +82,10 @@ const StimuliHeader = ({stimulus, experimentData, projectData}) => {
                                 }}
                                 onClick={openModal}
                             >
-                                <IconTrashOff/> Delete
+                                <IconTrashOff/>
+                                <Typography sx={{display: isSmallScreen ? 'none' : 'flex'}}>
+                                    Delete
+                                </Typography>
                             </Button>
                         </AnimateButton>
                     </Box>
