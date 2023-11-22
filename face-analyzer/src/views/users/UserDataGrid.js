@@ -1,33 +1,12 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {Button, Paper} from "@mui/material";
 import {DataGrid} from "@mui/x-data-grid";
 import LinearProgress from "@mui/material/LinearProgress";
 import clsx from "clsx";
 import DeleteUserModal from "../../ui-component/modals/users/DeleteUserModal";
-import {GET_USERS_API} from "../../endpoints/BackendEndpoints";
-import axios from "axios";
-
-const UserDataGrid = () => {
-    const [isLoading, setLoading] = useState(true);
-    const [userList, setUserList] = useState([]);
+const UserDataGrid = ({isLoading, userList}) => {
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [userForDeletion, setUserForDeletion] = useState({});
-
-    useEffect(() => {
-        const fetchUsers = async () => {
-            try {
-                const response = await axios.get(GET_USERS_API);
-                const {items} = response.data;
-
-                setUserList(items);
-                setLoading(false);
-            } catch (error) {
-                console.error('Error fetching experiment data:', error.message);
-            }
-        };
-
-        fetchUsers().then();
-    }, []);
 
     const openDeleteModal = () => {
         setShowDeleteModal(true);
@@ -38,11 +17,6 @@ const UserDataGrid = () => {
     };
 
     const onClickDeleteUser = (userData) => {
-        /*
-        TODO: Placeholder for user deletion
-        Will need to add API call to delete the user by id
-         */
-        console.log("User to be deleted:", userData);
         setUserForDeletion(userData);
         openDeleteModal();
     }
@@ -68,7 +42,7 @@ const UserDataGrid = () => {
         //{field: "password", headerName: "Column 2", width: 150},
         {field: "actions", headerName: "Actions", minWidth: 100, flex: 2, renderCell: (params) => {
                 return (
-                    <Button onClick={() => onClickDeleteUser(params.row)} variant="contained">
+                    <Button onClick={() => onClickDeleteUser(params.row)} variant="contained" disableElevation>
                         Delete
                     </Button>
                 );

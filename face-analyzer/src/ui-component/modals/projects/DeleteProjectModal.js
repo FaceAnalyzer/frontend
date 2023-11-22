@@ -7,8 +7,8 @@ import {Formik} from "formik";
 import useScriptRef from "../../../hooks/useScriptRef";
 import AnimateButton from "../../extended/AnimateButton";
 import {Modal, ModalBody, ModalContent, ModalFooter, ModalOverlay} from "../ModalComponents";
+import {DELETE_PROJECT_API} from "../../../endpoints/BackendEndpoints";
 import axios from "axios";
-import {DEFAULT_API_CONFIG, DELETE_REACTIONS_BY_ID_API} from "../../../endpoints/BackendEndpoints";
 
 const CardWrapper = styled(MainCard)(({theme}) => ({
     backgroundColor: '#fff',
@@ -18,27 +18,33 @@ const CardWrapper = styled(MainCard)(({theme}) => ({
     position: 'relative',
 }));
 
-const DeleteReactionModal = ({showModal, closeModal, reactionId}) => {
+// ===========================|| DELETE MODAL ||=========================== //
+
+const DeleteProjectModal = ({showModal, closeModal, data}) => {
     const theme = useTheme();
     const scriptedRef = useScriptRef();
+    const deleteId = data.id;
 
-    const handleDelete = () => {
-        try{
-            axios.delete(DELETE_REACTIONS_BY_ID_API.replace("{id}", reactionId), DEFAULT_API_CONFIG)
+    const handleDelete = async (values, {setErrors, setStatus}) => {
+        try {
+            axios.delete(DELETE_PROJECT_API.replace("{id}", deleteId))
                 .then(response => {
                     if (response.status === 204) {
-                        window.location.reload();
-                    }
-                    else{
+                        // Redirect to projects page
+                        window.location.href = '/projects';
+                    } else {
                         const data = response.data;
-                        console.error("resp:", response);
-                        console.error("Error deleting reaction:", data.errors);
+                        setErrors(data.errors);
+                        setStatus({success: false});
                     }
-                })
-        } catch(e) {
-            console.error("Error deleting reaction:", e);
+                });
+        } catch (err) {
+            console.error(err);
+            setErrors({submit: err.message});
+            setStatus({success: false});
         }
     };
+
 
     return (
         <CardWrapper border={false} content={false}>
@@ -47,7 +53,7 @@ const DeleteReactionModal = ({showModal, closeModal, reactionId}) => {
                     <Modal>
                         <Formik
                             initialValues={{
-                                id: {reactionId},
+                                id: {deleteId},
                             }}
                             onSubmit={async (values, {setErrors, setStatus}) => {
                                 try {
@@ -76,7 +82,7 @@ const DeleteReactionModal = ({showModal, closeModal, reactionId}) => {
                                                         color: theme.palette.secondary.dark,
                                                         mb: 1
                                                     }}>
-                                                        Delete reaction
+                                                        Delete experiment
                                                     </Typography>
                                                 </Grid>
                                             </Grid>
@@ -88,7 +94,7 @@ const DeleteReactionModal = ({showModal, closeModal, reactionId}) => {
                                             )}
 
                                             <Typography variant="body2">
-                                                Are you sure you want to delete this reaction?
+                                                Are you sure you want to delete <strong>{data.name}</strong>?
                                                 This action is irreversible!
                                             </Typography>
 
@@ -134,4 +140,4 @@ const DeleteReactionModal = ({showModal, closeModal, reactionId}) => {
     );
 };
 
-export default DeleteReactionModal;
+export default DeleteProjectModal;

@@ -4,7 +4,8 @@ import {lazy} from 'react';
 import MainLayout from 'layout/MainLayout';
 import Loadable from 'ui-component/Loadable';
 
-// 13 - user creates experiments routing
+const Analyzer = Loadable(lazy(() => import('views/reactions')));
+const Projects = Loadable(lazy(() => import('views/projects/projects')));
 const Experiments = Loadable(lazy(() => import('views/projects/experiments')));
 
 // User management
@@ -23,16 +24,15 @@ const MainRoutes = {
   children: [
     {
       path: '/',
-      element: <Experiments />
+      element: <Projects/>
     },
     {
       path: 'projects',
-      children: [
-        {
-          path: 'experiments',
-          element: <Experiments />
-        }
-      ]
+      element: <Projects/>
+    },
+    {
+      path: 'project/:projectId',
+      element: <Experiments/>
     },
     {
       path: 'experiment/:experimentId',
@@ -43,13 +43,12 @@ const MainRoutes = {
       element: <Stimuli/>
     },
     {
-      path: 'reaction',
-      children: [
-        {
-          path: ':reactionId/statistics',
-          element: <Stats/>
-        },
-      ]
+      path: 'reaction/:reactionId',
+      element: <Analyzer />
+    },
+    {
+      path: 'reaction/:reactionId/statistics',
+      element: <Stats/>
     },
     {
       path: 'users',

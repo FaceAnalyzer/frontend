@@ -20,16 +20,17 @@ const CardWrapper = styled(MainCard)(({theme}) => ({
 
 // ===========================|| DELETE STIMULI MODAL ||=========================== //
 
-const DeleteStimuliModal = ({showModal, closeModal, data, deleteId, deleteName}) => {
+const DeleteStimuliModal = ({showModal, closeModal, data}) => {
     const theme = useTheme();
     const scriptedRef = useScriptRef();
+    const deleteId = data.id;
 
     const handleDelete = () => {
         try{
-            axios.delete(DELETE_STIMULI_BY_ID_API.replace("{id}", data.id), DEFAULT_API_CONFIG)
+            axios.delete(DELETE_STIMULI_BY_ID_API.replace("{id}", deleteId), DEFAULT_API_CONFIG)
                 .then(response => {
                     if (response.status === 204) {
-                        window.location.reload();
+                        window.location.href = '/experiment/' + data.experimentId;
                     }
                     else{
                         const data = response.data;
@@ -91,7 +92,7 @@ const DeleteStimuliModal = ({showModal, closeModal, data, deleteId, deleteName})
                                             )}
 
                                             <Typography variant="body2">
-                                                Are you sure you want to delete <strong>{deleteName}</strong>?
+                                                Are you sure you want to delete <strong>{data.name}</strong>?
                                                 This action is irreversible!
                                             </Typography>
 
