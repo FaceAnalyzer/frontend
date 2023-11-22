@@ -55,9 +55,13 @@ const MenuList = () => {
     }
   };
 
-  const getExperiments = async () => {
+  const getExperiments = async (projectId) => {
     try {
-      const response = await axios.get(GET_EXPERIMENTS_API);
+      const response = await axios.get(GET_EXPERIMENTS_API, {
+        params: {
+          projectId: projectId
+        }
+      });
       const {items} = response.data;
       return items;
     } catch (error) {
