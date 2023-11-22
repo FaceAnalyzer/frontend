@@ -12,6 +12,8 @@ import {GET_USERS_API} from "../../endpoints/BackendEndpoints";
 const UserManagement = () => {
     const [showAddModal, setShowAddModal] = useState(false);
     const [userList, setUserList] = useState([]);
+    const [existingEmails, setExistingEmails] = useState([]);
+    const [existingUsernames, setExistingUsernames] = useState([]);
     const [isLoading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -21,6 +23,11 @@ const UserManagement = () => {
                 const {items} = response.data;
 
                 setUserList(items);
+                const emails = items.map(item => item.email);
+                const usernames = items.map(item => item.username);
+                setExistingEmails(emails);
+                setExistingUsernames(usernames);
+
                 setLoading(false);
             } catch (error) {
                 console.error('Error fetching experiment data:', error.message);
@@ -40,7 +47,10 @@ const UserManagement = () => {
 
     return (
         <>
-            <AddUserModal showModal={showAddModal} closeModal={closeAddModal}/>
+            <AddUserModal showModal={showAddModal}
+                          closeModal={closeAddModal}
+                          existingEmails={existingEmails}
+                          existingUsernames={existingUsernames}/>
             <Grid container sx={{mb: 2}}>
                 <Grid item xs={8} sm={6} md={4} lg={2} xl={1}>
                     <Button onClick={openAddModal} variant="contained" disableElevation>
