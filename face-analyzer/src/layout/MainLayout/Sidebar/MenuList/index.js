@@ -3,7 +3,7 @@ import {Typography} from '@mui/material';
 
 // project imports
 import NavGroup from './NavGroup';
-import {IconBuildingFactory2, IconFileAnalytics, IconFlask} from "@tabler/icons";
+import {IconBuildingFactory2, IconFileAnalytics, IconFlask, IconUser} from "@tabler/icons";
 import axios from "axios";
 import {GET_EXPERIMENTS_API, GET_PROJECTS_API} from "../../../../endpoints/BackendEndpoints";
 
@@ -24,6 +24,22 @@ const MenuList = () => {
         icon: IconBuildingFactory2,
         breadcrumbs: false,
         children: []
+      }
+    ]
+  };
+
+  const userManagement = {
+    id: 'user_management',
+    title: 'User Management',
+    type: 'group',
+    children: [
+      {
+        id: 'users',
+        title: 'Users',
+        type: 'item',
+        url: '/users',
+        icon: IconUser,
+        breadcrumbs: false
       }
     ]
   };
@@ -83,7 +99,7 @@ const MenuList = () => {
 
 
   const menuItems = {
-    items: [projects]
+    items: [userManagement, projects]
   }
 
   const navItems = menuItems.items.map((item) => {
