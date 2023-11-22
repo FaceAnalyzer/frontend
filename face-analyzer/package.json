@@ -37,7 +37,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "test-jest": "jest"
   },
   "eslintConfig": {
     "extends": [
@@ -46,7 +47,10 @@
   },
   "babel": {
     "presets": [
-      "@babel/preset-react"
+      "@babel/preset-react",
+      "@babel/preset-env",
+      ["@babel/preset-react", {
+        "runtime": "automatic"}]
     ]
   },
   "browserslist": {
@@ -65,6 +69,9 @@
     "@babel/eslint-parser": "^7.21.3",
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@babel/plugin-transform-private-property-in-object": "^7.23.3",
+    "@babel/preset-env": "^7.23.3",
+    "@babel/preset-react": "^7.23.3",
+    "babel-jest": "^29.7.0",
     "eslint": "^8.38.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-config-react-app": "^7.0.1",
@@ -75,7 +82,9 @@
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "immutable": "^4.3.0",
+    "jest": "^27.5.1",
     "prettier": "^2.8.7",
+    "react-test-renderer": "^18.2.0",
     "sass": "^1.53.0"
   }
 }
