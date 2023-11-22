@@ -1,33 +1,13 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {Button, Paper} from "@mui/material";
 import {DataGrid} from "@mui/x-data-grid";
 import LinearProgress from "@mui/material/LinearProgress";
 import clsx from "clsx";
 import DeleteUserModal from "../../ui-component/modals/users/DeleteUserModal";
-import {GET_USERS_API} from "../../endpoints/BackendEndpoints";
-import axios from "axios";
 
-const UserDataGrid = () => {
-    const [isLoading, setLoading] = useState(true);
-    const [userList, setUserList] = useState([]);
+const UserDataGrid = ({isLoading, userList}) => {
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [userForDeletion, setUserForDeletion] = useState({});
-
-    useEffect(() => {
-        const fetchUsers = async () => {
-            try {
-                const response = await axios.get(GET_USERS_API);
-                const {items} = response.data;
-
-                setUserList(items);
-                setLoading(false);
-            } catch (error) {
-                console.error('Error fetching experiment data:', error.message);
-            }
-        };
-
-        fetchUsers().then();
-    }, []);
 
     const openDeleteModal = () => {
         setShowDeleteModal(true);

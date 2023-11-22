@@ -1,14 +1,34 @@
 // project imports
 import UserDataGrid from "./UserDataGrid";
 import {Button, Grid} from "@mui/material";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import AddUserModal from "../../ui-component/modals/users/AddUserModal";
+import axios from "axios";
+import {GET_USERS_API} from "../../endpoints/BackendEndpoints";
 
 // ==============================|| EXPERIMENTS DASHBOARD ||============================== //
 
 
 const UserManagement = () => {
     const [showAddModal, setShowAddModal] = useState(false);
+    const [userList, setUserList] = useState([]);
+    const [isLoading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchUsers = async () => {
+            try {
+                const response = await axios.get(GET_USERS_API);
+                const {items} = response.data;
+
+                setUserList(items);
+                setLoading(false);
+            } catch (error) {
+                console.error('Error fetching experiment data:', error.message);
+            }
+        };
+
+        fetchUsers().then();
+    }, []);
 
     const openAddModal = () => {
         setShowAddModal(true);
@@ -28,7 +48,7 @@ const UserManagement = () => {
                     </Button>
                 </Grid>
             </Grid>
-            <UserDataGrid/>
+            <UserDataGrid isLoading={isLoading} userList={userList}/>
         </>
     );
 };
