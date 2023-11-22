@@ -1,0 +1,22 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches: [ "main", "cicd" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    defaults:
+      run:
+        working-directory: face-analyzer
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile --tag docker build -t plavy/faceanalyzer-frontend:${{ github.sha }}
+  deploy:
+    runs-on: ubuntu-22.04
+    steps:
+    - run: echo
