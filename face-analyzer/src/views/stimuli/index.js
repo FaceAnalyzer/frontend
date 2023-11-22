@@ -51,7 +51,7 @@ const Stimuli = () => {
                 setExperimentData(experimentItem);
 
                 const projectResponse = await axios.get(GET_PROJECT_BY_ID_API.replace("{id}", experimentItem.projectId));
-                const projectItem = projectResponse.data.items[0];
+                const projectItem = projectResponse.data;
                 setProjectData(projectItem);
 
                 setLoading(false);
@@ -70,9 +70,8 @@ const Stimuli = () => {
     };
 
     const saveReaction = () => {
-        saveNewReaction(stimuliId).then(result => {
-            console.log(result);
-            window.location.reload();
+        saveNewReaction(stimuliId).then(() => {
+              window.location.reload();
           })
     };
 

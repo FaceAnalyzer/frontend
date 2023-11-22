@@ -3,7 +3,7 @@ import {Typography} from '@mui/material';
 
 // project imports
 import NavGroup from './NavGroup';
-import {IconBuildingFactory2, IconFileAnalytics, IconFlask} from "@tabler/icons";
+import {IconBuildingFactory2, IconFileAnalytics, IconFlask, IconUser} from "@tabler/icons";
 import axios from "axios";
 import {GET_EXPERIMENTS_API, GET_PROJECTS_API} from "../../../../endpoints/BackendEndpoints";
 
@@ -28,6 +28,22 @@ const MenuList = () => {
     ]
   };
 
+  const userManagement = {
+    id: 'user_management',
+    title: 'User Management',
+    type: 'group',
+    children: [
+      {
+        id: 'users',
+        title: 'Users',
+        type: 'item',
+        url: '/users',
+        icon: IconUser,
+        breadcrumbs: false
+      }
+    ]
+  };
+
   const getProjects = async () => {
     try {
       const response = await axios.get(GET_PROJECTS_API);
@@ -39,9 +55,13 @@ const MenuList = () => {
     }
   };
 
-  const getExperiments = async () => {
+  const getExperiments = async (projectId) => {
     try {
-      const response = await axios.get(GET_EXPERIMENTS_API);
+      const response = await axios.get(GET_EXPERIMENTS_API, {
+        params: {
+          projectId: projectId
+        }
+      });
       const {items} = response.data;
       return items;
     } catch (error) {
@@ -83,7 +103,7 @@ const MenuList = () => {
 
 
   const menuItems = {
-    items: [projects]
+    items: [userManagement, projects]
   }
 
   const navItems = menuItems.items.map((item) => {

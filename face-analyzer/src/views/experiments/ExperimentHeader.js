@@ -20,6 +20,8 @@ const ExperimentHeader = ({data, projectData}) => {
     const experiment = data;
     const project = projectData;
 
+    console.log("PROJ", project)
+
     const openDeleteModal = () => {
         setShowDeleteModal(true);
     };

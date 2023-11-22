@@ -16,6 +16,8 @@ export const Modal = styled('div')({
     background: '#fff',
     borderRadius: '1rem',
     boxShadow: '0 0 10px rgba(0, 0, 0, 0.2)',
+    maxHeight: "90vh",
+    overflowY: "auto",
     margin: {
         xs: 2.5,
         md: 3,

@@ -3,7 +3,7 @@ import {useTheme} from "@mui/material/styles";
 import {Box, Button, Card, CardHeader, Link, Typography} from "@mui/material";
 import {gridSpacing} from "../../store/constant";
 import AnimateButton from "../../ui-component/extended/AnimateButton";
-import {IconFileAnalytics, IconFlask, IconTrashOff, IconVideo} from "@tabler/icons";
+import {IconChevronRight, IconFileAnalytics, IconFlask, IconTrashOff, IconVideo} from "@tabler/icons";
 import PropTypes from "prop-types";
 import DeleteStimuliModal from "../../ui-component/modals/experiments/DeleteStimuliModal";
 
@@ -44,7 +44,8 @@ const StimuliHeader = ({stimulus, experimentData, projectData}) => {
                                             </Box>
                                         </Link>
                                         &nbsp;
-                                        <Link href={`/project/${experimentId}`}
+                                        <IconChevronRight/>
+                                        <Link href={`/experiment/${experimentId}`}
                                               sx={{color: theme.palette.grey[500], textDecoration: 'none'}}
                                         >
                                             <Box sx={{display: 'flex', alignItems: 'center'}}>
