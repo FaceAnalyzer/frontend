@@ -7,10 +7,10 @@ import Loadable from 'ui-component/Loadable';
 const Analyzer = Loadable(lazy(() => import('views/reactions')));
 const Projects = Loadable(lazy(() => import('views/projects/projects')));
 const Experiments = Loadable(lazy(() => import('views/projects/experiments')));
+const ProjectResearchers = Loadable(lazy(() => import('views/projects/researchers')));
 
 // User management
 const UserManagement = Loadable(lazy(() => import('views/users/user_management')));
-
 
 const Experiment  = Loadable(lazy(() => import('views/experiments')));
 const Stimuli = Loadable(lazy(() => import('views/stimuli')));
@@ -33,6 +33,10 @@ const MainRoutes = {
     {
       path: 'project/:projectId',
       element: <Experiments/>
+    },
+    {
+      path: 'project/:projectId/researchers',
+      element: <ProjectResearchers/>
     },
     {
       path: 'experiment/:experimentId',

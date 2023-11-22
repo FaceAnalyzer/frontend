@@ -43,6 +43,10 @@ const ProjectHeader = ({data}) => {
         setShowEditModal(false);
     };
 
+    const openProjectResearchers = () => {
+        window.location.href = '/project/{projectId}/researchers'.replace('{projectId}', project.id);
+    };
+
     return (
         <Box>
             <DeleteProjectModal showModal={showDeleteModal} closeModal={closeDeleteModal}
@@ -68,7 +72,7 @@ const ProjectHeader = ({data}) => {
                         <AnimateButton>
                             <Button
                                 disableElevation
-                                onClick={onEditClick}
+                                onClick={openProjectResearchers}
                                 variant="contained"
                                 sx={{
                                     backgroundColor: theme.palette.secondary[800]
@@ -76,7 +80,7 @@ const ProjectHeader = ({data}) => {
                             >
                                 <Troubleshoot/>
                                 <Typography sx={{display: isSmallScreen ? 'none' : 'flex'}}>
-                                    Edit permissions
+                                    Edit researchers
                                 </Typography>
                             </Button>
                         </AnimateButton>

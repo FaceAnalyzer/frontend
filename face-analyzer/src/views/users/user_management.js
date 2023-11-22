@@ -7,7 +7,7 @@ import axios from "axios";
 import {GET_USERS_API} from "../../endpoints/BackendEndpoints";
 import UserManagementHeader from "./UserManagementHeader";
 
-// ==============================|| EXPERIMENTS DASHBOARD ||============================== //
+// ==============================|| USER MANAGEMENT DASHBOARD ||============================== //
 
 
 const UserManagement = () => {
