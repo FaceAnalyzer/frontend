@@ -2,7 +2,7 @@ import React from 'react';
 import {useTheme} from "@mui/material/styles";
 import {Box, Button, CardHeader, Link, Typography} from "@mui/material";
 import AnimateButton from "../../../ui-component/extended/AnimateButton";
-import {IconDownload, IconFileAnalytics, IconFlask, IconGraph, IconVideo} from "@tabler/icons";
+import {IconChevronRight, IconDownload, IconFileAnalytics, IconFlask, IconGraph, IconVideo} from "@tabler/icons";
 import PropTypes from "prop-types";
 import Papa from "papaparse";
 
@@ -106,6 +106,7 @@ const ChartHeader = ({
                                         </Box>
                                     </Link>
                                     &nbsp;
+                                    <IconChevronRight />
                                     <Link href={`/experiment/${experimentId}`}
                                           sx={{color: theme.palette.grey[500], textDecoration: 'none'}}
                                     >
@@ -115,6 +116,7 @@ const ChartHeader = ({
                                         </Box>
                                     </Link>
                                     &nbsp;
+                                    <IconChevronRight />
                                     <Link href={`/stimuli/${stimuliId}`}
                                           sx={{color: theme.palette.grey[500], textDecoration: 'none'}}
                                     >

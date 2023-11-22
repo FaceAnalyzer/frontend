@@ -30,7 +30,7 @@ const Experiments = () => {
         const {items} = experimentResponse.data;
 
         const projectResponse = await axios.get(GET_PROJECT_BY_ID_API.replace("{id}", projectId));
-        const fetchedProject = projectResponse.data.items[0];
+        const fetchedProject = projectResponse.data;
 
         const filteredExperimentList = items.filter((item) => item.projectId === ID);
         console.log('Experiment List:', filteredExperimentList);
