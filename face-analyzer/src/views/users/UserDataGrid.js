@@ -18,11 +18,6 @@ const UserDataGrid = ({isLoading, userList}) => {
     };
 
     const onClickDeleteUser = (userData) => {
-        /*
-        TODO: Placeholder for user deletion
-        Will need to add API call to delete the user by id
-         */
-        console.log("User to be deleted:", userData);
         setUserForDeletion(userData);
         openDeleteModal();
     }
