@@ -50,10 +50,6 @@ const MainRoutes = {
       element: <Stats/>
     },
     {
-      path: 'experiment/edit',
-      element: <Edit />
-    },
-    {
       path: 'users',
       element: <UserManagement />
     }
