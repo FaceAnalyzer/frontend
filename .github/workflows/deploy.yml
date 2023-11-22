@@ -15,7 +15,9 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag docker build -t plavy/faceanalyzer-frontend:${{ github.sha }}
+      run: docker build . --file Dockerfile --tag plavy/faceanalyzer-frontend:${{ github.sha }}
+    - name: Push the Docker image
+      run: docker push plavy/faceanalyzer-frontend:${{ github.sha }}
   deploy:
     runs-on: ubuntu-22.04
     steps:
