@@ -76,7 +76,7 @@ const FirebaseLogin = ({ ...others }) => {
 
               print('Login successful');
 
-              
+              window.location.href = 'http://localhost:3000/';
               
               setStatus({ success: true });
               setSubmitting(false);
