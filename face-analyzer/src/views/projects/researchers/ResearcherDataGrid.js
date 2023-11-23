@@ -5,7 +5,7 @@ import LinearProgress from "@mui/material/LinearProgress";
 import clsx from "clsx";
 import RemoveUserFromProjectModal from "../../../ui-component/modals/projects/researchers/RemoveUserFromProjectModal";
 
-const UserDataGrid = ({isLoading, userList}) => {
+const UserDataGrid = ({isLoading, userList, projectData}) => {
     const [showRemoveModal, setShowRemoveModal] = useState(false);
     const [userForRemoval, setUserForRemoval] = useState({});
 
@@ -46,7 +46,7 @@ const UserDataGrid = ({isLoading, userList}) => {
         {
             field: "actions", headerName: "Actions", minWidth: 100, flex: 2, renderCell: (params) => {
                 return (
-                    <Button onClick={() => onClickRemoveUser([params.row, ])} variant="contained" disableElevation>
+                    <Button onClick={() => onClickRemoveUser(params.row)} variant="contained" disableElevation>
                         Remove
                     </Button>
                 );
@@ -58,7 +58,8 @@ const UserDataGrid = ({isLoading, userList}) => {
         <>
             <RemoveUserFromProjectModal closeModal={closeRemoveModal}
                                         showModal={showRemoveModal}
-                                        userForRemoval={userForRemoval}/>
+                                        userForRemoval={userForRemoval}
+                                        projectData={projectData}/>
             <Paper variant={"outlined"}
                    sx={{
                        '& .super-app.admin': {

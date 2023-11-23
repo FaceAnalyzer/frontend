@@ -63,7 +63,6 @@ const ProjectResearchers = () => {
 
     return (
         <>
-            {/*TODO: finish up modal*/}
             <AddUserToProjectModal showModal={showModal}
                                    closeModal={closeModal}
                                    projectData={projectData}
@@ -78,7 +77,7 @@ const ProjectResearchers = () => {
                     </Button>
                 </Grid>
             </Grid>
-            <ResearcherDataGrid isLoading={isLoading} userList={usersOnProjectList}/>
+            <ResearcherDataGrid isLoading={isLoading} userList={usersOnProjectList} projectData={projectData}/>
         </>
     );
 };

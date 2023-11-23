@@ -20,24 +20,22 @@ const CardWrapper = styled(MainCard)(({theme}) => ({
 
 // ===========================|| REMOVE USER FROM PROJECT MODAL ||=========================== //
 
-const RemoveUserFromProjectModal = ({showModal, closeModal, userForRemoval}) => {
+const RemoveUserFromProjectModal = ({showModal, closeModal, userForRemoval, projectData}) => {
     const theme = useTheme();
     const scriptedRef = useScriptRef();
-    const deleteId = userForRemoval.id;
-    const deleteUsername = userForRemoval.username;
+
+    const user = userForRemoval;
+    const userId = user.id;
+    const project = projectData;
+    const projectId = project.id;
 
     const handleDelete = async (values, {setErrors, setStatus}) => {
+        const items = {researchersIds: [userId]};
         try {
-            await axios.put(REMOVE_RESEARCHER_FROM_PROJECT_API.replace('{id}', deleteId),
-                {
-                    "researchersIds": [deleteId]
-                })
+            await axios.put(REMOVE_RESEARCHER_FROM_PROJECT_API.replace('{id}', projectId), JSON.stringify(items))
                 .then(response => {
-                    // this.setState({articleId: response.data.id});
-                    console.log(response.status)
                     if (response.status === 204) {
-                        // Redirect to users page
-                        window.location.href = '/users';
+                        window.location.reload();
                     } else {
                         const data = response.data;
                         setErrors(data.errors);
@@ -62,7 +60,7 @@ const RemoveUserFromProjectModal = ({showModal, closeModal, userForRemoval}) => 
                     <Modal>
                         <Formik
                             initialValues={{
-                                id: {deleteId},
+                                id: {userId},
                             }}
                             onSubmit={async (values, {setErrors, setStatus}) => {
                                 try {
@@ -104,7 +102,8 @@ const RemoveUserFromProjectModal = ({showModal, closeModal, userForRemoval}) => 
 
                                             <Typography variant="body2">
                                                 Are you sure you want to remove
-                                                user <strong>{deleteUsername}</strong> from this project?
+                                                user <strong>{`${user.name} ${user.surname} `}</strong>
+                                                from project <strong>{project.name}</strong> ?
                                             </Typography>
 
                                         </ModalBody>
