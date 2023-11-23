@@ -35,7 +35,6 @@ import MainCard from 'ui-component/cards/MainCard';
 import Transitions from 'ui-component/extended/Transitions';
 import User1 from 'assets/images/users/user-round.svg';
 
-import { Logout } from '../../../../views/pages/authentication/auth-forms/AuthLogout';
 
 // assets
 import { IconLogout, IconSearch, IconSettings, IconUser } from '@tabler/icons';
@@ -57,9 +56,9 @@ const ProfileSection = () => {
    * */
   const anchorRef = useRef(null);
   const handleLogout = async () => {
-    Logout();
+    localStorage.removeItem('key');
     console.log('Logout');
-    
+    navigate('/login'); // Redirect to '/login' page
   };
 
   const handleClose = (event) => {
