@@ -39,6 +39,8 @@ import User1 from 'assets/images/users/user-round.svg';
 // assets
 import { IconLogout, IconSearch, IconSettings, IconUser } from '@tabler/icons';
 
+import { useAuth } from 'context/authContext';
+
 // ==============================|| PROFILE MENU ||============================== //
 
 const ProfileSection = () => {
@@ -51,12 +53,17 @@ const ProfileSection = () => {
   const [notification, setNotification] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const [open, setOpen] = useState(false);
+
+
   /**
    * anchorRef is used on different componets and specifying one type leads to other components throwing an error
    * */
   const anchorRef = useRef(null);
+
+  const { setToken } = useAuth();
+
   const handleLogout = async () => {
-    localStorage.removeItem('key');
+    setToken();
     console.log('Logout');
     navigate('/login'); // Redirect to '/login' page
   };

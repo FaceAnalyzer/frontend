@@ -7,6 +7,7 @@ import AnimateButton from 'ui-component/extended/AnimateButton';
 import { PING_API } from 'endpoints/BackendEndpoints'; // LOGIN_API
 import axios from 'axios';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { useAuth } from 'context/authContext';
 
 // Logging out happens in "face-analyzer\src\layout\MainLayout\Header\ProfileSection\index.js"
 // Line 58, in the function "handleLogout"
@@ -14,6 +15,8 @@ import { Visibility, VisibilityOff } from '@mui/icons-material';
 const AuthLogin = ({ ...others }) => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
+  const { setToken } = useAuth();
+
 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
@@ -39,16 +42,15 @@ const AuthLogin = ({ ...others }) => {
         try {
           // const response = await axios.post(LOGIN_API, {
           //   username: values.email,
-          //   password: values.password
+          //   password: values.password});
           const response = await axios.get(PING_API);
 
-          
-            const { key } = response.statusText;
-            localStorage.setItem('key', key);
-            // setToken("this is a test token");  const { setToken } = useAuth();
-            console.log('Login successful', key);
-            navigate('/');
-            setStatus({ success: true });
+          const { token } = response.data;
+          // setToken(token);
+          setToken("this is for debugging purposes");
+          console.log('Login successful', token);
+          navigate('/');
+          setStatus({ success: true });
             // setStatus({ success: false });
             // setErrors({ submit: data.message });
           }
