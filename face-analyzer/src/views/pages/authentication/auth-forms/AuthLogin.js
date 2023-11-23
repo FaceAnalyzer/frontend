@@ -4,9 +4,12 @@ import { Box, Button, Checkbox, FormControl, FormControlLabel, FormHelperText, S
 import * as Yup from 'yup';
 import { Formik } from 'formik';
 import AnimateButton from 'ui-component/extended/AnimateButton';
-import { LOGIN_API } from 'endpoints/BackendEndpoints';
+import { PING_API } from 'endpoints/BackendEndpoints'; // LOGIN_API
 import axios from 'axios';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
+
+// Logging out happens in "face-analyzer\src\layout\MainLayout\Header\ProfileSection\index.js"
+// Line 58, in the function "handleLogout"
 
 const AuthLogin = ({ ...others }) => {
   const navigate = useNavigate();
@@ -34,27 +37,25 @@ const AuthLogin = ({ ...others }) => {
       onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
         setSubmitting(true);
         try {
-          const response = await axios.post(LOGIN_API, {
-            username: values.email,
-            password: values.password
-          });
+          // const response = await axios.post(LOGIN_API, {
+          //   username: values.email,
+          //   password: values.password
+          const response = await axios.get(PING_API);
 
-          if (response.ok) {
-            const { key } = response.data;
+          
+            const { key } = response.statusText;
             localStorage.setItem('key', key);
             // setToken("this is a test token");  const { setToken } = useAuth();
             console.log('Login successful', key);
             navigate('/');
             setStatus({ success: true });
-          } else {
-            const data = await response.json();
-            setStatus({ success: false });
-            setErrors({ submit: data.message });
+            // setStatus({ success: false });
+            // setErrors({ submit: data.message });
           }
-        } catch (err) {
+        catch (err) {
           console.error(err);
           setStatus({ success: false });
-          setErrors({ submit: 'An error occurred' });
+          setErrors({ submit: 'Did not log in' + key });
         }
 
         setSubmitting(false);
