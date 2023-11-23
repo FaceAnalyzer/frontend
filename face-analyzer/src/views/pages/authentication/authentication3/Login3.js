@@ -52,13 +52,6 @@ const Login = () => {
                   <Grid item xs={12}>
                     <Divider />
                   </Grid>
-                  <Grid item xs={12}>
-                    <Grid item container direction="column" alignItems="center" xs={12}>
-                      <Typography component={Link} to="/register" variant="subtitle1" sx={{ textDecoration: 'none' }}>
-                        Don&apos;t have an account?
-                      </Typography>
-                    </Grid>
-                  </Grid>
                 </Grid>
               </AuthCardWrapper>
             </Grid>

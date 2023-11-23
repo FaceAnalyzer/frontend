@@ -42,6 +42,7 @@ const AuthLogin = ({ ...others }) => {
           if (response.ok) {
             const { key } = response.data;
             localStorage.setItem('key', key);
+            // setToken("this is a test token");  const { setToken } = useAuth();
             console.log('Login successful', key);
             navigate('/');
             setStatus({ success: true });
