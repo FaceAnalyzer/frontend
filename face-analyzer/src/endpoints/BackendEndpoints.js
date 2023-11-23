@@ -41,6 +41,9 @@ export const GET_RESEARCHERS_API = process.env.REACT_APP_BACKEND_API_URL + '/use
 export const ADD_RESEARCHER_TO_PROJECT_API = process.env.REACT_APP_BACKEND_API_URL + '/projects/{id}/researcher/add';
 export const REMOVE_RESEARCHER_FROM_PROJECT_API = process.env.REACT_APP_BACKEND_API_URL + '/projects/{id}/researcher/remove';
 
+//Auth
+export const LOGIN_API = process.env.REACT_APP_BACKEND_API_URL + '/auth/login';
+
 //Miscellaneous
 export const DEFAULT_API_CONFIG = {
     headers: {

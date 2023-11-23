@@ -21,19 +21,20 @@ import * as Yup from 'yup';
 import { Formik } from 'formik';
 
 // project imports
-import useScriptRef from 'hooks/useScriptRef';
 import AnimateButton from 'ui-component/extended/AnimateButton';
 
 // assets
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
+import { LOGIN_API } from 'endpoints/BackendEndpoints';
+import axios from 'axios';
+
 
 // ============================|| FIREBASE - LOGIN ||============================ //
 
 const FirebaseLogin = ({ ...others }) => {
   const theme = useTheme();
-  const scriptedRef = useScriptRef();
   const [checked, setChecked] = useState(true);
 
 
@@ -55,29 +56,48 @@ const FirebaseLogin = ({ ...others }) => {
           submit: null
         }}
         validationSchema={Yup.object().shape({
-          email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
+          email: Yup.string('Must be a valid email').max(255).required('Email is required'),
           password: Yup.string().max(255).required('Password is required')
         })}
+
         onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
           try {
-            if (scriptedRef.current) {
+            const response = await axios.get(LOGIN_API, {
+              params: {
+                username: values.email,
+                password: values.password
+              }
+            });
+            const { key } = response.data;
+
+            if (response.ok) {
+              // Save the key to local environment
+              localStorage.setItem('key', key);
+
+              print('Login successful');
+
+              
+              
               setStatus({ success: true });
+              setSubmitting(false);
+            } else {
+              const data = await response.json();
+              setStatus({ success: false });
+              setErrors({ submit: data.message });
               setSubmitting(false);
             }
           } catch (err) {
             console.error(err);
-            if (scriptedRef.current) {
-              setStatus({ success: false });
-              setErrors({ submit: err.message });
-              setSubmitting(false);
-            }
+            setStatus({ success: false });
+            setErrors({ submit: 'An error occurred' });
+            setSubmitting(false);
           }
         }}
       >
         {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
           <form noValidate onSubmit={handleSubmit} {...others}>
             <FormControl fullWidth error={Boolean(touched.email && errors.email)} sx={{ ...theme.typography.customInput }}>
-              <InputLabel htmlFor="outlined-adornment-email-login">Email Address / Username</InputLabel>
+              <InputLabel htmlFor="outlined-adornment-email-login">Email Address </InputLabel>
               <OutlinedInput
                 id="outlined-adornment-email-login"
                 type="email"
