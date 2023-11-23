@@ -4,7 +4,14 @@ const config = {
   basename: '',
   defaultPath: '/projects/experiments',
   fontFamily: `'Roboto', sans-serif`,
-  borderRadius: 12
+  borderRadius: 12,
+  jwt: {
+    secret: 'SECRET-KEY',
+    timeout: '1 days',
+  },
+  
 };
+
+
 
 export default config;

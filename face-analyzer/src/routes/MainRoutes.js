@@ -1,8 +1,10 @@
-import {lazy} from 'react';
+import { lazy } from 'react';
 
 // project imports
 import MainLayout from 'layout/MainLayout';
 import Loadable from 'ui-component/Loadable';
+
+import ProtectedRoute from './ProtectedRoutes';
 
 // dashboard routing
 const DashboardDefault = Loadable(lazy(() => import('views/projects/experiments')));
@@ -24,7 +26,7 @@ const SamplePage = Loadable(lazy(() => import('views/sample-page')));
 const Main = Loadable(lazy(() => import('views/dashboard/main')));
 const Experiments = Loadable(lazy(() => import('views/projects/experiments')));
 
-const Experiment  = Loadable(lazy(() => import('views/experiment')));
+const Experiment = Loadable(lazy(() => import('views/experiment')));
 const Stimuli = Loadable(lazy(() => import('views/stimuli')));
 const Stats = Loadable(lazy(() => import('views/stimuli/charts')));
 const Edit = Loadable(lazy(() => import('views/experiment/edit')));
@@ -48,7 +50,7 @@ const MainRoutes = {
         },
         {
           path: 'main',
-          element: <Main />
+          element: <ProtectedRoute component={Main} roles={['admin', 'user']} />
         }
       ]
     },
@@ -57,7 +59,7 @@ const MainRoutes = {
       children: [
         {
           path: 'experiments',
-          element: <Experiments />
+          element: <ProtectedRoute component={Experiments} roles={['admin', 'user']} />
         }
       ]
     },
@@ -66,7 +68,7 @@ const MainRoutes = {
       children: [
         {
           path: 'util-typography',
-          element: <UtilsTypography />
+          element: <ProtectedRoute component={UtilsTypography} roles={['admin', 'user']} />
         }
       ]
     },
@@ -75,7 +77,7 @@ const MainRoutes = {
       children: [
         {
           path: 'util-color',
-          element: <UtilsColor />
+          element: <ProtectedRoute component={UtilsColor} roles={['admin', 'user']} />
         }
       ]
     },
@@ -84,7 +86,7 @@ const MainRoutes = {
       children: [
         {
           path: 'util-shadow',
-          element: <UtilsShadow />
+          element: <ProtectedRoute component={UtilsShadow} roles={['admin', 'user']} />
         }
       ]
     },
@@ -93,7 +95,7 @@ const MainRoutes = {
       children: [
         {
           path: 'tabler-icons',
-          element: <UtilsTablerIcons />
+          element: <ProtectedRoute component={UtilsTablerIcons} roles={['admin', 'user']} />
         }
       ]
     },
@@ -102,33 +104,33 @@ const MainRoutes = {
       children: [
         {
           path: 'material-icons',
-          element: <UtilsMaterialIcons />
+          element: <ProtectedRoute component={UtilsMaterialIcons} roles={['admin', 'user']} />
         }
       ]
     },
     {
       path: 'sample-page',
-      element: <SamplePage />
+      element: <ProtectedRoute component={SamplePage} roles={['admin', 'user']} />
     },
     {
       path: 'experiment/:experimentId',
-      element: <Experiment />
+      element: <ProtectedRoute component={Experiment} roles={['admin', 'user']} />
     },
     {
       path: 'stimuli/:stimuliId',
-      element: <Stimuli/>
+      element: <ProtectedRoute component={Stimuli} roles={['admin', 'user']} />
     },
     {
       path: 'reaction/:reactionId',
-      element: <Analyzer />
+      element: <ProtectedRoute component={Analyzer} roles={['admin', 'user']} />
     },
     {
       path: 'reaction/:reactionId/statistics',
-      element: <Stats/>
+      element: <ProtectedRoute component={Stats} roles={['admin', 'user']} />
     },
     {
       path: 'experiment/edit',
-      element: <Edit />
+      element: <ProtectedRoute component={Edit} roles={['admin', 'user']} />
     }
   ]
 };
