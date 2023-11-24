@@ -41,11 +41,11 @@ jobs:
       KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
     steps:
     - uses: actions/checkout@v3
-    - name: Apply manifest
+    - name: Apply the Kubernetes manifest
       uses: actions-hub/kubectl@master
       with:
         args: apply -n faceanalyzer -f face-analyzer/manifest.yaml
-    - name: Set image tag
+    - name: Set the image tag
       uses: actions-hub/kubectl@master
       with:
         args: set image -n faceanalyzer deployment/faceanalyzer-frontend faceanalyzer-frontend=plavy/faceanalyzer-frontend:${{ github.sha }}
