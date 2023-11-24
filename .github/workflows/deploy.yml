@@ -12,8 +12,6 @@ jobs:
       run:
         working-directory: face-analyzer
     steps:
-    - run: pwd
-    - run: ls -l /home/runner/work/frontend/frontend
     - uses: actions/checkout@v3
     - name: Add Visage SDK License file
       uses: mobiledevops/secret-to-file-action@v1
@@ -42,8 +40,7 @@ jobs:
     env:
       KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
     steps:
-    - run: pwd
-    - run: ls -l /home/runner/work/frontend/frontend
+    - uses: actions/checkout@v3
     - name: Apply manifest
       uses: actions-hub/kubectl@master
       with:
