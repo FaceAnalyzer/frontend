@@ -8,6 +8,7 @@ on:
 
 jobs:
   build:
+    name: Build frontend
     runs-on: ubuntu-22.04
     defaults:
       run:
@@ -32,6 +33,8 @@ jobs:
     - name: Push the Docker image
       run: docker push plavy/faceanalyzer-frontend:${{ github.sha }}
   deploy:
+    name: Deploy frontend
+    needs: build
     runs-on: ubuntu-22.04
     environment:
       name: main
