@@ -3,8 +3,6 @@ name: Build and Deploy
 on:
   push:
     branches: [ "main", "cicd" ]
-  pull_request:
-    branches: [ "main" ]
 
 jobs:
   build:
@@ -39,16 +37,13 @@ jobs:
     environment:
       name: main
       url: https://faceanalyzer.plavy.me/
-    defaults:
-      run:
-        working-directory: face-analyzer
     env:
       KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
     steps:
     - name: Apply manifest
       uses: actions-hub/kubectl@master
       with:
-        args: apply -n faceanalyzer -f manifest.yaml
+        args: apply -n faceanalyzer -f face-analyzer/manifest.yaml
     - name: Set image tag
       uses: actions-hub/kubectl@master
       with:
