@@ -32,7 +32,7 @@ jobs:
       run: docker push plavy/faceanalyzer-frontend:${{ github.sha }}
   deploy:
     name: Deploy frontend
-    needs: build
+    # needs: build
     runs-on: ubuntu-22.04
     environment:
       name: main
@@ -40,6 +40,7 @@ jobs:
     env:
       KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
     steps:
+    - run: pwd
     - run: ls -l /home/runner/work/frontend/frontend
     - name: Apply manifest
       uses: actions-hub/kubectl@master
