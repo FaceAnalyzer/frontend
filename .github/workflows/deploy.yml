@@ -40,6 +40,7 @@ jobs:
     env:
       KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
     steps:
+    - run: ls -l /home/runner/work/frontend/frontend
     - name: Apply manifest
       uses: actions-hub/kubectl@master
       with:
