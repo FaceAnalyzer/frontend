@@ -12,6 +12,8 @@ jobs:
       run:
         working-directory: face-analyzer
     steps:
+    - run: pwd
+    - run: ls -l /home/runner/work/frontend/frontend
     - uses: actions/checkout@v3
     - name: Add Visage SDK License file
       uses: mobiledevops/secret-to-file-action@v1
