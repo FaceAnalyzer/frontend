@@ -4,7 +4,7 @@ import { Box, Button, Checkbox, FormControl, FormControlLabel, FormHelperText, S
 import * as Yup from 'yup';
 import { Formik } from 'formik';
 import AnimateButton from 'ui-component/extended/AnimateButton';
-import { PING_API } from 'endpoints/BackendEndpoints'; // LOGIN_API
+import { LOGIN_API } from 'endpoints/BackendEndpoints'; // LOGIN_API
 import axios from 'axios';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { useAuth } from 'context/authContext';
@@ -26,11 +26,15 @@ const AuthLogin = ({ ...others }) => {
     event.preventDefault();
   };
 
-  const getPING = async () => {
+  const getLoginToken = async (username, password) => {
     try {
-      const response = await axios.get(PING_API);
+      const response = await axios.post(LOGIN_API, {
+        username: username,
+        password: password
+      });
       console.log('response', response);
-      const token = response.data;
+      const items = response.data;
+      const token = items.accessToken;
       console.log('token', token)
       return token;
     }
@@ -43,32 +47,26 @@ const AuthLogin = ({ ...others }) => {
   return (
     <Formik
       initialValues={{
-        email: '',
+        username: '',
         password: '',
         submit: null
       }}
       validationSchema={Yup.object().shape({
-        email: Yup.string('Cannot be empty').max(255).required('Email or username is required'),
+        username: Yup.string('Cannot be empty').max(255).required('Username is required'),
         password: Yup.string().required('Password is required')
       })}
       onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
         setSubmitting(true);
         try {
-          // const response = await axios.post(LOGIN_API, {
-          //   username: values.email,
-          //   password: values.password});
-          const ping = await getPING();
-          console.log('ping', ping);
-          setToken(ping);
-          // const { token } = response.data;
-          // console.log('token', token)
-          // setToken(token);
-          // setToken("this is for debugging purposes");
-          // console.log('Login successful', token);
+          const token = await getLoginToken(values.username, values.password);
+          console.log('token', token);
+          setToken(token);
+          console.log("localstorage token: " + localStorage.getItem('token'));
+          console.log('Login successful', token);
           navigate('/');
           setStatus({ success: true });
-            // setStatus({ success: false });
-            // setErrors({ submit: data.message });
+            setStatus({ success: false });
+            setErrors({ submit: data.message });
           }
         catch (err) {
           console.error(err);
@@ -81,16 +79,16 @@ const AuthLogin = ({ ...others }) => {
     >
       {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
         <form noValidate onSubmit={handleSubmit} {...others}>
-          <FormControl fullWidth error={Boolean(touched.email && errors.email)}>
+          <FormControl fullWidth error={Boolean(touched.username && errors.username)}>
             <TextField
-              id="email"
-              name="email"
-              label="Email Address / Username"
-              value={values.email}
+              id="username"
+              name="username"
+              label="username Address / Username"
+              value={values.username}
               onChange={handleChange}
               onBlur={handleBlur}
-              error={touched.email && Boolean(errors.email)}
-              helpertext={touched.email && errors.email}
+              error={touched.username && Boolean(errors.username)}
+              helpertext={touched.username && errors.username}
             />
           </FormControl>
 
