@@ -65,6 +65,7 @@ const ProfileSection = () => {
   const handleLogout = async () => {
     setToken();
     console.log('Logout');
+    console.log(`localStorage length: ${localStorage.length}`);
     navigate('/login'); // Redirect to '/login' page
   };
 

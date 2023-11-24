@@ -26,6 +26,20 @@ const AuthLogin = ({ ...others }) => {
     event.preventDefault();
   };
 
+  const getPING = async () => {
+    try {
+      const response = await axios.get(PING_API);
+      console.log('response', response);
+      const token = response.data;
+      console.log('token', token)
+      return token;
+    }
+    catch (err) {
+      console.error(err);
+      return null;
+    }
+  }
+
   return (
     <Formik
       initialValues={{
@@ -43,12 +57,14 @@ const AuthLogin = ({ ...others }) => {
           // const response = await axios.post(LOGIN_API, {
           //   username: values.email,
           //   password: values.password});
-          const response = await axios.get(PING_API);
-
-          const { token } = response.data;
+          const ping = await getPING();
+          console.log('ping', ping);
+          setToken(ping);
+          // const { token } = response.data;
+          // console.log('token', token)
           // setToken(token);
-          setToken("this is for debugging purposes");
-          console.log('Login successful', token);
+          // setToken("this is for debugging purposes");
+          // console.log('Login successful', token);
           navigate('/');
           setStatus({ success: true });
             // setStatus({ success: false });
@@ -57,7 +73,7 @@ const AuthLogin = ({ ...others }) => {
         catch (err) {
           console.error(err);
           setStatus({ success: false });
-          setErrors({ submit: 'Did not log in' + key });
+          setErrors({ submit: 'Did not log in' });
         }
 
         setSubmitting(false);
@@ -74,7 +90,7 @@ const AuthLogin = ({ ...others }) => {
               onChange={handleChange}
               onBlur={handleBlur}
               error={touched.email && Boolean(errors.email)}
-              helperText={touched.email && errors.email}
+              helpertext={touched.email && errors.email}
             />
           </FormControl>
 
@@ -90,7 +106,7 @@ const AuthLogin = ({ ...others }) => {
                 onChange={handleChange}
                 onBlur={handleBlur}
                 error={touched.password && Boolean(errors.password)}
-                helperText={touched.password && errors.password}
+                helpertext={touched.password && errors.password}
                 endAdornment={
                   <InputAdornment position="end">
                     <IconButton aria-label="toggle password visibility" onClick={handleClickShowPassword} onMouseDown={handleMouseDownPassword} edge="end">
@@ -98,7 +114,7 @@ const AuthLogin = ({ ...others }) => {
                     </IconButton>
                   </InputAdornment>
                 }
-                InputProps={{
+                inputprops={{
                   endAdornment: (
                     <InputAdornment position="end">
                       <IconButton
