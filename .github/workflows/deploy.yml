@@ -44,9 +44,9 @@ jobs:
     steps:
     - name: Apply manifest
       uses: actions-hub/kubectl@master
-        with:
-          args: apply -n faceanalyzer -f manifest.yaml
+      with:
+        args: apply -n faceanalyzer -f manifest.yaml
     - name: Set image tag
       uses: actions-hub/kubectl@master
-        with:
-          args: set image -n faceanalyzer deployment/faceanalyzer-frontend faceanalyzer-frontend=plavy/faceanalyzer-frontend:${{ github.sha }}
+      with:
+        args: set image -n faceanalyzer deployment/faceanalyzer-frontend faceanalyzer-frontend=plavy/faceanalyzer-frontend:${{ github.sha }}
