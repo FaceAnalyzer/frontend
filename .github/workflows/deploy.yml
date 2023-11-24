@@ -31,8 +31,22 @@ jobs:
       run: docker build . --file Dockerfile --tag plavy/faceanalyzer-frontend:${{ github.sha }}
     - name: Push the Docker image
       run: docker push plavy/faceanalyzer-frontend:${{ github.sha }}
-    - run: ls -l public
   deploy:
     runs-on: ubuntu-22.04
+    environment:
+      name: main
+      url: https://faceanalyzer.plavy.me/
+    defaults:
+      run:
+        working-directory: face-analyzer
+    env:
+      KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
     steps:
-    - run: echo
+    - name: Apply manifest
+      uses: actions-hub/kubectl@master
+        with:
+          args: apply -n faceanalyzer -f manifest.yaml
+    - name: Set image tag
+      uses: actions-hub/kubectl@master
+        with:
+          args: set image -n faceanalyzer deployment/faceanalyzer-frontend faceanalyzer-frontend=plavy/faceanalyzer-frontend:${{ github.sha }}
