@@ -32,7 +32,7 @@ jobs:
       run: docker push plavy/faceanalyzer-frontend:${{ github.sha }}
   deploy:
     name: Deploy frontend
-    # needs: build
+    needs: build
     runs-on: ubuntu-22.04
     environment:
       name: main
