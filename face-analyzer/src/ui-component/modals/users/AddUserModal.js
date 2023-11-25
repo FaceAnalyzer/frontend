@@ -19,6 +19,7 @@ import React from "react";
 import MainCard from "../../cards/MainCard";
 import {ADD_USERS_API} from "../../../endpoints/BackendEndpoints";
 import axios from "axios";
+import PropTypes from "prop-types";
 
 const CardWrapper = styled(MainCard)(({ theme }) => ({
     backgroundColor: '#fff',
@@ -293,6 +294,13 @@ const AddUserModal = ({showModal, closeModal, existingEmails, existingUsernames}
             )}
         </CardWrapper>
     );
+}
+
+AddUserModal.propTypes = {
+    showModal: PropTypes.bool,
+    closeModal: PropTypes.func,
+    existingEmails: PropTypes.array,
+    existingUsernames: PropTypes.array
 }
 
 export default AddUserModal;
