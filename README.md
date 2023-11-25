@@ -2,7 +2,7 @@
 
 ## Run locally
 
-To run the application locally, you will need to have Node >= 14 on your local development machine. 
+To run the application locally, you will need to have Node.js >= 14 on your local development machine. During the development of this application, Node.js v18.18.2 was used.
 
 After cloning the project, navigate inside it and run in terminal:
 ```
