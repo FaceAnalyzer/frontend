@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react'; // Add useEffect import
 import { useNavigate } from 'react-router-dom';
 import { Box, Button, Checkbox, FormControl, FormControlLabel, FormHelperText, Stack, Typography, TextField, InputAdornment, IconButton, InputLabel, OutlinedInput } from '@mui/material';
 import * as Yup from 'yup';
@@ -9,14 +9,18 @@ import axios from 'axios';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { useAuth } from 'context/authContext';
 
-// Logging out happens in "face-analyzer\src\layout\MainLayout\Header\ProfileSection\index.js"
-// Line 58, in the function "handleLogout"
-
 const AuthLogin = ({ ...others }) => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const { setToken } = useAuth();
 
+  const [redirectToHome, setRedirectToHome] = useState(false);
+
+  useEffect(() => {
+    if (redirectToHome) {
+      navigate('/');
+    }
+  }, [navigate, redirectToHome]);
 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
@@ -63,11 +67,9 @@ const AuthLogin = ({ ...others }) => {
           setToken(token);
           console.log("localstorage token: " + localStorage.getItem('token'));
           console.log('Login successful', token);
-          navigate('/');
+          setRedirectToHome(true); // Set redirectToHome to true
           setStatus({ success: true });
-            setStatus({ success: false });
-            setErrors({ submit: data.message });
-          }
+        }
         catch (err) {
           console.error(err);
           setStatus({ success: false });
@@ -92,7 +94,7 @@ const AuthLogin = ({ ...others }) => {
             />
           </FormControl>
 
-          <Box mt={2}> {/* Add margin-top */}
+          <Box mt={2}>
             <FormControl fullWidth error={Boolean(touched.password && errors.password)}>
               <InputLabel htmlFor="password">Password</InputLabel>
               <OutlinedInput
@@ -129,7 +131,7 @@ const AuthLogin = ({ ...others }) => {
                 }}
               />
             </FormControl>
-          </Box> {/* End of margin-top Box */}
+          </Box>
 
           <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={1}>
             <FormControlLabel
