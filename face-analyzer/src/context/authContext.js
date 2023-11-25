@@ -1,5 +1,6 @@
 import axios from "axios";
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
+import PropTypes from "prop-types";
 
 const AuthContext = createContext(undefined);
 
@@ -67,5 +68,9 @@ export const useAuth = () => {
     }
     return authContext;
 };
+
+AuthProvider.propTypes = {
+    children: PropTypes.object
+}
 
 export default AuthProvider;
