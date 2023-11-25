@@ -32,7 +32,7 @@ const CardWrapper = styled(MainCard)(({ theme }) => ({
 const AddUserModal = ({showModal, closeModal, existingEmails, existingUsernames}) => {
     const theme = useTheme();
     const scriptedRef = useScriptRef();
-    const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
+    const phoneRegExp = /^((\+[1-9]{1,4}[ -]*)|(\([0-9]{2,3}\)[ -]*)|([0-9]{2,4})[ -]*)*?[0-9]{3,4}?[ -]*[0-9]{3,4}?$/
 
     const handleSave = async (values, {setErrors, setStatus}) => {
         try {
@@ -82,14 +82,14 @@ const AddUserModal = ({showModal, closeModal, existingEmails, existingUsernames}
                                 username: Yup.string().max(255)
                                     .required('Username is required')
                                     .test('UniqueUsername', 'Username already taken', async () => {
-                                        return existingUsernames.includes(username);
+                                        return !existingUsernames.includes(username.value);
                                     }),
                                 password: Yup.string().min(8, 'Password is too short - use at least 8 characters')
                                     .required('Password is required'),
                                 email: Yup.string().email('Invalid email')
                                     .required('Email is required')
                                     .test('UniqueEmail', 'Email already taken', async () => {
-                                        return existingEmails.includes(email);
+                                        return !existingEmails.includes(email.value);
                                     }),
                                 contactNumber: Yup.string().matches(phoneRegExp, 'Invalid contact number').required('Contact number is required'),
                                 role: Yup.string().required('Role is required')
