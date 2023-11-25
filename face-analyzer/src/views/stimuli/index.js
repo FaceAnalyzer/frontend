@@ -70,7 +70,8 @@ const Stimuli = () => {
     };
 
     const saveReaction = () => {
-        saveNewReaction(stimuliId).then(() => {
+        // eslint-disable-next-line no-unused-vars
+        saveNewReaction(stimuliId).then(result => {
               window.location.reload();
           })
     };
