@@ -11,6 +11,11 @@ import {GET_EXPERIMENTS_API, GET_PROJECTS_API} from "../../../../endpoints/Backe
 
 const MenuList = () => {
 
+  //Kind of sloppy workaround, but it works
+  if(localStorage.getItem("token")) {
+    axios.defaults.headers["Authorization"] = "Bearer " + localStorage.getItem("token");
+  }
+
   const projects = {
     id: 'projectManagement',
     title: 'Project Management',
@@ -73,7 +78,7 @@ const MenuList = () => {
   const updateProjects = async () => {
     const fetchedProjects = await getProjects();
 
-    const updatedProjects = await Promise.all(
+    projects.children[0].children = await Promise.all(
         fetchedProjects.map(async (project) => {
           const experiments = await getExperiments(project.id);
 
@@ -95,8 +100,6 @@ const MenuList = () => {
           };
         })
     );
-
-    projects.children[0].children = updatedProjects;
   };
 
   updateProjects().then();

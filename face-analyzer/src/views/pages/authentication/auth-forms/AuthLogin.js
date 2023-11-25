@@ -4,7 +4,7 @@ import { Box, Button, Checkbox, FormControl, FormControlLabel, FormHelperText, S
 import * as Yup from 'yup';
 import { Formik } from 'formik';
 import AnimateButton from 'ui-component/extended/AnimateButton';
-import { LOGIN_API } from 'endpoints/BackendEndpoints'; // LOGIN_API
+import {GET_USER_BY_ID_API, LOGIN_API} from 'endpoints/BackendEndpoints'; // LOGIN_API
 import axios from 'axios';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { useAuth } from 'context/authContext';
@@ -12,7 +12,7 @@ import { useAuth } from 'context/authContext';
 const AuthLogin = ({ ...others }) => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
-  const { setToken } = useAuth();
+  const { setToken, setUser } = useAuth();
 
   const [redirectToHome, setRedirectToHome] = useState(false);
 
@@ -36,14 +36,29 @@ const AuthLogin = ({ ...others }) => {
         username: username,
         password: password
       });
-      console.log('response', response);
+      //console.log('response', response);
       const items = response.data;
       const token = items.accessToken;
-      console.log('token', token)
-      return token;
+      const userId = items.userId;
+      //console.log('token', token)
+      //console.log('user', userId)
+      return {token, userId};
     }
     catch (err) {
       console.error(err);
+      return null;
+    }
+  }
+
+  const getUserData = async (userId, token) => {
+    try{
+      const response = await axios.get(GET_USER_BY_ID_API.replace("{id}", userId), {headers: {
+        Authorization: "bearer " + token,
+        }});
+      return {name: response.data.name, surname: response.data.surname, role: response.data.role};
+    }
+    catch (e) {
+      console.error(e);
       return null;
     }
   }
@@ -62,11 +77,13 @@ const AuthLogin = ({ ...others }) => {
       onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
         setSubmitting(true);
         try {
-          const token = await getLoginToken(values.username, values.password);
-          console.log('token', token);
+          const { token, userId } = await getLoginToken(values.username, values.password);
+          //console.log('token', token);
           setToken(token);
-          console.log("localstorage token: " + localStorage.getItem('token'));
-          console.log('Login successful', token);
+          const user = await getUserData(userId, token);
+          setUser(user);
+          //console.log("localstorage token: " + localStorage.getItem('token'));
+          //console.log('Login successful', token);
           setRedirectToHome(true); // Set redirectToHome to true
           setStatus({ success: true });
         }
