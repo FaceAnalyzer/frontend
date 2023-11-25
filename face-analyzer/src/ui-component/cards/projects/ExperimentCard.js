@@ -11,10 +11,10 @@ import SkeletonEarningCard from 'ui-component/cards/Skeleton/EarningCard';
 
 // assets
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import {DeleteForever, Download, Edit} from '@mui/icons-material';
+import {DeleteForever, Edit} from '@mui/icons-material';
 import {IconFlask} from '@tabler/icons';
-import DeleteExperimentModal from "./DeleteExperimentModal";
-import EditExperimentModal from "../experiment/EditExperimentModal";
+import DeleteExperimentModal from "../../modals/projects/DeleteExperimentModal";
+import EditExperimentModal from "../../modals/experiments/EditExperimentModal";
 
 const CardWrapper = styled(MainCard)(({ theme }) => ({
   backgroundColor: theme.palette.secondary.dark,
@@ -80,8 +80,7 @@ const ExperimentCard = ({isLoading, data}) => {
         <CardWrapper border={false} content={false}>
           <DeleteExperimentModal showModal={showDeleteModal}
                                  closeModal={closeDeleteModal}
-                                 deleteName={experiment.name}
-                                 deleteId={experiment.id}></DeleteExperimentModal>
+                                 data={experiment}></DeleteExperimentModal>
           <EditExperimentModal showModal={showEditModal}
                                closeModal={closeEditModal}
                                initialValues={experiment}></EditExperimentModal>
@@ -136,9 +135,9 @@ const ExperimentCard = ({isLoading, data}) => {
                         horizontal: 'right'
                       }}
                     >
-                      <MenuItem onClick={handleClose}>
-                        <Download sx={{ mr: 1.75 }} /> Export
-                      </MenuItem>
+                      {/*<MenuItem onClick={handleClose}>*/}
+                      {/*  <Download sx={{ mr: 1.75 }} /> Export*/}
+                      {/*</MenuItem>*/}
                       <MenuItem onClick={onEditClick}>
                         <Edit sx={{ mr: 1.75 }} /> Edit
                       </MenuItem>

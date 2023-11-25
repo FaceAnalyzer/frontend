@@ -11,7 +11,7 @@ import SkeletonEarningCard from 'ui-component/cards/Skeleton/EarningCard';
 
 // assets
 import {IconFlask, IconPlus} from '@tabler/icons';
-import AddExperimentModal from './AddExperimentModal';
+import AddExperimentModal from '../../modals/projects/AddExperimentModal';
 
 const CardWrapper = styled(MainCard)(({ theme }) => ({
   backgroundColor: '#fff',
@@ -24,7 +24,7 @@ const CardWrapper = styled(MainCard)(({ theme }) => ({
 
 // ===========================|| ADD EXPERIMENT CARD ||=========================== //
 
-const AddExperimentCard = ({ isLoading }) => {
+const AddExperimentCard = ({isLoading, projectId}) => {
   const theme = useTheme();
   const [showModal, setShowModal] = useState(false);
 
@@ -42,7 +42,7 @@ const AddExperimentCard = ({ isLoading }) => {
         <SkeletonEarningCard />
       ) : (
         <CardWrapper border={false} content={false}>
-          <AddExperimentModal showModal={showModal} closeModal={closeModal}/>
+          <AddExperimentModal showModal={showModal} closeModal={closeModal} projectId={projectId}/>
           <Box sx={{ p: 2.25 }}>
             <Grid container direction="column">
               <Grid item>

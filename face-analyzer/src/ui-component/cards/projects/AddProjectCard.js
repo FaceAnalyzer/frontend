@@ -10,10 +10,10 @@ import MainCard from 'ui-component/cards/MainCard';
 import SkeletonEarningCard from 'ui-component/cards/Skeleton/EarningCard';
 
 // assets
-import {IconPlus, IconVideo} from '@tabler/icons';
-import AddStimuliModal from './AddStimuliModal';
+import {IconFileAnalytics, IconPlus} from '@tabler/icons';
+import AddProjectModal from "../../modals/projects/AddProjectModal";
 
-const CardWrapper = styled(MainCard)(({ theme }) => ({
+const CardWrapper = styled(MainCard)(({theme}) => ({
     backgroundColor: '#fff',
     color: theme.palette.secondary.dark,
     borderColor: theme.palette.secondary.dark,
@@ -22,12 +22,11 @@ const CardWrapper = styled(MainCard)(({ theme }) => ({
     position: 'relative'
 }));
 
-// ===========================|| ADD STIMULI CARD ||=========================== //
+// ===========================|| ADD PROJECT CARD ||=========================== //
 
-const AddStimuliCard = ({isLoading, experimentId}) => {
+const AddProjectCard = ({isLoading}) => {
     const theme = useTheme();
     const [showModal, setShowModal] = useState(false);
-    const ID = parseInt(experimentId);
 
     const openModal = () => {
         setShowModal(true);
@@ -40,11 +39,11 @@ const AddStimuliCard = ({isLoading, experimentId}) => {
     return (
         <>
             {isLoading ? (
-                <SkeletonEarningCard />
+                <SkeletonEarningCard/>
             ) : (
                 <CardWrapper border={false} content={false}>
-                    <AddStimuliModal showModal={showModal} closeModal={closeModal} experimentId={ID}/>
-                    <Box sx={{ p: 2.25 }}>
+                    <AddProjectModal showModal={showModal} closeModal={closeModal}/>
+                    <Box sx={{p: 2.25}}>
                         <Grid container direction="column">
                             <Grid item>
                                 <Grid container justifyContent="space-between">
@@ -59,7 +58,7 @@ const AddStimuliCard = ({isLoading, experimentId}) => {
                                                 mt: 1
                                             }}
                                         >
-                                            <IconVideo />
+                                            <IconFileAnalytics/>
                                         </Avatar>
                                     </Grid>
                                     <Grid item>
@@ -76,11 +75,11 @@ const AddStimuliCard = ({isLoading, experimentId}) => {
                                                 borderRadius: '1rem',
                                                 zIndex: 1
                                             }}
-                                            aria-controls="add-new-video-card"
+                                            aria-controls="add-new-project-card"
                                             aria-haspopup="true"
                                             onClick={openModal}
                                         >
-                                            <IconPlus fontSize="inherit" />
+                                            <IconPlus fontSize="inherit"/>
                                         </Avatar>
                                     </Grid>
                                 </Grid>
@@ -89,12 +88,12 @@ const AddStimuliCard = ({isLoading, experimentId}) => {
                                 <Grid container alignItems="center">
                                     <Grid item>
                                         <Typography
-                                            sx={{fontSize: '2.125rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75}}>Add
-                                            stimuli</Typography>
+                                            sx={{fontSize: '2.125rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75}}>Create
+                                            project</Typography>
                                     </Grid>
                                 </Grid>
                             </Grid>
-                            <Grid item sx={{ mb: 1.25 }}>
+                            <Grid item sx={{mb: 1.25}}>
                                 <Typography
                                     sx={{
                                         fontSize: '1rem',
@@ -102,7 +101,7 @@ const AddStimuliCard = ({isLoading, experimentId}) => {
                                         color: theme.palette.secondary[200]
                                     }}
                                 >
-                                    Click to add a new stimulus.
+                                    Click to create a new project.
                                 </Typography>
                             </Grid>
                         </Grid>
@@ -113,8 +112,8 @@ const AddStimuliCard = ({isLoading, experimentId}) => {
     );
 };
 
-AddStimuliCard.propTypes = {
+AddProjectCard.propTypes = {
     isLoading: PropTypes.bool
 };
 
-export default AddStimuliCard;
+export default AddProjectCard;

@@ -1,14 +1,15 @@
 import React from 'react';
 
 import {styled, useTheme} from '@mui/material/styles';
-import {Box, Button, FormHelperText, Grid, Typography} from '@mui/material';
-import MainCard from "../../ui-component/cards/MainCard";
+import {Box, Button, FormControl, FormHelperText, Grid, InputLabel, OutlinedInput, Typography} from '@mui/material';
+import MainCard from "../../cards/MainCard";
+import * as Yup from "yup";
 import {Formik} from "formik";
-import useScriptRef from "../../hooks/useScriptRef";
-import AnimateButton from "../../ui-component/extended/AnimateButton";
-import {Modal, ModalBody, ModalContent, ModalFooter, ModalOverlay} from "../projects/ModalComponents";
+import useScriptRef from "../../../hooks/useScriptRef";
+import AnimateButton from "../../extended/AnimateButton";
+import {Modal, ModalBody, ModalContent, ModalFooter, ModalOverlay} from "../ModalComponents";
 import axios from "axios";
-import {DELETE_REACTIONS_BY_ID_API, DEFAULT_API_CONFIG} from "../projects/BackendEndpoints";
+import {ADD_PROJECT_API, DEFAULT_API_CONFIG} from "../../../endpoints/BackendEndpoints";
 
 const CardWrapper = styled(MainCard)(({theme}) => ({
     backgroundColor: '#fff',
@@ -18,27 +19,34 @@ const CardWrapper = styled(MainCard)(({theme}) => ({
     position: 'relative',
 }));
 
-const DeleteReactionModal = ({showModal, closeModal, reactionId}) => {
+// ===========================|| ADD PROJECT MODAL ||=========================== //
+
+const AddProjectModal = ({showModal, closeModal}) => {
     const theme = useTheme();
     const scriptedRef = useScriptRef();
 
-    const handleDelete = () => {
-        try{
-            axios.delete(DELETE_REACTIONS_BY_ID_API.replace("{id}", reactionId), DEFAULT_API_CONFIG)
+    const handleSave = async (values, {setErrors, setStatus}) => {
+        try {
+            axios.post(ADD_PROJECT_API, JSON.stringify(values), DEFAULT_API_CONFIG)
                 .then(response => {
-                    if (response.status === 204) {
+                    // this.setState({articleId: response.data.id});
+                    if (response.status === 201) {
+                        // Refresh the page after a successful submission
                         window.location.reload();
-                    }
-                    else{
+                    } else {
                         const data = response.data;
-                        console.error("resp:", response);
-                        console.error("Error deleting reaction:", data.errors);
+                        setErrors(data.errors);
+                        setStatus({success: false});
                     }
-                })
-        } catch(e) {
-            console.error("Error deleting reaction:", e);
+                });
+
+        } catch (err) {
+            console.error(err);
+            setErrors({submit: err.message});
+            setStatus({success: false});
         }
     };
+
 
     return (
         <CardWrapper border={false} content={false}>
@@ -47,13 +55,18 @@ const DeleteReactionModal = ({showModal, closeModal, reactionId}) => {
                     <Modal>
                         <Formik
                             initialValues={{
-                                id: {reactionId},
+                                name: '',
+                                submit: null
                             }}
+                            validationSchema={Yup.object().shape({
+                                name: Yup.string().max(255).required('Project name is required'),
+                            })}
+
                             onSubmit={async (values, {setErrors, setStatus}) => {
                                 try {
                                     if (scriptedRef.current) {
-                                        await handleDelete(values, {setErrors, setStatus});
-                                        // setStatus({ success: true });
+                                        await handleSave(values, {setErrors, setStatus});
+                                        setStatus({success: true});
                                     }
                                 } catch (err) {
                                     console.error(err);
@@ -64,7 +77,7 @@ const DeleteReactionModal = ({showModal, closeModal, reactionId}) => {
                                 }
                             }}>
 
-                            {({errors, handleSubmit, isSubmitting}) => (
+                            {({errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched}) => (
                                 <form noValidate onSubmit={handleSubmit}>
                                     <ModalContent>
                                         <ModalBody>
@@ -76,21 +89,34 @@ const DeleteReactionModal = ({showModal, closeModal, reactionId}) => {
                                                         color: theme.palette.secondary.dark,
                                                         mb: 1
                                                     }}>
-                                                        Delete reaction
+                                                        Create project
                                                     </Typography>
                                                 </Grid>
                                             </Grid>
+
+
+                                            <FormControl fullWidth error={Boolean(touched.name && errors.name)}
+                                                         sx={{...theme.typography.customInput}}>
+                                                <InputLabel htmlFor="projectName">Name</InputLabel>
+                                                <OutlinedInput
+                                                    id="projectName"
+                                                    type="text"
+                                                    name="name"
+                                                    onBlur={handleBlur}
+                                                    onChange={handleChange}
+                                                />
+                                                {touched.name && errors.name && (
+                                                    <FormHelperText error id="projectNameHandler">
+                                                        {errors.name}
+                                                    </FormHelperText>
+                                                )}
+                                            </FormControl>
 
                                             {errors.submit && (
                                                 <Box sx={{mt: 3}}>
                                                     <FormHelperText error>{errors.submit}</FormHelperText>
                                                 </Box>
                                             )}
-
-                                            <Typography variant="body2">
-                                                Are you sure you want to delete this reaction?
-                                                This action is irreversible!
-                                            </Typography>
 
                                         </ModalBody>
                                         <ModalFooter>
@@ -103,7 +129,7 @@ const DeleteReactionModal = ({showModal, closeModal, reactionId}) => {
                                                     type="submit"
                                                     variant="contained"
                                                     color="secondary">
-                                                    Yes
+                                                    Save
                                                 </Button>
                                             </AnimateButton>
                                             <AnimateButton>
@@ -118,7 +144,7 @@ const DeleteReactionModal = ({showModal, closeModal, reactionId}) => {
                                                         borderColor: theme.palette.grey[100]
                                                     }}
                                                 >
-                                                    Cancel
+                                                    Close
                                                 </Button>
                                             </AnimateButton>
                                         </ModalFooter>
@@ -134,4 +160,4 @@ const DeleteReactionModal = ({showModal, closeModal, reactionId}) => {
     );
 };
 
-export default DeleteReactionModal;
+export default AddProjectModal;

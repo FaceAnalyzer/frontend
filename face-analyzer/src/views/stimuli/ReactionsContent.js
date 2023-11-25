@@ -1,18 +1,20 @@
 import React, {useEffect, useState} from 'react';
-import {Box, Button, CardHeader, Typography} from "@mui/material";
+import {Box, Button, CardHeader, Typography, useMediaQuery} from "@mui/material";
 import axios from "axios";
-import {GET_REACTIONS_API} from "../projects/BackendEndpoints";
+import {GET_REACTIONS_API} from "../../endpoints/BackendEndpoints";
 import MainCard from "../../ui-component/cards/MainCard";
 import AnimateButton from "../../ui-component/extended/AnimateButton";
 import {IconGraph, IconTrashOff} from "@tabler/icons";
 import {useTheme} from "@mui/material/styles";
 import PropTypes from "prop-types";
-import DeleteReactionModal from "./DeleteReactionModal";
+import DeleteReactionModal from "../../ui-component/modals/stimuli/DeleteReactionModal";
 
 // ===========================|| REACTIONS HEADER ||=========================== //
 
 const ReactionsContent = ({stimuliId}) => {
     const theme = useTheme();
+    const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+
     const [reactionsData, setReactionsData] = useState([]);
     const [, setLoading] = useState(true);
     const [showModal, setShowModal] = useState(false);
@@ -81,7 +83,10 @@ const ReactionsContent = ({stimuliId}) => {
                                     showStats(reaction.id)
                                 }}
                             >
-                                <IconGraph/> Statistics
+                                <IconGraph/>
+                                <Typography sx={{display: isSmallScreen ? 'none' : 'flex'}}>
+                                    Statistics
+                                </Typography>
                             </Button>
                         </AnimateButton>
                         <AnimateButton>
@@ -94,7 +99,10 @@ const ReactionsContent = ({stimuliId}) => {
                                 }}
                                 onClick={openModal}
                             >
-                                <IconTrashOff/> Delete
+                                <IconTrashOff/>
+                                <Typography sx={{display: isSmallScreen ? 'none' : 'flex'}}>
+                                    Delete
+                                </Typography>
                             </Button>
                         </AnimateButton>
                     </Box>

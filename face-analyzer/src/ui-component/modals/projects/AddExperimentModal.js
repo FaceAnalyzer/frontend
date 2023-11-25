@@ -2,14 +2,14 @@ import React from 'react';
 
 import {styled, useTheme} from '@mui/material/styles';
 import {Box, Button, FormControl, FormHelperText, Grid, InputLabel, OutlinedInput, Typography} from '@mui/material';
-import MainCard from "../../ui-component/cards/MainCard";
+import MainCard from "../../cards/MainCard";
 import * as Yup from "yup";
 import {Formik} from "formik";
-import useScriptRef from "../../hooks/useScriptRef";
-import AnimateButton from "../../ui-component/extended/AnimateButton";
-import {Modal, ModalBody, ModalContent, ModalFooter, ModalOverlay} from "./ModalComponents";
+import useScriptRef from "../../../hooks/useScriptRef";
+import AnimateButton from "../../extended/AnimateButton";
+import {Modal, ModalBody, ModalContent, ModalFooter, ModalOverlay} from "../ModalComponents";
 import axios from "axios";
-import {ADD_EXPERIMENT_API, DEFAULT_API_CONFIG} from "./BackendEndpoints";
+import {ADD_EXPERIMENT_API, DEFAULT_API_CONFIG} from "../../../endpoints/BackendEndpoints";
 
 const CardWrapper = styled(MainCard)(({ theme }) => ({
   backgroundColor: '#fff',
@@ -21,13 +21,13 @@ const CardWrapper = styled(MainCard)(({ theme }) => ({
 
 // ===========================|| ADD EXPERIMENT MODAL ||=========================== //
 
-const AddExperimentModal = ({ showModal, closeModal }) => {
+const AddExperimentModal = ({showModal, closeModal, projectId}) => {
   const theme = useTheme();
   const scriptedRef = useScriptRef();
 
   const handleSave = async (values, {setErrors, setStatus}) => {
     try {
-      values.projectId = 1; // Hard coded for MVP
+      values.projectId = projectId;
       axios.post(ADD_EXPERIMENT_API, JSON.stringify(values), DEFAULT_API_CONFIG)
           .then(response => {
             // this.setState({articleId: response.data.id});

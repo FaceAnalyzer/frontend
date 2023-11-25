@@ -1,0 +1,51 @@
+import React from 'react';
+import {Box, Card, CardHeader, Link, Typography} from "@mui/material";
+import {IconFileAnalytics} from "@tabler/icons";
+import {Troubleshoot} from "@mui/icons-material";
+import {useTheme} from "@mui/material/styles";
+import {gridSpacing} from "../../../store/constant";
+
+// ===========================|| PROJECT RESEARCHERS HEADER ||=========================== //
+
+const ProjectResearcherHeader = ({data}) => {
+    const theme = useTheme();
+
+    const project = data;
+    const projectId = project.id;
+
+    return (
+        <Box>
+            <Card sx={{marginBottom: gridSpacing, backgroundColor: 'inherit'}}>
+                <Box sx={{display: 'flex', flexDirection: 'column'}}>
+                    <CardHeader sx={{padding: '5px'}}
+                                subheader={
+                                    <Link href={`/project/${projectId}`}
+                                          sx={{color: theme.palette.grey[500], textDecoration: 'none'}}
+                                    >
+                                        <Box sx={{display: 'flex', alignItems: 'center'}}>
+                                            <IconFileAnalytics/>
+                                            <Typography sx={{fontWeight: 500}}>{project.name}</Typography>
+                                        </Box>
+                                    </Link>
+                                }/>
+                    <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
+                        <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'space-around'}}>
+                            <Troubleshoot/>
+                            <CardHeader title={
+                                <Typography sx={{
+                                    fontSize: '1.5rem',
+                                    fontWeight: 500
+                                }}>
+                                    Project Researchers
+                                </Typography>
+                            }/>
+                        </Box>
+                    </Box>
+                </Box>
+            </Card>
+
+        </Box>
+    );
+};
+
+export default ProjectResearcherHeader;

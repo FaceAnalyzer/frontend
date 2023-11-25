@@ -1,14 +1,15 @@
 import React from 'react';
 
 import {styled, useTheme} from '@mui/material/styles';
-import {Box, Button, FormHelperText, Grid, Typography} from '@mui/material';
-import MainCard from "../../ui-component/cards/MainCard";
+import MainCard from "../../../cards/MainCard";
+import {Modal, ModalBody, ModalContent, ModalFooter, ModalOverlay} from "../../ModalComponents";
 import {Formik} from "formik";
-import useScriptRef from "../../hooks/useScriptRef";
-import AnimateButton from "../../ui-component/extended/AnimateButton";
-import {Modal, ModalBody, ModalContent, ModalFooter, ModalOverlay} from "../projects/ModalComponents";
+import * as Yup from "yup";
+import {Box, Button, FormControl, FormHelperText, Grid, Select, Typography} from "@mui/material";
+import AnimateButton from "../../../extended/AnimateButton";
 import axios from "axios";
-import {DEFAULT_API_CONFIG, DELETE_STIMULI_BY_ID_API} from "../projects/BackendEndpoints";
+import {ADD_RESEARCHER_TO_PROJECT_API} from "../../../../endpoints/BackendEndpoints";
+import useScriptRef from "../../../../hooks/useScriptRef";
 
 const CardWrapper = styled(MainCard)(({theme}) => ({
     backgroundColor: '#fff',
@@ -18,30 +19,38 @@ const CardWrapper = styled(MainCard)(({theme}) => ({
     position: 'relative',
 }));
 
-// ===========================|| DELETE STIMULI MODAL ||=========================== //
+// ===========================|| ADD USER TO PROJECT MODAL ||=========================== //
 
-const DeleteStimuliModal = ({showModal, closeModal, data, deleteId, deleteName}) => {
+const AddUserToProjectModal = ({showModal, closeModal, usersNotOnProjectData, projectData}) => {
     const theme = useTheme();
     const scriptedRef = useScriptRef();
 
-    const handleDelete = () => {
-        try{
-            axios.delete(DELETE_STIMULI_BY_ID_API.replace("{id}", data.id), DEFAULT_API_CONFIG)
+    const project = projectData;
+
+    const handleSave = (values, {setErrors, setStatus}) => {
+        const items = {researchersIds: [values.researcherId]};
+        try {
+            axios.put(ADD_RESEARCHER_TO_PROJECT_API.replace('{id}', project.id), JSON.stringify(items))
                 .then(response => {
                     if (response.status === 204) {
                         window.location.reload();
-                    }
-                    else{
+                    } else {
                         const data = response.data;
-                        console.error("resp:", response);
-                        console.error("Error deleting stimuli:", data.errors);
+                        setErrors(data.errors);
+                        setStatus({success: false});
                     }
-                })
-        } catch(e) {
-            console.error("Error deleting stimuli:", e);
+                }).catch(response => {
+                const data = response.data;
+                setErrors(data);
+                setStatus({success: false});
+            });
+
+        } catch (err) {
+            console.error(err);
+            setErrors({submit: err.message});
+            setStatus({success: false});
         }
     };
-
 
     return (
         <CardWrapper border={false} content={false}>
@@ -50,13 +59,18 @@ const DeleteStimuliModal = ({showModal, closeModal, data, deleteId, deleteName})
                     <Modal>
                         <Formik
                             initialValues={{
-                                id: {deleteId},
+                                researcherId: '',
+                                submit: null
                             }}
+                            validationSchema={Yup.object().shape({
+                                researcherId: Yup.string().required('Researcher is required')
+                            })}
+
                             onSubmit={async (values, {setErrors, setStatus}) => {
                                 try {
                                     if (scriptedRef.current) {
-                                        await handleDelete(values, {setErrors, setStatus});
-                                        // setStatus({ success: true });
+                                        await handleSave(values, {setErrors, setStatus});
+                                        setStatus({success: true});
                                     }
                                 } catch (err) {
                                     console.error(err);
@@ -67,7 +81,7 @@ const DeleteStimuliModal = ({showModal, closeModal, data, deleteId, deleteName})
                                 }
                             }}>
 
-                            {({errors, handleSubmit, isSubmitting}) => (
+                            {({errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values}) => (
                                 <form noValidate onSubmit={handleSubmit}>
                                     <ModalContent>
                                         <ModalBody>
@@ -79,21 +93,44 @@ const DeleteStimuliModal = ({showModal, closeModal, data, deleteId, deleteName})
                                                         color: theme.palette.secondary.dark,
                                                         mb: 1
                                                     }}>
-                                                        Delete stimulus
+                                                        Add researcher
                                                     </Typography>
                                                 </Grid>
                                             </Grid>
+
+                                            <FormControl fullWidth
+                                                         error={Boolean(touched.researcherId && errors.researcherId)}
+                                                         sx={{...theme.typography.customInput}}>
+                                                <Select
+                                                    native
+                                                    value={values.researcherId || ''}
+                                                    onChange={handleChange}
+                                                    onBlur={handleBlur}
+                                                    inputProps={{
+                                                        name: 'researcherId',
+                                                        id: 'researcherId',
+                                                    }}
+                                                >
+                                                    <option value={""} disabled>Select researcher</option>
+
+                                                    {usersNotOnProjectData.map((user) => (
+                                                        <option key={user.id} value={user.id}>
+                                                            {`${user.name} ${user.surname}`}
+                                                        </option>
+                                                    ))}
+                                                </Select>
+                                                {touched.researcherId && errors.researcherId && (
+                                                    <FormHelperText error id="researcherIdHandler">
+                                                        {errors.researcherId}
+                                                    </FormHelperText>
+                                                )}
+                                            </FormControl>
 
                                             {errors.submit && (
                                                 <Box sx={{mt: 3}}>
                                                     <FormHelperText error>{errors.submit}</FormHelperText>
                                                 </Box>
                                             )}
-
-                                            <Typography variant="body2">
-                                                Are you sure you want to delete <strong>{deleteName}</strong>?
-                                                This action is irreversible!
-                                            </Typography>
 
                                         </ModalBody>
                                         <ModalFooter>
@@ -106,7 +143,7 @@ const DeleteStimuliModal = ({showModal, closeModal, data, deleteId, deleteName})
                                                     type="submit"
                                                     variant="contained"
                                                     color="secondary">
-                                                    Yes
+                                                    Save
                                                 </Button>
                                             </AnimateButton>
                                             <AnimateButton>
@@ -121,7 +158,7 @@ const DeleteStimuliModal = ({showModal, closeModal, data, deleteId, deleteName})
                                                         borderColor: theme.palette.grey[100]
                                                     }}
                                                 >
-                                                    Cancel
+                                                    Close
                                                 </Button>
                                             </AnimateButton>
                                         </ModalFooter>
@@ -137,4 +174,4 @@ const DeleteStimuliModal = ({showModal, closeModal, data, deleteId, deleteName})
     );
 };
 
-export default DeleteStimuliModal;
+export default AddUserToProjectModal;

@@ -7,7 +7,7 @@ import {Box, Button, Grid} from '@mui/material';
 import {gridSpacing} from 'store/constant';
 import {useParams} from "react-router";
 import axios from "axios";
-import {GET_STIMULI_BY_ID_API} from "../projects/BackendEndpoints";
+import {GET_EXPERIMENT_BY_ID_API, GET_PROJECT_BY_ID_API, GET_STIMULI_BY_ID_API} from "../../endpoints/BackendEndpoints";
 import StimuliHeader from "./StimuliHeader";
 import WebcamComponent from "../reactions/WebcamComponent";
 import VisageProcessing from "../reactions/VisageProcessing";
@@ -25,6 +25,8 @@ const Stimuli = () => {
 
     const {stimuliId} = useParams();
     const [stimuliData, setStimuliData] = useState({});
+    const [experimentData, setExperimentData] = useState({});
+    const [projectData, setProjectData] = useState({});
     const [isLoading, setLoading] = useState(true);
     const [isRecording, setIsRecording] = useState(false);
 
@@ -43,6 +45,14 @@ const Stimuli = () => {
                 items.link = items.link.replace("watch?v=", "embed/")
                 console.log("items", items);
                 setStimuliData(items);
+
+                const experimentResponse = await axios.get(GET_EXPERIMENT_BY_ID_API.replace("{id}", items.experimentId));
+                const experimentItem = experimentResponse.data;
+                setExperimentData(experimentItem);
+
+                const projectResponse = await axios.get(GET_PROJECT_BY_ID_API.replace("{id}", experimentItem.projectId));
+                const projectItem = projectResponse.data;
+                setProjectData(projectItem);
 
                 setLoading(false);
 
@@ -83,7 +93,7 @@ const Stimuli = () => {
         <>
             <Grid container spacing={gridSpacing} sx={{padding: '16px'}}>
                 <Grid item xs={12}>
-                    <StimuliHeader stimulus={stimuliData}/>
+                    <StimuliHeader stimulus={stimuliData} projectData={projectData} experimentData={experimentData}/>
                 </Grid>
             </Grid>
             <Grid container spacing={gridSpacing} sx={{padding: '16px'}}>

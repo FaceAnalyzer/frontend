@@ -16,18 +16,19 @@ export const Modal = styled('div')({
     background: '#fff',
     borderRadius: '1rem',
     boxShadow: '0 0 10px rgba(0, 0, 0, 0.2)',
-    maxWidth: {
-        xs: 400,
-        lg: 475,
-    },
+    maxHeight: "90vh",
+    overflowY: "auto",
     margin: {
         xs: 2.5,
         md: 3,
     },
-    '& > *': {
-        flexGrow: 1,
-        flexBasis: '50%',
+    width: '70vw',
+    '@media (min-width: 600px)': {
+        width: '60vw'
     },
+    '@media (min-width: 960px)': {
+        width: '35vw'
+    }
 });
 
 export const ModalContent = styled('div')({
