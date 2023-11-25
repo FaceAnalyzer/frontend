@@ -31,7 +31,7 @@ const UserManagement = () => {
 
                 setLoading(false);
             } catch (error) {
-                console.error('Error fetching experiment data:', error.message);
+                console.error('Error fetching user data:', error.message);
             }
         };
 
@@ -62,7 +62,7 @@ const UserManagement = () => {
                     </Button>
                 </Grid>
             </Grid>
-            <UserDataGrid isLoading={isLoading} userList={userList}/>
+            {!isLoading ? <UserDataGrid isLoading={isLoading} userList={userList}/> : <strong>{"No users have been loaded. You're probably seeing this because you're not logged in."}</strong>}
         </>
     );
 };
