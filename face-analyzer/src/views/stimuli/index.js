@@ -42,8 +42,16 @@ const Stimuli = () => {
                 console.log("response",stimuliResponse);
                 const items = stimuliResponse.data;
                 //TODO: how to do this in a more consistent way?
-                items.link = items.link.replace("watch?v=", "embed/")
-                console.log("items", items);
+                const videoIdMatch = items.link.match(/(?:v=|\/)([\w-]{11})/);
+                const videoId = videoIdMatch ? videoIdMatch[1] : null;
+
+                if(videoId) {
+                    items.link = `https://www.youtube.com/embed/${videoId}`;
+                }
+                else{
+                    console.error("Invalid link:", items.link);
+                }
+                console.log("embed link", items);
                 setStimuliData(items);
 
                 const experimentResponse = await axios.get(GET_EXPERIMENT_BY_ID_API.replace("{id}", items.experimentId));
