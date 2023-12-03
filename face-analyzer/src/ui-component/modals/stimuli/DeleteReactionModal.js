@@ -18,13 +18,13 @@ const CardWrapper = styled(MainCard)(({theme}) => ({
     position: 'relative',
 }));
 
-const DeleteReactionModal = ({showModal, closeModal, reactionId}) => {
+const DeleteReactionModal = ({modalData, closeModal}) => {
     const theme = useTheme();
     const scriptedRef = useScriptRef();
 
     const handleDelete = () => {
         try{
-            axios.delete(DELETE_REACTIONS_BY_ID_API.replace("{id}", reactionId), DEFAULT_API_CONFIG)
+            axios.delete(DELETE_REACTIONS_BY_ID_API.replace("{id}", modalData.reactionId), DEFAULT_API_CONFIG)
                 .then(response => {
                     if (response.status === 204) {
                         window.location.reload();
@@ -42,12 +42,12 @@ const DeleteReactionModal = ({showModal, closeModal, reactionId}) => {
 
     return (
         <CardWrapper border={false} content={false}>
-            {showModal && (
+            {modalData.state && (
                 <ModalOverlay>
                     <Modal>
                         <Formik
                             initialValues={{
-                                id: {reactionId},
+                                id: modalData.reactionId,
                             }}
                             onSubmit={async (values, {setErrors, setStatus}) => {
                                 try {
