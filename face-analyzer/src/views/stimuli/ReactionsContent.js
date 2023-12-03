@@ -17,14 +17,20 @@ const ReactionsContent = ({stimuliId}) => {
 
     const [reactionsData, setReactionsData] = useState([]);
     const [, setLoading] = useState(true);
-    const [showModal, setShowModal] = useState(false);
+    const [modalData, setModalData] = useState({state: false, reactionId: null});
 
-    const openModal = () => {
-        setShowModal(true);
+    const openModal = (reactionId) => {
+        setModalData({
+            state: true,
+            reactionId: reactionId
+        });
     }
 
     const closeModal = () => {
-        setShowModal(false);
+        setModalData({
+            state: false,
+            reactionId: null
+        });
     }
 
     useEffect(() => {
@@ -61,6 +67,7 @@ const ReactionsContent = ({stimuliId}) => {
                 Reactions
             </Typography>
         }>
+            <DeleteReactionModal modalData={modalData} closeModal={closeModal}></DeleteReactionModal>
             {reactionsData && reactionsData.map((reaction) => (
                 <Box key={reaction.id}
                      sx={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
@@ -72,7 +79,7 @@ const ReactionsContent = ({stimuliId}) => {
                             {reaction.participantName}
                         </Typography>
                     }/>
-                    <DeleteReactionModal showModal={showModal} closeModal={closeModal} reactionId={reaction.id}></DeleteReactionModal>
+
                     <Box sx={{display: 'flex', gap: 1, pr: 2}}>
                         <AnimateButton>
                             <Button
@@ -80,7 +87,7 @@ const ReactionsContent = ({stimuliId}) => {
                                 variant="contained"
                                 color="secondary"
                                 onClick={() => {
-                                    showStats(reaction.id)
+                                    showStats(reaction.id);
                                 }}
                             >
                                 <IconGraph/>
@@ -97,7 +104,9 @@ const ReactionsContent = ({stimuliId}) => {
                                     border: 'solid 1px',
                                     borderColor: theme.palette.grey[700]
                                 }}
-                                onClick={openModal}
+                                onClick={() => {
+                                    openModal(reaction.id);
+                                }}
                             >
                                 <IconTrashOff/>
                                 <Typography sx={{display: isSmallScreen ? 'none' : 'flex'}}>

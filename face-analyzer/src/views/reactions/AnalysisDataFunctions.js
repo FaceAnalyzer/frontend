@@ -40,7 +40,7 @@ export const saveDataToLocalStorage = (data) => {
     localStorage.setItem(dataKey, JSON.stringify(stored));
 };
 
-export const saveNewReaction = async (stimuliId) => {
+export const saveNewReaction = async (stimuliId, values) => {
     let retrieved = localStorage.getItem(dataKey);
     let stored = JSON.parse(retrieved);
 
@@ -66,7 +66,7 @@ export const saveNewReaction = async (stimuliId) => {
     //TODO: add actual participant name
     const forStoring = {
         stimuliId: stimuliId,
-        participantName: "Participant Name",
+        participantName: values.name + " " + values.surname,
         emotionReadings: tempReadings
     }
     await handleSaveReaction(forStoring);
