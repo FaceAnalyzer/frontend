@@ -8,6 +8,7 @@ import {gridSpacing} from 'store/constant';
 import Chart from "react-apexcharts";
 import ChartHeader from "./ChartHeader";
 import BoxPlotChart from "./BoxPlotChart";
+import BoxPlotLegend from "./BoxPlotLegend";
 import {useParams} from "react-router";
 import axios from "axios";
 import {
@@ -17,7 +18,6 @@ import {
     GET_REACTIONS_BY_ID_API,
     GET_STIMULI_BY_ID_API
 } from "../../../endpoints/BackendEndpoints";
-
 // ==============================|| STATISTICS DASHBOARD ||============================== //
 
 const Stats = () => {
@@ -213,9 +213,14 @@ const Stats = () => {
                 </Grid>
             )}
             {activeButton === 'distribution' && (
-                <Grid item lg={8} md={12} sm={12} xs={12}>
-                    <BoxPlotChart boxPlotData={emotionsData}/>
-                </Grid>
+                <>
+                    <Grid item lg={7} md={12} sm={12} xs={12}>
+                        <BoxPlotChart boxPlotData={emotionsData}/>
+                    </Grid>
+                    <Grid item lg={5} md={12} sm={12} xs={12}>
+                        <BoxPlotLegend/>
+                    </Grid>
+                </>
             )}
         </Grid>
     );

@@ -49,6 +49,7 @@ const BoxPlotChart = (boxPlotData) => {
             <Grid item lg={12} md={12} sm={12} xs={12}>
                 <Chart
                     type="boxPlot"
+                    height={"500vh"}
                     series={[
                         {
                             type: 'boxPlot',
@@ -58,7 +59,10 @@ const BoxPlotChart = (boxPlotData) => {
                     options={{
                         chart: {
                             type: 'boxPlot',
-                            height: 350
+                            height: 350,
+                            toolbar: {
+                                show: false
+                            }
                         },
                         title: {
                             text: 'Emotions Distribution',
@@ -69,7 +73,7 @@ const BoxPlotChart = (boxPlotData) => {
                                 colors: {
                                     upper: theme.palette.primary[800],
                                     lower: theme.palette.primary[200]
-                                }
+                                },
                             }
                         },
                         yaxis: {
