@@ -29,6 +29,7 @@ const Stats = () => {
     const [stimuliData, setStimuliData] = useState({});
     const [experimentData, setExperimentData] = useState({});
     const [projectData, setProjectData] = useState({});
+    const [reactionDuration, setReactionDuration] = useState(0);
 
     const [isLoading, setLoading] = useState(true);
     console.log(isLoading); //stop lint errors
@@ -153,15 +154,6 @@ const Stats = () => {
                 const projectItem = projectResponse.data;
                 setProjectData(projectItem);
 
-                //Temporary workaround
-                /*
-                const reactionResponse = await axios.get(GET_REACTIONS_API);
-                const reaction = reactionResponse.data.items.filter((item) => item.id === ID)[0];
-                console.log(reaction);
-                setReactionData(reaction);
-                */
-                //
-
                 const emotionsResponse = await axios.get(GET_EMOTIONS_API.replace('{id}', reactionId));
                 console.log("emotions", emotionsResponse);
                 const items = emotionsResponse.data.items.filter((item) => item.reactionId === ID);
@@ -172,6 +164,9 @@ const Stats = () => {
                 setLineChartData(chartData);
 
                 setEmotionsData(groupedAndSortedData);
+
+                //Set reaction duration in seconds
+                setReactionDuration(groupedAndSortedData['Anger'][groupedAndSortedData['Anger'].length - 1].timeOffset / 1000);
 
                 setLoading(false);
 
@@ -214,6 +209,11 @@ const Stats = () => {
             )}
             {activeButton === 'distribution' && (
                 <>
+                    <Grid item lg={12} md={12} sm={12} xs={12}>
+                        <Typography variant="subtitle1" marginRight={2}>
+                            Reaction duration: {reactionDuration}s
+                        </Typography>
+                    </Grid>
                     <Grid item lg={7} md={12} sm={12} xs={12}>
                         <BoxPlotChart boxPlotData={emotionsData}/>
                     </Grid>
