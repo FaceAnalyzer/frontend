@@ -28,7 +28,7 @@ const CardWrapper = styled(MainCard)(({ theme }) => ({
     zIndex: 2001,
 }));
 
-const AddUserModal = ({showModal, closeModal, stimuliId}) => {
+const SaveReactionModal = ({showModal, closeModal, stimuliId}) => {
     const theme = useTheme();
     const scriptedRef = useScriptRef();
 
@@ -177,11 +177,10 @@ const AddUserModal = ({showModal, closeModal, stimuliId}) => {
     );
 }
 
-AddUserModal.propTypes = {
+SaveReactionModal.propTypes = {
     showModal: PropTypes.bool,
     closeModal: PropTypes.func,
-    existingEmails: PropTypes.array,
-    existingUsernames: PropTypes.array
+    stimuliId: PropTypes.number
 }
 
-export default AddUserModal;
+export default SaveReactionModal;
