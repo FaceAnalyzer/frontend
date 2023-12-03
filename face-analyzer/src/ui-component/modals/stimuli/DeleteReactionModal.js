@@ -9,6 +9,7 @@ import AnimateButton from "../../extended/AnimateButton";
 import {Modal, ModalBody, ModalContent, ModalFooter, ModalOverlay} from "../ModalComponents";
 import axios from "axios";
 import {DEFAULT_API_CONFIG, DELETE_REACTIONS_BY_ID_API} from "../../../endpoints/BackendEndpoints";
+import PropTypes from "prop-types";
 
 const CardWrapper = styled(MainCard)(({theme}) => ({
     backgroundColor: '#fff',
@@ -133,5 +134,10 @@ const DeleteReactionModal = ({modalData, closeModal}) => {
         </CardWrapper>
     );
 };
+
+DeleteReactionModal.propTypes = {
+    modalData: PropTypes.object,
+    closeModal: PropTypes.func
+}
 
 export default DeleteReactionModal;
