@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 
 // material-ui
-import {Grid, Typography} from '@mui/material';
+import {Grid} from '@mui/material';
 
 // project imports
 import {gridSpacing} from 'store/constant';

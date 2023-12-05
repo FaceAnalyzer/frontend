@@ -20,12 +20,10 @@ const EmotionsOverTimeChart = ({ groupedSortedData }) => {
     };
 
     const createChartConfigs = (emotionColor, groupedData) => {
-        console.log("gd", groupedData);
         const timeFormat = 'mm:ss';
         const options = {
             chart: {
                 type: "line",
-                height: 5000,
                 toolbar: {
                     show: true,
                     tools: {
