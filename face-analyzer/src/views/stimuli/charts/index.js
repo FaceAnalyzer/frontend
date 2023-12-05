@@ -1,16 +1,16 @@
 import React, {useEffect, useState} from 'react';
 
 // material-ui
-import {Grid, Typography} from '@mui/material';
+import {Grid} from '@mui/material';
 
 // project imports
 import {gridSpacing} from 'store/constant';
-import Chart from "react-apexcharts";
 import ChartHeader from "./ChartHeader";
 import BoxPlotChart from "./BoxPlotChart";
 import BoxPlotLegend from "./BoxPlotLegend";
 import {useParams} from "react-router";
 import axios from "axios";
+import EmotionsOverTimeChart from "./EmotionsOverTimeChart";
 import {
     GET_EMOTIONS_API,
     GET_EXPERIMENT_BY_ID_API,
@@ -193,18 +193,7 @@ const Stats = () => {
             </Grid>
             {activeButton === 'overTime' && (
                 <Grid item lg={8} md={12} sm={12} xs={12}>
-                    {lineChartData.map((dataEntry, index) => (
-                        <Grid container key={index} alignItems="center" marginBottom={1}>
-                            <Grid item lg={2} md={3} sm={3} xs={12}>
-                                <Typography variant="subtitle1" marginRight={2}>
-                                    {dataEntry.options.tooltip.y.title}
-                                </Typography>
-                            </Grid>
-                            <Grid item lg={10} md={9} sm={9} xs={12}>
-                                <Chart {...dataEntry} />
-                            </Grid>
-                        </Grid>
-                    ))}
+                    <EmotionsOverTimeChart lineChartData={lineChartData}/>
                 </Grid>
             )}
             {activeButton === 'distribution' && (
