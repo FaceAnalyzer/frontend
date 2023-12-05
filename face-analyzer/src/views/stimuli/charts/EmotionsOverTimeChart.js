@@ -1,6 +1,7 @@
-import { Grid, Typography } from "@mui/material";
+import { Grid } from "@mui/material";
 import Chart from "react-apexcharts";
 import React, { useEffect, useState } from "react";
+import {format, addMilliseconds} from "date-fns";
 
 // ==============================|| EMOTIONS OVER TIME CHART ||============================== //
 
@@ -19,13 +20,17 @@ const EmotionsOverTimeChart = ({ groupedSortedData }) => {
     };
 
     const createChartConfigs = (emotionColor, groupedData) => {
+        console.log("gd", groupedData);
+        const timeFormat = 'mm:ss';
         const options = {
-            height: "100%",
             chart: {
                 type: "line",
-                height: 300,
+                height: 5000,
                 toolbar: {
-                    show: false,
+                    show: true,
+                    tools: {
+                        download: false
+                    }
                 },
             },
             dataLabels: {
@@ -37,24 +42,44 @@ const EmotionsOverTimeChart = ({ groupedSortedData }) => {
             },
             xaxis: {
                 type: "linear",
+                tickAmount: Math.ceil(groupedData["Anger"].length * 0.1),
                 labels: {
-                    formatter: function (val) {
-                        return val; // Format x-axis labels as needed
-                    },
+                    show: true,
                 },
+                title: {
+                    text: "Video time in ms"
+                }
             },
             yaxis: {
                 min: 0.0,
                 max: 1.0,
+                decimalsInFloat: 2,
                 labels: {
                     show: true,
                 },
+                title: {
+                    text: "Emotion level"
+                }
             },
             tooltip: {
                 theme: "dark",
+                followCursor: false,
+                onDatasetHover: {
+                    highlightDataSeries: true
+                },
                 fixed: {
                     enabled: false,
                 },
+                x: {
+                    show: true,
+                    formatter: (value, { seriesIndex, dataPointIndex }) => {
+                        const timeOffset = Object.values(groupedData)[seriesIndex][dataPointIndex]['timeOffset'];
+                        return `Time (mm:ss): ${format(addMilliseconds(new Date(0), timeOffset), timeFormat)}`;
+                    },
+                },
+                y: {
+                    formatter: (y) => (y !== undefined ? y.toFixed(4) : ''),
+                }
             },
             annotations: {
                 strokeDashArray: 0,
@@ -72,16 +97,18 @@ const EmotionsOverTimeChart = ({ groupedSortedData }) => {
         const series = Object.keys(groupedData).map((emotion) => ({
             name: emotion,
             data: groupedData[emotion].map((item) => ({
-                x: item.timeOffset,
+                x: item['timeOffset'],
                 y: item.value,
             })),
+            color: emotionColor[emotion],
         }));
 
         return { options, series };
     };
 
     useEffect(() => {
-        if (groupedSortedData) {
+        if (groupedSortedData.length !== 0) {
+            console.log("gsd", groupedSortedData);
             const { options, series } = createChartConfigs(
                 emotionColor,
                 groupedSortedData
@@ -93,9 +120,9 @@ const EmotionsOverTimeChart = ({ groupedSortedData }) => {
 
     return (
         <>
-            <Grid container alignItems="center" marginBottom={1}>
+            <Grid container spacing={2}>
                 <Grid item xs={12}>
-                    <Chart options={chartOptions} series={seriesData} type="line" height={300} />
+                    <Chart options={chartOptions} series={seriesData} height={"600vh"}/>
                 </Grid>
             </Grid>
         </>
