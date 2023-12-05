@@ -23,7 +23,7 @@ import {
 const Stats = () => {
     // const theme = useTheme();
     const {reactionId} = useParams();
-    const [lineChartData, setLineChartData] = useState([]);
+    const [groupedSortedData, setGroupedSortedData] = useState([]);
     const [emotionsData, setEmotionsData] = useState({});
     const [reactionData, setReactionData] = useState({});
     const [stimuliData, setStimuliData] = useState({});
@@ -53,85 +53,7 @@ const Stats = () => {
         return groupedData;
     };
 
-    const createChartConfigs = (emotionColor, groupedData) => {
-        return Object.keys(groupedData).map((emotion) => {
-            const values = groupedData[emotion].map((item) => item.value);
-
-            return {
-                type: 'line',
-                height: 50,
-                options: {
-                    chart: {
-                        sparkline: {
-                            enabled: true
-                        }
-                    },
-                    dataLabels: {
-                        enabled: false
-                    },
-                    colors: [emotionColor[emotion]],
-                    fill: {
-                        type: 'solid',
-                        opacity: 1
-                    },
-                    stroke: {
-                        curve: 'smooth',
-                        width: 3
-                    },
-                    yaxis: {
-                        min: 0,
-                        max: 1,
-                        title: {
-                            text: emotion,
-                        },
-                        labels: {
-                            show: true,
-                        },
-                    },
-                    tooltip: {
-                        theme: 'dark',
-                        fixed: {
-                            enabled: false
-                        },
-                        x: {
-                            show: false
-                        },
-                        y: {
-                            title: emotion
-                        },
-                        marker: {
-                            show: false
-                        }
-                    },
-                    annotations: {
-                        strokeDashArray: 0,
-                        borderColor: '#000',
-                        borderWidth: 100,
-                        xaxis: [{
-                            x: 0,
-                            strokeDashArray: 0,
-                        }]
-                    }
-                },
-                series: [{
-                    name: emotion,
-                    data: values
-                }]
-            };
-        });
-    };
-
     useEffect(() => {
-
-        const emotionColor = {
-            'Anger': '#ff0000',
-            'Disgust': '#ffa500',
-            'Fear': '#800080',
-            'Happiness': '#00ff00',
-            'Sadness': '#0000ff',
-            'Surprise': '#ffff00',
-            'Neutral': '#000'
-        };
 
         const fetchData = async () => {
             try {
@@ -160,8 +82,8 @@ const Stats = () => {
 
                 const groupedAndSortedData = groupAndSortEmotionData(items);
 
-                const chartData = createChartConfigs(emotionColor, groupedAndSortedData);
-                setLineChartData(chartData);
+                setGroupedSortedData(groupedAndSortedData);
+                console.log("data", groupedAndSortedData);
 
                 setEmotionsData(groupedAndSortedData);
 
@@ -192,8 +114,8 @@ const Stats = () => {
                 />
             </Grid>
             {activeButton === 'overTime' && (
-                <Grid item lg={8} md={12} sm={12} xs={12}>
-                    <EmotionsOverTimeChart lineChartData={lineChartData}/>
+                <Grid item lg={12} md={12} sm={12} xs={12}>
+                    <EmotionsOverTimeChart groupedSortedData={groupedSortedData}/>
                 </Grid>
             )}
             {activeButton === 'distribution' && (
