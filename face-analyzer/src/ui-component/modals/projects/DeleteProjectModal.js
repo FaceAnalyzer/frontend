@@ -82,7 +82,7 @@ const DeleteProjectModal = ({showModal, closeModal, data}) => {
                                                         color: theme.palette.secondary.dark,
                                                         mb: 1
                                                     }}>
-                                                        Delete experiment
+                                                        Delete Project
                                                     </Typography>
                                                 </Grid>
                                             </Grid>
