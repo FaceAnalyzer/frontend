@@ -2,7 +2,7 @@ name: Build and Deploy
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "development", "cicd" ]
 
 jobs:
   build:
@@ -31,20 +31,20 @@ jobs:
     - name: Push the Docker image
       run: docker push plavy/faceanalyzer-frontend:${{ github.sha }}
   deploy:
-    name: Deploy frontend
+    name: Deploy frontend to staging
     needs: build
     runs-on: ubuntu-22.04
     environment:
       name: main
-      url: https://faceanalyzer.plavy.me/
+      url: https://staging.faceanalyzer.plavy.me/
     env:
-      KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
+      KUBE_CONFIG: ${{ secrets.KUBE_CONFIG_AZURE }}
     steps:
     - uses: actions/checkout@v3
     - name: Apply the Kubernetes manifest
       uses: actions-hub/kubectl@master
       with:
-        args: apply -n faceanalyzer -f face-analyzer/manifest.yaml
+        args: apply -n faceanalyzer -f face-analyzer/manifest-staging.yaml
     - name: Set the image tag
       uses: actions-hub/kubectl@master
       with:
