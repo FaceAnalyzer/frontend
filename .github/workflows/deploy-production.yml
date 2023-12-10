@@ -34,18 +34,26 @@ jobs:
     name: Deploy frontend to production
     needs: build
     runs-on: ubuntu-22.04
+    defaults:
+      run:
+        working-directory: face-analyzer
     environment:
       name: ${{ github.ref_name }}
       url: https://faceanalyzer.plavy.me/
     env:
-      KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
+      KUBECONFIG: "./kubeconfig"
     steps:
     - uses: actions/checkout@v3
+    - name: Add kubeconfig
+      uses: mobiledevops/secret-to-file-action@v1
+      with:
+        base64-encoded-secret: ${{ secrets.KUBE_CONFIG }}
+        filename: "kubeconfig"
+        working-directory: "face-analyzer"
+    - uses: azure/use-kubelogin@v1
+      with:
+        kubelogin-version: 'v0.0.24'
     - name: Apply the Kubernetes manifest
-      uses: actions-hub/kubectl@master
-      with:
-        args: apply -n faceanalyzer -f face-analyzer/manifest-production.yaml
+      run: kubectl apply -n faceanalyzer -f manifest-production.yaml
     - name: Set the image tag
-      uses: actions-hub/kubectl@master
-      with:
-        args: set image -n faceanalyzer deployment/faceanalyzer-frontend faceanalyzer-frontend=plavy/faceanalyzer-frontend:${{ github.sha }}
+      run: kubectl set image -n faceanalyzer deployment/faceanalyzer-frontend faceanalyzer-frontend=plavy/faceanalyzer-frontend:${{ github.sha }}
