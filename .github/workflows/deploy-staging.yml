@@ -37,7 +37,7 @@ jobs:
     needs: build
     runs-on: ubuntu-22.04
     environment:
-      name: main
+      name: ${{ github.ref_name }}
       url: https://staging.faceanalyzer.plavy.me/
     env:
       KUBE_CONFIG: ${{ secrets.KUBE_CONFIG_AZURE }}
