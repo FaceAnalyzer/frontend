@@ -22,7 +22,7 @@ jobs:
     - name: Set the License
       run: grep -rli '416-088-305-748.vlc' * | xargs -i@ sed -i 's/416-088-305-748.vlc/416-088-964-238.vlc/g' @
     - name: Set backend URL
-      run: grep -rli 'backend.faceanalyzer.plavy.me' * | xargs -i@ sed -i 's/backend.faceanalyzer.plavy.me/backend.staging.faceanalyzer.plavy.me/g' @
+      run: sed -i 's/backend.faceanalyzer.plavy.me/backend.staging.faceanalyzer.plavy.me/g' .env.production
     - name: Login to Docker registry
       uses: docker/login-action@v1
       with:
