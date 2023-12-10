@@ -42,6 +42,8 @@ jobs:
       url: https://faceanalyzer.plavy.me/
     env:
       KUBECONFIG: "./kubeconfig"
+      AAD_SERVICE_PRINCIPAL_CLIENT_ID: ${{ secrets.AAD_SERVICE_PRINCIPAL_CLIENT_ID }}
+      AAD_SERVICE_PRINCIPAL_CLIENT_SECRET: ${{ secrets.AAD_SERVICE_PRINCIPAL_CLIENT_SECRET }}
     steps:
     - uses: actions/checkout@v3
     - name: Add kubeconfig
