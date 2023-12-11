@@ -43,7 +43,7 @@ const AddExperimentCard = ({isLoading, projectId}) => {
       ) : (
         <CardWrapper border={false} content={false}>
           <AddExperimentModal showModal={showModal} closeModal={closeModal} projectId={projectId}/>
-          <Box sx={{ p: 2.25 }}>
+          <Box sx={{p: 2.25}} onClick={openModal}>
             <Grid container direction="column">
               <Grid item>
                 <Grid container justifyContent="space-between">
@@ -77,7 +77,6 @@ const AddExperimentCard = ({isLoading, projectId}) => {
                       }}
                       aria-controls="add-new-experiment-card"
                       aria-haspopup="true"
-                      onClick={openModal}
                     >
                       <IconPlus fontSize="inherit" />
                     </Avatar>

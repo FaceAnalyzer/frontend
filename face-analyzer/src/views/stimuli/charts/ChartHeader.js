@@ -5,7 +5,7 @@ import AnimateButton from "../../../ui-component/extended/AnimateButton";
 import {IconChevronRight, IconDownload, IconFlask, IconGraph, IconVideo} from "@tabler/icons";
 import PropTypes from "prop-types";
 import Papa from "papaparse";
-import {FileOpen} from "@mui/icons-material";
+import {FolderOpen} from "@mui/icons-material";
 
 // ===========================|| CHART HEADER ||=========================== //
 
@@ -102,7 +102,7 @@ const ChartHeader = ({
                                           sx={{color: theme.palette.grey[500], textDecoration: 'none'}}
                                     >
                                         <Box sx={{display: 'flex', alignItems: 'center'}}>
-                                            <FileOpen/>
+                                            <FolderOpen/>
                                             <Typography sx={{fontWeight: 500}}>{project.name}</Typography>
                                         </Box>
                                     </Link>
