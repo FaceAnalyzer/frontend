@@ -1,7 +1,15 @@
 import React from 'react';
 
 import {styled, useTheme} from '@mui/material/styles';
-import {Box, Button, FormControl, FormHelperText, Grid, Typography} from '@mui/material';
+import {
+    Box,
+    Button,
+    FormControl,
+    FormHelperText,
+    Grid,
+    OutlinedInput,
+    Typography
+} from '@mui/material';
 import * as Yup from "yup";
 import {Formik} from "formik";
 import {ADD_NOTE_API, DEFAULT_API_CONFIG} from "../../../../endpoints/BackendEndpoints";
@@ -10,7 +18,6 @@ import axios from "axios";
 import MainCard from "../../../cards/MainCard";
 import {Modal, ModalBody, ModalContent, ModalFooter, ModalOverlay} from "../../ModalComponents";
 import AnimateButton from "../../../extended/AnimateButton";
-import CustomTextArea from "../../../../views/utilities/CustomTextArea";
 import {useAuth} from "../../../../context/authContext";
 
 const CardWrapper = styled(MainCard)(({theme}) => ({
@@ -30,6 +37,7 @@ const AddNoteModal = ({showModal, closeModal, experimentId}) => {
 
     const handleSave = async (values, {setErrors, setStatus}) => {
         try {
+            console.log("user", user);
             values.experimentId = experimentId;
             values.creatorId = user.id;
             axios.post(ADD_NOTE_API, JSON.stringify(values), DEFAULT_API_CONFIG)
@@ -101,11 +109,11 @@ const AddNoteModal = ({showModal, closeModal, experimentId}) => {
                                             <FormControl fullWidth
                                                          error={Boolean(touched.description && errors.description)}
                                                          sx={{...theme.typography.customInput}}>
-                                                <CustomTextArea
+                                                <OutlinedInput
                                                     id="noteDescription"
                                                     name="description"
-                                                    minRows={5}
-                                                    maxRows={10}
+                                                    rows={5}
+                                                    multiline
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
                                                 />

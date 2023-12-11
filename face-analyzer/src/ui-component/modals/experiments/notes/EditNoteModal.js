@@ -1,14 +1,13 @@
 import React from 'react';
 
 import {styled, useTheme} from '@mui/material/styles';
-import {Box, Button, FormControl, FormHelperText, Grid, Typography} from '@mui/material';
+import {Box, Button, FormControl, FormHelperText, Grid, OutlinedInput, Typography} from '@mui/material';
 import * as Yup from "yup";
 import {Formik} from "formik";
 import useScriptRef from "../../../../hooks/useScriptRef";
 import MainCard from "../../../cards/MainCard";
 import {Modal, ModalBody, ModalContent, ModalFooter, ModalOverlay} from "../../ModalComponents";
 import AnimateButton from "../../../extended/AnimateButton";
-import CustomTextArea from "../../../../views/utilities/CustomTextArea";
 import {DEFAULT_API_CONFIG, EDIT_NOTE_API} from "../../../../endpoints/BackendEndpoints";
 import axios from "axios";
 import {useAuth} from "../../../../context/authContext";
@@ -28,13 +27,14 @@ const EditNoteModal = ({showModal, closeModal, note}) => {
     const scriptedRef = useScriptRef();
     const noteId = note.id;
     const noteDescription = note.description;
+    console.log("nd", note);
     const {user} = useAuth();
 
     const handleSave = async (values, {setErrors, setStatus}) => {
         try {
-            values.creatorId = note.id;
+            values.creatorId = note.creatorId;
             values.experimentId = note.experimentId;
-            axios.post(EDIT_NOTE_API.replace("{id}", noteId), JSON.stringify(values), DEFAULT_API_CONFIG)
+            axios.put(EDIT_NOTE_API.replace("{id}", noteId), JSON.stringify(values), DEFAULT_API_CONFIG)
                 .then(response => {
                     if (response.status === 200) {
                         window.location.reload();
@@ -60,7 +60,7 @@ const EditNoteModal = ({showModal, closeModal, note}) => {
                     <Modal>
                         <Formik
                             initialValues={{
-                                description: {noteDescription},
+                                description: noteDescription,
                                 submit: null
                             }}
                             validationSchema={Yup.object().shape({
@@ -103,11 +103,11 @@ const EditNoteModal = ({showModal, closeModal, note}) => {
                                             <FormControl fullWidth
                                                          error={Boolean(touched.description && errors.description)}
                                                          sx={{...theme.typography.customInput}}>
-                                                <CustomTextArea
+                                                <OutlinedInput
                                                     id="noteDescription"
                                                     name="description"
-                                                    minRows={5}
-                                                    maxRows={10}
+                                                    rows={5}
+                                                    multiline
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
                                                     defaultValue={note.description}
