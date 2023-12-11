@@ -44,7 +44,7 @@ const AddProjectCard = ({isLoading}) => {
             ) : (
                 <CardWrapper border={false} content={false}>
                     <AddProjectModal showModal={showModal} closeModal={closeModal}/>
-                    <Box sx={{p: 2.25}}>
+                    <Box sx={{p: 2.25}} onClick={openModal}>
                         <Grid container direction="column">
                             <Grid item>
                                 <Grid container justifyContent="space-between">
@@ -80,7 +80,6 @@ const AddProjectCard = ({isLoading}) => {
                                             }}
                                             aria-controls="add-new-project-card"
                                             aria-haspopup="true"
-                                            onClick={openModal}
                                         >
                                             <IconPlus fontSize="inherit"/>
                                         </Avatar>

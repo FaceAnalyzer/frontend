@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 
 // material-ui
 import {styled, useTheme} from '@mui/material/styles';
-import {Avatar, Box, Grid, Typography} from '@mui/material';
+import {Avatar, Box, Grid, Menu, MenuItem, Typography} from '@mui/material';
 
 // project imports
 import MainCard from 'ui-component/cards/MainCard';
@@ -11,6 +11,7 @@ import {DeleteForever, YouTube} from "@mui/icons-material";
 import {IconVideo} from "@tabler/icons";
 import DeleteStimuliModal from "../../modals/experiments/DeleteStimuliModal";
 import {useState} from "react";
+import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 
 // assets
 
@@ -28,10 +29,19 @@ const StimuliCard = ({isLoading, data}) => {
     const stimulus = data;
 
     const [showModal, setShowModal] = useState(false);
+    const [anchorEl, setAnchorEl] = useState(null);
 
     // const match = stimulus.link.match(/[?&]v=([^&]+)/);
     // const urlHash = match ? match[1] : null;
     // const imageSource = 'https://i.ytimg.com/vi/' + urlHash + '/default.jpg';
+
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
 
     const openStimuliLink = () => {
         window.open(stimulus.link, '_blank');
@@ -42,6 +52,7 @@ const StimuliCard = ({isLoading, data}) => {
     }
 
     const openModal = () => {
+        handleClose();
         setShowModal(true);
     };
 
@@ -108,22 +119,36 @@ const StimuliCard = ({isLoading, data}) => {
                                                 color: theme.palette.secondary[200],
                                                 zIndex: 1
                                             }}
-                                            aria-controls="menu-stimulus-card"
+                                            aria-controls="menu-stimuli-card"
                                             aria-haspopup="true"
-                                            onClick={openModal}
+                                            onClick={handleClick}
                                         >
-                                            <DeleteForever fontSize="inherit"/>
+                                            <MoreHorizIcon fontSize="inherit"/>
                                         </Avatar>
+                                        <Menu
+                                            id="menu-stimuli-card"
+                                            anchorEl={anchorEl}
+                                            keepMounted
+                                            open={Boolean(anchorEl)}
+                                            onClose={handleClose}
+                                            variant="selectedMenu"
+                                            anchorOrigin={{
+                                                vertical: 'bottom',
+                                                horizontal: 'right'
+                                            }}
+                                            transformOrigin={{
+                                                vertical: 'top',
+                                                horizontal: 'right'
+                                            }}
+                                        >
+                                            <MenuItem onClick={openModal}
+                                                      sx={{color: 'red'}}>
+                                                <DeleteForever sx={{mr: 1.75}}/> Delete
+                                            </MenuItem>
+                                        </Menu>
                                     </Grid>
                                 </Grid>
                             </Grid>
-                            {/*<Grid item>*/}
-                            {/*    <Grid container alignItems="center">*/}
-                            {/*        <Grid item>*/}
-                            {/*            <img src={imageSource} alt="YouTube thumbnail"/>*/}
-                            {/*        </Grid>*/}
-                            {/*    </Grid>*/}
-                            {/*</Grid>*/}
                             <Grid item>
                                 <Grid container alignItems="center">
                                     <Grid item>

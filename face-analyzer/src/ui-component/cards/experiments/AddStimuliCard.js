@@ -44,7 +44,7 @@ const AddStimuliCard = ({isLoading, experimentId}) => {
             ) : (
                 <CardWrapper border={false} content={false}>
                     <AddStimuliModal showModal={showModal} closeModal={closeModal} experimentId={ID}/>
-                    <Box sx={{ p: 2.25 }}>
+                    <Box sx={{p: 2.25}} onClick={openModal}>
                         <Grid container direction="column">
                             <Grid item>
                                 <Grid container justifyContent="space-between">
@@ -80,7 +80,6 @@ const AddStimuliCard = ({isLoading, experimentId}) => {
                                             }}
                                             aria-controls="add-new-video-card"
                                             aria-haspopup="true"
-                                            onClick={openModal}
                                         >
                                             <IconPlus fontSize="inherit" />
                                         </Avatar>
