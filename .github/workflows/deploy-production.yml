@@ -1,0 +1,61 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    name: Build frontend
+    runs-on: ubuntu-22.04
+    defaults:
+      run:
+        working-directory: face-analyzer
+    steps:
+    - uses: actions/checkout@v3
+    - name: Add Visage SDK License file
+      uses: mobiledevops/secret-to-file-action@v1
+      with:
+        base64-encoded-secret: ${{ secrets.VISAGE_SDK_LICENSE }}
+        filename: "728-647-708-712-368-939-525-416-088-964-238.vlc"
+        working-directory: face-analyzer/public
+    - name: Set the License
+      run: grep -rli '416-088-305-748.vlc' * | xargs -i@ sed -i 's/416-088-305-748.vlc/416-088-964-238.vlc/g' @
+    - name: Login to Docker registry
+      uses: docker/login-action@v1
+      with:
+        username: ${{ secrets.DOCKER_REGISTRY_USERNAME }}
+        password: ${{ secrets.DOCKER_REGISTRY_TOKEN }}
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile --tag plavy/faceanalyzer-frontend:${{ github.sha }}
+    - name: Push the Docker image
+      run: docker push plavy/faceanalyzer-frontend:${{ github.sha }}
+  deploy:
+    name: Deploy frontend to production
+    needs: build
+    runs-on: ubuntu-22.04
+    defaults:
+      run:
+        working-directory: face-analyzer
+    environment:
+      name: ${{ github.ref_name }}
+      url: https://faceanalyzer.plavy.me/
+    env:
+      KUBECONFIG: "./kubeconfig"
+      AAD_SERVICE_PRINCIPAL_CLIENT_ID: ${{ secrets.AAD_SERVICE_PRINCIPAL_CLIENT_ID }}
+      AAD_SERVICE_PRINCIPAL_CLIENT_SECRET: ${{ secrets.AAD_SERVICE_PRINCIPAL_CLIENT_SECRET }}
+    steps:
+    - uses: actions/checkout@v3
+    - name: Add kubeconfig
+      uses: mobiledevops/secret-to-file-action@v1
+      with:
+        base64-encoded-secret: ${{ secrets.KUBE_CONFIG }}
+        filename: "kubeconfig"
+        working-directory: "face-analyzer"
+    - uses: azure/use-kubelogin@v1
+      with:
+        kubelogin-version: 'v0.0.24'
+    - name: Apply the Kubernetes manifest
+      run: kubectl apply -n faceanalyzer -f manifest-production.yaml
+    - name: Set the image tag
+      run: kubectl set image -n faceanalyzer deployment/faceanalyzer-frontend faceanalyzer-frontend=plavy/faceanalyzer-frontend:${{ github.sha }}

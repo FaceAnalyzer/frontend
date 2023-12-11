@@ -13,10 +13,10 @@ import WebcamComponent from "../reactions/WebcamComponent";
 import VisageProcessing from "../reactions/VisageProcessing";
 import AnalysisResultsComponent from "../reactions/AnalysisResultsComponent";
 import {AnalysisDataContext} from "../reactions/AnalysisDataContext";
-import {saveNewReaction} from "../reactions/AnalysisDataFunctions";
 import {Videocam, VideocamOff} from "@mui/icons-material";
 import {useTheme} from "@mui/material/styles";
 import ReactionsContent from "./ReactionsContent";
+import SaveReactionModal from "../../ui-component/modals/stimuli/SaveReactionModal";
 
 // ==============================|| STIMULUS DASHBOARD ||============================== //
 
@@ -29,6 +29,7 @@ const Stimuli = () => {
     const [projectData, setProjectData] = useState({});
     const [isLoading, setLoading] = useState(true);
     const [isRecording, setIsRecording] = useState(false);
+    const [showSaveModal, setShowSaveModal] = useState(false);
 
     const id = parseInt(stimuliId);
 
@@ -42,8 +43,16 @@ const Stimuli = () => {
                 console.log("response",stimuliResponse);
                 const items = stimuliResponse.data;
                 //TODO: how to do this in a more consistent way?
-                items.link = items.link.replace("watch?v=", "embed/")
-                console.log("items", items);
+                const videoIdMatch = items.link.match(/(?:v=|\/)([\w-]{11})/);
+                const videoId = videoIdMatch ? videoIdMatch[1] : null;
+
+                if(videoId) {
+                    items.link = `https://www.youtube.com/embed/${videoId}`;
+                }
+                else{
+                    console.error("Invalid link:", items.link);
+                }
+                console.log("embed link", items);
                 setStimuliData(items);
 
                 const experimentResponse = await axios.get(GET_EXPERIMENT_BY_ID_API.replace("{id}", items.experimentId));
@@ -69,11 +78,26 @@ const Stimuli = () => {
         setIsRecording(!isRecording);
     };
 
+    const openSaveReactionModal = () => {
+        setShowSaveModal(true);
+    }
+    const closeSaveReactionModal = () => {
+        setShowSaveModal(false);
+    }
+
     const saveReaction = () => {
+        if(isRecording){
+            setIsRecording(!isRecording);
+        }
+        openSaveReactionModal();
+        /*
         // eslint-disable-next-line no-unused-vars
         saveNewReaction(stimuliId).then(result => {
               window.location.reload();
           })
+
+         */
+
     };
 
     const canvasRef = useRef(null);
@@ -96,6 +120,7 @@ const Stimuli = () => {
                     <StimuliHeader stimulus={stimuliData} projectData={projectData} experimentData={experimentData}/>
                 </Grid>
             </Grid>
+            <SaveReactionModal showModal={showSaveModal} closeModal={closeSaveReactionModal} stimuliId={id}/>
             <Grid container spacing={gridSpacing} sx={{padding: '16px'}}>
 
                 <Grid item lg={6} md={12} sm={12} xs={12}>

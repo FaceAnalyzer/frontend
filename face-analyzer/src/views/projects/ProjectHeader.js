@@ -5,8 +5,8 @@ import EditProjectModal from '../../ui-component/modals/projects/EditProjectModa
 import {Box, Button, Card, CardHeader, Typography, useMediaQuery} from '@mui/material';
 import {gridSpacing} from '../../store/constant';
 import AnimateButton from '../../ui-component/extended/AnimateButton';
-import {IconEdit, IconFileAnalytics, IconTrashOff} from '@tabler/icons';
-import {Troubleshoot} from '@mui/icons-material';
+import {IconEdit, IconTrashOff} from '@tabler/icons';
+import {FolderOpen, Troubleshoot} from '@mui/icons-material';
 
 // ===========================|| PROJECT HEADER ||=========================== //
 
@@ -56,7 +56,7 @@ const ProjectHeader = ({data}) => {
             <Card sx={{marginBottom: gridSpacing, backgroundColor: 'inherit'}}>
                 <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
                     <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'space-around'}}>
-                        <IconFileAnalytics/>
+                        <FolderOpen/>
                         <CardHeader
                             title={
                                 <Typography sx={{

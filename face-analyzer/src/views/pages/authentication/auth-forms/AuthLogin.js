@@ -1,13 +1,23 @@
-import { useState, useEffect } from 'react'; // Add useEffect import
-import { useNavigate } from 'react-router-dom';
-import { Box, Button, FormControl, FormHelperText, TextField, InputAdornment, IconButton, InputLabel, OutlinedInput } from '@mui/material';
+import {useEffect, useState} from 'react'; // Add useEffect import
+import {useNavigate} from 'react-router-dom';
+import {
+  Box,
+  Button,
+  FormControl,
+  FormHelperText,
+  IconButton,
+  InputAdornment,
+  InputLabel,
+  OutlinedInput,
+  TextField
+} from '@mui/material';
 import * as Yup from 'yup';
-import { Formik } from 'formik';
+import {Formik} from 'formik';
 import AnimateButton from 'ui-component/extended/AnimateButton';
 import {GET_USER_BY_ID_API, LOGIN_API} from 'endpoints/BackendEndpoints'; // LOGIN_API
 import axios from 'axios';
-import { Visibility, VisibilityOff } from '@mui/icons-material';
-import { useAuth } from 'context/authContext';
+import {Visibility, VisibilityOff} from '@mui/icons-material';
+import {useAuth} from 'context/authContext';
 
 const AuthLogin = ({ ...others }) => {
   const navigate = useNavigate();
@@ -55,7 +65,7 @@ const AuthLogin = ({ ...others }) => {
       const response = await axios.get(GET_USER_BY_ID_API.replace("{id}", userId), {headers: {
           Authorization: "bearer " + token,
         }});
-      return {name: response.data.name, surname: response.data.surname, role: response.data.role};
+      return {id: response.data.id, name: response.data.name, surname: response.data.surname, role: response.data.role};
     }
     catch (e) {
       console.error(e);
@@ -78,19 +88,15 @@ const AuthLogin = ({ ...others }) => {
             setSubmitting(true);
             try {
               const { token, userId } = await getLoginToken(values.username, values.password);
-              //console.log('token', token);
               setToken(token);
               const user = await getUserData(userId, token);
               setUser(user);
-              //console.log("localstorage token: " + localStorage.getItem('token'));
-              //console.log('Login successful', token);
-              setRedirectToHome(true); // Set redirectToHome to true
+              setRedirectToHome(true);
               setStatus({ success: true });
             }
             catch (err) {
-              console.error(err);
               setStatus({ success: false });
-              setErrors({ submit: 'Did not log in' });
+              setErrors({submit: 'Username or password incorrect.'});
             }
 
             setSubmitting(false);
@@ -159,7 +165,7 @@ const AuthLogin = ({ ...others }) => {
               <Box mt={2}>
                 <AnimateButton>
                   <Button disableElevation disabled={isSubmitting} fullWidth size="large" type="submit" variant="contained" color="secondary">
-                    Sign in
+                    Log in
                   </Button>
                 </AnimateButton>
               </Box>

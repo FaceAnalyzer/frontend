@@ -1,83 +1,78 @@
-import React from 'react';
-
-import {styled, useTheme} from '@mui/material/styles';
-import {Box, Button, FormControl, FormHelperText, Grid, InputLabel, OutlinedInput, Typography} from '@mui/material';
-import MainCard from "../../cards/MainCard";
-import * as Yup from "yup";
-import {Formik} from "formik";
+import {styled, useTheme} from "@mui/material/styles";
 import useScriptRef from "../../../hooks/useScriptRef";
-import AnimateButton from "../../extended/AnimateButton";
 import {Modal, ModalBody, ModalContent, ModalFooter, ModalOverlay} from "../ModalComponents";
-import axios from "axios";
-import {ADD_PROJECT_API, DEFAULT_API_CONFIG} from "../../../endpoints/BackendEndpoints";
+import {Formik} from "formik";
+import * as Yup from "yup";
+import {
+    Box,
+    Button,
+    FormControl,
+    FormHelperText,
+    Grid,
+    InputLabel,
+    OutlinedInput,
+    Typography
+} from "@mui/material";
+import AnimateButton from "../../extended/AnimateButton";
+import React from "react";
+import MainCard from "../../cards/MainCard";
+import PropTypes from "prop-types";
+import {saveNewReaction} from "../../../views/reactions/AnalysisDataFunctions";
 
-const CardWrapper = styled(MainCard)(({theme}) => ({
+const CardWrapper = styled(MainCard)(({ theme }) => ({
     backgroundColor: '#fff',
     borderColor: theme.palette.secondary.dark,
     borderWidth: '1rem',
     overflow: 'hidden',
     position: 'relative',
+    zIndex: 2001,
 }));
 
-// ===========================|| ADD PROJECT MODAL ||=========================== //
-
-const AddProjectModal = ({showModal, closeModal}) => {
+const SaveReactionModal = ({showModal, closeModal, stimuliId}) => {
     const theme = useTheme();
     const scriptedRef = useScriptRef();
 
     const handleSave = async (values, {setErrors, setStatus}) => {
-        try {
-            axios.post(ADD_PROJECT_API, JSON.stringify(values), DEFAULT_API_CONFIG)
-                .then(response => {
-                    // this.setState({articleId: response.data.id});
-                    if (response.status === 201) {
-                        // Refresh the page after a successful submission
-                        window.location.reload();
-                    } else {
-                        const data = response.data;
-                        setErrors(data.errors);
-                        setStatus({success: false});
-                    }
-                });
-
-        } catch (err) {
-            console.error(err);
-            setErrors({submit: err.message});
+        saveNewReaction(stimuliId, values).then(() => {
+            window.location.reload();
+        }).catch(result => {
+            const data = result.data;
+            setErrors(data);
             setStatus({success: false});
-        }
+        });
     };
 
-
     return (
-        <CardWrapper border={false} content={false}>
+        <CardWrapper border={false} content={false} >
             {showModal && (
                 <ModalOverlay>
-                    <Modal>
+                    <Modal lg>
                         <Formik
                             initialValues={{
                                 name: '',
-                                submit: null
+                                surname: '',
                             }}
                             validationSchema={Yup.object().shape({
-                                name: Yup.string().max(255).required('Project name is required'),
+                                name: Yup.string().max(255).required('Name is required'),
+                                surname: Yup.string().max(255).required('Surname is required')
                             })}
 
-                            onSubmit={async (values, {setErrors, setStatus}) => {
+                            onSubmit={async (values, { setErrors, setStatus }) => {
                                 try {
                                     if (scriptedRef.current) {
                                         await handleSave(values, {setErrors, setStatus});
-                                        setStatus({success: true});
+                                        setStatus({ success: true });
                                     }
                                 } catch (err) {
                                     console.error(err);
                                     if (scriptedRef.current) {
-                                        setStatus({success: false});
-                                        setErrors({submit: err.message});
+                                        setStatus({ success: false });
+                                        setErrors({ submit: err.message });
                                     }
                                 }
                             }}>
 
-                            {({errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched}) => (
+                            {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched /*, values*/}) => (
                                 <form noValidate onSubmit={handleSubmit}>
                                     <ModalContent>
                                         <ModalBody>
@@ -87,33 +82,55 @@ const AddProjectModal = ({showModal, closeModal}) => {
                                                         fontSize: '2.125rem',
                                                         fontWeight: 500,
                                                         color: theme.palette.secondary.dark,
-                                                        mb: 1
                                                     }}>
-                                                        Add project
+                                                        Save Reaction to Stimuli
+                                                    </Typography>
+                                                    <Typography
+                                                        sx={{
+                                                            fontSize: '1.075rem',
+                                                            color: theme.palette.grey[500],
+                                                            mb: 1
+                                                        }}
+                                                    >
+                                                        Enter Participant Name and Surname
                                                     </Typography>
                                                 </Grid>
                                             </Grid>
 
-
-                                            <FormControl fullWidth error={Boolean(touched.name && errors.name)}
-                                                         sx={{...theme.typography.customInput}}>
-                                                <InputLabel htmlFor="projectName">Name</InputLabel>
+                                            <FormControl fullWidth error={Boolean(touched.name && errors.name)} sx={{ ...theme.typography.customInput }}>
+                                                <InputLabel htmlFor="name">Name</InputLabel>
                                                 <OutlinedInput
-                                                    id="projectName"
+                                                    id="name"
                                                     type="text"
                                                     name="name"
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
                                                 />
                                                 {touched.name && errors.name && (
-                                                    <FormHelperText error id="projectNameHandler">
+                                                    <FormHelperText error id="nameHandler">
                                                         {errors.name}
                                                     </FormHelperText>
                                                 )}
                                             </FormControl>
 
+                                            <FormControl fullWidth error={Boolean(touched.surname && errors.surname)} sx={{ ...theme.typography.customInput }}>
+                                                <InputLabel htmlFor="surname">Surname</InputLabel>
+                                                <OutlinedInput
+                                                    id="surname"
+                                                    type="text"
+                                                    name="surname"
+                                                    onBlur={handleBlur}
+                                                    onChange={handleChange}
+                                                />
+                                                {touched.surname && errors.surname && (
+                                                    <FormHelperText error id="surnameHandler">
+                                                        {errors.surname}
+                                                    </FormHelperText>
+                                                )}
+                                            </FormControl>
+
                                             {errors.submit && (
-                                                <Box sx={{mt: 3}}>
+                                                <Box sx={{ mt: 3 }}>
                                                     <FormHelperText error>{errors.submit}</FormHelperText>
                                                 </Box>
                                             )}
@@ -158,6 +175,12 @@ const AddProjectModal = ({showModal, closeModal}) => {
             )}
         </CardWrapper>
     );
-};
+}
 
-export default AddProjectModal;
+SaveReactionModal.propTypes = {
+    showModal: PropTypes.bool,
+    closeModal: PropTypes.func,
+    stimuliId: PropTypes.number
+}
+
+export default SaveReactionModal;

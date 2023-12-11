@@ -2,13 +2,13 @@ import React from 'react';
 
 import {styled, useTheme} from '@mui/material/styles';
 import {Box, Button, FormHelperText, Grid, Typography} from '@mui/material';
-import MainCard from "../../cards/MainCard";
 import {Formik} from "formik";
-import useScriptRef from "../../../hooks/useScriptRef";
-import AnimateButton from "../../extended/AnimateButton";
-import {Modal, ModalBody, ModalContent, ModalFooter, ModalOverlay} from "../ModalComponents";
-import {DELETE_PROJECT_API} from "../../../endpoints/BackendEndpoints";
 import axios from "axios";
+import MainCard from "../../../cards/MainCard";
+import useScriptRef from "../../../../hooks/useScriptRef";
+import {DELETE_NOTE_API} from "../../../../endpoints/BackendEndpoints";
+import {Modal, ModalBody, ModalContent, ModalFooter, ModalOverlay} from "../../ModalComponents";
+import AnimateButton from "../../../extended/AnimateButton";
 
 const CardWrapper = styled(MainCard)(({theme}) => ({
     backgroundColor: '#fff',
@@ -18,26 +18,27 @@ const CardWrapper = styled(MainCard)(({theme}) => ({
     position: 'relative',
 }));
 
-// ===========================|| DELETE MODAL ||=========================== //
+// ===========================|| DELETE NOTE MODAL ||=========================== //
 
-const DeleteProjectModal = ({showModal, closeModal, data}) => {
+const DeleteNoteModal = ({showModal, closeModal, data}) => {
     const theme = useTheme();
     const scriptedRef = useScriptRef();
     const deleteId = data.id;
 
     const handleDelete = async (values, {setErrors, setStatus}) => {
         try {
-            axios.delete(DELETE_PROJECT_API.replace("{id}", deleteId))
+            axios.delete(DELETE_NOTE_API.replace("{id}", deleteId))
                 .then(response => {
+                    console.log(response.status)
                     if (response.status === 204) {
-                        // Redirect to projects page
-                        window.location.href = '/projects';
+                        window.location.reload();
                     } else {
                         const data = response.data;
                         setErrors(data.errors);
                         setStatus({success: false});
                     }
                 });
+
         } catch (err) {
             console.error(err);
             setErrors({submit: err.message});
@@ -82,7 +83,7 @@ const DeleteProjectModal = ({showModal, closeModal, data}) => {
                                                         color: theme.palette.secondary.dark,
                                                         mb: 1
                                                     }}>
-                                                        Delete Project
+                                                        Delete note
                                                     </Typography>
                                                 </Grid>
                                             </Grid>
@@ -94,7 +95,7 @@ const DeleteProjectModal = ({showModal, closeModal, data}) => {
                                             )}
 
                                             <Typography variant="body2">
-                                                Are you sure you want to delete <strong>{data.name}</strong>?
+                                                Are you sure you want to delete the note?
                                                 This action is irreversible!
                                             </Typography>
 
@@ -140,4 +141,4 @@ const DeleteProjectModal = ({showModal, closeModal, data}) => {
     );
 };
 
-export default DeleteProjectModal;
+export default DeleteNoteModal;

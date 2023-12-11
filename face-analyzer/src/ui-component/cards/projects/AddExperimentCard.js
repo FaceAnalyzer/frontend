@@ -87,7 +87,8 @@ const AddExperimentCard = ({isLoading, projectId}) => {
               <Grid item>
                 <Grid container alignItems="center">
                   <Grid item>
-                    <Typography sx={{ fontSize: '2.125rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75 }}>Create experiment</Typography>
+                    <Typography sx={{fontSize: '2.125rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75}}>Add
+                      experiments</Typography>
                   </Grid>
                 </Grid>
               </Grid>
@@ -99,7 +100,7 @@ const AddExperimentCard = ({isLoading, projectId}) => {
                     color: theme.palette.secondary[200]
                   }}
                 >
-                  Click to create a new experiment.
+                  Click to add a new experiment.
                 </Typography>
               </Grid>
             </Grid>

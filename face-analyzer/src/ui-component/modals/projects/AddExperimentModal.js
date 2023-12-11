@@ -92,7 +92,7 @@ const AddExperimentModal = ({showModal, closeModal, projectId}) => {
                           color: theme.palette.secondary.dark,
                           mb: 1
                         }}>
-                          Create experiment
+                          Add experiment
                         </Typography>
                       </Grid>
                     </Grid>
