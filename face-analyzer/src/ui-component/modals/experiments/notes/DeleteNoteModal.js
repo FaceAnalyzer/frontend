@@ -1,15 +1,14 @@
 import React from 'react';
 
 import {styled, useTheme} from '@mui/material/styles';
-import {Box, Button, FormControl, FormHelperText, Grid, InputLabel, OutlinedInput, Typography} from '@mui/material';
-import MainCard from "../../cards/MainCard";
-import * as Yup from "yup";
+import {Box, Button, FormHelperText, Grid, Typography} from '@mui/material';
 import {Formik} from "formik";
-import useScriptRef from "../../../hooks/useScriptRef";
-import AnimateButton from "../../extended/AnimateButton";
-import {Modal, ModalBody, ModalContent, ModalFooter, ModalOverlay} from "../ModalComponents";
 import axios from "axios";
-import {ADD_PROJECT_API, DEFAULT_API_CONFIG} from "../../../endpoints/BackendEndpoints";
+import MainCard from "../../../cards/MainCard";
+import useScriptRef from "../../../../hooks/useScriptRef";
+import {DELETE_NOTE_API} from "../../../../endpoints/BackendEndpoints";
+import {Modal, ModalBody, ModalContent, ModalFooter, ModalOverlay} from "../../ModalComponents";
+import AnimateButton from "../../../extended/AnimateButton";
 
 const CardWrapper = styled(MainCard)(({theme}) => ({
     backgroundColor: '#fff',
@@ -19,19 +18,19 @@ const CardWrapper = styled(MainCard)(({theme}) => ({
     position: 'relative',
 }));
 
-// ===========================|| ADD PROJECT MODAL ||=========================== //
+// ===========================|| DELETE NOTE MODAL ||=========================== //
 
-const AddProjectModal = ({showModal, closeModal}) => {
+const DeleteNoteModal = ({showModal, closeModal, data}) => {
     const theme = useTheme();
     const scriptedRef = useScriptRef();
+    const deleteId = data.id;
 
-    const handleSave = async (values, {setErrors, setStatus}) => {
+    const handleDelete = async (values, {setErrors, setStatus}) => {
         try {
-            axios.post(ADD_PROJECT_API, JSON.stringify(values), DEFAULT_API_CONFIG)
+            axios.delete(DELETE_NOTE_API.replace("{id}", deleteId))
                 .then(response => {
-                    // this.setState({articleId: response.data.id});
-                    if (response.status === 201) {
-                        // Refresh the page after a successful submission
+                    console.log(response.status)
+                    if (response.status === 204) {
                         window.location.reload();
                     } else {
                         const data = response.data;
@@ -55,18 +54,13 @@ const AddProjectModal = ({showModal, closeModal}) => {
                     <Modal>
                         <Formik
                             initialValues={{
-                                name: '',
-                                submit: null
+                                id: {deleteId},
                             }}
-                            validationSchema={Yup.object().shape({
-                                name: Yup.string().max(255).required('Project name is required'),
-                            })}
-
                             onSubmit={async (values, {setErrors, setStatus}) => {
                                 try {
                                     if (scriptedRef.current) {
-                                        await handleSave(values, {setErrors, setStatus});
-                                        setStatus({success: true});
+                                        await handleDelete(values, {setErrors, setStatus});
+                                        // setStatus({ success: true });
                                     }
                                 } catch (err) {
                                     console.error(err);
@@ -77,7 +71,7 @@ const AddProjectModal = ({showModal, closeModal}) => {
                                 }
                             }}>
 
-                            {({errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched}) => (
+                            {({errors, handleSubmit, isSubmitting}) => (
                                 <form noValidate onSubmit={handleSubmit}>
                                     <ModalContent>
                                         <ModalBody>
@@ -89,34 +83,21 @@ const AddProjectModal = ({showModal, closeModal}) => {
                                                         color: theme.palette.secondary.dark,
                                                         mb: 1
                                                     }}>
-                                                        Add project
+                                                        Delete note
                                                     </Typography>
                                                 </Grid>
                                             </Grid>
-
-
-                                            <FormControl fullWidth error={Boolean(touched.name && errors.name)}
-                                                         sx={{...theme.typography.customInput}}>
-                                                <InputLabel htmlFor="projectName">Name</InputLabel>
-                                                <OutlinedInput
-                                                    id="projectName"
-                                                    type="text"
-                                                    name="name"
-                                                    onBlur={handleBlur}
-                                                    onChange={handleChange}
-                                                />
-                                                {touched.name && errors.name && (
-                                                    <FormHelperText error id="projectNameHandler">
-                                                        {errors.name}
-                                                    </FormHelperText>
-                                                )}
-                                            </FormControl>
 
                                             {errors.submit && (
                                                 <Box sx={{mt: 3}}>
                                                     <FormHelperText error>{errors.submit}</FormHelperText>
                                                 </Box>
                                             )}
+
+                                            <Typography variant="body2">
+                                                Are you sure you want to delete the note?
+                                                This action is irreversible!
+                                            </Typography>
 
                                         </ModalBody>
                                         <ModalFooter>
@@ -129,7 +110,7 @@ const AddProjectModal = ({showModal, closeModal}) => {
                                                     type="submit"
                                                     variant="contained"
                                                     color="secondary">
-                                                    Save
+                                                    Yes
                                                 </Button>
                                             </AnimateButton>
                                             <AnimateButton>
@@ -144,7 +125,7 @@ const AddProjectModal = ({showModal, closeModal}) => {
                                                         borderColor: theme.palette.grey[100]
                                                     }}
                                                 >
-                                                    Close
+                                                    Cancel
                                                 </Button>
                                             </AnimateButton>
                                         </ModalFooter>
@@ -160,4 +141,4 @@ const AddProjectModal = ({showModal, closeModal}) => {
     );
 };
 
-export default AddProjectModal;
+export default DeleteNoteModal;

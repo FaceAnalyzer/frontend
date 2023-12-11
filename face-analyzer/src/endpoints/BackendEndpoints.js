@@ -12,6 +12,14 @@ export const EDIT_EXPERIMENT_API = process.env.REACT_APP_BACKEND_API_URL + '/exp
 export const GET_EXPERIMENTS_API = process.env.REACT_APP_BACKEND_API_URL + '/experiments';
 export const GET_EXPERIMENT_BY_ID_API = process.env.REACT_APP_BACKEND_API_URL + '/experiments/{id}';
 
+//Notes
+export const ADD_NOTE_API = process.env.REACT_APP_BACKEND_API_URL + '/notes';
+export const DELETE_NOTE_API = process.env.REACT_APP_BACKEND_API_URL + '/notes/{id}';
+export const EDIT_NOTE_API = process.env.REACT_APP_BACKEND_API_URL + '/notes/{id}';
+export const GET_NOTES_BY_EXPERIMENT_ID_API = process.env.REACT_APP_BACKEND_API_URL + '/notes?experimentId={id}';
+export const GET_NOTE_BY_ID_API = process.env.REACT_APP_BACKEND_API_URL + '/notes/{id}';
+
+
 //Stimuli
 export const GET_STIMULI_API = process.env.REACT_APP_BACKEND_API_URL + '/stimuli';
 export const GET_STIMULI_BY_ID_API = process.env.REACT_APP_BACKEND_API_URL + '/stimuli/{id}';
