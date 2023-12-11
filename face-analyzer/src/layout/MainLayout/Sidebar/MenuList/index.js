@@ -3,9 +3,10 @@ import {Typography} from '@mui/material';
 
 // project imports
 import NavGroup from './NavGroup';
-import {IconBuildingFactory2, IconFileAnalytics, IconFlask, IconUser} from "@tabler/icons";
+import {IconBuildingFactory2, IconFlask, IconUser} from "@tabler/icons";
 import axios from "axios";
 import {GET_EXPERIMENTS_API, GET_PROJECTS_API} from "../../../../endpoints/BackendEndpoints";
+import {FolderOpen} from "@mui/icons-material";
 
 // ==============================|| SIDEBAR MENU LIST ||============================== //
 
@@ -86,7 +87,7 @@ const MenuList = () => {
             id: `project-${project.id}`,
             title: project.name,
             type: 'collapse',
-            icon: IconFileAnalytics,
+            icon: FolderOpen,
             url: `/project/${project.id}`,
             breadcrumbs: false,
             children: experiments.map((experiment) => ({

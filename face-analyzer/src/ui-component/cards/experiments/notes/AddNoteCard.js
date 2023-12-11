@@ -10,9 +10,8 @@ import MainCard from 'ui-component/cards/MainCard';
 import SkeletonEarningCard from 'ui-component/cards/Skeleton/EarningCard';
 
 // assets
-import {IconPlus} from '@tabler/icons';
-import AddProjectModal from "../../modals/projects/AddProjectModal";
-import {FolderOpen} from "@mui/icons-material";
+import {IconClipboardList, IconPlus} from '@tabler/icons';
+import AddNoteModal from "../../../modals/experiments/notes/AddNoteModal";
 
 const CardWrapper = styled(MainCard)(({theme}) => ({
     backgroundColor: '#fff',
@@ -23,11 +22,12 @@ const CardWrapper = styled(MainCard)(({theme}) => ({
     position: 'relative'
 }));
 
-// ===========================|| ADD PROJECT CARD ||=========================== //
+// ===========================|| ADD NOTE CARD ||=========================== //
 
-const AddProjectCard = ({isLoading}) => {
+const AddNoteCard = ({isLoading, experimentId}) => {
     const theme = useTheme();
     const [showModal, setShowModal] = useState(false);
+    const ID = parseInt(experimentId);
 
     const openModal = () => {
         setShowModal(true);
@@ -43,7 +43,7 @@ const AddProjectCard = ({isLoading}) => {
                 <SkeletonEarningCard/>
             ) : (
                 <CardWrapper border={false} content={false}>
-                    <AddProjectModal showModal={showModal} closeModal={closeModal}/>
+                    <AddNoteModal showModal={showModal} closeModal={closeModal} experimentId={ID}/>
                     <Box sx={{p: 2.25}}>
                         <Grid container direction="column">
                             <Grid item>
@@ -59,7 +59,7 @@ const AddProjectCard = ({isLoading}) => {
                                                 mt: 1
                                             }}
                                         >
-                                            <FolderOpen/>
+                                            <IconClipboardList/>
                                         </Avatar>
                                     </Grid>
                                     <Grid item>
@@ -76,7 +76,7 @@ const AddProjectCard = ({isLoading}) => {
                                                 borderRadius: '1rem',
                                                 zIndex: 1
                                             }}
-                                            aria-controls="add-new-project-card"
+                                            aria-controls="add-new-note-card"
                                             aria-haspopup="true"
                                             onClick={openModal}
                                         >
@@ -90,7 +90,7 @@ const AddProjectCard = ({isLoading}) => {
                                     <Grid item>
                                         <Typography
                                             sx={{fontSize: '2.125rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75}}>Add
-                                            projects</Typography>
+                                            notes</Typography>
                                     </Grid>
                                 </Grid>
                             </Grid>
@@ -102,7 +102,7 @@ const AddProjectCard = ({isLoading}) => {
                                         color: theme.palette.secondary[200]
                                     }}
                                 >
-                                    Click to add a new project.
+                                    Click to add a new note.
                                 </Typography>
                             </Grid>
                         </Grid>
@@ -113,8 +113,8 @@ const AddProjectCard = ({isLoading}) => {
     );
 };
 
-AddProjectCard.propTypes = {
+AddNoteCard.propTypes = {
     isLoading: PropTypes.bool
 };
 
-export default AddProjectCard;
+export default AddNoteCard;

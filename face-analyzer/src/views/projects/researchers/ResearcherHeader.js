@@ -1,7 +1,6 @@
 import React from 'react';
 import {Box, Card, CardHeader, Link, Typography} from "@mui/material";
-import {IconFileAnalytics} from "@tabler/icons";
-import {Troubleshoot} from "@mui/icons-material";
+import {FolderOpen, Troubleshoot} from "@mui/icons-material";
 import {useTheme} from "@mui/material/styles";
 import {gridSpacing} from "../../../store/constant";
 
@@ -23,7 +22,7 @@ const ProjectResearcherHeader = ({data}) => {
                                           sx={{color: theme.palette.grey[500], textDecoration: 'none'}}
                                     >
                                         <Box sx={{display: 'flex', alignItems: 'center'}}>
-                                            <IconFileAnalytics/>
+                                            <FolderOpen/>
                                             <Typography sx={{fontWeight: 500}}>{project.name}</Typography>
                                         </Box>
                                     </Link>

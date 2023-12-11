@@ -1,15 +1,16 @@
 import React from 'react';
 
 import {styled, useTheme} from '@mui/material/styles';
-import {Box, Button, FormControl, FormHelperText, Grid, InputLabel, OutlinedInput, Typography} from '@mui/material';
-import MainCard from "../../cards/MainCard";
+import {Box, Button, FormControl, FormHelperText, Grid, OutlinedInput, Typography} from '@mui/material';
 import * as Yup from "yup";
 import {Formik} from "formik";
-import useScriptRef from "../../../hooks/useScriptRef";
-import AnimateButton from "../../extended/AnimateButton";
-import {Modal, ModalBody, ModalContent, ModalFooter, ModalOverlay} from "../ModalComponents";
+import useScriptRef from "../../../../hooks/useScriptRef";
+import MainCard from "../../../cards/MainCard";
+import {Modal, ModalBody, ModalContent, ModalFooter, ModalOverlay} from "../../ModalComponents";
+import AnimateButton from "../../../extended/AnimateButton";
+import {DEFAULT_API_CONFIG, EDIT_NOTE_API} from "../../../../endpoints/BackendEndpoints";
 import axios from "axios";
-import {ADD_PROJECT_API, DEFAULT_API_CONFIG} from "../../../endpoints/BackendEndpoints";
+import {useAuth} from "../../../../context/authContext";
 
 const CardWrapper = styled(MainCard)(({theme}) => ({
     backgroundColor: '#fff',
@@ -19,19 +20,28 @@ const CardWrapper = styled(MainCard)(({theme}) => ({
     position: 'relative',
 }));
 
-// ===========================|| ADD PROJECT MODAL ||=========================== //
+// ===========================|| EDIT NOTE MODAL ||=========================== //
 
-const AddProjectModal = ({showModal, closeModal}) => {
+const EditNoteModal = ({showModal, closeModal, note}) => {
     const theme = useTheme();
     const scriptedRef = useScriptRef();
+    const noteId = note.id;
+    const noteDescription = note.description;
+    console.log("nd", note);
+    const {user} = useAuth();
 
     const handleSave = async (values, {setErrors, setStatus}) => {
         try {
-            axios.post(ADD_PROJECT_API, JSON.stringify(values), DEFAULT_API_CONFIG)
+            values.creatorId = note.creatorId;
+            values.experimentId = note.experimentId;
+            if (note.creatorId !== user.id) {
+                setErrors("Cannot edit the note you haven't created");
+                setStatus({success: false});
+                return;
+            }
+            axios.put(EDIT_NOTE_API.replace("{id}", noteId), JSON.stringify(values), DEFAULT_API_CONFIG)
                 .then(response => {
-                    // this.setState({articleId: response.data.id});
-                    if (response.status === 201) {
-                        // Refresh the page after a successful submission
+                    if (response.status === 200) {
                         window.location.reload();
                     } else {
                         const data = response.data;
@@ -55,11 +65,11 @@ const AddProjectModal = ({showModal, closeModal}) => {
                     <Modal>
                         <Formik
                             initialValues={{
-                                name: '',
+                                description: noteDescription,
                                 submit: null
                             }}
                             validationSchema={Yup.object().shape({
-                                name: Yup.string().max(255).required('Project name is required'),
+                                description: Yup.string().max(300).required('Description is required')
                             })}
 
                             onSubmit={async (values, {setErrors, setStatus}) => {
@@ -89,25 +99,29 @@ const AddProjectModal = ({showModal, closeModal}) => {
                                                         color: theme.palette.secondary.dark,
                                                         mb: 1
                                                     }}>
-                                                        Add project
+                                                        Note
                                                     </Typography>
                                                 </Grid>
                                             </Grid>
 
 
-                                            <FormControl fullWidth error={Boolean(touched.name && errors.name)}
+                                            <FormControl fullWidth
+                                                         error={Boolean(touched.description && errors.description)}
                                                          sx={{...theme.typography.customInput}}>
-                                                <InputLabel htmlFor="projectName">Name</InputLabel>
                                                 <OutlinedInput
-                                                    id="projectName"
-                                                    type="text"
-                                                    name="name"
+                                                    id="noteDescription"
+                                                    name="description"
+                                                    rows={5}
+                                                    multiline
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
+                                                    defaultValue={note.description}
+                                                    disabled={user.id !== note.creatorId}
                                                 />
-                                                {touched.name && errors.name && (
-                                                    <FormHelperText error id="projectNameHandler">
-                                                        {errors.name}
+
+                                                {touched.description && errors.description && (
+                                                    <FormHelperText error id="noteNameHandler" sx={{ml: 0}}>
+                                                        {errors.description}
                                                     </FormHelperText>
                                                 )}
                                             </FormControl>
@@ -124,6 +138,7 @@ const AddProjectModal = ({showModal, closeModal}) => {
                                                 <Button
                                                     disableElevation
                                                     disabled={isSubmitting}
+                                                    sx={{display: user.id === note.creatorId ? "" : "none"}}
                                                     fullWidth
                                                     size="medium"
                                                     type="submit"
@@ -160,4 +175,4 @@ const AddProjectModal = ({showModal, closeModal}) => {
     );
 };
 
-export default AddProjectModal;
+export default EditNoteModal;

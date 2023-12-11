@@ -3,6 +3,7 @@ import {lazy} from 'react';
 // project imports
 import MainLayout from 'layout/MainLayout';
 import Loadable from 'ui-component/Loadable';
+import Notes from "../views/experiments/notes";
 
 const Analyzer = Loadable(lazy(() => import('views/reactions')));
 const Projects = Loadable(lazy(() => import('views/projects/projects')));
@@ -41,6 +42,10 @@ const MainRoutes = {
     {
       path: 'experiment/:experimentId',
       element: <Experiment />
+    },
+    {
+      path: 'experiment/:experimentId/notes',
+      element: <Notes/>
     },
     {
       path: 'stimuli/:stimuliId',

@@ -65,7 +65,7 @@ const AuthLogin = ({ ...others }) => {
       const response = await axios.get(GET_USER_BY_ID_API.replace("{id}", userId), {headers: {
           Authorization: "bearer " + token,
         }});
-      return {name: response.data.name, surname: response.data.surname, role: response.data.role};
+      return {id: response.data.id, name: response.data.name, surname: response.data.surname, role: response.data.role};
     }
     catch (e) {
       console.error(e);

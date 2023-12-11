@@ -2,7 +2,7 @@
 
 // ==============================|| PROJECT MENU ITEMS ||============================== //
 
-import {IconFileAnalytics} from "@tabler/icons";
+import {FolderOpen} from "@mui/icons-material";
 
 const projects = {
   id: 'projects',
@@ -14,7 +14,7 @@ const projects = {
       title: 'Project A',
       type: 'item',
       url: '/projects/experiments',
-      icon: IconFileAnalytics,
+      icon: FolderOpen,
       breadcrumbs: false
     }
   ]
