@@ -1,8 +1,9 @@
 import React from 'react';
 import {useTheme} from "@mui/material/styles";
 import {Box, Card, CardHeader, Link, Typography} from "@mui/material";
-import {IconChevronRight, IconClipboardList, IconFileAnalytics, IconFlask} from "@tabler/icons";
+import {IconChevronRight, IconClipboardList, IconFlask} from "@tabler/icons";
 import {gridSpacing} from "../../../store/constant";
+import {FolderOpen} from "@mui/icons-material";
 
 // ===========================|| NOTES HEADER ||=========================== //
 
@@ -23,7 +24,7 @@ const NotesHeader = ({experiment, project}) => {
                                               sx={{color: theme.palette.grey[500], textDecoration: 'none'}}
                                         >
                                             <Box sx={{display: 'flex', alignItems: 'center'}}>
-                                                <IconFileAnalytics/>
+                                                <FolderOpen/>
                                                 <Typography sx={{fontWeight: 500}}>{project.name}</Typography>
                                             </Box>
                                         </Link>

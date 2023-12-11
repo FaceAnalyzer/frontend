@@ -7,9 +7,8 @@ import {styled, useTheme} from '@mui/material/styles';
 import MainCard from 'ui-component/cards/MainCard';
 import SkeletonEarningCard from 'ui-component/cards/Skeleton/EarningCard';
 import {Avatar, Box, Grid, Menu, MenuItem, Typography} from "@mui/material";
-import {IconFileAnalytics} from "@tabler/icons";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
-import {DeleteForever, Edit} from "@mui/icons-material";
+import {DeleteForever, Edit, FolderOpen} from "@mui/icons-material";
 import {useState} from "react";
 import EditProjectModal from "../../modals/projects/EditProjectModal";
 import DeleteProjectModal from "../../modals/projects/DeleteProjectModal";
@@ -101,7 +100,7 @@ const ProjectCard = ({isLoading, data}) => {
                                             }}
                                             onClick={openProject}
                                         >
-                                            <IconFileAnalytics/>
+                                            <FolderOpen/>
                                         </Avatar>
                                     </Grid>
                                     <Grid item>

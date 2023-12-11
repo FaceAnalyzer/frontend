@@ -5,7 +5,8 @@ import EditExperimentModal from "../../ui-component/modals/experiments/EditExper
 import {Box, Button, Card, CardHeader, Link, Typography, useMediaQuery} from "@mui/material";
 import {gridSpacing} from "../../store/constant";
 import AnimateButton from "../../ui-component/extended/AnimateButton";
-import {IconClipboardList, IconEdit, IconFileAnalytics, IconFlask, IconTrashOff} from "@tabler/icons";
+import {IconClipboardList, IconEdit, IconFlask, IconTrashOff} from "@tabler/icons";
+import {FolderOpen} from "@mui/icons-material";
 
 // ===========================|| EXPERIMENT HEADER ||=========================== //
 
@@ -68,7 +69,7 @@ const ExperimentHeader = ({data, projectData}) => {
                                           sx={{color: theme.palette.grey[500], textDecoration: 'none'}}
                                     >
                                         <Box sx={{display: 'flex', alignItems: 'center'}}>
-                                            <IconFileAnalytics/>
+                                            <FolderOpen/>
                                             <Typography sx={{fontWeight: 500}}>{project.name}</Typography>
                                         </Box>
                                     </Link>
