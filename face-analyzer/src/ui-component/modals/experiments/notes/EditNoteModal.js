@@ -94,7 +94,7 @@ const EditNoteModal = ({showModal, closeModal, note}) => {
                                                         color: theme.palette.secondary.dark,
                                                         mb: 1
                                                     }}>
-                                                        Edit note
+                                                        Note
                                                     </Typography>
                                                 </Grid>
                                             </Grid>
@@ -129,10 +129,11 @@ const EditNoteModal = ({showModal, closeModal, note}) => {
 
                                         </ModalBody>
                                         <ModalFooter>
-                                            <AnimateButton sx={{display: user.id === note.creatorId ? "" : "none"}}>
+                                            <AnimateButton>
                                                 <Button
                                                     disableElevation
                                                     disabled={isSubmitting}
+                                                    sx={{display: user.id === note.creatorId ? "" : "none"}}
                                                     fullWidth
                                                     size="medium"
                                                     type="submit"

@@ -1,15 +1,7 @@
 import React from 'react';
 
 import {styled, useTheme} from '@mui/material/styles';
-import {
-    Box,
-    Button,
-    FormControl,
-    FormHelperText,
-    Grid,
-    OutlinedInput,
-    Typography
-} from '@mui/material';
+import {Box, Button, FormControl, FormHelperText, Grid, OutlinedInput, Typography} from '@mui/material';
 import * as Yup from "yup";
 import {Formik} from "formik";
 import {ADD_NOTE_API, DEFAULT_API_CONFIG} from "../../../../endpoints/BackendEndpoints";
@@ -70,7 +62,7 @@ const AddNoteModal = ({showModal, closeModal, experimentId}) => {
                                 submit: null
                             }}
                             validationSchema={Yup.object().shape({
-                                description: Yup.string().max(300).required('Description is required')
+                                description: Yup.string().max(1000).required('Description is required')
                             })}
 
                             onSubmit={async (values, {setErrors, setStatus}) => {
