@@ -34,6 +34,11 @@ const EditNoteModal = ({showModal, closeModal, note}) => {
         try {
             values.creatorId = note.creatorId;
             values.experimentId = note.experimentId;
+            if (note.creatorId !== user.id) {
+                setErrors("Cannot edit the note you haven't created");
+                setStatus({success: false});
+                return;
+            }
             axios.put(EDIT_NOTE_API.replace("{id}", noteId), JSON.stringify(values), DEFAULT_API_CONFIG)
                 .then(response => {
                     if (response.status === 200) {
