@@ -65,6 +65,7 @@ const AddProjectCard = ({isLoading}) => {
                                     <Grid item>
                                         <Avatar
                                             variant="rounded"
+                                            id="add-project-button"
                                             sx={{
                                                 ...theme.typography.commonAvatar,
                                                 ...theme.typography.mediumAvatar,

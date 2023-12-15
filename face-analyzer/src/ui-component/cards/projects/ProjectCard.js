@@ -91,6 +91,7 @@ const ProjectCard = ({isLoading, data}) => {
                                     <Grid item>
                                         <Avatar
                                             variant="rounded"
+                                            id={"open-project-"+project.id}
                                             sx={{
                                                 ...theme.typography.commonAvatar,
                                                 ...theme.typography.largeAvatar,
@@ -106,6 +107,7 @@ const ProjectCard = ({isLoading, data}) => {
                                     <Grid item>
                                         <Avatar
                                             variant="rounded"
+                                            id={"open-card-" + project.id + "-options"}
                                             sx={{
                                                 ...theme.typography.commonAvatar,
                                                 ...theme.typography.mediumAvatar,
@@ -120,7 +122,7 @@ const ProjectCard = ({isLoading, data}) => {
                                             <MoreHorizIcon fontSize="inherit"/>
                                         </Avatar>
                                         <Menu
-                                            id="menu-project-card"
+                                            id={"menu-project-card-"+project.id}
                                             anchorEl={anchorEl}
                                             keepMounted
                                             open={Boolean(anchorEl)}
@@ -138,10 +140,10 @@ const ProjectCard = ({isLoading, data}) => {
                                             {/*<MenuItem onClick={handleClose}>*/}
                                             {/*    <Download sx={{mr: 1.75}}/> Export*/}
                                             {/*</MenuItem>*/}
-                                            <MenuItem onClick={onEditClick}>
+                                            <MenuItem id={"menu-project-" + project.id + "-edit"} onClick={onEditClick}>
                                                 <Edit sx={{mr: 1.75}}/> Edit
                                             </MenuItem>
-                                            <MenuItem onClick={onDeleteClick}
+                                            <MenuItem id={"menu-project-" + project.id + "-delete"} onClick={onDeleteClick}
                                                       sx={{color: 'red'}}>
                                                 <DeleteForever sx={{mr: 1.75}}/> Delete
                                             </MenuItem>

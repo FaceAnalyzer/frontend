@@ -81,6 +81,7 @@ const ProfileSection = () => {
   return (
     <>
       <Chip
+          id="open-profile-chip"
         sx={{
           height: '48px',
           alignItems: 'center',
@@ -177,6 +178,7 @@ const ProfileSection = () => {
                         }}
                       >
                         <ListItemButton
+                            id={user ? "logout-button" : "login-button"}
                           sx={{ borderRadius: `${customization.borderRadius}px` }}
                           //selected={selectedIndex === 4}
                           onClick={user ? handleLogout : handleLogin}
