@@ -23,6 +23,7 @@ const EmotionsOverTimeChart = ({ groupedSortedData }) => {
         const timeFormat = 'mm:ss';
         const options = {
             chart: {
+                id: "emotions-over-time",
                 type: "line",
                 toolbar: {
                     show: true,

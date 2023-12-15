@@ -122,13 +122,13 @@ const BoxPlotLegend = () => {
                 <Typography variant="subtitle1" marginRight={2}>
                     For more information on box plot charts check out one of the following links:
                     <br/>
-                    <Link href="https://www.simplypsychology.org/boxplots.html" target="_blank" rel="noopener">
+                    <Link id={"link-1"} href="https://www.simplypsychology.org/boxplots.html" target="_blank" rel="noopener">
                         Link 1
                     </Link>, &nbsp;
-                    <Link href="https://mlsamurai.medium.com/how-to-read-and-make-box-plot-a-complete-guide-best-practices-92b233e59c3b" target="_blank" rel="noopener">
+                    <Link id={"link-2"} href="https://mlsamurai.medium.com/how-to-read-and-make-box-plot-a-complete-guide-best-practices-92b233e59c3b" target="_blank" rel="noopener">
                         Link 2
                     </Link>, &nbsp;
-                    <Link href="https://www.fusioncharts.com/resources/chart-primers/box-and-whisker-chart" target="_blank" rel="noopener">
+                    <Link id={"link-3"} href="https://www.fusioncharts.com/resources/chart-primers/box-and-whisker-chart" target="_blank" rel="noopener">
                         Link 3
                     </Link>.
                 </Typography>

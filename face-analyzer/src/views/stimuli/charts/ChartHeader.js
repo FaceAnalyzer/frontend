@@ -5,7 +5,7 @@ import AnimateButton from "../../../ui-component/extended/AnimateButton";
 import {IconChevronRight, IconDownload, IconFlask, IconGraph, IconVideo} from "@tabler/icons";
 import PropTypes from "prop-types";
 import Papa from "papaparse";
-import {FileOpen} from "@mui/icons-material";
+import {FolderOpen} from "@mui/icons-material";
 
 // ===========================|| CHART HEADER ||=========================== //
 
@@ -74,7 +74,7 @@ const ChartHeader = ({
         return createCsvString(headers, combinedArray);
     }
 
-    const downloadCsv = () => {
+    const exportCsv = () => {
         const dataCSV = convertToCSV(emotionsData);
         const filename = (() => {
             const participantName = reactionData.participantName;
@@ -98,17 +98,17 @@ const ChartHeader = ({
                 <CardHeader sx={{padding: '5px'}}
                             subheader={
                                 <Box sx={{display: 'flex'}}>
-                                    <Link href={`/project/${projectId}`}
+                                    <Link id={"breadcrumb-to-project"} href={`/project/${projectId}`}
                                           sx={{color: theme.palette.grey[500], textDecoration: 'none'}}
                                     >
                                         <Box sx={{display: 'flex', alignItems: 'center'}}>
-                                            <FileOpen/>
+                                            <FolderOpen/>
                                             <Typography sx={{fontWeight: 500}}>{project.name}</Typography>
                                         </Box>
                                     </Link>
                                     &nbsp;
                                     <IconChevronRight />
-                                    <Link href={`/experiment/${experimentId}`}
+                                    <Link id={"breadcrumb-to-experiment"} href={`/experiment/${experimentId}`}
                                           sx={{color: theme.palette.grey[500], textDecoration: 'none'}}
                                     >
                                         <Box sx={{display: 'flex', alignItems: 'center'}}>
@@ -118,7 +118,7 @@ const ChartHeader = ({
                                     </Link>
                                     &nbsp;
                                     <IconChevronRight />
-                                    <Link href={`/stimuli/${stimuliId}`}
+                                    <Link id={"breadcrumb-to-stimuli"} href={`/stimuli/${stimuliId}`}
                                           sx={{color: theme.palette.grey[500], textDecoration: 'none'}}
                                     >
                                         <Box sx={{display: 'flex', alignItems: 'center'}}>
@@ -144,6 +144,7 @@ const ChartHeader = ({
                 <Box sx={{display: 'flex', gap: 1, pr: 2}}>
                     <AnimateButton>
                         <Button
+                            id={"button-emotions-over-time"}
                             onClick={() => handleButtonClick('overTime')}
                             sx={activeButton === 'overTime' ? {
                                 color: theme.palette.secondary
@@ -159,6 +160,7 @@ const ChartHeader = ({
                     </AnimateButton>
                     <AnimateButton>
                         <Button
+                            id={"button-emotions-distribution"}
                             onClick={() => handleButtonClick('distribution')}
                             sx={activeButton === 'distribution' ? {
                                 color: theme.palette.secondary
@@ -176,10 +178,11 @@ const ChartHeader = ({
                 <Box>
                     <AnimateButton>
                         <Button
+                            id={"button-export-csv"}
                             sx={{color: theme.palette.secondary}}
                             variant={'contained'}
                             disableElevation
-                            onClick={downloadCsv}
+                            onClick={exportCsv}
                         >
                             <IconDownload/> Export CSV
                         </Button>
