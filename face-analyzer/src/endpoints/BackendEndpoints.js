@@ -51,6 +51,7 @@ export const REMOVE_RESEARCHER_FROM_PROJECT_API = process.env.REACT_APP_BACKEND_
 
 //Auth
 export const LOGIN_API = process.env.REACT_APP_BACKEND_API_URL + '/auth/login';
+export const PASSWORD_RESET_API = process.env.REACT_APP_BACKEND_API_URL + '/auth/reset-user-password';
 
 //Ping
 export const PING_API = process.env.REACT_APP_BACKEND_API_URL + '/ping';
