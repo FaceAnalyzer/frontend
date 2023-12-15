@@ -100,6 +100,7 @@ const NoteCard = ({isLoading, data}) => {
                                     </Grid>
                                     <Grid item>
                                         <Avatar
+                                            id={"menu-notes-card-" + note.id}
                                             variant="rounded"
                                             sx={{
                                                 ...theme.typography.commonAvatar,
@@ -130,10 +131,10 @@ const NoteCard = ({isLoading, data}) => {
                                                 horizontal: 'right'
                                             }}
                                         >
-                                            <MenuItem onClick={onShowClick}>
+                                            <MenuItem id={"button-show-note-" + note.id} onClick={onShowClick}>
                                                 <OpenInFull sx={{mr: 1.75}}/> View
                                             </MenuItem>
-                                            <MenuItem onClick={onDeleteClick}
+                                            <MenuItem id={"button-delete-note-" + note.id} onClick={onDeleteClick}
                                                       sx={{color: 'red'}}>
                                                 <DeleteForever sx={{mr: 1.75}}/> Delete
                                             </MenuItem>
