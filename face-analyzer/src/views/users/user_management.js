@@ -57,7 +57,7 @@ const UserManagement = () => {
                     <UserManagementHeader/>
                 </Grid>
                 <Grid item xs={8} sm={6} md={4} lg={2} xl={1}>
-                    <Button onClick={openAddModal} variant="contained" disableElevation>
+                    <Button id={"button-add-user"} onClick={openAddModal} variant="contained" disableElevation>
                         Add user
                     </Button>
                 </Grid>
