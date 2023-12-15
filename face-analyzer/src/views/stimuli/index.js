@@ -143,28 +143,32 @@ const Stimuli = () => {
                         <AnalysisResultsComponent analysisData={analysisData} isLoading={isLoading}/>
 
                         <Box sx={{display: 'flex', gap: '1rem', padding: '1rem', justifyContent: 'center'}}>
-                            <Button variant={isRecording ? '' : 'contained'}
-                                    sx={isRecording ? {
-                                        color: theme.palette.grey[700],
-                                        backgroundColor: theme.palette.grey[50],
-                                    } : {
-                                        color: theme.palette.secondary
-                                    }}
-                                    onClick={toggleRecording}
-                                    disableElevation>
-                                {isRecording ? (<>
-                                    <VideocamOff/>
-                                    Stop Recording
-                                </>) : (<>
-                                    <Videocam/>
-                                    Start Recording
-                                </>)
-                                }
+                            <Button
+                                id={"button-toggle-recording"}
+                                variant={isRecording ? '' : 'contained'}
+                                sx={isRecording ? {
+                                    color: theme.palette.grey[700],
+                                    backgroundColor: theme.palette.grey[50],
+                                } : {
+                                    color: theme.palette.secondary
+                                }}
+                                onClick={toggleRecording}
+                                disableElevation>
+                                    {isRecording ? (<>
+                                        <VideocamOff/>
+                                        Stop Recording
+                                    </>) : (<>
+                                        <Videocam/>
+                                        Start Recording
+                                    </>)
+                                    }
                             </Button>
 
-                            <Button variant="contained"
-                                    onClick={saveReaction}
-                                    disableElevation>
+                            <Button
+                                id={"button-save-reaction"}
+                                variant="contained"
+                                onClick={saveReaction}
+                                disableElevation>
                                 Save
                             </Button>
                         </Box>
