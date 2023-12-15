@@ -20,7 +20,7 @@ const NotesHeader = ({experiment, project}) => {
                     <CardHeader sx={{padding: '5px'}}
                                 subheader={
                                     <Box sx={{display: 'flex'}}>
-                                        <Link href={`/project/${projectId}`}
+                                        <Link id={"breadcrumb-to-project"} href={`/project/${projectId}`}
                                               sx={{color: theme.palette.grey[500], textDecoration: 'none'}}
                                         >
                                             <Box sx={{display: 'flex', alignItems: 'center'}}>
@@ -30,7 +30,7 @@ const NotesHeader = ({experiment, project}) => {
                                         </Link>
                                         &nbsp;
                                         <IconChevronRight/>
-                                        <Link href={`/experiment/${experimentId}`}
+                                        <Link id={"breadcrumb-to-experiment"} href={`/experiment/${experimentId}`}
                                               sx={{color: theme.palette.grey[500], textDecoration: 'none'}}
                                         >
                                             <Box sx={{display: 'flex', alignItems: 'center'}}>
