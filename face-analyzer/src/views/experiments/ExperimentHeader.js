@@ -65,7 +65,7 @@ const ExperimentHeader = ({data, projectData}) => {
                 <Box sx={{display: 'flex', flexDirection: 'column'}}>
                     <CardHeader sx={{padding: '5px'}}
                                 subheader={
-                                    <Link href={`/project/${projectId}`}
+                                    <Link id={"breadcrumb-to-project"} href={`/project/${projectId}`}
                                           sx={{color: theme.palette.grey[500], textDecoration: 'none'}}
                                     >
                                         <Box sx={{display: 'flex', alignItems: 'center'}}>
@@ -93,6 +93,7 @@ const ExperimentHeader = ({data, projectData}) => {
                         <Box sx={{display: 'flex', gap: 1, pr: 2}}>
                             <AnimateButton>
                                 <Button
+                                    id={"button-notes"}
                                     disableElevation
                                     onClick={openNotes}
                                     variant="contained"
@@ -108,6 +109,7 @@ const ExperimentHeader = ({data, projectData}) => {
                             </AnimateButton>
                             <AnimateButton>
                                 <Button
+                                    id={"button-edit-experiment"}
                                     disableElevation
                                     onClick={onEditClick}
                                     variant="contained"
@@ -121,6 +123,7 @@ const ExperimentHeader = ({data, projectData}) => {
                             </AnimateButton>
                             <AnimateButton>
                                 <Button
+                                    id={"button-delete-experiment"}
                                     onClick={onDeleteClick}
                                     sx={{
                                         color: theme.palette.grey[700],

@@ -71,6 +71,7 @@ const ProjectHeader = ({data}) => {
                     <Box sx={{display: 'flex', gap: 1, pr: 2}}>
                         <AnimateButton>
                             <Button
+                                id={"button-researchers-edit"}
                                 disableElevation
                                 onClick={openProjectResearchers}
                                 variant="contained"
@@ -86,6 +87,7 @@ const ProjectHeader = ({data}) => {
                         </AnimateButton>
                         <AnimateButton>
                             <Button
+                                id={"button-edit-project"}
                                 disableElevation
                                 onClick={onEditClick}
                                 variant="contained"
@@ -99,6 +101,7 @@ const ProjectHeader = ({data}) => {
                         </AnimateButton>
                         <AnimateButton>
                             <Button
+                                id={"button-delete-project"}
                                 onClick={onDeleteClick}
                                 sx={{
                                     color: theme.palette.grey[700],

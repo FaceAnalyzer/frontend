@@ -50,6 +50,7 @@ const AddStimuliCard = ({isLoading, experimentId}) => {
                                 <Grid container justifyContent="space-between">
                                     <Grid item>
                                         <Avatar
+                                            id={"add-stimuli-icon"}
                                             variant="rounded"
                                             sx={{
                                                 ...theme.typography.commonAvatar,
@@ -64,6 +65,7 @@ const AddStimuliCard = ({isLoading, experimentId}) => {
                                     </Grid>
                                     <Grid item>
                                         <Avatar
+                                            id={"add-stimuli-button"}
                                             variant="rounded"
                                             sx={{
                                                 ...theme.typography.commonAvatar,
@@ -89,8 +91,9 @@ const AddStimuliCard = ({isLoading, experimentId}) => {
                                 <Grid container alignItems="center">
                                     <Grid item>
                                         <Typography
-                                            sx={{fontSize: '2.125rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75}}>Add
-                                            stimuli</Typography>
+                                            sx={{fontSize: '2.125rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75}}>
+                                            Add stimuli
+                                        </Typography>
                                     </Grid>
                                 </Grid>
                             </Grid>

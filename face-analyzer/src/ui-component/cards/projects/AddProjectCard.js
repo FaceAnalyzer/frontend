@@ -51,7 +51,7 @@ const AddProjectCard = ({isLoading}) => {
                                     <Grid item>
                                         <Avatar
                                             variant="rounded"
-                                            id="add-project-icon"
+                                            id={"add-project-icon"}
                                             sx={{
                                                 ...theme.typography.commonAvatar,
                                                 ...theme.typography.largeAvatar,
@@ -66,7 +66,7 @@ const AddProjectCard = ({isLoading}) => {
                                     <Grid item>
                                         <Avatar
                                             variant="rounded"
-                                            id="add-project-button"
+                                            id={"add-project-button"}
                                             sx={{
                                                 ...theme.typography.commonAvatar,
                                                 ...theme.typography.mediumAvatar,

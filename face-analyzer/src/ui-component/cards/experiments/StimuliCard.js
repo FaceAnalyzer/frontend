@@ -65,6 +65,7 @@ const StimuliCard = ({isLoading, data}) => {
                                         <Grid container justifyContent="center">
                                             <Grid item sx={{paddingRight: '5px'}}>
                                                 <Avatar
+                                                    id={"button-open-stimuli-" + stimulus.id}
                                                     variant="rounded"
                                                     sx={{
                                                         ...theme.typography.commonAvatar,
@@ -80,6 +81,7 @@ const StimuliCard = ({isLoading, data}) => {
                                             </Grid>
                                             <Grid item sx={{paddingLeft: '5px'}}>
                                                 <Avatar
+                                                    id={"link-stimuli-" + stimulus.id}
                                                     variant="rounded"
                                                     sx={{
                                                         ...theme.typography.commonAvatar,
@@ -97,6 +99,7 @@ const StimuliCard = ({isLoading, data}) => {
                                     </Grid>
                                     <Grid item>
                                         <Avatar
+                                            id={"button-delete-stimuli-" + stimulus.id}
                                             variant="rounded"
                                             sx={{
                                                 ...theme.typography.commonAvatar,
