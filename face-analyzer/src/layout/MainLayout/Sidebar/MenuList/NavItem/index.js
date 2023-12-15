@@ -68,6 +68,7 @@ const NavItem = ({ item, level }) => {
     <ListItemButton
       {...listItemProps}
       disabled={item.disabled}
+      id={"sidebar-button-" + item.id}
       sx={{
         borderRadius: `${customization.borderRadius}px`,
         mb: 0.5,
