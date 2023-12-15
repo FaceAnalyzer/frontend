@@ -139,6 +139,7 @@ const SaveReactionModal = ({showModal, closeModal, stimuliId}) => {
                                         <ModalFooter>
                                             <AnimateButton>
                                                 <Button
+                                                    id={"button-save"}
                                                     disableElevation
                                                     disabled={isSubmitting}
                                                     fullWidth
@@ -151,6 +152,7 @@ const SaveReactionModal = ({showModal, closeModal, stimuliId}) => {
                                             </AnimateButton>
                                             <AnimateButton>
                                                 <Button
+                                                    id={"button-close"}
                                                     variant="outlined"
                                                     fullWidth
                                                     onClick={closeModal}

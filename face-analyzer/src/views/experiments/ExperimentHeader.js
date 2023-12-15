@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {useTheme} from "@mui/material/styles";
 import DeleteExperimentModal from "../../ui-component/modals/projects/DeleteExperimentModal";
-import EditExperimentModal from "../../ui-component/modals/experiments/EditExperimentModal";
+import EditExperimentModal from "../../ui-component/modals/projects/EditExperimentModal";
 import {Box, Button, Card, CardHeader, Link, Typography, useMediaQuery} from "@mui/material";
 import {gridSpacing} from "../../store/constant";
 import AnimateButton from "../../ui-component/extended/AnimateButton";

@@ -109,6 +109,7 @@ const DeleteUserModal = ({showModal, closeModal, userForDeletion}) => {
                                         <ModalFooter>
                                             <AnimateButton>
                                                 <Button
+                                                    id={"button-yes"}
                                                     disableElevation
                                                     disabled={isSubmitting}
                                                     fullWidth
@@ -121,6 +122,7 @@ const DeleteUserModal = ({showModal, closeModal, userForDeletion}) => {
                                             </AnimateButton>
                                             <AnimateButton>
                                                 <Button
+                                                    id={"button-cancel"}
                                                     variant="outlined"
                                                     fullWidth
                                                     onClick={closeModal}

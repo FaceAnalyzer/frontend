@@ -14,7 +14,7 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import {DeleteForever, Edit} from '@mui/icons-material';
 import {IconFlask} from '@tabler/icons';
 import DeleteExperimentModal from "../../modals/projects/DeleteExperimentModal";
-import EditExperimentModal from "../../modals/experiments/EditExperimentModal";
+import EditExperimentModal from "../../modals/projects/EditExperimentModal";
 
 const CardWrapper = styled(MainCard)(({ theme }) => ({
   backgroundColor: theme.palette.secondary.dark,

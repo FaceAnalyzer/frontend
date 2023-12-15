@@ -136,6 +136,7 @@ const AddUserToProjectModal = ({showModal, closeModal, usersNotOnProjectData, pr
                                         <ModalFooter>
                                             <AnimateButton>
                                                 <Button
+                                                    id={"button-save"}
                                                     disableElevation
                                                     disabled={isSubmitting}
                                                     fullWidth
@@ -148,6 +149,7 @@ const AddUserToProjectModal = ({showModal, closeModal, usersNotOnProjectData, pr
                                             </AnimateButton>
                                             <AnimateButton>
                                                 <Button
+                                                    id={"button-close"}
                                                     variant="outlined"
                                                     fullWidth
                                                     onClick={closeModal}
