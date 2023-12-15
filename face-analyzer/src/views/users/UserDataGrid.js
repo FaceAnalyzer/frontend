@@ -4,21 +4,36 @@ import {DataGrid} from "@mui/x-data-grid";
 import LinearProgress from "@mui/material/LinearProgress";
 import clsx from "clsx";
 import DeleteUserModal from "../../ui-component/modals/users/DeleteUserModal";
-const UserDataGrid = ({isLoading, userList}) => {
+import EditUserModal from "../../ui-component/modals/users/EditUserModal";
+const UserDataGrid = ({isLoading, userList, existingEmails, existingUsernames}) => {
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [userForDeletion, setUserForDeletion] = useState({});
+
+    const [showEditModal, setShowEditModal] = useState(false);
+    const [userForEdit, setUserForEdit] = useState({});
 
     const openDeleteModal = () => {
         setShowDeleteModal(true);
     };
-
     const closeDeleteModal = () => {
         setShowDeleteModal(false);
+    };
+
+    const openEditModal = () => {
+        setShowEditModal(true);
+    };
+    const closeEditModal = () => {
+        setShowEditModal(false);
     };
 
     const onClickDeleteUser = (userData) => {
         setUserForDeletion(userData);
         openDeleteModal();
+    }
+
+    const onClickEditUser = (userData) => {
+        setUserForEdit(userData);
+        openEditModal();
     }
 
     const columns = [
@@ -40,11 +55,17 @@ const UserDataGrid = ({isLoading, userList}) => {
         {field: "contactNumber", headerName: "Contact #", minWidth: 150, flex: 1},
         {field: "username", headerName: "Username", minWidth: 150, flex: 2},
         //{field: "password", headerName: "Column 2", width: 150},
-        {field: "actions", headerName: "Actions", minWidth: 100, flex: 2, renderCell: (params) => {
+        {field: "actions", headerName: "Actions", minWidth: 150, headerAlign: "center", align: "center", flex: 2, renderCell: (params) => {
                 return (
-                    <Button id={"button-delete-user-" + params.row.id} onClick={() => onClickDeleteUser(params.row)} variant="contained" disableElevation>
-                        Delete
-                    </Button>
+                    <>
+                        <Button id={"button-edit-user-" + params.row.id} onClick={() => onClickEditUser(params.row)} variant="contained" disableElevation>
+                            Edit
+                        </Button>
+                        &nbsp;
+                        <Button id={"button-delete-user-" + params.row.id} onClick={() => onClickDeleteUser(params.row)} variant="contained" disableElevation>
+                            Delete
+                        </Button>
+                    </>
                 );
             }}
     ]
@@ -54,6 +75,12 @@ const UserDataGrid = ({isLoading, userList}) => {
             <DeleteUserModal closeModal={closeDeleteModal}
                              showModal={showDeleteModal}
                              userForDeletion={userForDeletion}/>
+            <EditUserModal closeModal={closeEditModal}
+                           showModal={showEditModal}
+                           userForEdit={userForEdit}
+                           existingEmails={existingEmails}
+                           existingUsernames={existingUsernames}
+            />
             <Paper variant={"outlined"}
                    sx={{
                        '& .super-app.admin': {
