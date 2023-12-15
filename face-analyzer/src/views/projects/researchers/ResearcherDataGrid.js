@@ -46,7 +46,7 @@ const UserDataGrid = ({isLoading, userList, projectData}) => {
         {
             field: "actions", headerName: "Actions", minWidth: 100, flex: 2, renderCell: (params) => {
                 return (
-                    <Button onClick={() => onClickRemoveUser(params.row)} variant="contained" disableElevation>
+                    <Button id={"button-remove-researcher-" + params.row.id} onClick={() => onClickRemoveUser(params.row)} variant="contained" disableElevation>
                         Remove
                     </Button>
                 );
