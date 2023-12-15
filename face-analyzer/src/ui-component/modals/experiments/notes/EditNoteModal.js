@@ -136,6 +136,7 @@ const EditNoteModal = ({showModal, closeModal, note}) => {
                                         <ModalFooter>
                                             <AnimateButton>
                                                 <Button
+                                                    id={"button-save"}
                                                     disableElevation
                                                     disabled={isSubmitting}
                                                     sx={{display: user.id === note.creatorId ? "" : "none"}}
@@ -149,6 +150,7 @@ const EditNoteModal = ({showModal, closeModal, note}) => {
                                             </AnimateButton>
                                             <AnimateButton>
                                                 <Button
+                                                    id={"button-close"}
                                                     variant="outlined"
                                                     fullWidth
                                                     onClick={closeModal}

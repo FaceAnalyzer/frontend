@@ -110,6 +110,7 @@ const RemoveUserFromProjectModal = ({showModal, closeModal, userForRemoval, proj
                                         <ModalFooter>
                                             <AnimateButton>
                                                 <Button
+                                                    id={"button-yes"}
                                                     disableElevation
                                                     disabled={isSubmitting}
                                                     fullWidth
@@ -122,6 +123,7 @@ const RemoveUserFromProjectModal = ({showModal, closeModal, userForRemoval, proj
                                             </AnimateButton>
                                             <AnimateButton>
                                                 <Button
+                                                    id={"button-cancel"}
                                                     variant="outlined"
                                                     fullWidth
                                                     onClick={closeModal}

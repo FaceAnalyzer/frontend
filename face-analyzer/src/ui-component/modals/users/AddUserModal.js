@@ -258,6 +258,7 @@ const AddUserModal = ({showModal, closeModal, existingEmails, existingUsernames}
                                         <ModalFooter>
                                             <AnimateButton>
                                                 <Button
+                                                    id={"button-save"}
                                                     disableElevation
                                                     disabled={isSubmitting}
                                                     fullWidth
@@ -270,6 +271,7 @@ const AddUserModal = ({showModal, closeModal, existingEmails, existingUsernames}
                                             </AnimateButton>
                                             <AnimateButton>
                                                 <Button
+                                                    id={"button-close"}
                                                     variant="outlined"
                                                     fullWidth
                                                     onClick={closeModal}

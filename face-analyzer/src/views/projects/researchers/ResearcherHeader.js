@@ -18,7 +18,7 @@ const ProjectResearcherHeader = ({data}) => {
                 <Box sx={{display: 'flex', flexDirection: 'column'}}>
                     <CardHeader sx={{padding: '5px'}}
                                 subheader={
-                                    <Link href={`/project/${projectId}`}
+                                    <Link id={"breadcrumb-to-project"} href={`/project/${projectId}`}
                                           sx={{color: theme.palette.grey[500], textDecoration: 'none'}}
                                     >
                                         <Box sx={{display: 'flex', alignItems: 'center'}}>

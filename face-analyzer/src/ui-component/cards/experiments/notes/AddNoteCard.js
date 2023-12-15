@@ -50,6 +50,7 @@ const AddNoteCard = ({isLoading, experimentId}) => {
                                 <Grid container justifyContent="space-between">
                                     <Grid item>
                                         <Avatar
+                                            id={"add-notes-icon"}
                                             variant="rounded"
                                             sx={{
                                                 ...theme.typography.commonAvatar,
@@ -64,6 +65,7 @@ const AddNoteCard = ({isLoading, experimentId}) => {
                                     </Grid>
                                     <Grid item>
                                         <Avatar
+                                            id={"add-notes-button"}
                                             variant="rounded"
                                             sx={{
                                                 ...theme.typography.commonAvatar,

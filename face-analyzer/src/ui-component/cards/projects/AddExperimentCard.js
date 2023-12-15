@@ -50,6 +50,7 @@ const AddExperimentCard = ({isLoading, projectId}) => {
                   <Grid item>
                     <Avatar
                       variant="rounded"
+                      id="add-experiment-icon"
                       sx={{
                         ...theme.typography.commonAvatar,
                         ...theme.typography.largeAvatar,
@@ -64,6 +65,7 @@ const AddExperimentCard = ({isLoading, projectId}) => {
                   <Grid item>
                     <Avatar
                       variant="rounded"
+                      id="add-experiment-button"
                       sx={{
                         ...theme.typography.commonAvatar,
                         ...theme.typography.mediumAvatar,

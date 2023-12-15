@@ -99,6 +99,7 @@ const NavCollapse = ({ menu, level }) => {
   return (
     <>
       <ListItemButton
+          id={"sidebar-button-" + menu.id}
         sx={{
           borderRadius: `${customization.borderRadius}px`,
           mb: 0.5,
@@ -138,6 +139,7 @@ const NavCollapse = ({ menu, level }) => {
         <List
           component="div"
           disablePadding
+          id="OBAMA"
           sx={{
             position: 'relative',
             '&:after': {

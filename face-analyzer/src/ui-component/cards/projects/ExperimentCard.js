@@ -14,7 +14,7 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import {DeleteForever, Edit} from '@mui/icons-material';
 import {IconFlask} from '@tabler/icons';
 import DeleteExperimentModal from "../../modals/projects/DeleteExperimentModal";
-import EditExperimentModal from "../../modals/experiments/EditExperimentModal";
+import EditExperimentModal from "../../modals/projects/EditExperimentModal";
 
 const CardWrapper = styled(MainCard)(({ theme }) => ({
   backgroundColor: theme.palette.secondary.dark,
@@ -91,6 +91,7 @@ const ExperimentCard = ({isLoading, data}) => {
                   <Grid item>
                     <Avatar
                       variant="rounded"
+                      id={"open-card-" + experiment.id + "-options"}
                       sx={{
                         ...theme.typography.commonAvatar,
                         ...theme.typography.largeAvatar,
@@ -106,6 +107,7 @@ const ExperimentCard = ({isLoading, data}) => {
                   <Grid item>
                     <Avatar
                       variant="rounded"
+                      id={"menu-experiment-card-" + experiment.id}
                       sx={{
                         ...theme.typography.commonAvatar,
                         ...theme.typography.mediumAvatar,
@@ -120,7 +122,6 @@ const ExperimentCard = ({isLoading, data}) => {
                       <MoreHorizIcon fontSize="inherit" />
                     </Avatar>
                     <Menu
-                      id="menu-experiment-card"
                       anchorEl={anchorEl}
                       keepMounted
                       open={Boolean(anchorEl)}
@@ -138,10 +139,10 @@ const ExperimentCard = ({isLoading, data}) => {
                       {/*<MenuItem onClick={handleClose}>*/}
                       {/*  <Download sx={{ mr: 1.75 }} /> Export*/}
                       {/*</MenuItem>*/}
-                      <MenuItem onClick={onEditClick}>
+                      <MenuItem id={"menu-project-" + experiment.id + "-edit"} onClick={onEditClick}>
                         <Edit sx={{ mr: 1.75 }} /> Edit
                       </MenuItem>
-                      <MenuItem onClick={onDeleteClick}
+                      <MenuItem id={"menu-project-" + experiment.id + "-delete"} onClick={onDeleteClick}
                                 sx={{color: 'red'}}>
                         <DeleteForever sx={{mr: 1.75}}/> Delete
                       </MenuItem>

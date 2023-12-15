@@ -153,27 +153,29 @@ const AddStimuliModal = ({showModal, closeModal, experimentId}) => {
                                     <ModalFooter>
                                         <AnimateButton>
                                             <Button
-                                                    disableElevation
-                                                    disabled={isSubmitting}
-                                                    fullWidth
-                                                    size="medium"
-                                                    type="submit"
-                                                    variant="contained"
-                                                    color="secondary">
+                                                id={"button-save"}
+                                                disableElevation
+                                                disabled={isSubmitting}
+                                                fullWidth
+                                                size="medium"
+                                                type="submit"
+                                                variant="contained"
+                                                color="secondary">
                                                 Save
                                             </Button>
                                         </AnimateButton>
                                         <AnimateButton>
                                             <Button
-                                                    variant="outlined"
-                                                    fullWidth
-                                                    onClick={closeModal}
-                                                    size="medium"
-                                                    sx={{
-                                                        color: 'grey.700',
-                                                        backgroundColor: theme.palette.grey[50],
-                                                        borderColor: theme.palette.grey[100]
-                                                    }}
+                                                id={"button-close"}
+                                                variant="outlined"
+                                                fullWidth
+                                                onClick={closeModal}
+                                                size="medium"
+                                                sx={{
+                                                    color: 'grey.700',
+                                                    backgroundColor: theme.palette.grey[50],
+                                                    borderColor: theme.palette.grey[100]
+                                                }}
                                             >
                                                 Close
                                             </Button>

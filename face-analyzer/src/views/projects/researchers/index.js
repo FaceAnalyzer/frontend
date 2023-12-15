@@ -72,7 +72,7 @@ const ProjectResearchers = () => {
                     <ProjectResearcherHeader data={projectData}/>
                 </Grid>
                 <Grid item>
-                    <Button variant="contained" disableElevation onClick={openModal}>
+                    <Button id={"button-add-researcher"} variant="contained" disableElevation onClick={openModal}>
                         Add researcher
                     </Button>
                 </Grid>

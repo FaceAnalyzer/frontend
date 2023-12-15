@@ -83,6 +83,7 @@ const ReactionsContent = ({stimuliId}) => {
                     <Box sx={{display: 'flex', gap: 1, pr: 2}}>
                         <AnimateButton>
                             <Button
+                                id={"button-stats-reaction-" + reaction.id}
                                 disableElevation
                                 variant="contained"
                                 color="secondary"
@@ -98,6 +99,7 @@ const ReactionsContent = ({stimuliId}) => {
                         </AnimateButton>
                         <AnimateButton>
                             <Button
+                                id={"button-delete-reaction-" + reaction.id}
                                 sx={{
                                     color: theme.palette.grey[700],
                                     backgroundColor: theme.palette.grey[50],

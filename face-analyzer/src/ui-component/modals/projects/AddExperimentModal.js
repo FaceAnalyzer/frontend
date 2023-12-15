@@ -134,6 +134,7 @@ const AddExperimentModal = ({showModal, closeModal, projectId}) => {
                   <ModalFooter>
                     <AnimateButton>
                       <Button
+                          id={"button-save"}
                           disableElevation
                           disabled={isSubmitting}
                           fullWidth
@@ -146,6 +147,7 @@ const AddExperimentModal = ({showModal, closeModal, projectId}) => {
                     </AnimateButton>
                     <AnimateButton>
                       <Button
+                          id={"button-close"}
                           variant="outlined"
                           fullWidth
                           onClick={closeModal}
