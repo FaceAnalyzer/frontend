@@ -14,7 +14,7 @@ import {
 import * as Yup from 'yup';
 import {Formik} from 'formik';
 import AnimateButton from 'ui-component/extended/AnimateButton';
-import {GET_USER_BY_ID_API, LOGIN_API} from 'endpoints/BackendEndpoints'; // LOGIN_API
+import {LOGIN_API} from 'endpoints/BackendEndpoints'; // LOGIN_API
 import axios from 'axios';
 import {Visibility, VisibilityOff} from '@mui/icons-material';
 import {useAuth} from 'context/authContext';
@@ -49,26 +49,13 @@ const AuthLogin = ({ ...others }) => {
       //console.log('response', response);
       const items = response.data;
       const token = items.accessToken;
-      const userId = items.userId;
+      const user = items.user
       //console.log('token', token)
       //console.log('user', userId)
-      return {token, userId};
+      return {token, user};
     }
     catch (err) {
       console.error(err);
-      return null;
-    }
-  }
-
-  const getUserData = async (userId, token) => {
-    try{
-      const response = await axios.get(GET_USER_BY_ID_API.replace("{id}", userId), {headers: {
-          Authorization: "bearer " + token,
-        }});
-      return {id: response.data.id, name: response.data.name, surname: response.data.surname, role: response.data.role};
-    }
-    catch (e) {
-      console.error(e);
       return null;
     }
   }
@@ -87,9 +74,8 @@ const AuthLogin = ({ ...others }) => {
           onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
             setSubmitting(true);
             try {
-              const { token, userId } = await getLoginToken(values.username, values.password);
+              const { token, user } = await getLoginToken(values.username, values.password);
               setToken(token);
-              const user = await getUserData(userId, token);
               setUser(user);
               setRedirectToHome(true);
               setStatus({ success: true });
