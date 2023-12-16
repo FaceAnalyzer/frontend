@@ -1,10 +1,9 @@
 import React, {useState} from 'react';
 import {useTheme} from '@mui/material/styles';
-import DeleteProjectModal from '../../ui-component/modals/projects/DeleteProjectModal';
-import EditProjectModal from '../../ui-component/modals/projects/EditProjectModal';
+import DeleteProjectModal from '../modals/projects/DeleteProjectModal';
+import EditProjectModal from '../modals/projects/EditProjectModal';
 import {Box, Button, Card, CardHeader, Typography, useMediaQuery} from '@mui/material';
-import {gridSpacing} from '../../store/constant';
-import AnimateButton from '../../ui-component/extended/AnimateButton';
+import AnimateButton from '../extended/AnimateButton';
 import {IconEdit, IconTrashOff} from '@tabler/icons';
 import {FolderOpen, Troubleshoot} from '@mui/icons-material';
 
@@ -53,7 +52,7 @@ const ProjectHeader = ({data}) => {
                                 data={project}></DeleteProjectModal>
             <EditProjectModal showModal={showEditModal} closeModal={closeEditModal}
                               initialValues={project}></EditProjectModal>
-            <Card sx={{marginBottom: gridSpacing, backgroundColor: 'inherit'}}>
+            <Card sx={{backgroundColor: 'inherit'}}>
                 <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
                     <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'space-around'}}>
                         <FolderOpen/>
@@ -68,7 +67,7 @@ const ProjectHeader = ({data}) => {
                             }
                         />
                     </Box>
-                    <Box sx={{display: 'flex', gap: 1, pr: 2}}>
+                    <Box sx={{display: 'flex', gap: 1}}>
                         <AnimateButton>
                             <Button
                                 id={"button-researchers-edit"}

@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react'; // Add useEffect import
+import React, {useEffect, useState} from 'react'; // Add useEffect import
 import {useNavigate} from 'react-router-dom';
 import {
   Box,
@@ -18,11 +18,12 @@ import {LOGIN_API} from 'endpoints/BackendEndpoints'; // LOGIN_API
 import axios from 'axios';
 import {Visibility, VisibilityOff} from '@mui/icons-material';
 import {useAuth} from 'context/authContext';
+import {Navigate} from "react-router";
 
 const AuthLogin = ({ ...others }) => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
-  const { setToken, setUser } = useAuth();
+  const {user, setToken, setUser} = useAuth();
 
   const [redirectToHome, setRedirectToHome] = useState(false);
 
@@ -60,7 +61,7 @@ const AuthLogin = ({ ...others }) => {
     }
   }
 
-  return (
+  return user ? (<Navigate to="/" replace/>) : (
       <Formik
           initialValues={{
             username: '',

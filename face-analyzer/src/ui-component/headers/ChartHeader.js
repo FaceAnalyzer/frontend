@@ -1,7 +1,7 @@
 import React from 'react';
 import {useTheme} from "@mui/material/styles";
 import {Box, Button, CardHeader, Link, Typography} from "@mui/material";
-import AnimateButton from "../../../ui-component/extended/AnimateButton";
+import AnimateButton from "../extended/AnimateButton";
 import {IconChevronRight, IconDownload, IconFlask, IconGraph, IconVideo} from "@tabler/icons";
 import PropTypes from "prop-types";
 import Papa from "papaparse";
@@ -102,7 +102,7 @@ const ChartHeader = ({
                                           sx={{color: theme.palette.grey[500], textDecoration: 'none'}}
                                     >
                                         <Box sx={{display: 'flex', alignItems: 'center'}}>
-                                            <FolderOpen/>
+                                            <FolderOpen/>&nbsp;
                                             <Typography sx={{fontWeight: 500}}>{project.name}</Typography>
                                         </Box>
                                     </Link>
@@ -122,7 +122,7 @@ const ChartHeader = ({
                                           sx={{color: theme.palette.grey[500], textDecoration: 'none'}}
                                     >
                                         <Box sx={{display: 'flex', alignItems: 'center'}}>
-                                            <IconVideo/>
+                                            <IconVideo/>&nbsp;
                                             <Typography sx={{fontWeight: 500}}>{stimuli.name}</Typography>
                                         </Box>
                                     </Link>

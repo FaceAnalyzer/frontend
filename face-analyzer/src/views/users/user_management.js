@@ -5,7 +5,9 @@ import React, {useEffect, useState} from "react";
 import AddUserModal from "../../ui-component/modals/users/AddUserModal";
 import axios from "axios";
 import {GET_USERS_API} from "../../endpoints/BackendEndpoints";
-import UserManagementHeader from "./UserManagementHeader";
+import UserManagementHeader from "../../ui-component/headers/UserManagementHeader";
+import {useAuth} from "../../context/authContext";
+import {Navigate} from "react-router";
 
 // ==============================|| USER MANAGEMENT DASHBOARD ||============================== //
 
@@ -16,6 +18,7 @@ const UserManagement = () => {
     const [existingEmails, setExistingEmails] = useState([]);
     const [existingUsernames, setExistingUsernames] = useState([]);
     const [isLoading, setLoading] = useState(true);
+    const {user} = useAuth();
 
     useEffect(() => {
         const fetchUsers = async () => {
@@ -46,7 +49,7 @@ const UserManagement = () => {
         setShowAddModal(false);
     };
 
-    return (
+    return (!user || user.role !== "Admin") ? (<Navigate to="/login" replace/>) : (
         <>
             <AddUserModal showModal={showAddModal}
                           closeModal={closeAddModal}

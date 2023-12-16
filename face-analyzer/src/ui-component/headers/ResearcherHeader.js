@@ -2,7 +2,6 @@ import React from 'react';
 import {Box, Card, CardHeader, Link, Typography} from "@mui/material";
 import {FolderOpen, Troubleshoot} from "@mui/icons-material";
 import {useTheme} from "@mui/material/styles";
-import {gridSpacing} from "../../../store/constant";
 
 // ===========================|| PROJECT RESEARCHERS HEADER ||=========================== //
 
@@ -14,7 +13,7 @@ const ProjectResearcherHeader = ({data}) => {
 
     return (
         <Box>
-            <Card sx={{marginBottom: gridSpacing, backgroundColor: 'inherit'}}>
+            <Card sx={{backgroundColor: 'inherit'}}>
                 <Box sx={{display: 'flex', flexDirection: 'column'}}>
                     <CardHeader sx={{padding: '5px'}}
                                 subheader={

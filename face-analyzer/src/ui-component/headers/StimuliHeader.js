@@ -1,11 +1,10 @@
 import React, {useState} from 'react';
 import {useTheme} from "@mui/material/styles";
 import {Box, Button, Card, CardHeader, Link, Typography, useMediaQuery} from "@mui/material";
-import {gridSpacing} from "../../store/constant";
-import AnimateButton from "../../ui-component/extended/AnimateButton";
+import AnimateButton from "../extended/AnimateButton";
 import {IconChevronRight, IconFlask, IconTrashOff, IconVideo} from "@tabler/icons";
 import PropTypes from "prop-types";
-import DeleteStimuliModal from "../../ui-component/modals/experiments/DeleteStimuliModal";
+import DeleteStimuliModal from "../modals/experiments/DeleteStimuliModal";
 import {FolderOpen} from "@mui/icons-material";
 
 // ===========================|| STIMULI HEADER ||=========================== //
@@ -33,7 +32,7 @@ const StimuliHeader = ({stimulus, experimentData, projectData}) => {
         <Box>
             <DeleteStimuliModal showModal={showModal} closeModal={closeModal}
                                 data={stimulus}></DeleteStimuliModal>
-            <Card sx={{marginBottom: gridSpacing, backgroundColor: 'inherit'}}>
+            <Card sx={{backgroundColor: 'inherit'}}>
                 <Box sx={{display: 'flex', flexDirection: 'column'}}>
                     <CardHeader sx={{padding: '5px'}}
                         subheader={
@@ -42,7 +41,7 @@ const StimuliHeader = ({stimulus, experimentData, projectData}) => {
                                       sx={{color: theme.palette.grey[500], textDecoration: 'none'}}
                                 >
                                     <Box sx={{display: 'flex', alignItems: 'center'}}>
-                                        <FolderOpen/>
+                                        <FolderOpen/>&nbsp;
                                         <Typography sx={{fontWeight: 500}}>{project.name}</Typography>
                                     </Box>
                                 </Link>

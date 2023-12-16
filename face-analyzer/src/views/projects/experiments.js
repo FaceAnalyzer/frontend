@@ -9,8 +9,9 @@ import AddExperimentCard from '../../ui-component/cards/projects/AddExperimentCa
 import axios from "axios";
 import {GET_EXPERIMENTS_API, GET_PROJECT_BY_ID_API} from "../../endpoints/BackendEndpoints";
 import {gridSpacing} from "../../store/constant";
-import ProjectHeader from "./ProjectHeader";
-import {useParams} from "react-router";
+import ProjectHeader from "../../ui-component/headers/ProjectHeader";
+import {Navigate, useParams} from "react-router";
+import {useAuth} from "../../context/authContext";
 
 // ==============================|| EXPERIMENTS DASHBOARD ||============================== //
 
@@ -22,6 +23,7 @@ const Experiments = () => {
 
   const [experimentList, setExperimentList] = useState([]);
   const [projectData, setProjectData] = useState({});
+  const {user} = useAuth();
 
   useEffect(() => {
     const fetchExperimentData = async () => {
@@ -47,7 +49,7 @@ const Experiments = () => {
   }, [ID, projectId]);
 
 
-  return (
+  return !user ? (<Navigate to="/login" replace/>) : (
       <Grid container spacing={gridSpacing} sx={{padding: '16px'}}>
         <Grid item xs={12}>
           <ProjectHeader data={projectData}/>

@@ -44,7 +44,7 @@ const AddNoteCard = ({isLoading, experimentId}) => {
             ) : (
                 <CardWrapper border={false} content={false}>
                     <AddNoteModal showModal={showModal} closeModal={closeModal} experimentId={ID}/>
-                    <Box sx={{p: 2.25}}>
+                    <Box sx={{p: 2.25}} onClick={openModal}>
                         <Grid container direction="column">
                             <Grid item>
                                 <Grid container justifyContent="space-between">
@@ -57,7 +57,9 @@ const AddNoteCard = ({isLoading, experimentId}) => {
                                                 ...theme.typography.largeAvatar,
                                                 backgroundColor: '#fff',
                                                 color: theme.palette.secondary.dark,
-                                                mt: 1
+                                                borderColor: theme.palette.secondary.dark,
+                                                borderStyle: 'solid',
+                                                borderWidth: '2px',
                                             }}
                                         >
                                             <IconClipboardList/>
@@ -80,7 +82,6 @@ const AddNoteCard = ({isLoading, experimentId}) => {
                                             }}
                                             aria-controls="add-new-note-card"
                                             aria-haspopup="true"
-                                            onClick={openModal}
                                         >
                                             <IconPlus fontSize="inherit"/>
                                         </Avatar>
@@ -91,8 +92,9 @@ const AddNoteCard = ({isLoading, experimentId}) => {
                                 <Grid container alignItems="center">
                                     <Grid item>
                                         <Typography
-                                            sx={{fontSize: '2.125rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75}}>Add
-                                            notes</Typography>
+                                            sx={{fontSize: '2.125rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75}}>
+                                            Add note
+                                        </Typography>
                                     </Grid>
                                 </Grid>
                             </Grid>

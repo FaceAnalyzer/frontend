@@ -7,14 +7,16 @@ import {IconBuildingFactory2, IconFlask, IconUser} from "@tabler/icons";
 import axios from "axios";
 import {GET_EXPERIMENTS_API, GET_PROJECTS_API} from "../../../../endpoints/BackendEndpoints";
 import {FolderOpen} from "@mui/icons-material";
+import {useAuth} from "../../../../context/authContext";
 
 // ==============================|| SIDEBAR MENU LIST ||============================== //
 
 const MenuList = () => {
 
-  //Kind of sloppy workaround, but it works
-  if(localStorage.getItem("token")) {
-    axios.defaults.headers["Authorization"] = "Bearer " + localStorage.getItem("token");
+  const {user} = useAuth();
+
+  if (!user) {
+    return <></>;
   }
 
   const projects = {
@@ -107,7 +109,11 @@ const MenuList = () => {
 
 
   const menuItems = {
-    items: [userManagement, projects]
+    items: [projects]
+  }
+
+  if (user.role === "Admin") {
+    menuItems.items.push(userManagement);
   }
 
   const navItems = menuItems.items.map((item) => {

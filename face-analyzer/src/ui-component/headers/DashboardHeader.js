@@ -1,22 +1,26 @@
 import React from 'react';
 import {Box, Card, CardHeader, Typography} from "@mui/material";
-import {gridSpacing} from "../../store/constant";
-import {IconBuildingFactory2} from "@tabler/icons";
+import {useAuth} from "../../context/authContext";
 
-// ===========================|| PROJECT HEADER ||=========================== //
+// ===========================|| DASHBOARD HEADER ||=========================== //
 
-const ProjectManagementHeader = () => {
+const DashboardHeader = () => {
+    const {user} = useAuth();
+
     return (
-        <Card sx={{marginBottom: gridSpacing, backgroundColor: 'inherit'}}>
+        <Card sx={{backgroundColor: 'inherit'}}>
             <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
                 <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'space-around'}}>
-                    <IconBuildingFactory2/>
                     <CardHeader title={
                         <Typography sx={{
                             fontSize: '1.5rem',
                             fontWeight: 500
                         }}>
-                            Project Management
+                            Hello, {user ? user.name : "Anon"}!
+                        </Typography>
+                    } subheader={
+                        <Typography>
+                            {!user ? "Please login to access all functionalities." : "Find all your functionalities here."}
                         </Typography>
                     }/>
                 </Box>
@@ -25,4 +29,4 @@ const ProjectManagementHeader = () => {
     );
 };
 
-export default ProjectManagementHeader;
+export default DashboardHeader;

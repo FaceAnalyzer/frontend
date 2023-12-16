@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 // material-ui
@@ -10,9 +10,9 @@ import MainCard from 'ui-component/cards/MainCard';
 import SkeletonEarningCard from 'ui-component/cards/Skeleton/EarningCard';
 
 // assets
-import {IconPlus} from '@tabler/icons';
-import AddProjectModal from "../../modals/projects/AddProjectModal";
 import {FolderOpen} from "@mui/icons-material";
+import {useNavigate} from "react-router-dom";
+import {IconUser} from "@tabler/icons";
 
 const CardWrapper = styled(MainCard)(({theme}) => ({
     backgroundColor: '#fff',
@@ -23,19 +23,16 @@ const CardWrapper = styled(MainCard)(({theme}) => ({
     position: 'relative'
 }));
 
-// ===========================|| ADD PROJECT CARD ||=========================== //
+// ===========================|| DASHBOARD CARD ||=========================== //
 
-const AddProjectCard = ({isLoading}) => {
+const DashboardCard = ({isLoading, component}) => {
     const theme = useTheme();
-    const [showModal, setShowModal] = useState(false);
+    const navigate = useNavigate();
 
-    const openModal = () => {
-        setShowModal(true);
+    const openPage = () => {
+        navigate(component.toLowerCase());
     };
 
-    const closeModal = () => {
-        setShowModal(false);
-    };
 
     return (
         <>
@@ -43,15 +40,13 @@ const AddProjectCard = ({isLoading}) => {
                 <SkeletonEarningCard/>
             ) : (
                 <CardWrapper border={false} content={false}>
-                    <AddProjectModal showModal={showModal} closeModal={closeModal}/>
-                    <Box sx={{p: 2.25}} onClick={openModal}>
+                    <Box sx={{p: 2.25}} onClick={openPage} id={component + "-lading-page-card"}>
                         <Grid container direction="column">
                             <Grid item>
                                 <Grid container justifyContent="space-between">
                                     <Grid item>
                                         <Avatar
                                             variant="rounded"
-                                            id={"add-project-icon"}
                                             sx={{
                                                 ...theme.typography.commonAvatar,
                                                 ...theme.typography.largeAvatar,
@@ -62,28 +57,7 @@ const AddProjectCard = ({isLoading}) => {
                                                 borderWidth: '2px',
                                             }}
                                         >
-                                            <FolderOpen/>
-                                        </Avatar>
-                                    </Grid>
-                                    <Grid item>
-                                        <Avatar
-                                            variant="rounded"
-                                            id={"add-project-button"}
-                                            sx={{
-                                                ...theme.typography.commonAvatar,
-                                                ...theme.typography.mediumAvatar,
-                                                backgroundColor: "#fff",
-                                                color: theme.palette.secondary.dark,
-                                                borderStyle: 'solid',
-                                                borderWidth: '2px',
-                                                borderColor: theme.palette.secondary.dark,
-                                                borderRadius: '1rem',
-                                                zIndex: 1
-                                            }}
-                                            aria-controls="add-new-project-card"
-                                            aria-haspopup="true"
-                                        >
-                                            <IconPlus fontSize="inherit"/>
+                                            {component === "Projects" ? <FolderOpen/> : <IconUser/>}
                                         </Avatar>
                                     </Grid>
                                 </Grid>
@@ -93,7 +67,7 @@ const AddProjectCard = ({isLoading}) => {
                                     <Grid item>
                                         <Typography
                                             sx={{fontSize: '2.125rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75}}>
-                                            Add project
+                                            {component}
                                         </Typography>
                                     </Grid>
                                 </Grid>
@@ -106,7 +80,7 @@ const AddProjectCard = ({isLoading}) => {
                                         color: theme.palette.secondary[200]
                                     }}
                                 >
-                                    Click to add a new project.
+                                    View all {component.toLowerCase()}.
                                 </Typography>
                             </Grid>
                         </Grid>
@@ -117,8 +91,8 @@ const AddProjectCard = ({isLoading}) => {
     );
 };
 
-AddProjectCard.propTypes = {
+DashboardCard.propTypes = {
     isLoading: PropTypes.bool
 };
 
-export default AddProjectCard;
+export default DashboardCard;
