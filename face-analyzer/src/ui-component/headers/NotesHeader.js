@@ -2,7 +2,6 @@ import React from 'react';
 import {useTheme} from "@mui/material/styles";
 import {Box, Card, CardHeader, Link, Typography} from "@mui/material";
 import {IconChevronRight, IconClipboardList, IconFlask} from "@tabler/icons";
-import {gridSpacing} from "../../store/constant";
 import {FolderOpen} from "@mui/icons-material";
 
 // ===========================|| NOTES HEADER ||=========================== //
@@ -15,7 +14,7 @@ const NotesHeader = ({experiment, project}) => {
 
     return (
         <Box>
-            <Card sx={{marginBottom: gridSpacing, backgroundColor: 'inherit'}}>
+            <Card sx={{backgroundColor: 'inherit'}}>
                 <Box sx={{display: 'flex', flexDirection: 'column'}}>
                     <CardHeader sx={{padding: '5px'}}
                                 subheader={

@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import {useTheme} from "@mui/material/styles";
 import {Box, Button, Card, CardHeader, Link, Typography, useMediaQuery} from "@mui/material";
-import {gridSpacing} from "../../store/constant";
 import AnimateButton from "../extended/AnimateButton";
 import {IconChevronRight, IconFlask, IconTrashOff, IconVideo} from "@tabler/icons";
 import PropTypes from "prop-types";
@@ -33,7 +32,7 @@ const StimuliHeader = ({stimulus, experimentData, projectData}) => {
         <Box>
             <DeleteStimuliModal showModal={showModal} closeModal={closeModal}
                                 data={stimulus}></DeleteStimuliModal>
-            <Card sx={{marginBottom: gridSpacing, backgroundColor: 'inherit'}}>
+            <Card sx={{backgroundColor: 'inherit'}}>
                 <Box sx={{display: 'flex', flexDirection: 'column'}}>
                     <CardHeader sx={{padding: '5px'}}
                         subheader={

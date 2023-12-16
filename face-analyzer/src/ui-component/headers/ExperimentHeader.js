@@ -3,7 +3,6 @@ import {useTheme} from "@mui/material/styles";
 import DeleteExperimentModal from "../modals/projects/DeleteExperimentModal";
 import EditExperimentModal from "../modals/projects/EditExperimentModal";
 import {Box, Button, Card, CardHeader, Link, Typography, useMediaQuery} from "@mui/material";
-import {gridSpacing} from "../../store/constant";
 import AnimateButton from "../extended/AnimateButton";
 import {IconClipboardList, IconEdit, IconFlask, IconTrashOff} from "@tabler/icons";
 import {FolderOpen} from "@mui/icons-material";
@@ -61,7 +60,7 @@ const ExperimentHeader = ({data, projectData}) => {
             <EditExperimentModal showModal={showEditModal}
                                  closeModal={closeEditModal}
                                  initialValues={experiment}></EditExperimentModal>
-            <Card sx={{marginBottom: gridSpacing, backgroundColor: 'inherit'}}>
+            <Card sx={{backgroundColor: 'inherit'}}>
                 <Box sx={{display: 'flex', flexDirection: 'column'}}>
                     <CardHeader sx={{padding: '5px'}}
                                 subheader={
