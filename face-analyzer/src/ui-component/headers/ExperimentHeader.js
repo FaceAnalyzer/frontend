@@ -68,7 +68,7 @@ const ExperimentHeader = ({data, projectData}) => {
                                           sx={{color: theme.palette.grey[500], textDecoration: 'none'}}
                                     >
                                         <Box sx={{display: 'flex', alignItems: 'center'}}>
-                                            <FolderOpen/>
+                                            <FolderOpen/>&nbsp;
                                             <Typography sx={{fontWeight: 500}}>{project.name}</Typography>
                                         </Box>
                                     </Link>
