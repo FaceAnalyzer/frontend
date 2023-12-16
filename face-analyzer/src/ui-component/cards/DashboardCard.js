@@ -40,14 +40,13 @@ const DashboardCard = ({isLoading, component}) => {
                 <SkeletonEarningCard/>
             ) : (
                 <CardWrapper border={false} content={false}>
-                    <Box sx={{p: 2.25}} onClick={openPage}>
+                    <Box sx={{p: 2.25}} onClick={openPage} id={component + "-icon"}>
                         <Grid container direction="column">
                             <Grid item>
                                 <Grid container justifyContent="space-between">
                                     <Grid item>
                                         <Avatar
                                             variant="rounded"
-                                            id={component + "-icon"}
                                             sx={{
                                                 ...theme.typography.commonAvatar,
                                                 ...theme.typography.largeAvatar,
