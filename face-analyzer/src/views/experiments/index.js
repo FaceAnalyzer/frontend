@@ -7,7 +7,7 @@ import {Grid} from '@mui/material';
 import {gridSpacing} from 'store/constant';
 import StimuliCard from '../../ui-component/cards/experiments/StimuliCard';
 import AddStimuliCard from '../../ui-component/cards/experiments/AddStimuliCard';
-import ExperimentHeader from "./ExperimentHeader";
+import ExperimentHeader from "../../ui-component/headers/ExperimentHeader";
 import {useParams} from "react-router";
 import axios from "axios";
 import {GET_EXPERIMENTS_API, GET_PROJECT_BY_ID_API, GET_STIMULI_API} from "../../endpoints/BackendEndpoints";

@@ -2,7 +2,7 @@ import React from 'react';
 import {useTheme} from "@mui/material/styles";
 import {Box, Card, CardHeader, Link, Typography} from "@mui/material";
 import {IconChevronRight, IconClipboardList, IconFlask} from "@tabler/icons";
-import {gridSpacing} from "../../../store/constant";
+import {gridSpacing} from "../../store/constant";
 import {FolderOpen} from "@mui/icons-material";
 
 // ===========================|| NOTES HEADER ||=========================== //

@@ -2,7 +2,7 @@ import React from 'react';
 import {Box, Card, CardHeader, Link, Typography} from "@mui/material";
 import {FolderOpen, Troubleshoot} from "@mui/icons-material";
 import {useTheme} from "@mui/material/styles";
-import {gridSpacing} from "../../../store/constant";
+import {gridSpacing} from "../../store/constant";
 
 // ===========================|| PROJECT RESEARCHERS HEADER ||=========================== //
 

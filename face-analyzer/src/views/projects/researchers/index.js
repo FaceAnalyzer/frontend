@@ -7,7 +7,7 @@ import {
     GET_RESEARCHERS_API,
     GET_USERS_BY_PROJECT_ID_API
 } from "../../../endpoints/BackendEndpoints";
-import ProjectResearcherHeader from "./ResearcherHeader";
+import ProjectResearcherHeader from "../../../ui-component/headers/ResearcherHeader";
 import {useParams} from "react-router";
 import ResearcherDataGrid from "./ResearcherDataGrid";
 import AddUserToProjectModal from "../../../ui-component/modals/projects/researchers/AddUserToProjectModal";

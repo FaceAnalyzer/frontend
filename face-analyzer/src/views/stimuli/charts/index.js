@@ -5,7 +5,7 @@ import {Grid, Typography} from '@mui/material';
 
 // project imports
 import {gridSpacing} from 'store/constant';
-import ChartHeader from "./ChartHeader";
+import ChartHeader from "../../../ui-component/headers/ChartHeader";
 import BoxPlotChart from "./BoxPlotChart";
 import BoxPlotLegend from "./BoxPlotLegend";
 import {useParams} from "react-router";

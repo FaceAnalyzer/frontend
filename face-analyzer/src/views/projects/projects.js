@@ -6,7 +6,7 @@ import AddProjectCard from "../../ui-component/cards/projects/AddProjectCard";
 import ProjectCard from "../../ui-component/cards/projects/ProjectCard";
 import {GET_PROJECTS_API} from "../../endpoints/BackendEndpoints";
 import axios from "axios";
-import ProjectManagementHeader from "./ProjectManagementHeader";
+import ProjectManagementHeader from "../../ui-component/headers/ProjectManagementHeader";
 
 // ==============================|| PROJECTS DASHBOARD ||============================== //
 

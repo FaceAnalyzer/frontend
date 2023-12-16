@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
 import {useTheme} from '@mui/material/styles';
-import DeleteProjectModal from '../../ui-component/modals/projects/DeleteProjectModal';
-import EditProjectModal from '../../ui-component/modals/projects/EditProjectModal';
+import DeleteProjectModal from '../modals/projects/DeleteProjectModal';
+import EditProjectModal from '../modals/projects/EditProjectModal';
 import {Box, Button, Card, CardHeader, Typography, useMediaQuery} from '@mui/material';
 import {gridSpacing} from '../../store/constant';
-import AnimateButton from '../../ui-component/extended/AnimateButton';
+import AnimateButton from '../extended/AnimateButton';
 import {IconEdit, IconTrashOff} from '@tabler/icons';
 import {FolderOpen, Troubleshoot} from '@mui/icons-material';
 

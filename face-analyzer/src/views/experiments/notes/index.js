@@ -12,7 +12,7 @@ import {
     GET_NOTES_BY_EXPERIMENT_ID_API,
     GET_PROJECT_BY_ID_API
 } from "../../../endpoints/BackendEndpoints";
-import NotesHeader from "./NotesHeader";
+import NotesHeader from "../../../ui-component/headers/NotesHeader";
 import AddNoteCard from "../../../ui-component/cards/experiments/notes/AddNoteCard";
 import NoteCard from "../../../ui-component/cards/experiments/notes/NoteCard";
 

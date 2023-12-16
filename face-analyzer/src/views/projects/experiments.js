@@ -9,7 +9,7 @@ import AddExperimentCard from '../../ui-component/cards/projects/AddExperimentCa
 import axios from "axios";
 import {GET_EXPERIMENTS_API, GET_PROJECT_BY_ID_API} from "../../endpoints/BackendEndpoints";
 import {gridSpacing} from "../../store/constant";
-import ProjectHeader from "./ProjectHeader";
+import ProjectHeader from "../../ui-component/headers/ProjectHeader";
 import {useParams} from "react-router";
 
 // ==============================|| EXPERIMENTS DASHBOARD ||============================== //

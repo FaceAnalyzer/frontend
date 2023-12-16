@@ -2,10 +2,10 @@ import React, {useState} from 'react';
 import {useTheme} from "@mui/material/styles";
 import {Box, Button, Card, CardHeader, Link, Typography, useMediaQuery} from "@mui/material";
 import {gridSpacing} from "../../store/constant";
-import AnimateButton from "../../ui-component/extended/AnimateButton";
+import AnimateButton from "../extended/AnimateButton";
 import {IconChevronRight, IconFlask, IconTrashOff, IconVideo} from "@tabler/icons";
 import PropTypes from "prop-types";
-import DeleteStimuliModal from "../../ui-component/modals/experiments/DeleteStimuliModal";
+import DeleteStimuliModal from "../modals/experiments/DeleteStimuliModal";
 import {FolderOpen} from "@mui/icons-material";
 
 // ===========================|| STIMULI HEADER ||=========================== //

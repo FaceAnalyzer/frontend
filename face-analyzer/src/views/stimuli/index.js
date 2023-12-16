@@ -8,7 +8,7 @@ import {gridSpacing} from 'store/constant';
 import {useParams} from "react-router";
 import axios from "axios";
 import {GET_EXPERIMENT_BY_ID_API, GET_PROJECT_BY_ID_API, GET_STIMULI_BY_ID_API} from "../../endpoints/BackendEndpoints";
-import StimuliHeader from "./StimuliHeader";
+import StimuliHeader from "../../ui-component/headers/StimuliHeader";
 import WebcamComponent from "../reactions/WebcamComponent";
 import VisageProcessing from "../reactions/VisageProcessing";
 import AnalysisResultsComponent from "../reactions/AnalysisResultsComponent";
