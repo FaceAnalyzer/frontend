@@ -47,7 +47,7 @@ const DashboardCard = ({isLoading, component}) => {
                                     <Grid item>
                                         <Avatar
                                             variant="rounded"
-                                            id={"add-project-icon"}
+                                            id={component + "-icon"}
                                             sx={{
                                                 ...theme.typography.commonAvatar,
                                                 ...theme.typography.largeAvatar,
