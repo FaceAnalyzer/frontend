@@ -5,7 +5,7 @@ import {Grid} from '@mui/material';
 
 // project imports
 import {gridSpacing} from 'store/constant';
-import {useParams} from "react-router";
+import {Navigate, useParams} from "react-router";
 import axios from "axios";
 import {
     GET_EXPERIMENT_BY_ID_API,
@@ -15,6 +15,7 @@ import {
 import NotesHeader from "../../../ui-component/headers/NotesHeader";
 import AddNoteCard from "../../../ui-component/cards/experiments/notes/AddNoteCard";
 import NoteCard from "../../../ui-component/cards/experiments/notes/NoteCard";
+import {useAuth} from "../../../context/authContext";
 
 // ==============================|| NOTES DASHBOARD ||============================== //
 
@@ -24,6 +25,7 @@ const Notes = () => {
     const [experimentData, setExperimentData] = useState([]);
     const [projectData, setProjectData] = useState([]);
     const [isLoading, setLoading] = useState(true);
+    const {user} = useAuth();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -49,7 +51,7 @@ const Notes = () => {
         fetchData().then();
     }, [experimentId]);
 
-    return (
+    return !user ? (<Navigate to="/login" replace/>) : (
         <Grid container spacing={gridSpacing} sx={{padding: '16px'}}>
             <Grid item xs={12}>
                 <NotesHeader experiment={experimentData} project={projectData}/>

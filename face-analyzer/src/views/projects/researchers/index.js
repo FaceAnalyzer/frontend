@@ -8,9 +8,10 @@ import {
     GET_USERS_BY_PROJECT_ID_API
 } from "../../../endpoints/BackendEndpoints";
 import ProjectResearcherHeader from "../../../ui-component/headers/ResearcherHeader";
-import {useParams} from "react-router";
+import {Navigate, useParams} from "react-router";
 import ResearcherDataGrid from "./ResearcherDataGrid";
 import AddUserToProjectModal from "../../../ui-component/modals/projects/researchers/AddUserToProjectModal";
+import {useAuth} from "../../../context/authContext";
 
 // ==============================|| PROJECT RESEARCHERS DASHBOARD ||============================== //
 
@@ -24,7 +25,7 @@ const ProjectResearchers = () => {
     const [projectData, setProjectData] = useState({});
 
     const [showModal, setShowModal] = useState(false);
-
+    const {user} = useAuth();
     const openModal = () => {
         setShowModal(true);
     };
@@ -61,7 +62,7 @@ const ProjectResearchers = () => {
 
     console.log(usersNotOnProjectList);
 
-    return (
+    return !user ? (<Navigate to="/login" replace/>) : (
         <>
             <AddUserToProjectModal showModal={showModal}
                                    closeModal={closeModal}

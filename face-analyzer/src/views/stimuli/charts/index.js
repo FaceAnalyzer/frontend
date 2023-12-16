@@ -8,7 +8,7 @@ import {gridSpacing} from 'store/constant';
 import ChartHeader from "../../../ui-component/headers/ChartHeader";
 import BoxPlotChart from "./BoxPlotChart";
 import BoxPlotLegend from "./BoxPlotLegend";
-import {useParams} from "react-router";
+import {Navigate, useParams} from "react-router";
 import axios from "axios";
 import EmotionsOverTimeChart from "./EmotionsOverTimeChart";
 import {
@@ -18,6 +18,7 @@ import {
     GET_REACTIONS_BY_ID_API,
     GET_STIMULI_BY_ID_API
 } from "../../../endpoints/BackendEndpoints";
+import {useAuth} from "../../../context/authContext";
 // ==============================|| STATISTICS DASHBOARD ||============================== //
 
 const Stats = () => {
@@ -30,6 +31,8 @@ const Stats = () => {
     const [experimentData, setExperimentData] = useState({});
     const [projectData, setProjectData] = useState({});
     const [reactionDuration, setReactionDuration] = useState(0);
+
+    const {user} = useAuth();
 
     const [isLoading, setLoading] = useState(true);
     console.log(isLoading); //stop lint errors
@@ -101,7 +104,7 @@ const Stats = () => {
         fetchData();
     }, [reactionId]);
 
-    return (
+    return !user ? (<Navigate to="/login" replace/>) : (
         <Grid container spacing={gridSpacing} sx={{padding: '16px'}}>
             <Grid item xs={12}>
                 <ChartHeader activeButton={activeButton}

@@ -1,11 +1,12 @@
 import WebcamComponent from './WebcamComponent';
 import VisageProcessing from './VisageProcessing';
 import AnalysisResultsComponent from "./AnalysisResultsComponent";
-import {useEffect, useRef, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {AnalysisDataContext} from "./AnalysisDataContext";
 import {saveNewReaction} from "./AnalysisDataFunctions";
-import {Grid, Button} from "@mui/material";
-import {useParams} from "react-router";
+import {Button, Grid} from "@mui/material";
+import {Navigate, useParams} from "react-router";
+import {useAuth} from "../../context/authContext";
 
 // ==============================|| Analyzer ||============================== //
 
@@ -13,6 +14,7 @@ const Reaction = () => {
     const {stimuliId} = useParams();
     const [isLoading, setLoading] = useState(true);
     const [isRecording, setIsRecording] = useState(false);
+    const user = useAuth();
 
     useEffect(() => {
         setLoading(false);
@@ -38,7 +40,7 @@ const Reaction = () => {
         "time": 0
     });
 
-    return (
+    return !user ? (<Navigate to="/login" replace/>) : (
         <AnalysisDataContext.Provider value={{analysisData, setAnalysisData}}>
             <Grid container spacing={2}>
                 <Grid item xs={8}>

@@ -5,7 +5,7 @@ import {Box, Button, Grid} from '@mui/material';
 
 // project imports
 import {gridSpacing} from 'store/constant';
-import {useParams} from "react-router";
+import {Navigate, useParams} from "react-router";
 import axios from "axios";
 import {GET_EXPERIMENT_BY_ID_API, GET_PROJECT_BY_ID_API, GET_STIMULI_BY_ID_API} from "../../endpoints/BackendEndpoints";
 import StimuliHeader from "../../ui-component/headers/StimuliHeader";
@@ -17,6 +17,7 @@ import {Videocam, VideocamOff} from "@mui/icons-material";
 import {useTheme} from "@mui/material/styles";
 import ReactionsContent from "./ReactionsContent";
 import SaveReactionModal from "../../ui-component/modals/stimuli/SaveReactionModal";
+import {useAuth} from "../../context/authContext";
 
 // ==============================|| STIMULUS DASHBOARD ||============================== //
 
@@ -30,6 +31,7 @@ const Stimuli = () => {
     const [isLoading, setLoading] = useState(true);
     const [isRecording, setIsRecording] = useState(false);
     const [showSaveModal, setShowSaveModal] = useState(false);
+    const {user} = useAuth();
 
     const id = parseInt(stimuliId);
 
@@ -113,7 +115,7 @@ const Stimuli = () => {
     });
 
 
-    return (
+    return !user ? (<Navigate to="/login" replace/>) : (
         <>
             <Grid container spacing={gridSpacing} sx={{padding: '16px'}}>
                 <Grid item xs={12}>
