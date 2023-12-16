@@ -56,6 +56,9 @@ const AddExperimentCard = ({isLoading, projectId}) => {
                         ...theme.typography.largeAvatar,
                         backgroundColor: '#fff',
                         color: theme.palette.secondary.dark,
+                        borderColor: theme.palette.secondary.dark,
+                        borderStyle: 'solid',
+                        borderWidth: '2px',
                       }}
                     >
                       <IconFlask />

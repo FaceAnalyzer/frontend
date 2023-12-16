@@ -56,7 +56,10 @@ const AddProjectCard = ({isLoading}) => {
                                                 ...theme.typography.commonAvatar,
                                                 ...theme.typography.largeAvatar,
                                                 backgroundColor: '#fff',
-                                                color: theme.palette.secondary.dark
+                                                color: theme.palette.secondary.dark,
+                                                borderColor: theme.palette.secondary.dark,
+                                                borderStyle: 'solid',
+                                                borderWidth: '2px',
                                             }}
                                         >
                                             <FolderOpen/>
