@@ -18,6 +18,10 @@ const DashboardHeader = () => {
                         }}>
                             Hello, {user ? user.name : "Anon"}!
                         </Typography>
+                    } subheader={
+                        <Typography>
+                            {!user ? "Please login to access all functionalities." : "Find all your functionalities here."}
+                        </Typography>
                     }/>
                 </Box>
             </Box>
