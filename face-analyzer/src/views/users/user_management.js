@@ -5,7 +5,7 @@ import React, {useEffect, useState} from "react";
 import AddUserModal from "../../ui-component/modals/users/AddUserModal";
 import axios from "axios";
 import {GET_USERS_API} from "../../endpoints/BackendEndpoints";
-import UserManagementHeader from "./UserManagementHeader";
+import UserManagementHeader from "../../ui-component/headers/UserManagementHeader";
 
 // ==============================|| USER MANAGEMENT DASHBOARD ||============================== //
 

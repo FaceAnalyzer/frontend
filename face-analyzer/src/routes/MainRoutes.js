@@ -5,6 +5,7 @@ import MainLayout from 'layout/MainLayout';
 import Loadable from 'ui-component/Loadable';
 import Notes from "../views/experiments/notes";
 
+const Dashboard = Loadable(lazy(() => import('views/dashboard')));
 const Analyzer = Loadable(lazy(() => import('views/reactions')));
 const Projects = Loadable(lazy(() => import('views/projects/projects')));
 const Experiments = Loadable(lazy(() => import('views/projects/experiments')));
@@ -25,7 +26,7 @@ const MainRoutes = {
   children: [
     {
       path: '/',
-      element: <Projects/>
+      element: <Dashboard/>
     },
     {
       path: 'projects',
