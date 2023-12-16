@@ -91,7 +91,7 @@ const AddProjectCard = ({isLoading}) => {
                                     <Grid item>
                                         <Typography
                                             sx={{fontSize: '2.125rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75}}>Add
-                                            projects</Typography>
+                                            project</Typography>
                                     </Grid>
                                 </Grid>
                             </Grid>
