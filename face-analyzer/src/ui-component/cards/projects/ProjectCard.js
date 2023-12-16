@@ -97,7 +97,6 @@ const ProjectCard = ({isLoading, data}) => {
                                                 ...theme.typography.largeAvatar,
                                                 backgroundColor: theme.palette.secondary.light,
                                                 color: theme.palette.secondary.dark,
-                                                mt: 1
                                             }}
                                             onClick={openProject}
                                         >

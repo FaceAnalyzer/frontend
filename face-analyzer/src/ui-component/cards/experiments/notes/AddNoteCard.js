@@ -57,7 +57,6 @@ const AddNoteCard = ({isLoading, experimentId}) => {
                                                 ...theme.typography.largeAvatar,
                                                 backgroundColor: '#fff',
                                                 color: theme.palette.secondary.dark,
-                                                mt: 1
                                             }}
                                         >
                                             <IconClipboardList/>
@@ -90,8 +89,9 @@ const AddNoteCard = ({isLoading, experimentId}) => {
                                 <Grid container alignItems="center">
                                     <Grid item>
                                         <Typography
-                                            sx={{fontSize: '2.125rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75}}>Add
-                                            notes</Typography>
+                                            sx={{fontSize: '2.125rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75}}>
+                                            Add note
+                                        </Typography>
                                     </Grid>
                                 </Grid>
                             </Grid>

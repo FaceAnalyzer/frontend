@@ -56,7 +56,6 @@ const AddExperimentCard = ({isLoading, projectId}) => {
                         ...theme.typography.largeAvatar,
                         backgroundColor: '#fff',
                         color: theme.palette.secondary.dark,
-                        mt: 1
                       }}
                     >
                       <IconFlask />
@@ -88,8 +87,9 @@ const AddExperimentCard = ({isLoading, projectId}) => {
               <Grid item>
                 <Grid container alignItems="center">
                   <Grid item>
-                    <Typography sx={{fontSize: '2.125rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75}}>Add
-                      experiment</Typography>
+                    <Typography sx={{fontSize: '2.125rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75}}>
+                      Add experiment
+                    </Typography>
                   </Grid>
                 </Grid>
               </Grid>

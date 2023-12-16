@@ -57,7 +57,6 @@ const AddStimuliCard = ({isLoading, experimentId}) => {
                                                 ...theme.typography.largeAvatar,
                                                 backgroundColor: '#fff',
                                                 color: theme.palette.secondary.dark,
-                                                mt: 1
                                             }}
                                         >
                                             <IconVideo />

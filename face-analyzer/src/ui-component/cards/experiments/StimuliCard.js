@@ -83,7 +83,6 @@ const StimuliCard = ({isLoading, data}) => {
                                                         ...theme.typography.largeAvatar,
                                                         backgroundColor: theme.palette.secondary.light,
                                                         color: theme.palette.secondary.dark,
-                                                        mt: 1
                                                     }}
                                                     onClick={openStimuli}
                                                 >
@@ -99,7 +98,6 @@ const StimuliCard = ({isLoading, data}) => {
                                                         ...theme.typography.largeAvatar,
                                                         backgroundColor: theme.palette.secondary.light,
                                                         color: theme.palette.secondary.dark,
-                                                        mt: 1
                                                     }}
                                                     onClick={openStimuliLink}
                                                 >
