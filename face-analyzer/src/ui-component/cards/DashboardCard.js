@@ -40,7 +40,7 @@ const DashboardCard = ({isLoading, component}) => {
                 <SkeletonEarningCard/>
             ) : (
                 <CardWrapper border={false} content={false}>
-                    <Box sx={{p: 2.25}} onClick={openPage} id={component + "-icon"}>
+                    <Box sx={{p: 2.25}} onClick={openPage} id={component + "-lading-page-card"}>
                         <Grid container direction="column">
                             <Grid item>
                                 <Grid container justifyContent="space-between">
