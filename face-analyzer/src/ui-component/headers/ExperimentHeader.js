@@ -6,11 +6,13 @@ import {Box, Button, Card, CardHeader, Link, Typography, useMediaQuery} from "@m
 import AnimateButton from "../extended/AnimateButton";
 import {IconClipboardList, IconEdit, IconFlask, IconTrashOff} from "@tabler/icons";
 import {FolderOpen} from "@mui/icons-material";
+import {useNavigate} from "react-router-dom";
 
 // ===========================|| EXPERIMENT HEADER ||=========================== //
 
 const ExperimentHeader = ({data, projectData}) => {
     const theme = useTheme();
+    const navigate = useNavigate();
     const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
     const projectId = data.projectId;
     console.log(projectId);
@@ -48,7 +50,11 @@ const ExperimentHeader = ({data, projectData}) => {
     };
 
     const openNotes = () => {
-        window.location.href = window.location + "/notes";
+        navigate(window.location + "/notes");
+    }
+
+    const navigateToProject = () => {
+        navigate(`/project/${projectId}`);
     }
 
     return (
@@ -64,8 +70,10 @@ const ExperimentHeader = ({data, projectData}) => {
                 <Box sx={{display: 'flex', flexDirection: 'column'}}>
                     <CardHeader sx={{padding: '5px'}}
                                 subheader={
-                                    <Link id={"breadcrumb-to-project"} href={`/project/${projectId}`}
-                                          sx={{color: theme.palette.grey[500], textDecoration: 'none'}}
+                                    <Link
+                                        id={"breadcrumb-to-project"}
+                                        sx={{color: theme.palette.grey[500], textDecoration: 'none', cursor: 'pointer'}}
+                                        onClick={navigateToProject}
                                     >
                                         <Box sx={{display: 'flex', alignItems: 'center'}}>
                                             <FolderOpen/>&nbsp;
