@@ -44,7 +44,7 @@ const AddProjectCard = ({isLoading}) => {
             ) : (
                 <CardWrapper border={false} content={false}>
                     <AddProjectModal showModal={showModal} closeModal={closeModal}/>
-                    <CardActionArea onClick={openModal}>
+                    <CardActionArea onClick={openModal} id={"add-project-button-card"}>
                         <Box sx={{p: 2.25}}>
                             <Grid container direction="column">
                                 <Grid item>

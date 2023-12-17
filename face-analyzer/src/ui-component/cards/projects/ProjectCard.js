@@ -84,7 +84,7 @@ const ProjectCard = ({isLoading, data}) => {
                     <EditProjectModal showModal={showEditModal}
                                       closeModal={closeEditModal}
                                       initialValues={project}></EditProjectModal>
-                    <CardActionArea onClick={openProject}>
+                    <CardActionArea onClick={openProject} id={"card-open-project-" + project.id}>
                         <Box sx={{p: 2.25}}>
                             <Grid container direction="column">
                                 <Grid item>
@@ -107,7 +107,7 @@ const ProjectCard = ({isLoading, data}) => {
                                         <Grid item>
                                             <Avatar
                                                 variant="rounded"
-                                                id={"open-card-" + project.id + "-options"}
+                                                id={"menu-project-card-" + project.id}
                                                 sx={{
                                                     ...theme.typography.commonAvatar,
                                                     ...theme.typography.mediumAvatar,
@@ -128,7 +128,6 @@ const ProjectCard = ({isLoading, data}) => {
                                                 <MoreHorizIcon fontSize="inherit"/>
                                             </Avatar>
                                             <Menu
-                                                id={"menu-project-card-"+project.id}
                                                 anchorEl={anchorEl}
                                                 keepMounted
                                                 open={Boolean(anchorEl)}
