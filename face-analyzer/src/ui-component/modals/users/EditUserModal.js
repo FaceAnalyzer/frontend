@@ -20,6 +20,7 @@ import MainCard from "../../cards/MainCard";
 import {PASSWORD_RESET_API, PUT_USER_BY_ID_API} from "../../../endpoints/BackendEndpoints";
 import axios from "axios";
 import PropTypes from "prop-types";
+import {useNavigate} from "react-router-dom";
 
 const CardWrapper = styled(MainCard)(({ theme }) => ({
     backgroundColor: '#fff',
@@ -32,6 +33,7 @@ const CardWrapper = styled(MainCard)(({ theme }) => ({
 
 const EditUserModal = ({closeModal, showModal, userForEdit, existingEmails, existingUsernames}) => {
     const theme = useTheme();
+    const navigate = useNavigate();
     const scriptedRef = useScriptRef();
     const phoneRegExp = /^((\+[1-9]{1,4}[ -]*)|(\([0-9]{2,3}\)[ -]*)|([0-9]{2,4})[ -]*)*?[0-9]{3,4}?[ -]*[0-9]{3,4}?$/
     const passRegExp = /^.{8,}$/
@@ -39,7 +41,6 @@ const EditUserModal = ({closeModal, showModal, userForEdit, existingEmails, exis
     const user = userForEdit;
 
     const handleUpdate = async (values, {setErrors, setStatus}) => {
-        console.log("TU SMO");
         try {
             axios.put(PUT_USER_BY_ID_API.replace("{id}", user.id), JSON.stringify(values))
                 .then(response => {
@@ -89,8 +90,8 @@ const EditUserModal = ({closeModal, showModal, userForEdit, existingEmails, exis
             }
         }
 
-        //In case
-        window.location.reload();
+        //Reload whether password is updated or not
+        navigate(0);
     };
 
     return (
