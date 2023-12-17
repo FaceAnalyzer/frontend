@@ -3,7 +3,7 @@ import React, {useEffect, useState} from 'react';
 // material-ui
 import {Grid} from '@mui/material';
 import DashboardHeader from "../../ui-component/headers/DashboardHeader";
-import DashboardCard from "../../ui-component/cards/DashboardCard";
+import DashboardCard from "../../ui-component/cards/dashboard/DashboardCard";
 import {useAuth} from "../../context/authContext";
 
 // ==============================|| LANDING DASHBOARD ||============================== //
