@@ -149,28 +149,29 @@ const ProjectCard = ({isLoading, data}) => {
                                                     }
                                                 }
                                             >
-                                                {/*<MenuItem onClick={handleClose}>*/}
-                                                {/*    <Download sx={{mr: 1.75}}/> Export*/}
-                                                {/*</MenuItem>*/}
-                                                <MenuItem id={"menu-project-" + project.id + "-edit"}
-                                                          onMouseDown={event => event.stopPropagation()}
-                                                          onClick={event => {
-                                                              event.stopPropagation();
-                                                              event.preventDefault();
-                                                              onEditClick(event)
-                                                          }
-                                                }>
+                                                <MenuItem
+                                                    id={"menu-project-" + project.id + "-edit"}
+                                                    onMouseDown={event => event.stopPropagation()}
+                                                    onClick={event => {
+                                                        event.stopPropagation();
+                                                        event.preventDefault();
+                                                        onEditClick(event)
+                                                        }
+                                                    }
+                                                >
                                                     <Edit sx={{mr: 1.75}}/> Edit
                                                 </MenuItem>
-                                                <MenuItem id={"menu-project-" + project.id + "-delete"}
-                                                          onMouseDown={event => event.stopPropagation()}
-                                                          onClick={event => {
-                                                              event.stopPropagation();
-                                                              event.preventDefault();
-                                                              onDeleteClick(event)
-                                                            }
-                                                          }
-                                                          sx={{color: 'red'}}>
+                                                <MenuItem
+                                                    id={"menu-project-" + project.id + "-delete"}
+                                                    onMouseDown={event => event.stopPropagation()}
+                                                    onClick={event => {
+                                                        event.stopPropagation();
+                                                        event.preventDefault();
+                                                        onDeleteClick(event)
+                                                        }
+                                                    }
+                                                    sx={{color: 'red'}}
+                                                >
                                                     <DeleteForever sx={{mr: 1.75}}/> Delete
                                                 </MenuItem>
                                             </Menu>
