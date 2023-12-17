@@ -38,11 +38,7 @@ const Stimuli = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const ID = parseInt(stimuliId);
-                console.log("ID", ID);
-
                 const stimuliResponse = await axios.get(GET_STIMULI_BY_ID_API.replace('{id}', stimuliId));
-                console.log("response",stimuliResponse);
                 const items = stimuliResponse.data;
                 //TODO: how to do this in a more consistent way?
                 const videoIdMatch = items.link.match(/(?:v=|\/)([\w-]{11})/);
@@ -54,7 +50,6 @@ const Stimuli = () => {
                 else{
                     console.error("Invalid link:", items.link);
                 }
-                console.log("embed link", items);
                 setStimuliData(items);
 
                 const experimentResponse = await axios.get(GET_EXPERIMENT_BY_ID_API.replace("{id}", items.experimentId));

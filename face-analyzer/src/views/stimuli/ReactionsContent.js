@@ -41,7 +41,6 @@ const ReactionsContent = ({stimuliId}) => {
                 const ID = parseInt(stimuliId);
 
                 const reactionsResponse = await axios.get(GET_REACTIONS_API);
-                console.log("reactions", reactionsResponse);
                 const items = reactionsResponse.data.items.filter((item) => item.stimuliId === ID);
                 setReactionsData(items);
 
