@@ -42,6 +42,10 @@ const getRandomFunnyMessage = (userName) => {
         `<strong>${userName}</strong>, morning superhero! The city sleeps; you conquer.`,
         `Hey there, <strong>${userName}</strong>! You and the sun are on the same team.`,
         `<strong>${userName}</strong>, hello early riser! Coffee or high-fives first?`,
+        `Hey <strong>${userName}</strong>, you're up so early, even the birds are jealous!`,
+        `Good morning, <strong>${userName}</strong>! Pro-tip: Coffee first, adulting second.`,
+        `Early riser alert! <strong>${userName}</strong>, the world wasn't ready for you yet.`,
+        `Hello, sunshine! <strong>${userName}</strong>, you're the MVP of the morning.`,
     ];
 
     // Pick a random message from the messages array
