@@ -33,6 +33,21 @@ import {IconLogout, IconSettings} from '@tabler/icons';
 
 import {useAuth} from 'context/authContext';
 
+const getRandomFunnyMessage = (userName) => {
+    const messages = [
+        `Hello, <strong>${userName}</strong>, you early bird! Worms beware.`,
+        `Morning, <strong>${userName}</strong>! The world's still catching Z's.`,
+        `<strong>${userName}</strong>, rise and shine! Coffee's calling, but you're already winning.`,
+        `Good AM, <strong>${userName}</strong>! You beat the alarm clock. Impressive!`,
+        `<strong>${userName}</strong>, morning superhero! The city sleeps; you conquer.`,
+        `Hey there, <strong>${userName}</strong>! You and the sun are on the same team.`,
+        `<strong>${userName}</strong>, hello early riser! Coffee or high-fives first?`,
+    ];
+
+    // Pick a random message from the messages array
+    return messages[Math.floor(Math.random() * messages.length)];
+};
+
 // ==============================|| PROFILE MENU ||============================== //
 
 const ProfileSection = () => {
@@ -41,10 +56,13 @@ const ProfileSection = () => {
   const navigate = useNavigate();
 
   const [open, setOpen] = useState(false);
+  const [funnyMessage, setFunnyMessage] = useState('');
 
   const anchorRef = useRef(null);
 
   const {user, setToken, setUser} = useAuth();
+
+  const userName = user ? user.name + " " + user.surname : 'Anonymous';
 
   const handleLogout = async () => {
     setToken();
@@ -77,6 +95,25 @@ const ProfileSection = () => {
 
     prevOpen.current = open;
   }, [open]);
+
+    useEffect(() => {
+        setFunnyMessage(getRandomFunnyMessage(userName))
+    }, [userName]);
+
+  const greetUser = () => {
+      const currHours = new Date().getHours();
+      if(currHours >= 0 && currHours < 12) {
+          return (
+          <>
+              <Typography variant="h4" sx={{fontWeight: 400}}>
+                  <span dangerouslySetInnerHTML={{__html: funnyMessage}}/>
+              </Typography>
+          </>
+          )
+      }
+  }
+
+
 
   return (
     <>
@@ -149,13 +186,11 @@ const ProfileSection = () => {
                     <Box sx={{paddingLeft: 2, paddingRight: 2, paddingTop: 2}}>
                     <Stack>
                       <Stack direction="row" spacing={0.5} alignItems="center">
-                          <Typography variant="h4" sx={{fontWeight: 400}}>Hello,</Typography>
-                          <Typography component="span" variant="h4">
-                          {user ? user.name + " " + user.surname : "Anonymous"}
-                        </Typography>
+                          {greetUser()}
                       </Stack>
                         <Typography sx={{paddingTop: 1, paddingBottom: 1}}
-                                    variant="subtitle2">{user ? user.role : ""}</Typography>
+                                    variant="subtitle2">{user ? user.role : ""}
+                        </Typography>
                     </Stack>
                     <Divider />
                   </Box>
