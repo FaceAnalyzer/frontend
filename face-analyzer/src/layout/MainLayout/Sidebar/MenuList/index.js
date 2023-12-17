@@ -107,14 +107,15 @@ const MenuList = () => {
 
   updateProjects().then();
 
-
-  const menuItems = {
-    items: [projects]
-  }
+  const menuItems = {items: []}
 
   if (user.role === "Admin") {
     menuItems.items.push(userManagement);
   }
+
+  menuItems.items.push(projects);
+
+
 
   const navItems = menuItems.items.map((item) => {
     switch (item.type) {
