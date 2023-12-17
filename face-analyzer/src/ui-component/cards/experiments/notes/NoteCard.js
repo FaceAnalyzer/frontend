@@ -3,7 +3,7 @@ import React, {useState} from 'react';
 
 // material-ui
 import {styled, useTheme} from '@mui/material/styles';
-import {Avatar, Box, Grid, Menu, MenuItem, Typography} from '@mui/material';
+import {Avatar, Box, CardActionArea, Grid, Menu, MenuItem, Typography} from '@mui/material';
 
 // project imports
 import MainCard from 'ui-component/cards/MainCard';
@@ -82,75 +82,107 @@ const NoteCard = ({isLoading, data}) => {
                     <DeleteNoteModal showModal={showDeleteModal}
                                      closeModal={closeDeleteModal}
                                      data={note}/>
-                    <Box sx={{p: 2.25}}>
-                        <Grid container direction="column">
-                            <Grid item sx={{mb: 1.25}}>
-                                <Grid container justifyContent="space-between">
-                                    <Grid item sx={{mb: 1.25}}>
-                                        <Typography
-                                            sx={{
-                                                fontSize: '1rem',
-                                                fontWeight: 500,
-                                                color: theme.palette.secondary[200]
-                                            }}
-                                        >
-                                            {/*{user.name} {user.surname}*/}
-                                            Note
-                                        </Typography>
-                                    </Grid>
-                                    <Grid item>
-                                        <Avatar
-                                            id={"menu-notes-card-" + note.id}
-                                            variant="rounded"
-                                            sx={{
-                                                ...theme.typography.commonAvatar,
-                                                ...theme.typography.mediumAvatar,
-                                                color: theme.palette.secondary[800],
-                                                backgroundColor: theme.palette.secondary[200],
-                                                zIndex: 1
-                                            }}
-                                            aria-controls="menu-note-card"
-                                            aria-haspopup="true"
-                                            onClick={handleClick}
-                                        >
-                                            <MoreHorizIcon fontSize="inherit"/>
-                                        </Avatar>
-                                        <Menu
-                                            id="menu-note-card"
-                                            anchorEl={anchorEl}
-                                            keepMounted
-                                            open={Boolean(anchorEl)}
-                                            onClose={handleClose}
-                                            variant="selectedMenu"
-                                            anchorOrigin={{
-                                                vertical: 'bottom',
-                                                horizontal: 'right'
-                                            }}
-                                            transformOrigin={{
-                                                vertical: 'top',
-                                                horizontal: 'right'
-                                            }}
-                                        >
-                                            <MenuItem id={"button-show-note-" + note.id} onClick={onShowClick}>
-                                                <OpenInFull sx={{mr: 1.75}}/> View
-                                            </MenuItem>
-                                            <MenuItem id={"button-delete-note-" + note.id} onClick={onDeleteClick}
-                                                      sx={{color: 'red'}}>
-                                                <DeleteForever sx={{mr: 1.75}}/> Delete
-                                            </MenuItem>
-                                        </Menu>
+                    <CardActionArea onClick={open} id={"card-open-stimulus-" + stimulus.id}>
+                        <Box sx={{p: 2.25}}>
+                            <Grid container direction="column">
+                                <Grid item sx={{mb: 1.25}}>
+                                    <Grid container justifyContent="space-between">
+                                        <Grid item sx={{mb: 1.25}}>
+                                            <Typography
+                                                sx={{
+                                                    fontSize: '1rem',
+                                                    fontWeight: 500,
+                                                    color: theme.palette.secondary[200]
+                                                }}
+                                            >
+                                                {/*{user.name} {user.surname}*/}
+                                                Note
+                                            </Typography>
+                                        </Grid>
+                                        <Grid item>
+                                            <Avatar
+                                                id={"menu-notes-card-" + note.id}
+                                                variant="rounded"
+                                                sx={{
+                                                    ...theme.typography.commonAvatar,
+                                                    ...theme.typography.mediumAvatar,
+                                                    color: theme.palette.secondary[800],
+                                                    backgroundColor: theme.palette.secondary[200],
+                                                    zIndex: 1
+                                                }}
+                                                aria-controls="menu-note-card"
+                                                aria-haspopup="true"
+                                                onMouseDown={event => event.stopPropagation()}
+                                                onClick={event => {
+                                                    event.stopPropagation();
+                                                    event.preventDefault();
+                                                    handleClick()
+                                                    }
+                                                }
+                                            >
+                                                <MoreHorizIcon fontSize="inherit"/>
+                                            </Avatar>
+                                            <Menu
+                                                id="menu-note-card"
+                                                onMouseDown={event => event.stopPropagation()}
+                                                onClick={event => {
+                                                    event.stopPropagation();
+                                                    event.preventDefault();
+                                                    }
+                                                }
+                                                anchorEl={anchorEl}
+                                                keepMounted
+                                                open={Boolean(anchorEl)}
+                                                onClose={handleClose}
+                                                variant="selectedMenu"
+                                                anchorOrigin={{
+                                                    vertical: 'bottom',
+                                                    horizontal: 'right'
+                                                }}
+                                                transformOrigin={{
+                                                    vertical: 'top',
+                                                    horizontal: 'right'
+                                                }}
+                                            >
+                                                <MenuItem
+                                                    id={"button-show-note-" + note.id}
+                                                    onMouseDown={event => event.stopPropagation()}
+                                                    onClick={event => {
+                                                        event.stopPropagation();
+                                                        event.preventDefault();
+                                                        onShowClick()
+                                                        }
+                                                    }
+                                                >
+                                                    <OpenInFull sx={{mr: 1.75}}/> View
+                                                </MenuItem>
+                                                <MenuItem
+                                                    id={"button-delete-note-" + note.id}
+                                                    onMouseDown={event => event.stopPropagation()}
+                                                    onClick={event => {
+                                                        event.stopPropagation();
+                                                        event.preventDefault();
+                                                        onDeleteClick()
+                                                        }
+                                                    }
+                                                    sx={{color: 'red'}}
+                                                >
+                                                    <DeleteForever sx={{mr: 1.75}}/> Delete
+                                                </MenuItem>
+                                            </Menu>
+                                        </Grid>
                                     </Grid>
                                 </Grid>
-                            </Grid>
-                            <Grid item>
-                                <Grid container alignItems="center">
-                                    {/*TODO fix displayed length - bugs up on smaller screens*/}
-                                    {note.description.length > 230 ? note.description.substring(0, 230) + "..." : note.description}
+                                <Grid item>
+                                    <Grid container alignItems="center">
+                                        {/*TODO fix displayed length - bugs up on smaller screens*/}
+                                        {note.description.length > 230 ? note.description.substring(0, 230) + "..." : note.description}
+                                    </Grid>
                                 </Grid>
-                            </Grid>
 
-                        </Grid>
-                    </Box>
+                            </Grid>
+                        </Box>
+                    </CardActionArea>
                 </CardWrapper>
             )}
         </>
