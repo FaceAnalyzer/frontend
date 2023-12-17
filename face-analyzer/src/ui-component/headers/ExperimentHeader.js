@@ -50,7 +50,7 @@ const ExperimentHeader = ({data, projectData}) => {
     };
 
     const openNotes = () => {
-        navigate(window.location + "/notes");
+        navigate(`/experiment/${experiment.id}/notes`);
     }
 
     const navigateToProject = () => {
