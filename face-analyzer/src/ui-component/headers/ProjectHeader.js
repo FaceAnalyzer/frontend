@@ -6,11 +6,13 @@ import {Box, Button, Card, CardHeader, Typography, useMediaQuery} from '@mui/mat
 import AnimateButton from '../extended/AnimateButton';
 import {IconEdit, IconTrashOff} from '@tabler/icons';
 import {FolderOpen, Troubleshoot} from '@mui/icons-material';
+import {useNavigate} from "react-router-dom";
 
 // ===========================|| PROJECT HEADER ||=========================== //
 
 const ProjectHeader = ({data}) => {
     const theme = useTheme();
+    const navigate = useNavigate();
     const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
     const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -43,7 +45,7 @@ const ProjectHeader = ({data}) => {
     };
 
     const openProjectResearchers = () => {
-        window.location.href = '/project/{projectId}/researchers'.replace('{projectId}', project.id);
+        navigate(`/project/${project.id}/researchers`);
     };
 
     return (

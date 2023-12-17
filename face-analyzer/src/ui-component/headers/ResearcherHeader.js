@@ -2,14 +2,20 @@ import React from 'react';
 import {Box, Card, CardHeader, Link, Typography} from "@mui/material";
 import {FolderOpen, Troubleshoot} from "@mui/icons-material";
 import {useTheme} from "@mui/material/styles";
+import {useNavigate} from "react-router-dom";
 
 // ===========================|| PROJECT RESEARCHERS HEADER ||=========================== //
 
 const ProjectResearcherHeader = ({data}) => {
     const theme = useTheme();
+    const navigate = useNavigate();
 
     const project = data;
     const projectId = project.id;
+
+    const navigateToProject = () => {
+        navigate(`/project/${projectId}`);
+    }
 
     return (
         <Box>
@@ -17,8 +23,10 @@ const ProjectResearcherHeader = ({data}) => {
                 <Box sx={{display: 'flex', flexDirection: 'column'}}>
                     <CardHeader sx={{padding: '5px'}}
                                 subheader={
-                                    <Link id={"breadcrumb-to-project"} href={`/project/${projectId}`}
-                                          sx={{color: theme.palette.grey[500], textDecoration: 'none'}}
+                                    <Link
+                                        id={"breadcrumb-to-project"}
+                                        sx={{color: theme.palette.grey[500], textDecoration: 'none', cursor: 'pointer'}}
+                                        onClick={navigateToProject}
                                     >
                                         <Box sx={{display: 'flex', alignItems: 'center'}}>
                                             <FolderOpen/>
