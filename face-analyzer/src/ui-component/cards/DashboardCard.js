@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 // material-ui
 import {styled, useTheme} from '@mui/material/styles';
-import {Avatar, Box, Grid, Typography} from '@mui/material';
+import {Avatar, Box, CardActionArea, Grid, Typography} from '@mui/material';
 
 // project imports
 import MainCard from 'ui-component/cards/MainCard';
@@ -33,58 +33,59 @@ const DashboardCard = ({isLoading, component}) => {
         navigate(component.toLowerCase());
     };
 
-
     return (
         <>
             {isLoading ? (
                 <SkeletonEarningCard/>
             ) : (
                 <CardWrapper border={false} content={false}>
-                    <Box sx={{p: 2.25}} onClick={openPage} id={component + "-lading-page-card"}>
-                        <Grid container direction="column">
-                            <Grid item>
-                                <Grid container justifyContent="space-between">
-                                    <Grid item>
-                                        <Avatar
-                                            variant="rounded"
-                                            sx={{
-                                                ...theme.typography.commonAvatar,
-                                                ...theme.typography.largeAvatar,
-                                                backgroundColor: '#fff',
-                                                color: theme.palette.secondary.dark,
-                                                borderColor: theme.palette.secondary.dark,
-                                                borderStyle: 'solid',
-                                                borderWidth: '2px',
-                                            }}
-                                        >
-                                            {component === "Projects" ? <FolderOpen/> : <IconUser/>}
-                                        </Avatar>
+                    <CardActionArea onClick={openPage} id={component + "-landing-page-card"}>
+                        <Box sx={{p: 2.25}}>
+                            <Grid container direction="column">
+                                <Grid item>
+                                    <Grid container justifyContent="space-between">
+                                        <Grid item>
+                                            <Avatar
+                                                variant="rounded"
+                                                sx={{
+                                                    ...theme.typography.commonAvatar,
+                                                    ...theme.typography.largeAvatar,
+                                                    backgroundColor: '#fff',
+                                                    color: theme.palette.secondary.dark,
+                                                    borderColor: theme.palette.secondary.dark,
+                                                    borderStyle: 'solid',
+                                                    borderWidth: '2px',
+                                                }}
+                                            >
+                                                {component === "Projects" ? <FolderOpen/> : <IconUser/>}
+                                            </Avatar>
+                                        </Grid>
                                     </Grid>
                                 </Grid>
-                            </Grid>
-                            <Grid item>
-                                <Grid container alignItems="center">
-                                    <Grid item>
-                                        <Typography
-                                            sx={{fontSize: '2.125rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75}}>
-                                            {component}
-                                        </Typography>
+                                <Grid item>
+                                    <Grid container alignItems="center">
+                                        <Grid item>
+                                            <Typography
+                                                sx={{fontSize: '2.125rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75}}>
+                                                {component}
+                                            </Typography>
+                                        </Grid>
                                     </Grid>
                                 </Grid>
+                                <Grid item sx={{mb: 1.25}}>
+                                    <Typography
+                                        sx={{
+                                            fontSize: '1rem',
+                                            fontWeight: 500,
+                                            color: theme.palette.secondary[200]
+                                        }}
+                                    >
+                                        View all {component.toLowerCase()}.
+                                    </Typography>
+                                </Grid>
                             </Grid>
-                            <Grid item sx={{mb: 1.25}}>
-                                <Typography
-                                    sx={{
-                                        fontSize: '1rem',
-                                        fontWeight: 500,
-                                        color: theme.palette.secondary[200]
-                                    }}
-                                >
-                                    View all {component.toLowerCase()}.
-                                </Typography>
-                            </Grid>
-                        </Grid>
-                    </Box>
+                        </Box>
+                    </CardActionArea>
                 </CardWrapper>
             )}
         </>
