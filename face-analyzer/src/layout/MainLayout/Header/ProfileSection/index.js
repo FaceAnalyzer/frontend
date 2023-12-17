@@ -106,13 +106,32 @@ const ProfileSection = () => {
 
   const greetUser = () => {
       const currHours = new Date().getHours();
-      if(currHours >= 0 && currHours < 12) {
+      if(currHours >= 0 && currHours < 6) {
           return (
-          <>
+          <Typography variant="h4" sx={{fontWeight: 400}}>
+              <span dangerouslySetInnerHTML={{__html: funnyMessage}}/>
+          </Typography>
+          )
+      }
+      else if(currHours >= 6 && currHours < 12) {
+          return (
               <Typography variant="h4" sx={{fontWeight: 400}}>
-                  <span dangerouslySetInnerHTML={{__html: funnyMessage}}/>
+                  Good morning, <strong>{userName}</strong>!
               </Typography>
-          </>
+          )
+      }
+      else if(currHours >= 12 && currHours < 18) {
+          return (
+              <Typography variant="h4" sx={{fontWeight: 400}}>
+                  Good afternoon, <strong>{userName}</strong>!
+              </Typography>
+          )
+      }
+      else { //18 to 24 hours
+          return (
+              <Typography variant="h4" sx={{fontWeight: 400}}>
+                  Good evening, <strong>{userName}</strong>!
+              </Typography>
           )
       }
   }
