@@ -10,6 +10,7 @@ import AnimateButton from "../../extended/AnimateButton";
 import {Modal, ModalBody, ModalContent, ModalFooter, ModalOverlay} from "../ModalComponents";
 import {DEFAULT_API_CONFIG, EDIT_PROJECT_API} from "../../../endpoints/BackendEndpoints";
 import axios from "axios";
+import {useNavigate} from "react-router-dom";
 
 const CardWrapper = styled(MainCard)(({theme}) => ({
     backgroundColor: '#fff',
@@ -23,6 +24,7 @@ const CardWrapper = styled(MainCard)(({theme}) => ({
 
 const EditProjectModal = ({showModal, closeModal, initialValues}) => {
     const theme = useTheme();
+    const navigate = useNavigate();
     const scriptedRef = useScriptRef();
     const projectId = initialValues.id;
     const project = {
@@ -36,7 +38,7 @@ const EditProjectModal = ({showModal, closeModal, initialValues}) => {
             axios.put(EDIT_PROJECT_API.replace("{id}", projectId), JSON.stringify(values), DEFAULT_API_CONFIG)
                 .then(response => {
                     if (response.status === 200) {
-                        window.location.reload();
+                        navigate(0);
                     } else {
                         const data = response.data;
                         setErrors(data.errors);

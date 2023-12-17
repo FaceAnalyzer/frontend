@@ -14,6 +14,7 @@ import EditProjectModal from "../../modals/projects/EditProjectModal";
 import DeleteProjectModal from "../../modals/projects/DeleteProjectModal";
 
 // assets
+import { useNavigate } from "react-router-dom";
 
 const CardWrapper = styled(MainCard)(({theme}) => ({
     backgroundColor: theme.palette.secondary.dark,
@@ -25,8 +26,8 @@ const CardWrapper = styled(MainCard)(({theme}) => ({
 // ===========================|| PROJECT CARD ||=========================== //
 
 const ProjectCard = ({isLoading, data}) => {
-
     const theme = useTheme();
+    const navigate = useNavigate();
 
     const [anchorEl, setAnchorEl] = useState(null);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -43,7 +44,7 @@ const ProjectCard = ({isLoading, data}) => {
     };
 
     const openProject = () => {
-        window.location.href = '/project/' + project.id;
+        navigate('/project/' + project.id);
     }
 
     const openDeleteModal = () => {

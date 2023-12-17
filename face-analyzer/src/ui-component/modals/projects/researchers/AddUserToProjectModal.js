@@ -10,6 +10,7 @@ import AnimateButton from "../../../extended/AnimateButton";
 import axios from "axios";
 import {ADD_RESEARCHER_TO_PROJECT_API} from "../../../../endpoints/BackendEndpoints";
 import useScriptRef from "../../../../hooks/useScriptRef";
+import {useNavigate} from "react-router-dom";
 
 const CardWrapper = styled(MainCard)(({theme}) => ({
     backgroundColor: '#fff',
@@ -23,6 +24,7 @@ const CardWrapper = styled(MainCard)(({theme}) => ({
 
 const AddUserToProjectModal = ({showModal, closeModal, usersNotOnProjectData, projectData}) => {
     const theme = useTheme();
+    const navigate = useNavigate();
     const scriptedRef = useScriptRef();
 
     const project = projectData;
@@ -33,7 +35,7 @@ const AddUserToProjectModal = ({showModal, closeModal, usersNotOnProjectData, pr
             axios.put(ADD_RESEARCHER_TO_PROJECT_API.replace('{id}', project.id), JSON.stringify(items))
                 .then(response => {
                     if (response.status === 204) {
-                        window.location.reload();
+                        navigate(0);
                     } else {
                         const data = response.data;
                         setErrors(data.errors);

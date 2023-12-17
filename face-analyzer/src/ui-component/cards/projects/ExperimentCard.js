@@ -13,6 +13,7 @@ import SkeletonEarningCard from 'ui-component/cards/Skeleton/EarningCard';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import {DeleteForever, Edit} from '@mui/icons-material';
 import {IconFlask} from '@tabler/icons';
+import {useNavigate} from "react-router-dom";
 import DeleteExperimentModal from "../../modals/projects/DeleteExperimentModal";
 import EditExperimentModal from "../../modals/projects/EditExperimentModal";
 
@@ -27,6 +28,7 @@ const CardWrapper = styled(MainCard)(({ theme }) => ({
 
 const ExperimentCard = ({isLoading, data}) => {
   const theme = useTheme();
+  const navigate = useNavigate();
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -43,7 +45,7 @@ const ExperimentCard = ({isLoading, data}) => {
   };
 
   const openExperiment = () => {
-    window.location.href = '/experiment/' + experiment.id;
+    navigate('/experiment/' + experiment.id);
   }
 
   const openDeleteModal = () => {

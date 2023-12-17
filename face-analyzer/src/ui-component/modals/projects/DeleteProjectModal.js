@@ -9,6 +9,7 @@ import AnimateButton from "../../extended/AnimateButton";
 import {Modal, ModalBody, ModalContent, ModalFooter, ModalOverlay} from "../ModalComponents";
 import {DELETE_PROJECT_API} from "../../../endpoints/BackendEndpoints";
 import axios from "axios";
+import {useNavigate, useLocation} from "react-router-dom";
 
 const CardWrapper = styled(MainCard)(({theme}) => ({
     backgroundColor: '#fff',
@@ -22,6 +23,8 @@ const CardWrapper = styled(MainCard)(({theme}) => ({
 
 const DeleteProjectModal = ({showModal, closeModal, data}) => {
     const theme = useTheme();
+    const navigate = useNavigate();
+    const location = useLocation();
     const scriptedRef = useScriptRef();
     const deleteId = data.id;
 
@@ -30,8 +33,14 @@ const DeleteProjectModal = ({showModal, closeModal, data}) => {
             axios.delete(DELETE_PROJECT_API.replace("{id}", deleteId))
                 .then(response => {
                     if (response.status === 204) {
-                        // Redirect to projects page
-                        window.location.href = '/projects';
+                        // Refresh if on projects page, else redirect to projects page
+                        if(location.pathname === '/projects'){
+                            navigate(0);
+                        }
+                        else{
+                            navigate('/projects');
+                            navigate(0); //without this the sidebar list doesn't refresh, a better way probably exists
+                        }
                     } else {
                         const data = response.data;
                         setErrors(data.errors);

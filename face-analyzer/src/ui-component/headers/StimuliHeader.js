@@ -6,11 +6,13 @@ import {IconChevronRight, IconFlask, IconTrashOff, IconVideo} from "@tabler/icon
 import PropTypes from "prop-types";
 import DeleteStimuliModal from "../modals/experiments/DeleteStimuliModal";
 import {FolderOpen} from "@mui/icons-material";
+import {useNavigate} from "react-router-dom";
 
 // ===========================|| STIMULI HEADER ||=========================== //
 
 const StimuliHeader = ({stimulus, experimentData, projectData}) => {
     const theme = useTheme();
+    const navigate = useNavigate();
     const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
     const [showModal, setShowModal] = useState(false);
@@ -28,6 +30,14 @@ const StimuliHeader = ({stimulus, experimentData, projectData}) => {
         setShowModal(false);
     };
 
+    const navigateToProject = () => {
+        navigate(`/project/${projectId}`);
+    }
+
+    const navigateToExperiment = () => {
+        navigate(`/experiment/${experimentId}`);
+    }
+
     return (
         <Box>
             <DeleteStimuliModal showModal={showModal} closeModal={closeModal}
@@ -37,8 +47,10 @@ const StimuliHeader = ({stimulus, experimentData, projectData}) => {
                     <CardHeader sx={{padding: '5px'}}
                         subheader={
                             <Box sx={{display: 'flex'}}>
-                                <Link id={"breadcrumb-to-project"} href={`/project/${projectId}`}
-                                      sx={{color: theme.palette.grey[500], textDecoration: 'none'}}
+                                <Link
+                                    id={"breadcrumb-to-project"}
+                                    sx={{color: theme.palette.grey[500], textDecoration: 'none', cursor: 'pointer'}}
+                                    onClick={navigateToProject}
                                 >
                                     <Box sx={{display: 'flex', alignItems: 'center'}}>
                                         <FolderOpen/>&nbsp;
@@ -47,8 +59,10 @@ const StimuliHeader = ({stimulus, experimentData, projectData}) => {
                                 </Link>
                                 &nbsp;
                                 <IconChevronRight/>
-                                <Link id={"breadcrumb-to-experiment"} href={`/experiment/${experimentId}`}
-                                      sx={{color: theme.palette.grey[500], textDecoration: 'none'}}
+                                <Link
+                                    id={"breadcrumb-to-experiment"}
+                                    sx={{color: theme.palette.grey[500], textDecoration: 'none', cursor: 'pointer'}}
+                                    onClick={navigateToExperiment}
                                 >
                                     <Box sx={{display: 'flex', alignItems: 'center'}}>
                                         <IconFlask/>

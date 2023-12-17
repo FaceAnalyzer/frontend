@@ -6,6 +6,7 @@ import {IconChevronRight, IconDownload, IconFlask, IconGraph, IconVideo} from "@
 import PropTypes from "prop-types";
 import Papa from "papaparse";
 import {FolderOpen} from "@mui/icons-material";
+import {useNavigate} from "react-router-dom";
 
 // ===========================|| CHART HEADER ||=========================== //
 
@@ -19,6 +20,7 @@ const ChartHeader = ({
                          projectData
                      }) => {
     const theme = useTheme();
+    const navigate = useNavigate();
 
     const stimuli = stimuliData;
     const stimuliId = stimuli.id;
@@ -92,14 +94,28 @@ const ChartHeader = ({
         link.click();
     };
 
+    const navigateToProject = () => {
+        navigate(`/project/${projectId}`);
+    }
+
+    const navigateToExperiment = () => {
+        navigate(`/experiment/${experimentId}`);
+    }
+
+    const navigateToStimuli = () => {
+        navigate(`/stimuli/${stimuliId}`);
+    }
+
     return (
         <Box>
             <Box>
                 <CardHeader sx={{padding: '5px'}}
                             subheader={
                                 <Box sx={{display: 'flex'}}>
-                                    <Link id={"breadcrumb-to-project"} href={`/project/${projectId}`}
-                                          sx={{color: theme.palette.grey[500], textDecoration: 'none'}}
+                                    <Link
+                                        id={"breadcrumb-to-project"}
+                                        sx={{color: theme.palette.grey[500], textDecoration: 'none', cursor: 'pointer'}}
+                                        onClick={navigateToProject}
                                     >
                                         <Box sx={{display: 'flex', alignItems: 'center'}}>
                                             <FolderOpen/>&nbsp;
@@ -108,8 +124,10 @@ const ChartHeader = ({
                                     </Link>
                                     &nbsp;
                                     <IconChevronRight />
-                                    <Link id={"breadcrumb-to-experiment"} href={`/experiment/${experimentId}`}
-                                          sx={{color: theme.palette.grey[500], textDecoration: 'none'}}
+                                    <Link
+                                        id={"breadcrumb-to-experiment"}
+                                        sx={{color: theme.palette.grey[500], textDecoration: 'none', cursor: 'pointer'}}
+                                        onClick={navigateToExperiment}
                                     >
                                         <Box sx={{display: 'flex', alignItems: 'center'}}>
                                             <IconFlask/>
@@ -118,8 +136,10 @@ const ChartHeader = ({
                                     </Link>
                                     &nbsp;
                                     <IconChevronRight />
-                                    <Link id={"breadcrumb-to-stimuli"} href={`/stimuli/${stimuliId}`}
-                                          sx={{color: theme.palette.grey[500], textDecoration: 'none'}}
+                                    <Link
+                                        id={"breadcrumb-to-stimuli"}
+                                        sx={{color: theme.palette.grey[500], textDecoration: 'none', cursor: 'pointer'}}
+                                        onClick={navigateToStimuli}
                                     >
                                         <Box sx={{display: 'flex', alignItems: 'center'}}>
                                             <IconVideo/>&nbsp;

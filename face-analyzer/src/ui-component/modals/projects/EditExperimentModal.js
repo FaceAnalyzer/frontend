@@ -10,6 +10,7 @@ import AnimateButton from "../../extended/AnimateButton";
 import {Modal, ModalBody, ModalContent, ModalFooter, ModalOverlay} from "../ModalComponents";
 import axios from "axios";
 import {DEFAULT_API_CONFIG, EDIT_EXPERIMENT_API} from "../../../endpoints/BackendEndpoints";
+import {useNavigate} from "react-router-dom";
 
 const CardWrapper = styled(MainCard)(({ theme }) => ({
     backgroundColor: '#fff',
@@ -23,6 +24,7 @@ const CardWrapper = styled(MainCard)(({ theme }) => ({
 
 const EditExperimentModal = ({showModal, closeModal, initialValues}) => {
     const theme = useTheme();
+    const navigate = useNavigate();
     const scriptedRef = useScriptRef();
     const experimentId = initialValues.id;
     const experiment = {
@@ -37,7 +39,7 @@ const EditExperimentModal = ({showModal, closeModal, initialValues}) => {
             axios.put(EDIT_EXPERIMENT_API + '/' + experimentId, JSON.stringify(values), DEFAULT_API_CONFIG)
                     .then(response => {
                         if (response.status === 200) {
-                            window.location.reload();
+                            navigate(0);
                         } else {
                             const data = response.data;
                             setErrors(data.errors);

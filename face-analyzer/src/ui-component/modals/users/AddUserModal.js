@@ -20,6 +20,7 @@ import MainCard from "../../cards/MainCard";
 import {ADD_USERS_API} from "../../../endpoints/BackendEndpoints";
 import axios from "axios";
 import PropTypes from "prop-types";
+import {useNavigate} from "react-router-dom";
 
 const CardWrapper = styled(MainCard)(({ theme }) => ({
     backgroundColor: '#fff',
@@ -32,6 +33,7 @@ const CardWrapper = styled(MainCard)(({ theme }) => ({
 
 const AddUserModal = ({showModal, closeModal, existingEmails, existingUsernames}) => {
     const theme = useTheme();
+    const navigate = useNavigate();
     const scriptedRef = useScriptRef();
     const phoneRegExp = /^((\+[1-9]{1,4}[ -]*)|(\([0-9]{2,3}\)[ -]*)|([0-9]{2,4})[ -]*)*?[0-9]{3,4}?[ -]*[0-9]{3,4}?$/
 
@@ -39,10 +41,9 @@ const AddUserModal = ({showModal, closeModal, existingEmails, existingUsernames}
         try {
             axios.post(ADD_USERS_API, JSON.stringify(values))
                 .then(response => {
-                    // this.setState({articleId: response.data.id});
                     if (response.status === 201) {
                         // Refresh the page after a successful submission
-                        window.location.reload();
+                        navigate(0);
                     } else {
                         const data = response.data;
                         setErrors(data.errors);

@@ -11,6 +11,7 @@ import MainCard from "../../../cards/MainCard";
 import {Modal, ModalBody, ModalContent, ModalFooter, ModalOverlay} from "../../ModalComponents";
 import AnimateButton from "../../../extended/AnimateButton";
 import {useAuth} from "../../../../context/authContext";
+import {useNavigate} from "react-router-dom";
 
 const CardWrapper = styled(MainCard)(({theme}) => ({
     backgroundColor: '#fff',
@@ -24,6 +25,7 @@ const CardWrapper = styled(MainCard)(({theme}) => ({
 
 const AddNoteModal = ({showModal, closeModal, experimentId}) => {
     const theme = useTheme();
+    const navigate = useNavigate();
     const scriptedRef = useScriptRef();
     const {user} = useAuth();
 
@@ -35,7 +37,7 @@ const AddNoteModal = ({showModal, closeModal, experimentId}) => {
             axios.post(ADD_NOTE_API, JSON.stringify(values), DEFAULT_API_CONFIG)
                 .then(response => {
                     if (response.status === 201) {
-                        window.location.reload();
+                        navigate(0);
                     } else {
                         const data = response.data;
                         setErrors(data.errors);

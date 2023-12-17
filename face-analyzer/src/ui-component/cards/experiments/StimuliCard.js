@@ -14,6 +14,7 @@ import {useState} from "react";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 
 // assets
+import {useNavigate} from "react-router-dom";
 
 const CardWrapper = styled(MainCard)(({ theme }) => ({
     backgroundColor: theme.palette.secondary.dark,
@@ -26,6 +27,7 @@ const CardWrapper = styled(MainCard)(({ theme }) => ({
 
 const StimuliCard = ({isLoading, data}) => {
     const theme = useTheme();
+    const navigate = useNavigate();
     const stimulus = data;
 
     const [showModal, setShowModal] = useState(false);
@@ -48,7 +50,7 @@ const StimuliCard = ({isLoading, data}) => {
     };
 
     const openStimulus = () => {
-        window.location.href = '/stimuli/' + stimulus.id;
+        navigate('/stimuli/' + stimulus.id);
     }
 
     const openModal = () => {
