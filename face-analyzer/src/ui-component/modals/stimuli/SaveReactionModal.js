@@ -18,6 +18,7 @@ import React from "react";
 import MainCard from "../../cards/MainCard";
 import PropTypes from "prop-types";
 import {saveNewReaction} from "../../../views/reactions/AnalysisDataFunctions";
+import {useNavigate} from "react-router-dom";
 
 const CardWrapper = styled(MainCard)(({ theme }) => ({
     backgroundColor: '#fff',
@@ -30,11 +31,12 @@ const CardWrapper = styled(MainCard)(({ theme }) => ({
 
 const SaveReactionModal = ({showModal, closeModal, stimuliId}) => {
     const theme = useTheme();
+    const navigate = useNavigate();
     const scriptedRef = useScriptRef();
 
     const handleSave = async (values, {setErrors, setStatus}) => {
         saveNewReaction(stimuliId, values).then(() => {
-            window.location.reload();
+            navigate(0);
         }).catch(result => {
             const data = result.data;
             setErrors(data);

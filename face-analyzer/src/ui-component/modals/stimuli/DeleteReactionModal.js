@@ -10,6 +10,7 @@ import {Modal, ModalBody, ModalContent, ModalFooter, ModalOverlay} from "../Moda
 import axios from "axios";
 import {DEFAULT_API_CONFIG, DELETE_REACTIONS_BY_ID_API} from "../../../endpoints/BackendEndpoints";
 import PropTypes from "prop-types";
+import {useNavigate} from "react-router-dom";
 
 const CardWrapper = styled(MainCard)(({theme}) => ({
     backgroundColor: '#fff',
@@ -21,6 +22,7 @@ const CardWrapper = styled(MainCard)(({theme}) => ({
 
 const DeleteReactionModal = ({modalData, closeModal}) => {
     const theme = useTheme();
+    const navigate = useNavigate();
     const scriptedRef = useScriptRef();
 
     const handleDelete = () => {
@@ -28,7 +30,7 @@ const DeleteReactionModal = ({modalData, closeModal}) => {
             axios.delete(DELETE_REACTIONS_BY_ID_API.replace("{id}", modalData.reactionId), DEFAULT_API_CONFIG)
                 .then(response => {
                     if (response.status === 204) {
-                        window.location.reload();
+                        navigate(0);
                     }
                     else{
                         const data = response.data;

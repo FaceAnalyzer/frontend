@@ -9,7 +9,7 @@ import useScriptRef from "../../../../hooks/useScriptRef";
 import {DELETE_NOTE_API} from "../../../../endpoints/BackendEndpoints";
 import {Modal, ModalBody, ModalContent, ModalFooter, ModalOverlay} from "../../ModalComponents";
 import AnimateButton from "../../../extended/AnimateButton";
-import {useLocation, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
 const CardWrapper = styled(MainCard)(({theme}) => ({
     backgroundColor: '#fff',
