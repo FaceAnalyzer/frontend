@@ -35,21 +35,29 @@ const Stimuli = () => {
 
     const id = parseInt(stimuliId);
 
+    const parseYoutubeLink = (link) => {
+        const videoIdMatch = link.match(/(?:v=|\/)([\w-]{11})/);
+        const videoId = videoIdMatch ? videoIdMatch[1] : null;
+
+        if(videoId) {
+            return [`https://www.youtube.com/embed/${videoId}`, videoId];
+        }
+        else{
+            console.error("Invalid link:", link);
+        }
+    }
+
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const stimuliResponse = await axios.get(GET_STIMULI_BY_ID_API.replace('{id}', stimuliId));
                 const items = stimuliResponse.data;
                 //TODO: how to do this in a more consistent way?
-                const videoIdMatch = items.link.match(/(?:v=|\/)([\w-]{11})/);
-                const videoId = videoIdMatch ? videoIdMatch[1] : null;
 
-                if(videoId) {
-                    items.link = `https://www.youtube.com/embed/${videoId}`;
-                }
-                else{
-                    console.error("Invalid link:", items.link);
-                }
+                const [link, videoId] = parseYoutubeLink(items.link);
+                items.link = link;
+                items.videoId = videoId;
+
                 setStimuliData(items);
 
                 const experimentResponse = await axios.get(GET_EXPERIMENT_BY_ID_API.replace("{id}", items.experimentId));

@@ -19,6 +19,7 @@ import {
     GET_STIMULI_BY_ID_API
 } from "../../../endpoints/BackendEndpoints";
 import {useAuth} from "../../../context/authContext";
+import DynamicChart from "./DynamicChart";
 // ==============================|| STATISTICS DASHBOARD ||============================== //
 
 const Stats = () => {
@@ -34,10 +35,7 @@ const Stats = () => {
 
     const {user} = useAuth();
 
-    const [isLoading, setLoading] = useState(true);
-    console.log(isLoading); //stop lint errors
-
-    const [activeButton, setActiveButton] = useState('overTime');
+    const [activeButton, setActiveButton] = useState('dynamic');
 
     const groupAndSortEmotionData = (emotionData) => {
         const groupedData = emotionData.reduce((result, data) => {
@@ -58,10 +56,21 @@ const Stats = () => {
 
     useEffect(() => {
 
+        const parseYoutubeLink = (link) => {
+            const videoIdMatch = link.match(/(?:v=|\/)([\w-]{11})/);
+            const videoId = videoIdMatch ? videoIdMatch[1] : null;
+
+            if(videoId) {
+                return [`https://www.youtube.com/embed/${videoId}`, videoId];
+            }
+            else{
+                console.error("Invalid link:", link);
+            }
+        }
+
         const fetchData = async () => {
             try {
                 const ID = parseInt(reactionId);
-
 
                 const reactionResponse = await axios.get(GET_REACTIONS_BY_ID_API.replace('{id}', reactionId));
                 const reactionItem = reactionResponse.data;
@@ -69,6 +78,8 @@ const Stats = () => {
 
                 const stimuliResponse = await axios.get(GET_STIMULI_BY_ID_API.replace('{id}', reactionItem.stimuliId));
                 const stimuliItem = stimuliResponse.data;
+                const [link, videoId] = parseYoutubeLink(stimuliItem.link);
+                stimuliItem.videoId = videoId;
                 setStimuliData(stimuliItem);
 
                 const experimentResponse = await axios.get(GET_EXPERIMENT_BY_ID_API.replace('{id}', stimuliItem.experimentId));
@@ -80,24 +91,19 @@ const Stats = () => {
                 setProjectData(projectItem);
 
                 const emotionsResponse = await axios.get(GET_EMOTIONS_API.replace('{id}', reactionId));
-                console.log("emotions", emotionsResponse);
                 const items = emotionsResponse.data.items.filter((item) => item.reactionId === ID);
 
                 const groupedAndSortedData = groupAndSortEmotionData(items);
 
                 setGroupedSortedData(groupedAndSortedData);
-                console.log("data", groupedAndSortedData);
 
                 setEmotionsData(groupedAndSortedData);
 
                 //Set reaction duration in seconds
                 setReactionDuration(groupedAndSortedData['Anger'][groupedAndSortedData['Anger'].length - 1].timeOffset / 1000);
 
-                setLoading(false);
-
             } catch (error) {
                 console.error('Error fetching reactions data:', error);
-                setLoading(false); // Set loading to false even in case of an error
             }
         };
 
@@ -135,6 +141,11 @@ const Stats = () => {
                         <BoxPlotLegend/>
                     </Grid>
                 </>
+            )}
+            {activeButton === 'dynamic' && (
+                <Grid item lg={12} md={12} sm={12} xs={12}>
+                    <DynamicChart stimuliData={stimuliData} groupedSortedData={groupedSortedData}/>
+                </Grid>
             )}
         </Grid>
     );

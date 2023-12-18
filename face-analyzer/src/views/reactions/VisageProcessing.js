@@ -2,14 +2,14 @@ import {useCallback, useContext, useEffect} from "react";
 import {AnalysisDataContext} from "./AnalysisDataContext";
 import {saveDataToLocalStorage} from "./AnalysisDataFunctions";
 
+//Analysis interval in ms
+export const analysisInterval = 100;
+
 /*
 Used to handle processing of the data gathered from the webcam canvas. After initializing the license manager, sets
 up the tracker and analyser, and then processes the data on a set interval.
  */
 const VisageProcessing = ({canvasRef, isLoading, isRecording}) => {
-    //Analysis interval in ms
-    const analysisInterval = 100;
-
     const {analysisData, setAnalysisData} = useContext(AnalysisDataContext);
 
     const updateAnalysisData = useCallback((newData) => {
