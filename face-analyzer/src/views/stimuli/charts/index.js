@@ -79,6 +79,7 @@ const Stats = () => {
                 const stimuliResponse = await axios.get(GET_STIMULI_BY_ID_API.replace('{id}', reactionItem.stimuliId));
                 const stimuliItem = stimuliResponse.data;
                 const [link, videoId] = parseYoutubeLink(stimuliItem.link);
+                stimuliItem.link = link;
                 stimuliItem.videoId = videoId;
                 setStimuliData(stimuliItem);
 

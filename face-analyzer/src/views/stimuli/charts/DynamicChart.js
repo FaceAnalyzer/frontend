@@ -1,26 +1,22 @@
-import React, {useEffect, useRef, useState} from "react";
-import Chart from "react-apexcharts";
+import React, {useState} from "react";
 import YouTube from "react-youtube";
 import { analysisInterval } from "../../reactions/VisageProcessing";
-import EmotionsOverTimeChart from "./EmotionsOverTimeChart";
+import NewChart from "./NewChart";
 
 const DynamicChart = ({ stimuliData, groupedSortedData }) => {
-    const [chartOptions, setChartOptions] = useState({});
-    const [chartSeries, setChartSeries] = useState([]);
-    const [videoTime, setVideoTime] = useState(null);
+    const [videoPercentage, setVideoPercentage] = useState(0);
 
     let interval = null;
 
     const timeUpdate = (event) => {
-        setVideoTime(event.target.getCurrentTime() / event.target.getDuration());
+        setVideoPercentage( event.target.getCurrentTime() / event.target.getDuration());
     }
 
     const handlerOnPlay = (event) => {
         interval = setInterval(() => timeUpdate(event), analysisInterval);
-
     }
 
-    const handlerOnPause = (event) => {
+    const handlerOnPause = () => {
         clearInterval(interval);
         interval = null;
     }
@@ -28,7 +24,7 @@ const DynamicChart = ({ stimuliData, groupedSortedData }) => {
     return(
         <>
             <div>
-                {(videoTime * 100).toFixed(2)}%
+                {videoPercentage.toFixed(2)} - {(100*videoPercentage).toFixed(2)}%
             </div>
             <div>
                 <YouTube
@@ -41,7 +37,7 @@ const DynamicChart = ({ stimuliData, groupedSortedData }) => {
                 />
             </div>
             <div>
-                <EmotionsOverTimeChart groupedSortedData={groupedSortedData} annotations={videoTime}/>
+                <NewChart groupedSortedData={groupedSortedData} videoPercentage={videoPercentage}/>
             </div>
         </>
     )
