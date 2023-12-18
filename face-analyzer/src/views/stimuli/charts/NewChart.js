@@ -12,7 +12,7 @@ import {
 } from "recharts";
 import { format, addMilliseconds } from "date-fns";
 
-const NewChart = ({ groupedSortedData, videoPercentage }) => {
+const NewChart = ({ groupedSortedData, videoTimeMs }) => {
     const [chartData, setChartData] = useState([]);
     const [referenceLineX, setReferenceLineX] = useState(0);
     const [selectedLines, setSelectedLines] = useState(() =>
@@ -24,11 +24,11 @@ const NewChart = ({ groupedSortedData, videoPercentage }) => {
 
     const emotionColor = {
         Anger: "#ff0000",
-        Disgust: "#ffa500",
+        Disgust: "#00a0a0",
         Fear: "#800080",
-        Happiness: "#00ff00",
-        Sadness: "#0000ff",
-        Surprise: "#ffff00",
+        Happiness: "#ffcc00",
+        Sadness: "#3399ff",
+        Surprise: "#cc66ff",
         Neutral: "#000",
     };
 
@@ -112,83 +112,73 @@ const NewChart = ({ groupedSortedData, videoPercentage }) => {
     };
 
     useEffect(() => {
-        // Calculate the minimum and maximum timeOffset values
-        const minTimeOffset = Math.min(...chartData.map((entry) => entry.timeOffset));
-        const maxTimeOffset = Math.max(...chartData.map((entry) => entry.timeOffset));
-
-        // Calculate the ReferenceLine x value
-        setReferenceLineX(videoPercentage * (maxTimeOffset - minTimeOffset) + minTimeOffset);
-
-        // Log the values
-        console.log("ReferenceLine x value:", videoPercentage * (maxTimeOffset - minTimeOffset) + minTimeOffset);
-        console.log("Minimum timeOffset:", minTimeOffset);
-        console.log("Maximum timeOffset:", maxTimeOffset);
-    }, [videoPercentage, chartData]);
+        setReferenceLineX(videoTimeMs);
+    }, [videoTimeMs]);
 
     return (
-        <>
-            <Grid container spacing={2}>
-                <Grid item xs={12}>
-                    <div>
+        <Grid container spacing={2}>
+            <Grid item xs={12}>
+                <ResponsiveContainer height={600}>
+                    <LineChart
+                        data={chartData}
+                        margin={{ top: 5, right: 30, left: 20, bottom: 20 }}
+                    >
+                        <ReferenceLine
+                            x={referenceLineX}
+                            stroke={"red"}
+                            strokeWidth={1.5}
+                            label={{ value: "Video Time", position: "insideTopRight" }}
+                        />
+                        <XAxis
+                            dataKey="timeOffset"
+                            type="number"
+                            domain={[
+                                Math.min(...chartData.map((entry) => entry.timeOffset)),
+                                Math.max(...chartData.map((entry) => entry.timeOffset)),
+                            ]}
+                            ticks={chartData.map((entry) => entry.timeOffset)}
+                            label={{ value: "Video time in ms", position: "bottom", offset: 20 }}
+                        />
+                        <YAxis
+                            type="number"
+                            domain={[0.0, 1.0]}
+                            label={{ value: "Emotion level", angle: -90, position: "left" }}
+                        />
+                        <Tooltip content={<CustomTooltip />} />
+                        <Legend />
                         {Object.keys(groupedSortedData).map((emotion) => (
-                            <FormControlLabel
-                                key={emotion}
-                                control={
-                                    <Checkbox
-                                        defaultChecked={true}
-                                        onChange={() => handleLineToggle(emotion)}
-                                    />
-                                }
-                                label={emotion}
-                            />
+                            selectedLines[emotion] && (
+                                <Line
+                                    key={emotion}
+                                    type="linear"
+                                    dataKey={emotion}
+                                    stroke={emotionColor[emotion]}
+                                    strokeWidth={2}
+                                    dot={false}
+                                />
+                            )
                         ))}
-                    </div>
-                    <ResponsiveContainer height={600}>
-                        <LineChart
-                            data={chartData}
-                            margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-                        >
-                            <XAxis
-                                dataKey="timeOffset"
-                                type="number"
-                                domain={[
-                                    Math.min(...chartData.map((entry) => entry.timeOffset)),
-                                    Math.max(...chartData.map((entry) => entry.timeOffset)),
-                                ]}
-                                ticks={chartData.map((entry) => entry.timeOffset)}
-                                label={{ value: "Video time in ms", position: "bottom" }}
-                            >
-                                {videoPercentage && (
-                                    <ReferenceLine
-                                        x={referenceLineX}
-                                        stroke={"red"}
-                                        label={{value: "Video Time", position: "insideTopRight"}}
-                                    />
-                                )}
-                            </XAxis>
-                            <YAxis
-                                type="number"
-                                domain={[0.0, 1.0]}
-                                label={{ value: "Emotion level", angle: -90, position: "left" }}
-                            />
-                            <Tooltip content={<CustomTooltip />} />
-                            <Legend />
-                            {Object.keys(groupedSortedData).map((emotion) => (
-                                selectedLines[emotion] && (
-                                    <Line
-                                        key={emotion}
-                                        type="linear"
-                                        dataKey={emotion}
-                                        stroke={emotionColor[emotion]}
-                                        dot={false}
-                                    />
-                                )
-                            ))}
-                        </LineChart>
-                    </ResponsiveContainer>
-                </Grid>
+                    </LineChart>
+                </ResponsiveContainer>
             </Grid>
-        </>
+            <Grid item xs={12}>
+                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                    {Object.keys(groupedSortedData).map((emotion) => (
+                        <FormControlLabel
+                            key={emotion}
+                            control={
+                                <Checkbox
+                                    defaultChecked={true}
+                                    onChange={() => handleLineToggle(emotion)}
+                                    style={{ color: emotionColor[emotion] }}
+                                />
+                            }
+                            label={emotion}
+                        />
+                    ))}
+                </div>
+            </Grid>
+        </Grid>
     );
 };
 

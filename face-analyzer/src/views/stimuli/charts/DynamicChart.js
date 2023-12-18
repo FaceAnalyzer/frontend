@@ -2,14 +2,15 @@ import React, {useState} from "react";
 import YouTube from "react-youtube";
 import { analysisInterval } from "../../reactions/VisageProcessing";
 import NewChart from "./NewChart";
+import {Grid} from "@mui/material";
 
 const DynamicChart = ({ stimuliData, groupedSortedData }) => {
-    const [videoPercentage, setVideoPercentage] = useState(0);
+    const [videoTimeMs, setVideoTimeMs] = useState(0);
 
     let interval = null;
 
     const timeUpdate = (event) => {
-        setVideoPercentage( event.target.getCurrentTime() / event.target.getDuration());
+        setVideoTimeMs(event.target.getCurrentTime() * 1000);
     }
 
     const handlerOnPlay = (event) => {
@@ -22,12 +23,10 @@ const DynamicChart = ({ stimuliData, groupedSortedData }) => {
     }
 
     return(
-        <>
-            <div>
-                {videoPercentage.toFixed(2)} - {(100*videoPercentage).toFixed(2)}%
-            </div>
-            <div>
+        <Grid container spacing={2}>
+            <Grid item xs={12}>
                 <YouTube
+                    style={{ display: 'flex', justifyContent: 'center' }}
                     videoId={stimuliData.videoId}
                     id={'youtube-player'}
                     title={'Youtube embedding'}
@@ -35,11 +34,11 @@ const DynamicChart = ({ stimuliData, groupedSortedData }) => {
                     onPause={handlerOnPause}
                     onEnd={handlerOnPause}
                 />
-            </div>
-            <div>
-                <NewChart groupedSortedData={groupedSortedData} videoPercentage={videoPercentage}/>
-            </div>
-        </>
+            </Grid>
+            <Grid item xs={12}>
+                <NewChart groupedSortedData={groupedSortedData} videoTimeMs={videoTimeMs}/>
+            </Grid>
+        </Grid>
     )
 }
 

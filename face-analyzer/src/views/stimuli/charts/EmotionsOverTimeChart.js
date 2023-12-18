@@ -11,11 +11,11 @@ const EmotionsOverTimeChart = ({ groupedSortedData, annotations }) => {
 
     const emotionColor = {
         Anger: "#ff0000",
-        Disgust: "#ffa500",
+        Disgust: "#00a0a0",
         Fear: "#800080",
-        Happiness: "#00ff00",
-        Sadness: "#0000ff",
-        Surprise: "#ffff00",
+        Happiness: "#ffcc00",
+        Sadness: "#3399ff",
+        Surprise: "#cc66ff",
         Neutral: "#000",
     };
 
