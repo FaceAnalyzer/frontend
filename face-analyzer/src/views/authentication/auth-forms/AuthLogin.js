@@ -96,6 +96,7 @@ const AuthLogin = ({ ...others }) => {
                     id="username"
                     name="username"
                     label="Username"
+                    autoFocus
                     value={values.username}
                     onChange={handleChange}
                     onBlur={handleBlur}
