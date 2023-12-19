@@ -8,11 +8,13 @@ import {IconGraph, IconTrashOff} from "@tabler/icons";
 import {useTheme} from "@mui/material/styles";
 import PropTypes from "prop-types";
 import DeleteReactionModal from "../../ui-component/modals/stimuli/DeleteReactionModal";
+import {useNavigate} from "react-router-dom";
 
 // ===========================|| REACTIONS HEADER ||=========================== //
 
 const ReactionsContent = ({stimuliId}) => {
     const theme = useTheme();
+    const navigate = useNavigate();
     const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
     const [reactionsData, setReactionsData] = useState([]);
@@ -39,7 +41,6 @@ const ReactionsContent = ({stimuliId}) => {
                 const ID = parseInt(stimuliId);
 
                 const reactionsResponse = await axios.get(GET_REACTIONS_API);
-                console.log("reactions", reactionsResponse);
                 const items = reactionsResponse.data.items.filter((item) => item.stimuliId === ID);
                 setReactionsData(items);
 
@@ -55,7 +56,7 @@ const ReactionsContent = ({stimuliId}) => {
     }, [stimuliId]);
 
     const showStats = (reactionId) => {
-        window.location.href = '/reaction/' + reactionId + '/statistics';
+        navigate(`/reaction/${reactionId}/statistics`);
     }
 
     return (
@@ -83,6 +84,7 @@ const ReactionsContent = ({stimuliId}) => {
                     <Box sx={{display: 'flex', gap: 1, pr: 2}}>
                         <AnimateButton>
                             <Button
+                                id={"button-stats-reaction-" + reaction.id}
                                 disableElevation
                                 variant="contained"
                                 color="secondary"
@@ -98,6 +100,7 @@ const ReactionsContent = ({stimuliId}) => {
                         </AnimateButton>
                         <AnimateButton>
                             <Button
+                                id={"button-delete-reaction-" + reaction.id}
                                 sx={{
                                     color: theme.palette.grey[700],
                                     backgroundColor: theme.palette.grey[50],

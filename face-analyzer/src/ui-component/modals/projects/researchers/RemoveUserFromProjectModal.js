@@ -9,6 +9,7 @@ import AnimateButton from "../../../extended/AnimateButton";
 import {Modal, ModalBody, ModalContent, ModalFooter, ModalOverlay} from "../../ModalComponents";
 import {REMOVE_RESEARCHER_FROM_PROJECT_API} from "../../../../endpoints/BackendEndpoints";
 import axios from "axios";
+import {useNavigate} from "react-router-dom";
 
 const CardWrapper = styled(MainCard)(({theme}) => ({
     backgroundColor: '#fff',
@@ -22,6 +23,7 @@ const CardWrapper = styled(MainCard)(({theme}) => ({
 
 const RemoveUserFromProjectModal = ({showModal, closeModal, userForRemoval, projectData}) => {
     const theme = useTheme();
+    const navigate = useNavigate();
     const scriptedRef = useScriptRef();
 
     const user = userForRemoval;
@@ -35,7 +37,7 @@ const RemoveUserFromProjectModal = ({showModal, closeModal, userForRemoval, proj
             await axios.put(REMOVE_RESEARCHER_FROM_PROJECT_API.replace('{id}', projectId), JSON.stringify(items))
                 .then(response => {
                     if (response.status === 204) {
-                        window.location.reload();
+                        navigate(0);
                     } else {
                         const data = response.data;
                         setErrors(data.errors);
@@ -110,6 +112,7 @@ const RemoveUserFromProjectModal = ({showModal, closeModal, userForRemoval, proj
                                         <ModalFooter>
                                             <AnimateButton>
                                                 <Button
+                                                    id={"button-yes"}
                                                     disableElevation
                                                     disabled={isSubmitting}
                                                     fullWidth
@@ -122,6 +125,7 @@ const RemoveUserFromProjectModal = ({showModal, closeModal, userForRemoval, proj
                                             </AnimateButton>
                                             <AnimateButton>
                                                 <Button
+                                                    id={"button-cancel"}
                                                     variant="outlined"
                                                     fullWidth
                                                     onClick={closeModal}

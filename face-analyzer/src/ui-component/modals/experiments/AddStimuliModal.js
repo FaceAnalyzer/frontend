@@ -10,6 +10,7 @@ import AnimateButton from "../../extended/AnimateButton";
 import {Modal, ModalBody, ModalContent, ModalFooter, ModalOverlay} from "../ModalComponents";
 import axios from "axios";
 import {ADD_STIMULI_API, DEFAULT_API_CONFIG} from "../../../endpoints/BackendEndpoints";
+import {useNavigate} from "react-router-dom";
 
 const CardWrapper = styled(MainCard)(({ theme }) => ({
     backgroundColor: '#fff',
@@ -23,6 +24,7 @@ const CardWrapper = styled(MainCard)(({ theme }) => ({
 
 const AddStimuliModal = ({showModal, closeModal, experimentId}) => {
     const theme = useTheme();
+    const navigate = useNavigate();
     const scriptedRef = useScriptRef();
 
     const handleSave = async (values, {setErrors, setStatus}) => {
@@ -30,7 +32,7 @@ const AddStimuliModal = ({showModal, closeModal, experimentId}) => {
             axios.post(ADD_STIMULI_API, JSON.stringify(values), DEFAULT_API_CONFIG)
                     .then(response => {
                         if (response.status === 201) {
-                            window.location.reload();
+                            navigate(0);
                         } else {
                             const data = response.data;
                             setErrors(data.errors);
@@ -153,27 +155,29 @@ const AddStimuliModal = ({showModal, closeModal, experimentId}) => {
                                     <ModalFooter>
                                         <AnimateButton>
                                             <Button
-                                                    disableElevation
-                                                    disabled={isSubmitting}
-                                                    fullWidth
-                                                    size="medium"
-                                                    type="submit"
-                                                    variant="contained"
-                                                    color="secondary">
+                                                id={"button-save"}
+                                                disableElevation
+                                                disabled={isSubmitting}
+                                                fullWidth
+                                                size="medium"
+                                                type="submit"
+                                                variant="contained"
+                                                color="secondary">
                                                 Save
                                             </Button>
                                         </AnimateButton>
                                         <AnimateButton>
                                             <Button
-                                                    variant="outlined"
-                                                    fullWidth
-                                                    onClick={closeModal}
-                                                    size="medium"
-                                                    sx={{
-                                                        color: 'grey.700',
-                                                        backgroundColor: theme.palette.grey[50],
-                                                        borderColor: theme.palette.grey[100]
-                                                    }}
+                                                id={"button-close"}
+                                                variant="outlined"
+                                                fullWidth
+                                                onClick={closeModal}
+                                                size="medium"
+                                                sx={{
+                                                    color: 'grey.700',
+                                                    backgroundColor: theme.palette.grey[50],
+                                                    borderColor: theme.palette.grey[100]
+                                                }}
                                             >
                                                 Close
                                             </Button>

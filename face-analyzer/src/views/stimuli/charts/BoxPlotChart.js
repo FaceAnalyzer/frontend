@@ -58,6 +58,7 @@ const BoxPlotChart = (boxPlotData) => {
                     ]}
                     options={{
                         chart: {
+                            id: "emotions-distribution",
                             type: 'boxPlot',
                             height: 350,
                             toolbar: {

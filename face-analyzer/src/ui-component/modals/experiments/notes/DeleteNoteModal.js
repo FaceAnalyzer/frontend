@@ -9,6 +9,7 @@ import useScriptRef from "../../../../hooks/useScriptRef";
 import {DELETE_NOTE_API} from "../../../../endpoints/BackendEndpoints";
 import {Modal, ModalBody, ModalContent, ModalFooter, ModalOverlay} from "../../ModalComponents";
 import AnimateButton from "../../../extended/AnimateButton";
+import {useNavigate} from "react-router-dom";
 
 const CardWrapper = styled(MainCard)(({theme}) => ({
     backgroundColor: '#fff',
@@ -22,6 +23,7 @@ const CardWrapper = styled(MainCard)(({theme}) => ({
 
 const DeleteNoteModal = ({showModal, closeModal, data}) => {
     const theme = useTheme();
+    const navigate = useNavigate();
     const scriptedRef = useScriptRef();
     const deleteId = data.id;
 
@@ -31,7 +33,7 @@ const DeleteNoteModal = ({showModal, closeModal, data}) => {
                 .then(response => {
                     console.log(response.status)
                     if (response.status === 204) {
-                        window.location.reload();
+                        navigate(0);
                     } else {
                         const data = response.data;
                         setErrors(data.errors);
@@ -103,6 +105,7 @@ const DeleteNoteModal = ({showModal, closeModal, data}) => {
                                         <ModalFooter>
                                             <AnimateButton>
                                                 <Button
+                                                    id={"button-yes"}
                                                     disableElevation
                                                     disabled={isSubmitting}
                                                     fullWidth
@@ -115,6 +118,7 @@ const DeleteNoteModal = ({showModal, closeModal, data}) => {
                                             </AnimateButton>
                                             <AnimateButton>
                                                 <Button
+                                                    id={"button-cancel"}
                                                     variant="outlined"
                                                     fullWidth
                                                     onClick={closeModal}

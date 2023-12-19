@@ -9,6 +9,7 @@ import AnimateButton from "../../extended/AnimateButton";
 import {Modal, ModalBody, ModalContent, ModalFooter, ModalOverlay} from "../ModalComponents";
 import axios from "axios";
 import {DELETE_USER_BY_ID_API} from "../../../endpoints/BackendEndpoints";
+import {useNavigate} from "react-router-dom";
 
 const CardWrapper = styled(MainCard)(({ theme }) => ({
     backgroundColor: '#fff',
@@ -22,6 +23,7 @@ const CardWrapper = styled(MainCard)(({ theme }) => ({
 
 const DeleteUserModal = ({showModal, closeModal, userForDeletion}) => {
     const theme = useTheme();
+    const navigate = useNavigate();
     const scriptedRef = useScriptRef();
     const deleteId = userForDeletion.id;
     const deleteUsername = userForDeletion.username;
@@ -34,7 +36,7 @@ const DeleteUserModal = ({showModal, closeModal, userForDeletion}) => {
                     console.log(response.status)
                     if (response.status === 204) {
                         // Redirect to users page
-                        window.location.href = '/users';
+                        navigate(0);
                     } else {
                         const data = response.data;
                         setErrors(data.errors);
@@ -109,6 +111,7 @@ const DeleteUserModal = ({showModal, closeModal, userForDeletion}) => {
                                         <ModalFooter>
                                             <AnimateButton>
                                                 <Button
+                                                    id={"button-yes"}
                                                     disableElevation
                                                     disabled={isSubmitting}
                                                     fullWidth
@@ -121,6 +124,7 @@ const DeleteUserModal = ({showModal, closeModal, userForDeletion}) => {
                                             </AnimateButton>
                                             <AnimateButton>
                                                 <Button
+                                                    id={"button-cancel"}
                                                     variant="outlined"
                                                     fullWidth
                                                     onClick={closeModal}

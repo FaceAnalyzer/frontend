@@ -5,7 +5,9 @@ import React, {useEffect, useState} from "react";
 import AddUserModal from "../../ui-component/modals/users/AddUserModal";
 import axios from "axios";
 import {GET_USERS_API} from "../../endpoints/BackendEndpoints";
-import UserManagementHeader from "./UserManagementHeader";
+import UserManagementHeader from "../../ui-component/headers/UserManagementHeader";
+import {useAuth} from "../../context/authContext";
+import {Navigate} from "react-router";
 
 // ==============================|| USER MANAGEMENT DASHBOARD ||============================== //
 
@@ -16,6 +18,7 @@ const UserManagement = () => {
     const [existingEmails, setExistingEmails] = useState([]);
     const [existingUsernames, setExistingUsernames] = useState([]);
     const [isLoading, setLoading] = useState(true);
+    const {user} = useAuth();
 
     useEffect(() => {
         const fetchUsers = async () => {
@@ -46,7 +49,7 @@ const UserManagement = () => {
         setShowAddModal(false);
     };
 
-    return (
+    return (!user || user.role !== "Admin") ? (<Navigate to="/login" replace/>) : (
         <>
             <AddUserModal showModal={showAddModal}
                           closeModal={closeAddModal}
@@ -57,12 +60,15 @@ const UserManagement = () => {
                     <UserManagementHeader/>
                 </Grid>
                 <Grid item xs={8} sm={6} md={4} lg={2} xl={1}>
-                    <Button onClick={openAddModal} variant="contained" disableElevation>
+                    <Button id={"button-add-user"} onClick={openAddModal} variant="contained" disableElevation>
                         Add user
                     </Button>
                 </Grid>
             </Grid>
-            {!isLoading ? <UserDataGrid isLoading={isLoading} userList={userList}/> : <strong>{"No users have been loaded. You're probably seeing this because you're not logged in."}</strong>}
+            {!isLoading ? <UserDataGrid isLoading={isLoading} userList={userList}
+                                        existingUsernames={existingUsernames} existingEmails={existingEmails}/>
+                : <strong>{"No users have been loaded. You're probably seeing this because you're not logged in."}</strong>
+            }
         </>
     );
 };

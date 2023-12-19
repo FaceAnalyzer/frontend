@@ -9,6 +9,7 @@ import AnimateButton from "../../extended/AnimateButton";
 import {Modal, ModalBody, ModalContent, ModalFooter, ModalOverlay} from "../ModalComponents";
 import axios from "axios";
 import {DELETE_EXPERIMENT_API} from "../../../endpoints/BackendEndpoints";
+import {useLocation, useNavigate} from "react-router-dom";
 
 const CardWrapper = styled(MainCard)(({ theme }) => ({
     backgroundColor: '#fff',
@@ -22,6 +23,8 @@ const CardWrapper = styled(MainCard)(({ theme }) => ({
 
 const DeleteExperimentModal = ({showModal, closeModal, data}) => {
     const theme = useTheme();
+    const navigate = useNavigate();
+    const location = useLocation();
     const scriptedRef = useScriptRef();
     const deleteId = data.id;
 
@@ -32,8 +35,14 @@ const DeleteExperimentModal = ({showModal, closeModal, data}) => {
                     // this.setState({articleId: response.data.id});
                     console.log(response.status)
                     if (response.status === 204) {
-                        // Redirect to project's experiments page
-                        window.location.href = '/project/' + data.projectId;
+                        // Refresh if on project's experiments page, else redirect to that page
+                        if(location.pathname === `/project/${data.projectId}`){
+                            navigate(0);
+                        }
+                        else{
+                            navigate(`/project/${data.projectId}`);
+                            navigate(0); //without this the sidebar list doesn't refresh, a better way probably exists
+                        }
                     } else {
                         const data = response.data;
                         setErrors(data.errors);
@@ -105,6 +114,7 @@ const DeleteExperimentModal = ({showModal, closeModal, data}) => {
                                         <ModalFooter>
                                             <AnimateButton>
                                                 <Button
+                                                    id={"button-yes"}
                                                     disableElevation
                                                     disabled={isSubmitting}
                                                     fullWidth
@@ -117,6 +127,7 @@ const DeleteExperimentModal = ({showModal, closeModal, data}) => {
                                             </AnimateButton>
                                             <AnimateButton>
                                                 <Button
+                                                    id={"button-cancel"}
                                                     variant="outlined"
                                                     fullWidth
                                                     onClick={closeModal}

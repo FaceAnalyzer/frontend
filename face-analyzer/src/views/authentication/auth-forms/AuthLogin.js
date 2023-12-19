@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react'; // Add useEffect import
+import React, {useEffect, useState} from 'react'; // Add useEffect import
 import {useNavigate} from 'react-router-dom';
 import {
   Box,
@@ -14,15 +14,16 @@ import {
 import * as Yup from 'yup';
 import {Formik} from 'formik';
 import AnimateButton from 'ui-component/extended/AnimateButton';
-import {GET_USER_BY_ID_API, LOGIN_API} from 'endpoints/BackendEndpoints'; // LOGIN_API
+import {LOGIN_API} from 'endpoints/BackendEndpoints'; // LOGIN_API
 import axios from 'axios';
 import {Visibility, VisibilityOff} from '@mui/icons-material';
 import {useAuth} from 'context/authContext';
+import {Navigate} from "react-router";
 
 const AuthLogin = ({ ...others }) => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
-  const { setToken, setUser } = useAuth();
+  const {user, setToken, setUser} = useAuth();
 
   const [redirectToHome, setRedirectToHome] = useState(false);
 
@@ -49,10 +50,10 @@ const AuthLogin = ({ ...others }) => {
       //console.log('response', response);
       const items = response.data;
       const token = items.accessToken;
-      const userId = items.userId;
+      const user = items.user
       //console.log('token', token)
       //console.log('user', userId)
-      return {token, userId};
+      return {token, user};
     }
     catch (err) {
       console.error(err);
@@ -60,20 +61,7 @@ const AuthLogin = ({ ...others }) => {
     }
   }
 
-  const getUserData = async (userId, token) => {
-    try{
-      const response = await axios.get(GET_USER_BY_ID_API.replace("{id}", userId), {headers: {
-          Authorization: "bearer " + token,
-        }});
-      return {id: response.data.id, name: response.data.name, surname: response.data.surname, role: response.data.role};
-    }
-    catch (e) {
-      console.error(e);
-      return null;
-    }
-  }
-
-  return (
+  return user ? (<Navigate to="/" replace/>) : (
       <Formik
           initialValues={{
             username: '',
@@ -87,9 +75,8 @@ const AuthLogin = ({ ...others }) => {
           onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
             setSubmitting(true);
             try {
-              const { token, userId } = await getLoginToken(values.username, values.password);
+              const { token, user } = await getLoginToken(values.username, values.password);
               setToken(token);
-              const user = await getUserData(userId, token);
               setUser(user);
               setRedirectToHome(true);
               setStatus({ success: true });
@@ -109,6 +96,7 @@ const AuthLogin = ({ ...others }) => {
                     id="username"
                     name="username"
                     label="Username"
+                    autoFocus
                     value={values.username}
                     onChange={handleChange}
                     onBlur={handleBlur}

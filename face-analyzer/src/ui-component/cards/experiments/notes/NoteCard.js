@@ -100,6 +100,7 @@ const NoteCard = ({isLoading, data}) => {
                                     </Grid>
                                     <Grid item>
                                         <Avatar
+                                            id={"menu-notes-card-" + note.id}
                                             variant="rounded"
                                             sx={{
                                                 ...theme.typography.commonAvatar,
@@ -110,12 +111,24 @@ const NoteCard = ({isLoading, data}) => {
                                             }}
                                             aria-controls="menu-note-card"
                                             aria-haspopup="true"
-                                            onClick={handleClick}
+                                            onMouseDown={event => event.stopPropagation()}
+                                            onClick={event => {
+                                                event.stopPropagation();
+                                                event.preventDefault();
+                                                handleClick(event)
+                                                }
+                                            }
                                         >
                                             <MoreHorizIcon fontSize="inherit"/>
                                         </Avatar>
                                         <Menu
                                             id="menu-note-card"
+                                            onMouseDown={event => event.stopPropagation()}
+                                            onClick={event => {
+                                                event.stopPropagation();
+                                                event.preventDefault();
+                                                }
+                                            }
                                             anchorEl={anchorEl}
                                             keepMounted
                                             open={Boolean(anchorEl)}
@@ -130,11 +143,29 @@ const NoteCard = ({isLoading, data}) => {
                                                 horizontal: 'right'
                                             }}
                                         >
-                                            <MenuItem onClick={onShowClick}>
+                                            <MenuItem
+                                                id={"button-show-note-" + note.id}
+                                                onMouseDown={event => event.stopPropagation()}
+                                                onClick={event => {
+                                                    event.stopPropagation();
+                                                    event.preventDefault();
+                                                    onShowClick()
+                                                    }
+                                                }
+                                            >
                                                 <OpenInFull sx={{mr: 1.75}}/> View
                                             </MenuItem>
-                                            <MenuItem onClick={onDeleteClick}
-                                                      sx={{color: 'red'}}>
+                                            <MenuItem
+                                                id={"button-delete-note-" + note.id}
+                                                onMouseDown={event => event.stopPropagation()}
+                                                onClick={event => {
+                                                    event.stopPropagation();
+                                                    event.preventDefault();
+                                                    onDeleteClick()
+                                                    }
+                                                }
+                                                sx={{color: 'red'}}
+                                            >
                                                 <DeleteForever sx={{mr: 1.75}}/> Delete
                                             </MenuItem>
                                         </Menu>

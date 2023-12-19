@@ -17,7 +17,7 @@ import {
 import AnimateButton from "../../extended/AnimateButton";
 import React from "react";
 import MainCard from "../../cards/MainCard";
-import {ADD_USERS_API} from "../../../endpoints/BackendEndpoints";
+import {PASSWORD_RESET_API, PUT_USER_BY_ID_API} from "../../../endpoints/BackendEndpoints";
 import axios from "axios";
 import PropTypes from "prop-types";
 import {useNavigate} from "react-router-dom";
@@ -31,35 +31,67 @@ const CardWrapper = styled(MainCard)(({ theme }) => ({
     zIndex: 2001,
 }));
 
-const AddUserModal = ({showModal, closeModal, existingEmails, existingUsernames}) => {
+const EditUserModal = ({closeModal, showModal, userForEdit, existingEmails, existingUsernames}) => {
     const theme = useTheme();
     const navigate = useNavigate();
     const scriptedRef = useScriptRef();
     const phoneRegExp = /^((\+[1-9]{1,4}[ -]*)|(\([0-9]{2,3}\)[ -]*)|([0-9]{2,4})[ -]*)*?[0-9]{3,4}?[ -]*[0-9]{3,4}?$/
+    const passRegExp = /^.{8,}$/
 
-    const handleSave = async (values, {setErrors, setStatus}) => {
+    const user = userForEdit;
+
+    const handleUpdate = async (values, {setErrors, setStatus}) => {
         try {
-            axios.post(ADD_USERS_API, JSON.stringify(values))
+            axios.put(PUT_USER_BY_ID_API.replace("{id}", user.id), JSON.stringify(values))
                 .then(response => {
-                    if (response.status === 201) {
-                        // Refresh the page after a successful submission
-                        navigate(0);
+                    if (response.status === 200) {
+                        //window.location.reload();
                     } else {
                         const data = response.data;
                         setErrors(data.errors);
                         setStatus({success: false});
                     }
                 }).catch(response => {
-                    const data = response.data;
-                    setErrors(data);
-                    setStatus({success: false});
+                const data = response.data;
+                setErrors(data);
+                setStatus({success: false});
             });
-
         } catch (err) {
             console.error(err);
             setErrors({submit: err.message});
             setStatus({success: false});
         }
+
+        if(values.password !== ''){
+            const passwordResetValues = {
+                userId: user.id,
+                newPassword: values.password
+            }
+
+            try {
+                axios.patch(PASSWORD_RESET_API, JSON.stringify(passwordResetValues))
+                    .then(response => {
+                        if (response.status === 200) {
+                            //window.location.reload();
+                        } else {
+                            const data = response.data;
+                            setErrors(data.errors);
+                            setStatus({success: false});
+                        }
+                    }).catch(response => {
+                    const data = response.data;
+                    setErrors(data);
+                    setStatus({success: false});
+                });
+            } catch (err) {
+                console.error(err);
+                setErrors({submit: err.message});
+                setStatus({success: false});
+            }
+        }
+
+        //Reload whether password is updated or not
+        navigate(0);
     };
 
     return (
@@ -69,13 +101,13 @@ const AddUserModal = ({showModal, closeModal, existingEmails, existingUsernames}
                     <Modal lg>
                         <Formik
                             initialValues={{
-                                name: '',
-                                surname: '',
-                                username: '',
+                                name: user.name,
+                                surname: user.surname,
+                                username: user.username,
                                 password: '',
-                                email: '',
-                                contactNumber: '',
-                                role: '',
+                                email: user.email,
+                                contactNumber: user.contactNumber,
+                                role: user.role,
                                 submit: null
                             }}
                             validationSchema={Yup.object().shape({
@@ -84,14 +116,17 @@ const AddUserModal = ({showModal, closeModal, existingEmails, existingUsernames}
                                 username: Yup.string().max(255)
                                     .required('Username is required')
                                     .test('UniqueUsername', 'Username already taken', async () => {
-                                        return !existingUsernames.includes(username.value);
+                                        return !(existingUsernames.includes(username.value) && username.value !== user.username);
                                     }),
-                                password: Yup.string().min(8, 'Password is too short - use at least 8 characters')
-                                    .required('Password is required'),
+                                password: Yup.string().trim()
+                                    .matches(passRegExp, {
+                                    message: 'Password is too short - use at least 8 characters',
+                                    excludeEmptyString: true
+                                    }),
                                 email: Yup.string().email('Invalid email')
                                     .required('Email is required')
                                     .test('UniqueEmail', 'Email already taken', async () => {
-                                        return !existingEmails.includes(email.value);
+                                        return !(existingEmails.includes(email.value) && email.value !== user.email);
                                     }),
                                 contactNumber: Yup.string().matches(phoneRegExp, 'Invalid contact number').required('Contact number is required'),
                                 role: Yup.string().required('Role is required')
@@ -100,7 +135,7 @@ const AddUserModal = ({showModal, closeModal, existingEmails, existingUsernames}
                             onSubmit={async (values, { setErrors, setStatus }) => {
                                 try {
                                     if (scriptedRef.current) {
-                                        await handleSave(values, {setErrors, setStatus});
+                                        await handleUpdate(values, {setErrors, setStatus});
                                         setStatus({ success: true });
                                     }
                                 } catch (err) {
@@ -124,7 +159,7 @@ const AddUserModal = ({showModal, closeModal, existingEmails, existingUsernames}
                                                         color: theme.palette.secondary.dark,
                                                         mb: 1
                                                     }}>
-                                                        Add new user
+                                                        Edit user
                                                     </Typography>
                                                 </Grid>
                                             </Grid>
@@ -137,6 +172,7 @@ const AddUserModal = ({showModal, closeModal, existingEmails, existingUsernames}
                                                     name="name"
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
+                                                    defaultValue={user.name}
                                                 />
                                                 {touched.name && errors.name && (
                                                     <FormHelperText error id="nameHandler">
@@ -153,6 +189,7 @@ const AddUserModal = ({showModal, closeModal, existingEmails, existingUsernames}
                                                     name="surname"
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
+                                                    defaultValue={user.surname}
                                                 />
                                                 {touched.surname && errors.surname && (
                                                     <FormHelperText error id="surnameHandler">
@@ -169,6 +206,7 @@ const AddUserModal = ({showModal, closeModal, existingEmails, existingUsernames}
                                                     name="username"
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
+                                                    defaultValue={user.username}
                                                 />
                                                 {touched.username && errors.username && (
                                                     <FormHelperText error id="usernameHandler">
@@ -183,6 +221,7 @@ const AddUserModal = ({showModal, closeModal, existingEmails, existingUsernames}
                                                     id="password"
                                                     type="password"
                                                     name="password"
+                                                    placeholder="Unchanged"
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
                                                 />
@@ -201,6 +240,7 @@ const AddUserModal = ({showModal, closeModal, existingEmails, existingUsernames}
                                                     name="email"
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
+                                                    defaultValue={user.email}
                                                 />
                                                 {touched.email && errors.email && (
                                                     <FormHelperText error id="emailHandler">
@@ -217,6 +257,7 @@ const AddUserModal = ({showModal, closeModal, existingEmails, existingUsernames}
                                                     name="contactNumber"
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
+                                                    defaultValue={user.contactNumber}
                                                 />
                                                 {touched.contactNumber && errors.contactNumber && (
                                                     <FormHelperText error id="contactNumberHandler">
@@ -299,11 +340,10 @@ const AddUserModal = ({showModal, closeModal, existingEmails, existingUsernames}
     );
 }
 
-AddUserModal.propTypes = {
+EditUserModal.propTypes = {
     showModal: PropTypes.bool,
     closeModal: PropTypes.func,
-    existingEmails: PropTypes.array,
-    existingUsernames: PropTypes.array
+    userForEdit: PropTypes.object
 }
 
-export default AddUserModal;
+export default EditUserModal;

@@ -11,6 +11,7 @@ import AnimateButton from "../../../extended/AnimateButton";
 import {DEFAULT_API_CONFIG, EDIT_NOTE_API} from "../../../../endpoints/BackendEndpoints";
 import axios from "axios";
 import {useAuth} from "../../../../context/authContext";
+import {useNavigate} from "react-router-dom";
 
 const CardWrapper = styled(MainCard)(({theme}) => ({
     backgroundColor: '#fff',
@@ -24,6 +25,7 @@ const CardWrapper = styled(MainCard)(({theme}) => ({
 
 const EditNoteModal = ({showModal, closeModal, note}) => {
     const theme = useTheme();
+    const navigate = useNavigate();
     const scriptedRef = useScriptRef();
     const noteId = note.id;
     const noteDescription = note.description;
@@ -42,7 +44,7 @@ const EditNoteModal = ({showModal, closeModal, note}) => {
             axios.put(EDIT_NOTE_API.replace("{id}", noteId), JSON.stringify(values), DEFAULT_API_CONFIG)
                 .then(response => {
                     if (response.status === 200) {
-                        window.location.reload();
+                        navigate(0);
                     } else {
                         const data = response.data;
                         setErrors(data.errors);
@@ -136,6 +138,7 @@ const EditNoteModal = ({showModal, closeModal, note}) => {
                                         <ModalFooter>
                                             <AnimateButton>
                                                 <Button
+                                                    id={"button-save"}
                                                     disableElevation
                                                     disabled={isSubmitting}
                                                     sx={{display: user.id === note.creatorId ? "" : "none"}}
@@ -149,6 +152,7 @@ const EditNoteModal = ({showModal, closeModal, note}) => {
                                             </AnimateButton>
                                             <AnimateButton>
                                                 <Button
+                                                    id={"button-close"}
                                                     variant="outlined"
                                                     fullWidth
                                                     onClick={closeModal}

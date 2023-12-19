@@ -5,10 +5,10 @@ import {Box, Button, Grid} from '@mui/material';
 
 // project imports
 import {gridSpacing} from 'store/constant';
-import {useParams} from "react-router";
+import {Navigate, useParams} from "react-router";
 import axios from "axios";
 import {GET_EXPERIMENT_BY_ID_API, GET_PROJECT_BY_ID_API, GET_STIMULI_BY_ID_API} from "../../endpoints/BackendEndpoints";
-import StimuliHeader from "./StimuliHeader";
+import StimuliHeader from "../../ui-component/headers/StimuliHeader";
 import WebcamComponent from "../reactions/WebcamComponent";
 import VisageProcessing from "../reactions/VisageProcessing";
 import AnalysisResultsComponent from "../reactions/AnalysisResultsComponent";
@@ -17,6 +17,7 @@ import {Videocam, VideocamOff} from "@mui/icons-material";
 import {useTheme} from "@mui/material/styles";
 import ReactionsContent from "./ReactionsContent";
 import SaveReactionModal from "../../ui-component/modals/stimuli/SaveReactionModal";
+import {useAuth} from "../../context/authContext";
 
 // ==============================|| STIMULUS DASHBOARD ||============================== //
 
@@ -30,17 +31,14 @@ const Stimuli = () => {
     const [isLoading, setLoading] = useState(true);
     const [isRecording, setIsRecording] = useState(false);
     const [showSaveModal, setShowSaveModal] = useState(false);
+    const {user} = useAuth();
 
     const id = parseInt(stimuliId);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const ID = parseInt(stimuliId);
-                console.log("ID", ID);
-
                 const stimuliResponse = await axios.get(GET_STIMULI_BY_ID_API.replace('{id}', stimuliId));
-                console.log("response",stimuliResponse);
                 const items = stimuliResponse.data;
                 //TODO: how to do this in a more consistent way?
                 const videoIdMatch = items.link.match(/(?:v=|\/)([\w-]{11})/);
@@ -52,7 +50,6 @@ const Stimuli = () => {
                 else{
                     console.error("Invalid link:", items.link);
                 }
-                console.log("embed link", items);
                 setStimuliData(items);
 
                 const experimentResponse = await axios.get(GET_EXPERIMENT_BY_ID_API.replace("{id}", items.experimentId));
@@ -113,7 +110,7 @@ const Stimuli = () => {
     });
 
 
-    return (
+    return !user ? (<Navigate to="/login" replace/>) : (
         <>
             <Grid container spacing={gridSpacing} sx={{padding: '16px'}}>
                 <Grid item xs={12}>
@@ -143,28 +140,32 @@ const Stimuli = () => {
                         <AnalysisResultsComponent analysisData={analysisData} isLoading={isLoading}/>
 
                         <Box sx={{display: 'flex', gap: '1rem', padding: '1rem', justifyContent: 'center'}}>
-                            <Button variant={isRecording ? '' : 'contained'}
-                                    sx={isRecording ? {
-                                        color: theme.palette.grey[700],
-                                        backgroundColor: theme.palette.grey[50],
-                                    } : {
-                                        color: theme.palette.secondary
-                                    }}
-                                    onClick={toggleRecording}
-                                    disableElevation>
-                                {isRecording ? (<>
-                                    <VideocamOff/>
-                                    Stop Recording
-                                </>) : (<>
-                                    <Videocam/>
-                                    Start Recording
-                                </>)
-                                }
+                            <Button
+                                id={"button-toggle-recording"}
+                                variant={isRecording ? '' : 'contained'}
+                                sx={isRecording ? {
+                                    color: theme.palette.grey[700],
+                                    backgroundColor: theme.palette.grey[50],
+                                } : {
+                                    color: theme.palette.secondary
+                                }}
+                                onClick={toggleRecording}
+                                disableElevation>
+                                    {isRecording ? (<>
+                                        <VideocamOff/>
+                                        Stop Recording
+                                    </>) : (<>
+                                        <Videocam/>
+                                        Start Recording
+                                    </>)
+                                    }
                             </Button>
 
-                            <Button variant="contained"
-                                    onClick={saveReaction}
-                                    disableElevation>
+                            <Button
+                                id={"button-save-reaction"}
+                                variant="contained"
+                                onClick={saveReaction}
+                                disableElevation>
                                 Save
                             </Button>
                         </Box>

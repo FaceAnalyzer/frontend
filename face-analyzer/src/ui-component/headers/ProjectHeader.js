@@ -1,17 +1,18 @@
 import React, {useState} from 'react';
 import {useTheme} from '@mui/material/styles';
-import DeleteProjectModal from '../../ui-component/modals/projects/DeleteProjectModal';
-import EditProjectModal from '../../ui-component/modals/projects/EditProjectModal';
+import DeleteProjectModal from '../modals/projects/DeleteProjectModal';
+import EditProjectModal from '../modals/projects/EditProjectModal';
 import {Box, Button, Card, CardHeader, Typography, useMediaQuery} from '@mui/material';
-import {gridSpacing} from '../../store/constant';
-import AnimateButton from '../../ui-component/extended/AnimateButton';
+import AnimateButton from '../extended/AnimateButton';
 import {IconEdit, IconTrashOff} from '@tabler/icons';
 import {FolderOpen, Troubleshoot} from '@mui/icons-material';
+import {useNavigate} from "react-router-dom";
 
 // ===========================|| PROJECT HEADER ||=========================== //
 
 const ProjectHeader = ({data}) => {
     const theme = useTheme();
+    const navigate = useNavigate();
     const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
     const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -44,7 +45,7 @@ const ProjectHeader = ({data}) => {
     };
 
     const openProjectResearchers = () => {
-        window.location.href = '/project/{projectId}/researchers'.replace('{projectId}', project.id);
+        navigate(`/project/${project.id}/researchers`);
     };
 
     return (
@@ -53,7 +54,7 @@ const ProjectHeader = ({data}) => {
                                 data={project}></DeleteProjectModal>
             <EditProjectModal showModal={showEditModal} closeModal={closeEditModal}
                               initialValues={project}></EditProjectModal>
-            <Card sx={{marginBottom: gridSpacing, backgroundColor: 'inherit'}}>
+            <Card sx={{backgroundColor: 'inherit'}}>
                 <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
                     <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'space-around'}}>
                         <FolderOpen/>
@@ -68,9 +69,10 @@ const ProjectHeader = ({data}) => {
                             }
                         />
                     </Box>
-                    <Box sx={{display: 'flex', gap: 1, pr: 2}}>
+                    <Box sx={{display: 'flex', gap: 1}}>
                         <AnimateButton>
                             <Button
+                                id={"button-researchers-edit"}
                                 disableElevation
                                 onClick={openProjectResearchers}
                                 variant="contained"
@@ -86,6 +88,7 @@ const ProjectHeader = ({data}) => {
                         </AnimateButton>
                         <AnimateButton>
                             <Button
+                                id={"button-edit-project"}
                                 disableElevation
                                 onClick={onEditClick}
                                 variant="contained"
@@ -99,6 +102,7 @@ const ProjectHeader = ({data}) => {
                         </AnimateButton>
                         <AnimateButton>
                             <Button
+                                id={"button-delete-project"}
                                 onClick={onDeleteClick}
                                 sx={{
                                     color: theme.palette.grey[700],

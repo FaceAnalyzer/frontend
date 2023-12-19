@@ -9,6 +9,7 @@ import AnimateButton from "../../extended/AnimateButton";
 import {Modal, ModalBody, ModalContent, ModalFooter, ModalOverlay} from "../ModalComponents";
 import axios from "axios";
 import {DEFAULT_API_CONFIG, DELETE_STIMULI_BY_ID_API} from "../../../endpoints/BackendEndpoints";
+import {useLocation, useNavigate} from "react-router-dom";
 
 const CardWrapper = styled(MainCard)(({theme}) => ({
     backgroundColor: '#fff',
@@ -22,6 +23,8 @@ const CardWrapper = styled(MainCard)(({theme}) => ({
 
 const DeleteStimuliModal = ({showModal, closeModal, data}) => {
     const theme = useTheme();
+    const navigate = useNavigate();
+    const location = useLocation();
     const scriptedRef = useScriptRef();
     const deleteId = data.id;
 
@@ -30,16 +33,22 @@ const DeleteStimuliModal = ({showModal, closeModal, data}) => {
             axios.delete(DELETE_STIMULI_BY_ID_API.replace("{id}", deleteId), DEFAULT_API_CONFIG)
                 .then(response => {
                     if (response.status === 204) {
-                        window.location.href = '/experiment/' + data.experimentId;
+                        if(location.pathname === `/experiment/${data.experimentId}`){
+                            navigate(0);
+                        }
+                        else{
+                            navigate('/experiment/${data.experimentId}');
+                            navigate(0); //without this the sidebar list doesn't refresh, a better way probably exists
+                        }
                     }
                     else{
                         const data = response.data;
                         console.error("resp:", response);
-                        console.error("Error deleting stimuli:", data.errors);
+                        console.error("Error deleting stimulus:", data.errors);
                     }
                 })
         } catch(e) {
-            console.error("Error deleting stimuli:", e);
+            console.error("Error deleting stimulus:", e);
         }
     };
 
@@ -100,6 +109,7 @@ const DeleteStimuliModal = ({showModal, closeModal, data}) => {
                                         <ModalFooter>
                                             <AnimateButton>
                                                 <Button
+                                                    id={"button-yes"}
                                                     disableElevation
                                                     disabled={isSubmitting}
                                                     fullWidth
@@ -112,6 +122,7 @@ const DeleteStimuliModal = ({showModal, closeModal, data}) => {
                                             </AnimateButton>
                                             <AnimateButton>
                                                 <Button
+                                                    id={"button-cancel"}
                                                     variant="outlined"
                                                     fullWidth
                                                     onClick={closeModal}

@@ -1,11 +1,12 @@
 import React from 'react';
 import {useTheme} from "@mui/material/styles";
 import {Box, Button, CardHeader, Link, Typography} from "@mui/material";
-import AnimateButton from "../../../ui-component/extended/AnimateButton";
+import AnimateButton from "../extended/AnimateButton";
 import {IconChevronRight, IconDownload, IconFlask, IconGraph, IconVideo} from "@tabler/icons";
 import PropTypes from "prop-types";
 import Papa from "papaparse";
-import {FileOpen} from "@mui/icons-material";
+import {FolderOpen} from "@mui/icons-material";
+import {useNavigate} from "react-router-dom";
 
 // ===========================|| CHART HEADER ||=========================== //
 
@@ -19,6 +20,7 @@ const ChartHeader = ({
                          projectData
                      }) => {
     const theme = useTheme();
+    const navigate = useNavigate();
 
     const stimuli = stimuliData;
     const stimuliId = stimuli.id;
@@ -74,7 +76,7 @@ const ChartHeader = ({
         return createCsvString(headers, combinedArray);
     }
 
-    const downloadCsv = () => {
+    const exportCsv = () => {
         const dataCSV = convertToCSV(emotionsData);
         const filename = (() => {
             const participantName = reactionData.participantName;
@@ -92,24 +94,40 @@ const ChartHeader = ({
         link.click();
     };
 
+    const navigateToProject = () => {
+        navigate(`/project/${projectId}`);
+    }
+
+    const navigateToExperiment = () => {
+        navigate(`/experiment/${experimentId}`);
+    }
+
+    const navigateToStimuli = () => {
+        navigate(`/stimuli/${stimuliId}`);
+    }
+
     return (
         <Box>
             <Box>
                 <CardHeader sx={{padding: '5px'}}
                             subheader={
                                 <Box sx={{display: 'flex'}}>
-                                    <Link href={`/project/${projectId}`}
-                                          sx={{color: theme.palette.grey[500], textDecoration: 'none'}}
+                                    <Link
+                                        id={"breadcrumb-to-project"}
+                                        sx={{color: theme.palette.grey[500], textDecoration: 'none', cursor: 'pointer'}}
+                                        onClick={navigateToProject}
                                     >
                                         <Box sx={{display: 'flex', alignItems: 'center'}}>
-                                            <FileOpen/>
+                                            <FolderOpen/>&nbsp;
                                             <Typography sx={{fontWeight: 500}}>{project.name}</Typography>
                                         </Box>
                                     </Link>
                                     &nbsp;
                                     <IconChevronRight />
-                                    <Link href={`/experiment/${experimentId}`}
-                                          sx={{color: theme.palette.grey[500], textDecoration: 'none'}}
+                                    <Link
+                                        id={"breadcrumb-to-experiment"}
+                                        sx={{color: theme.palette.grey[500], textDecoration: 'none', cursor: 'pointer'}}
+                                        onClick={navigateToExperiment}
                                     >
                                         <Box sx={{display: 'flex', alignItems: 'center'}}>
                                             <IconFlask/>
@@ -118,11 +136,13 @@ const ChartHeader = ({
                                     </Link>
                                     &nbsp;
                                     <IconChevronRight />
-                                    <Link href={`/stimuli/${stimuliId}`}
-                                          sx={{color: theme.palette.grey[500], textDecoration: 'none'}}
+                                    <Link
+                                        id={"breadcrumb-to-stimuli"}
+                                        sx={{color: theme.palette.grey[500], textDecoration: 'none', cursor: 'pointer'}}
+                                        onClick={navigateToStimuli}
                                     >
                                         <Box sx={{display: 'flex', alignItems: 'center'}}>
-                                            <IconVideo/>
+                                            <IconVideo/>&nbsp;
                                             <Typography sx={{fontWeight: 500}}>{stimuli.name}</Typography>
                                         </Box>
                                     </Link>
@@ -144,6 +164,7 @@ const ChartHeader = ({
                 <Box sx={{display: 'flex', gap: 1, pr: 2}}>
                     <AnimateButton>
                         <Button
+                            id={"button-emotions-over-time"}
                             onClick={() => handleButtonClick('overTime')}
                             sx={activeButton === 'overTime' ? {
                                 color: theme.palette.secondary
@@ -159,6 +180,7 @@ const ChartHeader = ({
                     </AnimateButton>
                     <AnimateButton>
                         <Button
+                            id={"button-emotions-distribution"}
                             onClick={() => handleButtonClick('distribution')}
                             sx={activeButton === 'distribution' ? {
                                 color: theme.palette.secondary
@@ -176,10 +198,11 @@ const ChartHeader = ({
                 <Box>
                     <AnimateButton>
                         <Button
+                            id={"button-export-csv"}
                             sx={{color: theme.palette.secondary}}
                             variant={'contained'}
                             disableElevation
-                            onClick={downloadCsv}
+                            onClick={exportCsv}
                         >
                             <IconDownload/> Export CSV
                         </Button>

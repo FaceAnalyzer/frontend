@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 // material-ui
@@ -10,8 +10,9 @@ import MainCard from 'ui-component/cards/MainCard';
 import SkeletonEarningCard from 'ui-component/cards/Skeleton/EarningCard';
 
 // assets
-import {IconClipboardList, IconPlus} from '@tabler/icons';
-import AddNoteModal from "../../../modals/experiments/notes/AddNoteModal";
+import {FolderOpen} from "@mui/icons-material";
+import {useNavigate} from "react-router-dom";
+import {IconUser} from "@tabler/icons";
 
 const CardWrapper = styled(MainCard)(({theme}) => ({
     backgroundColor: '#fff',
@@ -22,19 +23,14 @@ const CardWrapper = styled(MainCard)(({theme}) => ({
     position: 'relative'
 }));
 
-// ===========================|| ADD NOTE CARD ||=========================== //
+// ===========================|| DASHBOARD CARD ||=========================== //
 
-const AddNoteCard = ({isLoading, experimentId}) => {
+const DashboardCard = ({isLoading, component}) => {
     const theme = useTheme();
-    const [showModal, setShowModal] = useState(false);
-    const ID = parseInt(experimentId);
+    const navigate = useNavigate();
 
-    const openModal = () => {
-        setShowModal(true);
-    };
-
-    const closeModal = () => {
-        setShowModal(false);
+    const openPage = () => {
+        navigate(component.toLowerCase());
     };
 
     return (
@@ -43,15 +39,13 @@ const AddNoteCard = ({isLoading, experimentId}) => {
                 <SkeletonEarningCard/>
             ) : (
                 <CardWrapper border={false} content={false}>
-                    <AddNoteModal showModal={showModal} closeModal={closeModal} experimentId={ID}/>
-                    <CardActionArea onClick={openModal} id={"add-note-button-card"}>
+                    <CardActionArea onClick={openPage} id={component + "-landing-page-card"}>
                         <Box sx={{p: 2.25}}>
                             <Grid container direction="column">
                                 <Grid item>
                                     <Grid container justifyContent="space-between">
                                         <Grid item>
                                             <Avatar
-                                                id={"add-notes-icon"}
                                                 variant="rounded"
                                                 sx={{
                                                     ...theme.typography.commonAvatar,
@@ -63,29 +57,7 @@ const AddNoteCard = ({isLoading, experimentId}) => {
                                                     borderWidth: '2px',
                                                 }}
                                             >
-                                                <IconClipboardList/>
-                                            </Avatar>
-                                        </Grid>
-                                        <Grid item>
-                                            <Avatar
-                                                id={"add-notes-button"}
-                                                variant="rounded"
-                                                sx={{
-                                                    ...theme.typography.commonAvatar,
-                                                    ...theme.typography.mediumAvatar,
-                                                    backgroundColor: "#fff",
-                                                    color: theme.palette.secondary.dark,
-                                                    borderStyle: 'solid',
-                                                    borderWidth: '2px',
-                                                    borderColor: theme.palette.secondary.dark,
-                                                    borderRadius: '1rem',
-                                                    zIndex: 1
-                                                }}
-                                                aria-controls="add-new-note-card"
-                                                aria-haspopup="true"
-                                                onClick={openModal}
-                                            >
-                                                <IconPlus fontSize="inherit"/>
+                                                {component === "Projects" ? <FolderOpen/> : <IconUser/>}
                                             </Avatar>
                                         </Grid>
                                     </Grid>
@@ -95,7 +67,7 @@ const AddNoteCard = ({isLoading, experimentId}) => {
                                         <Grid item>
                                             <Typography
                                                 sx={{fontSize: '2.125rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75}}>
-                                                Add note
+                                                {component}
                                             </Typography>
                                         </Grid>
                                     </Grid>
@@ -108,7 +80,7 @@ const AddNoteCard = ({isLoading, experimentId}) => {
                                             color: theme.palette.secondary[200]
                                         }}
                                     >
-                                        Click to add a new note.
+                                        View all {component.toLowerCase()}.
                                     </Typography>
                                 </Grid>
                             </Grid>
@@ -120,8 +92,8 @@ const AddNoteCard = ({isLoading, experimentId}) => {
     );
 };
 
-AddNoteCard.propTypes = {
+DashboardCard.propTypes = {
     isLoading: PropTypes.bool
 };
 
-export default AddNoteCard;
+export default DashboardCard;

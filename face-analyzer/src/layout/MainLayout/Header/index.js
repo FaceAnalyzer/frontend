@@ -34,6 +34,7 @@ const Header = ({ handleLeftDrawerToggle }) => {
         <ButtonBase sx={{ borderRadius: '12px', overflow: 'hidden' }}>
           <Avatar
             variant="rounded"
+            id="sidebar-button-drawer"
             sx={{
               ...theme.typography.commonAvatar,
               ...theme.typography.mediumAvatar,

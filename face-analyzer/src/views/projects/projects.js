@@ -6,13 +6,16 @@ import AddProjectCard from "../../ui-component/cards/projects/AddProjectCard";
 import ProjectCard from "../../ui-component/cards/projects/ProjectCard";
 import {GET_PROJECTS_API} from "../../endpoints/BackendEndpoints";
 import axios from "axios";
-import ProjectManagementHeader from "./ProjectManagementHeader";
+import ProjectManagementHeader from "../../ui-component/headers/ProjectManagementHeader";
+import {Navigate} from "react-router";
+import {useAuth} from "../../context/authContext";
 
 // ==============================|| PROJECTS DASHBOARD ||============================== //
 
 const Projects = () => {
     const [isLoading, setLoading] = useState(true);
     const [projectList, setProjectList] = useState([]);
+    const {user} = useAuth();
 
     useEffect(() => {
         const fetchProjectData = async () => {
@@ -30,7 +33,7 @@ const Projects = () => {
         fetchProjectData();
     }, []);
 
-    return (
+    return !user ? (<Navigate to="/login" replace/>) : (
         <Grid container spacing={3}>
             <Grid item xs={12}>
                 <ProjectManagementHeader/>

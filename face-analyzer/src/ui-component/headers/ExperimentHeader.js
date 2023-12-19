@@ -1,17 +1,18 @@
 import React, {useState} from 'react';
 import {useTheme} from "@mui/material/styles";
-import DeleteExperimentModal from "../../ui-component/modals/projects/DeleteExperimentModal";
-import EditExperimentModal from "../../ui-component/modals/experiments/EditExperimentModal";
+import DeleteExperimentModal from "../modals/projects/DeleteExperimentModal";
+import EditExperimentModal from "../modals/projects/EditExperimentModal";
 import {Box, Button, Card, CardHeader, Link, Typography, useMediaQuery} from "@mui/material";
-import {gridSpacing} from "../../store/constant";
-import AnimateButton from "../../ui-component/extended/AnimateButton";
+import AnimateButton from "../extended/AnimateButton";
 import {IconClipboardList, IconEdit, IconFlask, IconTrashOff} from "@tabler/icons";
 import {FolderOpen} from "@mui/icons-material";
+import {useNavigate} from "react-router-dom";
 
 // ===========================|| EXPERIMENT HEADER ||=========================== //
 
 const ExperimentHeader = ({data, projectData}) => {
     const theme = useTheme();
+    const navigate = useNavigate();
     const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
     const projectId = data.projectId;
     console.log(projectId);
@@ -49,7 +50,11 @@ const ExperimentHeader = ({data, projectData}) => {
     };
 
     const openNotes = () => {
-        window.location.href = window.location + "/notes";
+        navigate(`/experiment/${experiment.id}/notes`);
+    }
+
+    const navigateToProject = () => {
+        navigate(`/project/${projectId}`);
     }
 
     return (
@@ -61,15 +66,17 @@ const ExperimentHeader = ({data, projectData}) => {
             <EditExperimentModal showModal={showEditModal}
                                  closeModal={closeEditModal}
                                  initialValues={experiment}></EditExperimentModal>
-            <Card sx={{marginBottom: gridSpacing, backgroundColor: 'inherit'}}>
+            <Card sx={{backgroundColor: 'inherit'}}>
                 <Box sx={{display: 'flex', flexDirection: 'column'}}>
                     <CardHeader sx={{padding: '5px'}}
                                 subheader={
-                                    <Link href={`/project/${projectId}`}
-                                          sx={{color: theme.palette.grey[500], textDecoration: 'none'}}
+                                    <Link
+                                        id={"breadcrumb-to-project"}
+                                        sx={{color: theme.palette.grey[500], textDecoration: 'none', cursor: 'pointer'}}
+                                        onClick={navigateToProject}
                                     >
                                         <Box sx={{display: 'flex', alignItems: 'center'}}>
-                                            <FolderOpen/>
+                                            <FolderOpen/>&nbsp;
                                             <Typography sx={{fontWeight: 500}}>{project.name}</Typography>
                                         </Box>
                                     </Link>
@@ -93,6 +100,7 @@ const ExperimentHeader = ({data, projectData}) => {
                         <Box sx={{display: 'flex', gap: 1, pr: 2}}>
                             <AnimateButton>
                                 <Button
+                                    id={"button-notes"}
                                     disableElevation
                                     onClick={openNotes}
                                     variant="contained"
@@ -108,6 +116,7 @@ const ExperimentHeader = ({data, projectData}) => {
                             </AnimateButton>
                             <AnimateButton>
                                 <Button
+                                    id={"button-edit-experiment"}
                                     disableElevation
                                     onClick={onEditClick}
                                     variant="contained"
@@ -121,6 +130,7 @@ const ExperimentHeader = ({data, projectData}) => {
                             </AnimateButton>
                             <AnimateButton>
                                 <Button
+                                    id={"button-delete-experiment"}
                                     onClick={onDeleteClick}
                                     sx={{
                                         color: theme.palette.grey[700],
