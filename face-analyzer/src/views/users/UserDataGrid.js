@@ -5,7 +5,13 @@ import LinearProgress from "@mui/material/LinearProgress";
 import clsx from "clsx";
 import DeleteUserModal from "../../ui-component/modals/users/DeleteUserModal";
 import EditUserModal from "../../ui-component/modals/users/EditUserModal";
+import AnimateButton from "../../ui-component/extended/AnimateButton";
+import {IconEdit, IconTrashOff} from "@tabler/icons";
+import {useTheme} from "@mui/material/styles";
+
 const UserDataGrid = ({isLoading, userList, existingEmails, existingUsernames}) => {
+    const theme = useTheme();
+
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [userForDeletion, setUserForDeletion] = useState({});
 
@@ -37,9 +43,9 @@ const UserDataGrid = ({isLoading, userList, existingEmails, existingUsernames}) 
     }
 
     const columns = [
-        {field: "id", headerName: "ID", maxWidth: 75, headerAlign: "center", align: "center"},
-        {field: "name", headerName: "Name", minWidth: 200, flex: 2},
-        {field: "surname", headerName: "Surname", minWidth: 200, flex: 2},
+        {field: "id", headerName: "ID", maxWidth: 50, headerAlign: "center", align: "center"},
+        {field: "name", headerName: "Name", minWidth: 175, flex: 2},
+        {field: "surname", headerName: "Surname", minWidth: 175, flex: 2},
         {field: "role", headerName: "Role", minWidth: 100, headerAlign: "center", align: "center", flex: 1,
             cellClassName: (params) => {
                 if(params.row.role == null){
@@ -58,13 +64,31 @@ const UserDataGrid = ({isLoading, userList, existingEmails, existingUsernames}) 
         {field: "actions", headerName: "Actions", minWidth: 150, headerAlign: "center", align: "center", flex: 2, renderCell: (params) => {
                 return (
                     <>
-                        <Button id={"button-edit-user-" + params.row.id} onClick={() => onClickEditUser(params.row)} variant="contained" disableElevation>
-                            Edit
-                        </Button>
+                        <AnimateButton>
+                            <Button
+                                id={"button-edit-user-" + params.row.id}
+                                disableElevation
+                                onClick={() => onClickEditUser(params.row)}
+                                variant="contained"
+                                color="secondary"
+                                width="min-content"
+                            >
+                                <IconEdit/>
+                            </Button>
+                        </AnimateButton>
                         &nbsp;
-                        <Button id={"button-delete-user-" + params.row.id} onClick={() => onClickDeleteUser(params.row)} variant="contained" disableElevation>
-                            Delete
-                        </Button>
+                        <AnimateButton>
+                            <Button
+                                id={"button-delete-user-" + params.row.id}
+                                onClick={() => onClickDeleteUser(params.row)}
+                                sx={{
+                                    color: theme.palette.grey[700],
+                                    backgroundColor: theme.palette.grey[50],
+                                }}
+                            >
+                                <IconTrashOff/>
+                            </Button>
+                        </AnimateButton>
                     </>
                 );
             }}
