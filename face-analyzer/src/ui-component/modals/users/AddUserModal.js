@@ -35,7 +35,8 @@ const AddUserModal = ({showModal, closeModal, existingEmails, existingUsernames}
     const theme = useTheme();
     const navigate = useNavigate();
     const scriptedRef = useScriptRef();
-    const phoneRegExp = /^((\+[1-9]{1,4}[ -]*)|(\([0-9]{2,3}\)[ -]*)|([0-9]{2,4})[ -]*)*?[0-9]{3,4}?[ -]*[0-9]{3,4}?$/
+    //const phoneRegExp = /^((\+[1-9]{1,4}[ -]*)|(\([0-9]{2,3}\)[ -]*)|([0-9]{2,4})[ -]*)*?[0-9]{3,4}?[ -]*[0-9]{3,4}?$/
+    const phoneRegExp = /^[\d\s().\-+]+$/
 
     const handleSave = async (values, {setErrors, setStatus}) => {
         try {
@@ -210,7 +211,7 @@ const AddUserModal = ({showModal, closeModal, existingEmails, existingUsernames}
                                             </FormControl>
 
                                             <FormControl fullWidth error={Boolean(touched.contactNumber && errors.contactNumber)} sx={{ ...theme.typography.customInput }}>
-                                                <InputLabel htmlFor="contactNumber">Contact</InputLabel>
+                                                <InputLabel htmlFor="contactNumber">Phone number</InputLabel>
                                                 <OutlinedInput
                                                     id="contactNumber"
                                                     type="text"
