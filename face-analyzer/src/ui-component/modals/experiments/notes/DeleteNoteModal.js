@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 
 import {styled, useTheme} from '@mui/material/styles';
 import {Box, Button, FormHelperText, Grid, Typography} from '@mui/material';
@@ -10,6 +10,7 @@ import {DELETE_NOTE_API} from "../../../../endpoints/BackendEndpoints";
 import {Modal, ModalBody, ModalContent, ModalFooter, ModalOverlay} from "../../ModalComponents";
 import AnimateButton from "../../../extended/AnimateButton";
 import {useNavigate} from "react-router-dom";
+import {PulseLoader} from "react-spinners";
 
 const CardWrapper = styled(MainCard)(({theme}) => ({
     backgroundColor: '#fff',
@@ -26,12 +27,14 @@ const DeleteNoteModal = ({showModal, closeModal, data}) => {
     const navigate = useNavigate();
     const scriptedRef = useScriptRef();
     const deleteId = data.id;
+    const [loadingSpinner, setLoadingSpinner] = useState(false);
 
     const handleDelete = async (values, {setErrors, setStatus}) => {
+        setLoadingSpinner(true);
         try {
             axios.delete(DELETE_NOTE_API.replace("{id}", deleteId))
                 .then(response => {
-                    console.log(response.status)
+                    setLoadingSpinner(false);
                     if (response.status === 204) {
                         navigate(0);
                     } else {
@@ -46,6 +49,7 @@ const DeleteNoteModal = ({showModal, closeModal, data}) => {
             setErrors({submit: err.message});
             setStatus({success: false});
         }
+        setLoadingSpinner(false);
     };
 
 
@@ -103,6 +107,15 @@ const DeleteNoteModal = ({showModal, closeModal, data}) => {
 
                                         </ModalBody>
                                         <ModalFooter>
+                                            {loadingSpinner && (
+                                                <div className={"loading-spinner"} style={{marginRight: "10px"}}>
+                                                    <PulseLoader
+                                                        color={theme.palette.secondary.dark}
+                                                        size={15}
+                                                        speedMultiplier={0.8}
+                                                    />
+                                                </div>
+                                            )}
                                             <AnimateButton>
                                                 <Button
                                                     id={"button-yes"}

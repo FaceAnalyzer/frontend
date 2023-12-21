@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 
 import {styled, useTheme} from '@mui/material/styles';
 import {Box, Button, FormControl, FormHelperText, Grid, OutlinedInput, Typography} from '@mui/material';
@@ -12,6 +12,7 @@ import {DEFAULT_API_CONFIG, EDIT_NOTE_API} from "../../../../endpoints/BackendEn
 import axios from "axios";
 import {useAuth} from "../../../../context/authContext";
 import {useNavigate} from "react-router-dom";
+import {PulseLoader} from "react-spinners";
 
 const CardWrapper = styled(MainCard)(({theme}) => ({
     backgroundColor: '#fff',
@@ -31,18 +32,22 @@ const EditNoteModal = ({showModal, closeModal, note}) => {
     const noteDescription = note.description;
     console.log("nd", note);
     const {user} = useAuth();
+    const [loadingSpinner, setLoadingSpinner] = useState(false);
 
     const handleSave = async (values, {setErrors, setStatus}) => {
+        setLoadingSpinner(true);
         try {
             values.creatorId = note.creatorId;
             values.experimentId = note.experimentId;
             if (note.creatorId !== user.id) {
                 setErrors("Cannot edit the note you haven't created");
                 setStatus({success: false});
+                setLoadingSpinner(false);
                 return;
             }
             axios.put(EDIT_NOTE_API.replace("{id}", noteId), JSON.stringify(values), DEFAULT_API_CONFIG)
                 .then(response => {
+                    setLoadingSpinner(false);
                     if (response.status === 200) {
                         navigate(0);
                     } else {
@@ -57,6 +62,7 @@ const EditNoteModal = ({showModal, closeModal, note}) => {
             setErrors({submit: err.message});
             setStatus({success: false});
         }
+        setLoadingSpinner(false);
     };
 
 
@@ -136,6 +142,15 @@ const EditNoteModal = ({showModal, closeModal, note}) => {
 
                                         </ModalBody>
                                         <ModalFooter>
+                                            {loadingSpinner && (
+                                                <div className={"loading-spinner"} style={{marginRight: "10px"}}>
+                                                    <PulseLoader
+                                                        color={theme.palette.secondary.dark}
+                                                        size={15}
+                                                        speedMultiplier={0.8}
+                                                    />
+                                                </div>
+                                            )}
                                             <AnimateButton>
                                                 <Button
                                                     id={"button-save"}

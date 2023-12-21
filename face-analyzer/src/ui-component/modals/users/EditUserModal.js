@@ -15,12 +15,13 @@ import {
     Typography
 } from "@mui/material";
 import AnimateButton from "../../extended/AnimateButton";
-import React from "react";
+import React, {useState} from "react";
 import MainCard from "../../cards/MainCard";
 import {PASSWORD_RESET_API, PUT_USER_BY_ID_API} from "../../../endpoints/BackendEndpoints";
 import axios from "axios";
 import PropTypes from "prop-types";
 import {useNavigate} from "react-router-dom";
+import {PulseLoader} from "react-spinners";
 
 const CardWrapper = styled(MainCard)(({ theme }) => ({
     backgroundColor: '#fff',
@@ -35,12 +36,15 @@ const EditUserModal = ({closeModal, showModal, userForEdit, existingEmails, exis
     const theme = useTheme();
     const navigate = useNavigate();
     const scriptedRef = useScriptRef();
+    const [loadingSpinner, setLoadingSpinner] = useState(false);
+
     const phoneRegExp = /^((\+[1-9]{1,4}[ -]*)|(\([0-9]{2,3}\)[ -]*)|([0-9]{2,4})[ -]*)*?[0-9]{3,4}?[ -]*[0-9]{3,4}?$/
     const passRegExp = /^.{8,}$/
 
     const user = userForEdit;
 
     const handleUpdate = async (values, {setErrors, setStatus}) => {
+        setLoadingSpinner(true);
         try {
             axios.put(PUT_USER_BY_ID_API.replace("{id}", user.id), JSON.stringify(values))
                 .then(response => {
@@ -89,7 +93,7 @@ const EditUserModal = ({closeModal, showModal, userForEdit, existingEmails, exis
                 setStatus({success: false});
             }
         }
-
+        setLoadingSpinner(false);
         //Reload whether password is updated or not
         navigate(0);
     };
@@ -298,6 +302,15 @@ const EditUserModal = ({closeModal, showModal, userForEdit, existingEmails, exis
 
                                         </ModalBody>
                                         <ModalFooter>
+                                            {loadingSpinner && (
+                                                <div className={"loading-spinner"} style={{marginRight: "10px"}}>
+                                                    <PulseLoader
+                                                        color={theme.palette.secondary.dark}
+                                                        size={15}
+                                                        speedMultiplier={0.8}
+                                                    />
+                                                </div>
+                                            )}
                                             <AnimateButton>
                                                 <Button
                                                     id={"button-save"}
