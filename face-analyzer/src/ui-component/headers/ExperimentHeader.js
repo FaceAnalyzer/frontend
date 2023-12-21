@@ -100,7 +100,7 @@ const ExperimentHeader = ({data, projectData}) => {
                         <Box sx={{display: 'flex', gap: 1, pr: 2}}>
                             <AnimateButton>
                                 <Button
-                                    id={"button-notes"}
+                                    id={"button-notes-" + experiment.id}
                                     disableElevation
                                     onClick={openNotes}
                                     variant="contained"
