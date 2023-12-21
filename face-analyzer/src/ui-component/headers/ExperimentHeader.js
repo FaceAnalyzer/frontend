@@ -15,15 +15,12 @@ const ExperimentHeader = ({data, projectData}) => {
     const navigate = useNavigate();
     const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
     const projectId = data.projectId;
-    console.log(projectId);
 
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [showEditModal, setShowEditModal] = useState(false);
 
     const experiment = data;
     const project = projectData;
-
-    console.log("PROJ", project)
 
     const openDeleteModal = () => {
         setShowDeleteModal(true);
