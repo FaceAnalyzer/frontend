@@ -1,16 +1,7 @@
-import React, { useState, useEffect } from "react";
-import { Grid, Checkbox, FormControlLabel } from "@mui/material";
-import {
-    LineChart,
-    Line,
-    XAxis,
-    YAxis,
-    Tooltip,
-    Legend,
-    ResponsiveContainer,
-    ReferenceLine,
-} from "recharts";
-import { format, addMilliseconds } from "date-fns";
+import React, {useEffect, useState} from "react";
+import {Checkbox, FormControlLabel, Grid} from "@mui/material";
+import {Legend, Line, LineChart, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis,} from "recharts";
+import {addMilliseconds, format} from "date-fns";
 
 const NewChart = ({ groupedSortedData, videoTimeMs }) => {
     const [chartData, setChartData] = useState([]);
@@ -125,8 +116,9 @@ const NewChart = ({ groupedSortedData, videoTimeMs }) => {
                     >
                         <ReferenceLine
                             x={referenceLineX}
-                            stroke={"red"}
+                            stroke={"grey"}
                             strokeWidth={1.5}
+                            strokeDasharray={"5 5"}
                             label={{ value: "Video Time", position: "insideTopRight" }}
                         />
                         <XAxis
@@ -137,7 +129,7 @@ const NewChart = ({ groupedSortedData, videoTimeMs }) => {
                                 Math.max(...chartData.map((entry) => entry.timeOffset)),
                             ]}
                             ticks={chartData.map((entry) => entry.timeOffset)}
-                            label={{ value: "Video time in ms", position: "bottom", offset: 20 }}
+                            label={{value: "Video time in ms", position: "bottom", offset: 25}}
                         />
                         <YAxis
                             type="number"
