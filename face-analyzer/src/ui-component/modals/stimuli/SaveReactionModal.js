@@ -44,11 +44,9 @@ const SaveReactionModal = ({showModal, closeModal, stimuliId}) => {
             navigate(0);
         }
         catch(result){
-            const data = result.data;
-            setErrors(data);
-            setStatus({success: false});
+            setLoadingSpinner(false);
+            throw result;
         }
-        setLoadingSpinner(false);
     };
 
     return (
@@ -68,6 +66,7 @@ const SaveReactionModal = ({showModal, closeModal, stimuliId}) => {
 
                             onSubmit={async (values, { setErrors, setStatus }) => {
                                 try {
+                                    console.log("OVDJE SAM")
                                     if (scriptedRef.current) {
                                         await handleSave(values, {setErrors, setStatus});
                                         setStatus({ success: true });

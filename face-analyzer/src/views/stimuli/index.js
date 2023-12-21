@@ -31,6 +31,7 @@ const Stimuli = () => {
     const [isLoading, setLoading] = useState(true);
     const [isRecording, setIsRecording] = useState(false);
     const [showSaveModal, setShowSaveModal] = useState(false);
+    const [saveDisabled, setSaveDisabled] = useState(true);
     const {user} = useAuth();
 
     const id = parseInt(stimuliId);
@@ -48,6 +49,10 @@ const Stimuli = () => {
     }
 
     useEffect(() => {
+        //Clear potential existing data in localStorage
+        const clearLocalStorageData = () => {
+            localStorage.removeItem("analysisData");
+        }
         const fetchData = async () => {
             try {
                 const stimuliResponse = await axios.get(GET_STIMULI_BY_ID_API.replace('{id}', stimuliId));
@@ -76,8 +81,23 @@ const Stimuli = () => {
             }
         };
 
+        clearLocalStorageData();
         fetchData();
+
+        return() => {
+            clearLocalStorageData();
+        }
     }, [stimuliId]);
+
+    useEffect(() => {
+        if(!localStorage.getItem("analysisData")){
+            console.log("No LS data exists. Save disabled.");
+            setSaveDisabled(true);
+        }
+        else{
+            setSaveDisabled(false);
+        }
+    }, [localStorage.getItem("analysisData")]);
 
     const toggleRecording = () => {
         setIsRecording(!isRecording);
@@ -116,7 +136,6 @@ const Stimuli = () => {
         6: 0.0,
         "time": 0
     });
-
 
     return !user ? (<Navigate to="/login" replace/>) : (
         <>
@@ -173,7 +192,9 @@ const Stimuli = () => {
                                 id={"button-save-reaction"}
                                 variant="contained"
                                 onClick={saveReaction}
-                                disableElevation>
+                                disableElevation
+                                disabled={saveDisabled}
+                            >
                                 Save
                             </Button>
                         </Box>
