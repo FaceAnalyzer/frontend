@@ -7,10 +7,12 @@ import AnimateButton from '../extended/AnimateButton';
 import {IconEdit, IconTrashOff} from '@tabler/icons';
 import {FolderOpen, Troubleshoot} from '@mui/icons-material';
 import {useNavigate} from "react-router-dom";
+import {useAuth} from "../../context/authContext";
 
 // ===========================|| PROJECT HEADER ||=========================== //
 
 const ProjectHeader = ({data}) => {
+    const {user} = useAuth();
     const theme = useTheme();
     const navigate = useNavigate();
     const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
@@ -69,53 +71,57 @@ const ProjectHeader = ({data}) => {
                             }
                         />
                     </Box>
-                    <Box sx={{display: 'flex', gap: 1}}>
-                        <AnimateButton>
-                            <Button
-                                id={"button-researchers-edit"}
-                                disableElevation
-                                onClick={openProjectResearchers}
-                                variant="contained"
-                                sx={{
-                                    backgroundColor: theme.palette.secondary[800]
-                                }}
-                            >
-                                <Troubleshoot/>
-                                <Typography sx={{display: isSmallScreen ? 'none' : 'flex'}}>
-                                    Edit researchers
-                                </Typography>
-                            </Button>
-                        </AnimateButton>
-                        <AnimateButton>
-                            <Button
-                                id={"button-edit-project"}
-                                disableElevation
-                                onClick={onEditClick}
-                                variant="contained"
-                                color="secondary"
-                            >
-                                <IconEdit/>
-                                <Typography sx={{display: isSmallScreen ? 'none' : 'flex'}}>
-                                    Edit
-                                </Typography>
-                            </Button>
-                        </AnimateButton>
-                        <AnimateButton>
-                            <Button
-                                id={"button-delete-project"}
-                                onClick={onDeleteClick}
-                                sx={{
-                                    color: theme.palette.grey[700],
-                                    backgroundColor: theme.palette.grey[50],
-                                }}
-                            >
-                                <IconTrashOff/>
-                                <Typography sx={{display: isSmallScreen ? 'none' : 'flex'}}>
-                                    Delete
-                                </Typography>
-                            </Button>
-                        </AnimateButton>
-                    </Box>
+                    { user.role === 'admin' ? (
+                        <Box sx={{display: 'flex', gap: 1}}>
+                            <AnimateButton>
+                                <Button
+                                    id={"button-researchers-edit"}
+                                    disableElevation
+                                    onClick={openProjectResearchers}
+                                    variant="contained"
+                                    sx={{
+                                        backgroundColor: theme.palette.secondary[800]
+                                    }}
+                                >
+                                    <Troubleshoot/>
+                                    <Typography sx={{display: isSmallScreen ? 'none' : 'flex'}}>
+                                        Edit researchers
+                                    </Typography>
+                                </Button>
+                            </AnimateButton>
+                            <AnimateButton>
+                                <Button
+                                    id={"button-edit-project"}
+                                    disableElevation
+                                    onClick={onEditClick}
+                                    variant="contained"
+                                    color="secondary"
+                                >
+                                    <IconEdit/>
+                                    <Typography sx={{display: isSmallScreen ? 'none' : 'flex'}}>
+                                        Edit
+                                    </Typography>
+                                </Button>
+                            </AnimateButton>
+                            <AnimateButton>
+                                <Button
+                                    id={"button-delete-project"}
+                                    onClick={onDeleteClick}
+                                    sx={{
+                                        color: theme.palette.grey[700],
+                                        backgroundColor: theme.palette.grey[50],
+                                    }}
+                                >
+                                    <IconTrashOff/>
+                                    <Typography sx={{display: isSmallScreen ? 'none' : 'flex'}}>
+                                        Delete
+                                    </Typography>
+                                </Button>
+                            </AnimateButton>
+                        </Box>
+                    ):(
+                        <></>
+                    )}
                 </Box>
             </Card>
         </Box>

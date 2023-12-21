@@ -15,6 +15,7 @@ import DeleteProjectModal from "../../modals/projects/DeleteProjectModal";
 
 // assets
 import { useNavigate } from "react-router-dom";
+import {useAuth} from "../../../context/authContext";
 
 const CardWrapper = styled(MainCard)(({theme}) => ({
     backgroundColor: theme.palette.secondary.dark,
@@ -26,6 +27,7 @@ const CardWrapper = styled(MainCard)(({theme}) => ({
 // ===========================|| PROJECT CARD ||=========================== //
 
 const ProjectCard = ({isLoading, data}) => {
+    const user = useAuth();
     const theme = useTheme();
     const navigate = useNavigate();
 
@@ -105,6 +107,7 @@ const ProjectCard = ({isLoading, data}) => {
                                                 <FolderOpen/>
                                             </Avatar>
                                         </Grid>
+                                        {user.role === 'admin' ? (
                                         <Grid item>
                                             <Avatar
                                                 variant="rounded"
@@ -176,6 +179,9 @@ const ProjectCard = ({isLoading, data}) => {
                                                 </MenuItem>
                                             </Menu>
                                         </Grid>
+                                        ):(
+                                            <></>
+                                        )}
                                     </Grid>
                                 </Grid>
                                 <Grid item>

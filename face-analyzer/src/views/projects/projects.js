@@ -38,9 +38,13 @@ const Projects = () => {
             <Grid item xs={12}>
                 <ProjectManagementHeader/>
             </Grid>
+            {user.role === 'admin' ? (
             <Grid item lg={4} md={6} sm={6} xs={12}>
                 <AddProjectCard isLoading={isLoading}/>
             </Grid>
+            ):(
+                <></>
+            )}
             {projectList && projectList.map((project) => (
                 <Grid key={project.id} item lg={4} md={6} sm={6} xs={12}>
                     <ProjectCard isLoading={isLoading} data={project}/>
