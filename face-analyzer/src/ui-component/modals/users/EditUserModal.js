@@ -38,7 +38,8 @@ const EditUserModal = ({closeModal, showModal, userForEdit, existingEmails, exis
     const scriptedRef = useScriptRef();
     const [loadingSpinner, setLoadingSpinner] = useState(false);
 
-    const phoneRegExp = /^((\+[1-9]{1,4}[ -]*)|(\([0-9]{2,3}\)[ -]*)|([0-9]{2,4})[ -]*)*?[0-9]{3,4}?[ -]*[0-9]{3,4}?$/
+    //const phoneRegExp = /^((\+[1-9]{1,4}[ -]*)|(\([0-9]{2,3}\)[ -]*)|([0-9]{2,4})[ -]*)*?[0-9]{3,4}?[ -]*[0-9]{3,4}?$/
+    const phoneRegExp = /^[\d\s().\-+]+$/
     const passRegExp = /^.{8,}$/
 
     const user = userForEdit;
@@ -254,7 +255,7 @@ const EditUserModal = ({closeModal, showModal, userForEdit, existingEmails, exis
                                             </FormControl>
 
                                             <FormControl fullWidth error={Boolean(touched.contactNumber && errors.contactNumber)} sx={{ ...theme.typography.customInput }}>
-                                                <InputLabel htmlFor="contactNumber">Contact</InputLabel>
+                                                <InputLabel htmlFor="contactNumber">Phone number</InputLabel>
                                                 <OutlinedInput
                                                     id="contactNumber"
                                                     type="text"
