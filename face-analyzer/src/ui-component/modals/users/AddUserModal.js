@@ -8,19 +8,20 @@ import {
     Button,
     FormControl,
     FormHelperText,
-    Grid,
+    Grid, IconButton, InputAdornment,
     InputLabel,
     OutlinedInput,
     Select,
     Typography
 } from "@mui/material";
 import AnimateButton from "../../extended/AnimateButton";
-import React from "react";
+import React, {useState} from "react";
 import MainCard from "../../cards/MainCard";
 import {ADD_USERS_API} from "../../../endpoints/BackendEndpoints";
 import axios from "axios";
 import PropTypes from "prop-types";
 import {useNavigate} from "react-router-dom";
+import {Visibility, VisibilityOff} from "@mui/icons-material";
 
 const CardWrapper = styled(MainCard)(({ theme }) => ({
     backgroundColor: '#fff',
@@ -35,6 +36,7 @@ const AddUserModal = ({showModal, closeModal, existingEmails, existingUsernames}
     const theme = useTheme();
     const navigate = useNavigate();
     const scriptedRef = useScriptRef();
+    const [showPassword, setShowPassword] = useState(false);
     //const phoneRegExp = /^((\+[1-9]{1,4}[ -]*)|(\([0-9]{2,3}\)[ -]*)|([0-9]{2,4})[ -]*)*?[0-9]{3,4}?[ -]*[0-9]{3,4}?$/
     const phoneRegExp = /^[\d\s().\-+]+$/
 
@@ -61,6 +63,14 @@ const AddUserModal = ({showModal, closeModal, existingEmails, existingUsernames}
             setErrors({submit: err.message});
             setStatus({success: false});
         }
+    };
+
+    const handleClickShowPassword = () => {
+        setShowPassword(!showPassword);
+    };
+
+    const handleMouseDownPassword = (event) => {
+        event.preventDefault();
     };
 
     return (
@@ -182,10 +192,32 @@ const AddUserModal = ({showModal, closeModal, existingEmails, existingUsernames}
                                                 <InputLabel htmlFor="password">Password</InputLabel>
                                                 <OutlinedInput
                                                     id="password"
-                                                    type="password"
+                                                    type={showPassword ? 'text' : 'password'}
                                                     name="password"
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
+                                                    endAdornment={
+                                                        <InputAdornment position="end">
+                                                            <IconButton aria-label="toggle password visibility" onClick={handleClickShowPassword} onMouseDown={handleMouseDownPassword} edge="end">
+                                                                {showPassword ? <Visibility /> : <VisibilityOff />}
+                                                            </IconButton>
+                                                        </InputAdornment>
+                                                    }
+                                                    inputprops={{
+                                                        endAdornment: (
+                                                            <InputAdornment position="end">
+                                                                <IconButton
+                                                                    aria-label="toggle password visibility"
+                                                                    onClick={handleClickShowPassword}
+                                                                    onMouseDown={handleMouseDownPassword}
+                                                                    edge="end"
+                                                                    size='large'
+                                                                >
+                                                                    {showPassword ? <Visibility /> : <VisibilityOff />}
+                                                                </IconButton>
+                                                            </InputAdornment>
+                                                        )
+                                                    }}
                                                 />
                                                 {touched.password && errors.password && (
                                                     <FormHelperText error id="passwordHandler">
