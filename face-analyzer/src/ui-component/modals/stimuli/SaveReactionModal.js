@@ -36,7 +36,7 @@ const SaveReactionModal = ({showModal, closeModal, stimuliId}) => {
     const scriptedRef = useScriptRef();
     const [loadingSpinner, setLoadingSpinner] = useState(false);
 
-    const handleSave = async (values, {setErrors, setStatus}) => {
+    const handleSave = async (values) => {
         setLoadingSpinner(true);
         try {
             await saveNewReaction(stimuliId, values);
@@ -68,7 +68,7 @@ const SaveReactionModal = ({showModal, closeModal, stimuliId}) => {
                                 try {
                                     console.log("OVDJE SAM")
                                     if (scriptedRef.current) {
-                                        await handleSave(values, {setErrors, setStatus});
+                                        await handleSave(values);
                                         setStatus({ success: true });
                                     }
                                 } catch (err) {
