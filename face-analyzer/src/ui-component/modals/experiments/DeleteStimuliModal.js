@@ -37,7 +37,7 @@ const DeleteStimuliModal = ({showModal, closeModal, data}) => {
                             navigate(0);
                         }
                         else{
-                            navigate('/experiment/${data.experimentId}');
+                            navigate(`/experiment/${data.experimentId}`);
                             navigate(0); //without this the sidebar list doesn't refresh, a better way probably exists
                         }
                     }
