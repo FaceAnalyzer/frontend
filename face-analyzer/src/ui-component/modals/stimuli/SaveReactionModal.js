@@ -91,7 +91,7 @@ const SaveReactionModal = ({showModal, closeModal, stimuliId}) => {
                                                         fontWeight: 500,
                                                         color: theme.palette.secondary.dark,
                                                     }}>
-                                                        Save Reaction to Stimuli
+                                                        Save Reaction to Stimulus
                                                     </Typography>
                                                     <Typography
                                                         sx={{
