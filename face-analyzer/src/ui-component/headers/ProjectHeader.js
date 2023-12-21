@@ -71,7 +71,7 @@ const ProjectHeader = ({data}) => {
                             }
                         />
                     </Box>
-                    { user.role === 'admin' ? (
+                    { user.role === 'Admin' ? (
                         <Box sx={{display: 'flex', gap: 1}}>
                             <AnimateButton>
                                 <Button

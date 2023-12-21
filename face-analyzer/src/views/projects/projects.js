@@ -38,7 +38,7 @@ const Projects = () => {
             <Grid item xs={12}>
                 <ProjectManagementHeader/>
             </Grid>
-            {user.role === 'admin' ? (
+            {user.role === 'Admin' ? (
             <Grid item lg={4} md={6} sm={6} xs={12}>
                 <AddProjectCard isLoading={isLoading}/>
             </Grid>

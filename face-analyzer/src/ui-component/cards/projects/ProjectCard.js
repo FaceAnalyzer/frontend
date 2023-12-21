@@ -27,9 +27,11 @@ const CardWrapper = styled(MainCard)(({theme}) => ({
 // ===========================|| PROJECT CARD ||=========================== //
 
 const ProjectCard = ({isLoading, data}) => {
-    const user = useAuth();
+    const {user} = useAuth();
     const theme = useTheme();
     const navigate = useNavigate();
+
+    console.log("user", user.user);
 
     const [anchorEl, setAnchorEl] = useState(null);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -107,7 +109,7 @@ const ProjectCard = ({isLoading, data}) => {
                                                 <FolderOpen/>
                                             </Avatar>
                                         </Grid>
-                                        {user.role === 'admin' ? (
+                                        {user.role === 'Admin' ? (
                                         <Grid item>
                                             <Avatar
                                                 variant="rounded"
