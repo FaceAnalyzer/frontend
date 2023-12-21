@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 
 import {styled, useTheme} from '@mui/material/styles';
 import {Box, Button, FormHelperText, Grid, Typography} from '@mui/material';
@@ -10,6 +10,7 @@ import {Modal, ModalBody, ModalContent, ModalFooter, ModalOverlay} from "../../M
 import {REMOVE_RESEARCHER_FROM_PROJECT_API} from "../../../../endpoints/BackendEndpoints";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
+import {PulseLoader} from "react-spinners";
 
 const CardWrapper = styled(MainCard)(({theme}) => ({
     backgroundColor: '#fff',
@@ -25,6 +26,7 @@ const RemoveUserFromProjectModal = ({showModal, closeModal, userForRemoval, proj
     const theme = useTheme();
     const navigate = useNavigate();
     const scriptedRef = useScriptRef();
+    const [loadingSpinner, setLoadingSpinner] = useState(false);
 
     const user = userForRemoval;
     const userId = user.id;
@@ -32,10 +34,12 @@ const RemoveUserFromProjectModal = ({showModal, closeModal, userForRemoval, proj
     const projectId = project.id;
 
     const handleDelete = async (values, {setErrors, setStatus}) => {
+        setLoadingSpinner(true);
         const items = {researchersIds: [userId]};
         try {
             await axios.put(REMOVE_RESEARCHER_FROM_PROJECT_API.replace('{id}', projectId), JSON.stringify(items))
                 .then(response => {
+                    setLoadingSpinner(false);
                     if (response.status === 204) {
                         navigate(0);
                     } else {
@@ -52,6 +56,7 @@ const RemoveUserFromProjectModal = ({showModal, closeModal, userForRemoval, proj
             setErrors({submit: err.message});
             setStatus({success: false});
         }
+        setLoadingSpinner(false);
     };
 
 
@@ -110,6 +115,15 @@ const RemoveUserFromProjectModal = ({showModal, closeModal, userForRemoval, proj
 
                                         </ModalBody>
                                         <ModalFooter>
+                                            {loadingSpinner && (
+                                                <div className={"loading-spinner"} style={{marginRight: "10px"}}>
+                                                    <PulseLoader
+                                                        color={theme.palette.secondary.dark}
+                                                        size={15}
+                                                        speedMultiplier={0.8}
+                                                    />
+                                                </div>
+                                            )}
                                             <AnimateButton>
                                                 <Button
                                                     id={"button-yes"}

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 
 import {styled, useTheme} from '@mui/material/styles';
 import {Box, Button, FormControl, FormHelperText, Grid, InputLabel, OutlinedInput, Typography} from '@mui/material';
@@ -11,6 +11,7 @@ import {Modal, ModalBody, ModalContent, ModalFooter, ModalOverlay} from "../Moda
 import axios from "axios";
 import {DEFAULT_API_CONFIG, EDIT_EXPERIMENT_API} from "../../../endpoints/BackendEndpoints";
 import {useNavigate} from "react-router-dom";
+import {PulseLoader} from "react-spinners";
 
 const CardWrapper = styled(MainCard)(({ theme }) => ({
     backgroundColor: '#fff',
@@ -26,6 +27,8 @@ const EditExperimentModal = ({showModal, closeModal, initialValues}) => {
     const theme = useTheme();
     const navigate = useNavigate();
     const scriptedRef = useScriptRef();
+    const [loadingSpinner, setLoadingSpinner] = useState(false);
+
     const experimentId = initialValues.id;
     const experiment = {
         name: initialValues.name,
@@ -34,10 +37,12 @@ const EditExperimentModal = ({showModal, closeModal, initialValues}) => {
     };
 
     const handleUpdate = async (values, {setErrors, setStatus}) => {
+        setLoadingSpinner(true);
         try {
             console.log(JSON.stringify(values));
             axios.put(EDIT_EXPERIMENT_API + '/' + experimentId, JSON.stringify(values), DEFAULT_API_CONFIG)
                     .then(response => {
+                        setLoadingSpinner(false);
                         if (response.status === 200) {
                             navigate(0);
                         } else {
@@ -51,9 +56,8 @@ const EditExperimentModal = ({showModal, closeModal, initialValues}) => {
             console.error(err);
             setErrors({submit: err.message});
             setStatus({success: false});
-        } finally {
-            // setSubmitting(false);
         }
+        setLoadingSpinner(false);
     };
 
 
@@ -139,6 +143,15 @@ const EditExperimentModal = ({showModal, closeModal, initialValues}) => {
 
                                     </ModalBody>
                                     <ModalFooter>
+                                        {loadingSpinner && (
+                                            <div className={"loading-spinner"} style={{marginRight: "10px"}}>
+                                                <PulseLoader
+                                                    color={theme.palette.secondary.dark}
+                                                    size={15}
+                                                    speedMultiplier={0.8}
+                                                />
+                                            </div>
+                                        )}
                                         <AnimateButton>
                                             <Button
                                                 id={"button-update"}

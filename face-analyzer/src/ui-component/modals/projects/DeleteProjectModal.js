@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 
 import {styled, useTheme} from '@mui/material/styles';
 import {Box, Button, FormHelperText, Grid, Typography} from '@mui/material';
@@ -10,6 +10,7 @@ import {Modal, ModalBody, ModalContent, ModalFooter, ModalOverlay} from "../Moda
 import {DELETE_PROJECT_API} from "../../../endpoints/BackendEndpoints";
 import axios from "axios";
 import {useNavigate, useLocation} from "react-router-dom";
+import {PulseLoader} from "react-spinners";
 
 const CardWrapper = styled(MainCard)(({theme}) => ({
     backgroundColor: '#fff',
@@ -26,12 +27,16 @@ const DeleteProjectModal = ({showModal, closeModal, data}) => {
     const navigate = useNavigate();
     const location = useLocation();
     const scriptedRef = useScriptRef();
+    const [loadingSpinner, setLoadingSpinner] = useState(false);
+
     const deleteId = data.id;
 
     const handleDelete = async (values, {setErrors, setStatus}) => {
+        setLoadingSpinner(true);
         try {
             axios.delete(DELETE_PROJECT_API.replace("{id}", deleteId))
                 .then(response => {
+                    setLoadingSpinner(false);
                     if (response.status === 204) {
                         // Refresh if on projects page, else redirect to projects page
                         if(location.pathname === '/projects'){
@@ -52,6 +57,7 @@ const DeleteProjectModal = ({showModal, closeModal, data}) => {
             setErrors({submit: err.message});
             setStatus({success: false});
         }
+        setLoadingSpinner(false);
     };
 
 
@@ -109,6 +115,15 @@ const DeleteProjectModal = ({showModal, closeModal, data}) => {
 
                                         </ModalBody>
                                         <ModalFooter>
+                                            {loadingSpinner && (
+                                                <div className={"loading-spinner"} style={{marginRight: "10px"}}>
+                                                    <PulseLoader
+                                                        color={theme.palette.secondary.dark}
+                                                        size={15}
+                                                        speedMultiplier={0.8}
+                                                    />
+                                                </div>
+                                            )}
                                             <AnimateButton>
                                                 <Button
                                                     id={"button-yes"}
