@@ -12,10 +12,10 @@ import {useAuth} from "../../context/authContext";
 // ===========================|| PROJECT HEADER ||=========================== //
 
 const ProjectHeader = ({data}) => {
+    const {user} = useAuth();
     const theme = useTheme();
     const navigate = useNavigate();
     const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
-    const {user} = useAuth();
 
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [showEditModal, setShowEditModal] = useState(false);
