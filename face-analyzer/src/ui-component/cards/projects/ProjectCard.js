@@ -27,9 +27,9 @@ const CardWrapper = styled(MainCard)(({theme}) => ({
 // ===========================|| PROJECT CARD ||=========================== //
 
 const ProjectCard = ({isLoading, data}) => {
+    const {user} = useAuth();
     const theme = useTheme();
     const navigate = useNavigate();
-    const {user} = useAuth();
 
     const [anchorEl, setAnchorEl] = useState(null);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -126,7 +126,7 @@ const ProjectCard = ({isLoading, data}) => {
                                                         event.stopPropagation();
                                                         event.preventDefault();
                                                         handleClick(event)
-                                                    }
+                                                        }
                                                     }
                                                 >
                                                     <MoreHorizIcon fontSize="inherit"/>
@@ -149,7 +149,7 @@ const ProjectCard = ({isLoading, data}) => {
                                                     onClick={event => {
                                                         event.stopPropagation();
                                                         event.preventDefault();
-                                                    }
+                                                        }
                                                     }
                                                 >
                                                     <MenuItem
@@ -159,7 +159,7 @@ const ProjectCard = ({isLoading, data}) => {
                                                             event.stopPropagation();
                                                             event.preventDefault();
                                                             onEditClick(event)
-                                                        }
+                                                            }
                                                         }
                                                     >
                                                         <Edit sx={{mr: 1.75}}/> Edit
@@ -171,7 +171,7 @@ const ProjectCard = ({isLoading, data}) => {
                                                             event.stopPropagation();
                                                             event.preventDefault();
                                                             onDeleteClick(event)
-                                                        }
+                                                            }
                                                         }
                                                         sx={{color: 'red'}}
                                                     >
@@ -180,7 +180,6 @@ const ProjectCard = ({isLoading, data}) => {
                                                 </Menu>
                                             </Grid>
                                         )}
-
                                     </Grid>
                                 </Grid>
                                 <Grid item>
