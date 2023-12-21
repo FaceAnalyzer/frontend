@@ -7,6 +7,7 @@ import AnimateButton from '../extended/AnimateButton';
 import {IconEdit, IconTrashOff} from '@tabler/icons';
 import {FolderOpen, Troubleshoot} from '@mui/icons-material';
 import {useNavigate} from "react-router-dom";
+import {useAuth} from "../../context/authContext";
 
 // ===========================|| PROJECT HEADER ||=========================== //
 
@@ -14,6 +15,7 @@ const ProjectHeader = ({data}) => {
     const theme = useTheme();
     const navigate = useNavigate();
     const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+    const {user} = useAuth();
 
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [showEditModal, setShowEditModal] = useState(false);
@@ -70,6 +72,7 @@ const ProjectHeader = ({data}) => {
                         />
                     </Box>
                     <Box sx={{display: 'flex', gap: 1}}>
+                        {user.role === 'Admin' && (
                         <AnimateButton>
                             <Button
                                 id={"button-researchers-edit"}
@@ -86,6 +89,7 @@ const ProjectHeader = ({data}) => {
                                 </Typography>
                             </Button>
                         </AnimateButton>
+                        )}
                         <AnimateButton>
                             <Button
                                 id={"button-edit-project"}

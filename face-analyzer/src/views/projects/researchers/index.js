@@ -62,7 +62,8 @@ const ProjectResearchers = () => {
 
     console.log(usersNotOnProjectList);
 
-    return !user ? (<Navigate to="/login" replace/>) : (
+    return (!user) ? (<Navigate to="/login" replace/>) : (
+        (user.role !== "Admin") ? (<Navigate to="/" replace/>) : (
         <>
             <AddUserToProjectModal showModal={showModal}
                                    closeModal={closeModal}
@@ -80,7 +81,7 @@ const ProjectResearchers = () => {
             </Grid>
             <ResearcherDataGrid isLoading={isLoading} userList={usersOnProjectList} projectData={projectData}/>
         </>
-    );
+        ));
 };
 
 export default ProjectResearchers;

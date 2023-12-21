@@ -84,6 +84,8 @@ const UserDataGrid = ({isLoading, userList, existingEmails, existingUsernames}) 
                                 sx={{
                                     color: theme.palette.grey[700],
                                     backgroundColor: theme.palette.grey[50],
+                                    border: 'solid 1px',
+                                    borderColor: theme.palette.grey[700]
                                 }}
                             >
                                 <IconTrashOff/>
