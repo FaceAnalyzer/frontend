@@ -5,21 +5,22 @@ import {format, addMilliseconds} from "date-fns";
 
 // ==============================|| EMOTIONS OVER TIME CHART ||============================== //
 
-const EmotionsOverTimeChart = ({ groupedSortedData }) => {
+const EmotionsOverTimeChart = ({ groupedSortedData, annotations }) => {
     const [chartOptions, setChartOptions] = useState({});
     const [seriesData, setSeriesData] = useState([]);
 
     const emotionColor = {
         Anger: "#ff0000",
-        Disgust: "#ffa500",
+        Disgust: "#00a0a0",
         Fear: "#800080",
-        Happiness: "#00ff00",
-        Sadness: "#0000ff",
-        Surprise: "#ffff00",
+        Happiness: "#ffcc00",
+        Sadness: "#3399ff",
+        Surprise: "#cc66ff",
         Neutral: "#000",
     };
 
     const createChartConfigs = (emotionColor, groupedData) => {
+        console.log("grouped", groupedData["Anger"].length)
         const timeFormat = 'mm:ss';
         const options = {
             chart: {
@@ -31,6 +32,11 @@ const EmotionsOverTimeChart = ({ groupedSortedData }) => {
                         download: false
                     }
                 },
+                events: {
+                    dataPointSelection: (event, chartContext, config) => {
+                        console.log("datapoint selection", event, chartContext, config);
+                    }
+                }
             },
             dataLabels: {
                 enabled: false,
@@ -80,17 +86,6 @@ const EmotionsOverTimeChart = ({ groupedSortedData }) => {
                     formatter: (y) => (y !== undefined ? y.toFixed(4) : ''),
                 }
             },
-            annotations: {
-                strokeDashArray: 0,
-                borderColor: "#000",
-                borderWidth: 100,
-                xaxis: [
-                    {
-                        x: 0,
-                        strokeDashArray: 0,
-                    },
-                ],
-            },
         };
 
         const series = Object.keys(groupedData).map((emotion) => ({
@@ -107,7 +102,6 @@ const EmotionsOverTimeChart = ({ groupedSortedData }) => {
 
     useEffect(() => {
         if (groupedSortedData.length !== 0) {
-            console.log("gsd", groupedSortedData);
             const { options, series } = createChartConfigs(
                 emotionColor,
                 groupedSortedData
@@ -116,6 +110,51 @@ const EmotionsOverTimeChart = ({ groupedSortedData }) => {
             setSeriesData(series);
         }
     }, [groupedSortedData]);
+
+    useEffect(() => {
+        const percentage = annotations;
+        const maxX = groupedSortedData["Anger"] ? groupedSortedData["Anger"].length : 0;
+        console.log("res", Math.floor(maxX * percentage));
+
+        /*
+        setChartOptions({
+            ...chartOptions,
+            annotations: {
+                borderColor: "#775DD0",
+                xaxis: [
+                    {
+                        x: percentage * maxX * 10,
+                        strokeDashArray: 0,
+                        label: {
+                            style: {
+                                color: '#000',
+                            },
+                            text: 'REEEEEEEEEEEE'
+                        }
+                    },
+                ],
+            },
+        })*/
+
+        ApexCharts.exec('emotions-over-time', 'updateOptions', [{
+            annotations: {
+                borderColor: "#775DD0",
+                xaxis: [
+                    {
+                        x: percentage * maxX * 10,
+                        strokeDashArray: 0,
+                        label: {
+                            style: {
+                                color: '#000',
+                            },
+                            text: 'REEEEEEEEEEEE'
+                        }
+                    },
+                ],
+            },
+        }, false, true, true]);
+        ApexCharts.exec('emotions-over-time', 'render')
+    }, [annotations]);
 
     return (
         <>
