@@ -17,6 +17,7 @@ const UserManagement = Loadable(lazy(() => import('views/users/user_management')
 const Experiment  = Loadable(lazy(() => import('views/experiments')));
 const Stimuli = Loadable(lazy(() => import('views/stimuli')));
 const Stats = Loadable(lazy(() => import('views/stimuli/charts')));
+const CollectiveStatistics = Loadable(lazy(() => import("views/stimuli/collective/CollectiveStatistics")));
 
 // ==============================|| MAIN ROUTING ||============================== //
 
@@ -51,6 +52,10 @@ const MainRoutes = {
     {
       path: 'stimuli/:stimuliId',
       element: <Stimuli/>
+    },
+    {
+      path: 'stimuli/:stimuliId/statistics',
+      element: <CollectiveStatistics/>
     },
     {
       path: 'reaction/:reactionId',
