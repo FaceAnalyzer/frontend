@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 
 // material-ui
-import {Box, Button, Grid} from '@mui/material';
+import {Box, Button, Grid, Typography} from '@mui/material';
 
 // project imports
 import {gridSpacing} from 'store/constant';
@@ -197,6 +197,12 @@ const Stimuli = () => {
                             >
                                 Save
                             </Button>
+                        </Box>
+                        <Box>
+                            <Typography sx={{color: theme.palette.grey[500], textDecoration: 'none'}}>
+                                Note: by clicking again <i>Start Recording </i> after already recording a reaction,
+                                the old reaction is automatically discarded.
+                            </Typography>
                         </Box>
                     </AnalysisDataContext.Provider>
                 </Grid>
