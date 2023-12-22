@@ -49,7 +49,8 @@ const UserManagement = () => {
         setShowAddModal(false);
     };
 
-    return (!user || user.role !== "Admin") ? (<Navigate to="/login" replace/>) : (
+    return (!user) ? (<Navigate to="/login" replace/>) : (
+        (user.role !== "Admin") ? (<Navigate to="/" replace/>) : (
         <>
             <AddUserModal showModal={showAddModal}
                           closeModal={closeAddModal}
@@ -70,7 +71,7 @@ const UserManagement = () => {
                 : <strong>{"No users have been loaded. You're probably seeing this because you're not logged in."}</strong>
             }
         </>
-    );
+        ));
 };
 
 export default UserManagement;

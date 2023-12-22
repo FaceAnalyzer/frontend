@@ -4,10 +4,14 @@ import {DataGrid} from "@mui/x-data-grid";
 import LinearProgress from "@mui/material/LinearProgress";
 import clsx from "clsx";
 import RemoveUserFromProjectModal from "../../../ui-component/modals/projects/researchers/RemoveUserFromProjectModal";
+import AnimateButton from "../../../ui-component/extended/AnimateButton";
+import {PersonRemove} from "@mui/icons-material";
+import {useTheme} from "@mui/material/styles";
 
 const UserDataGrid = ({isLoading, userList, projectData}) => {
     const [showRemoveModal, setShowRemoveModal] = useState(false);
     const [userForRemoval, setUserForRemoval] = useState({});
+    const theme = useTheme();
 
     const openRemoveModal = () => {
         setShowRemoveModal(true);
@@ -23,9 +27,9 @@ const UserDataGrid = ({isLoading, userList, projectData}) => {
     }
 
     const columns = [
-        {field: "id", headerName: "ID", maxWidth: 75, headerAlign: "center", align: "center"},
-        {field: "name", headerName: "Name", minWidth: 200, flex: 2},
-        {field: "surname", headerName: "Surname", minWidth: 200, flex: 2},
+        {field: "id", headerName: "ID", maxWidth: 50, headerAlign: "center", align: "center"},
+        {field: "name", headerName: "Name", minWidth: 175, flex: 2},
+        {field: "surname", headerName: "Surname", minWidth: 175, flex: 2},
         {
             field: "role", headerName: "Role", minWidth: 100, headerAlign: "center", align: "center", flex: 1,
             cellClassName: (params) => {
@@ -46,9 +50,20 @@ const UserDataGrid = ({isLoading, userList, projectData}) => {
         {
             field: "actions", headerName: "Actions", minWidth: 100, flex: 2, renderCell: (params) => {
                 return (
-                    <Button id={"button-remove-researcher-" + params.row.id} onClick={() => onClickRemoveUser(params.row)} variant="contained" disableElevation>
-                        Remove
-                    </Button>
+                    <AnimateButton>
+                        <Button
+                            id={"button-remove-researcher-" + params.row.id}
+                            onClick={() => onClickRemoveUser(params.row)}
+                            sx={{
+                                color: theme.palette.grey[700],
+                                backgroundColor: theme.palette.grey[50],
+                                border: 'solid 1px',
+                                borderColor: theme.palette.grey[700]
+                            }}
+                        >
+                            <PersonRemove/>
+                        </Button>
+                    </AnimateButton>
                 );
             }
         }

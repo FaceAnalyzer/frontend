@@ -14,7 +14,8 @@ import EditProjectModal from "../../modals/projects/EditProjectModal";
 import DeleteProjectModal from "../../modals/projects/DeleteProjectModal";
 
 // assets
-import { useNavigate } from "react-router-dom";
+import {useNavigate} from "react-router-dom";
+import {useAuth} from "../../../context/authContext";
 
 const CardWrapper = styled(MainCard)(({theme}) => ({
     backgroundColor: theme.palette.secondary.dark,
@@ -28,6 +29,7 @@ const CardWrapper = styled(MainCard)(({theme}) => ({
 const ProjectCard = ({isLoading, data}) => {
     const theme = useTheme();
     const navigate = useNavigate();
+    const {user} = useAuth();
 
     const [anchorEl, setAnchorEl] = useState(null);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -105,77 +107,80 @@ const ProjectCard = ({isLoading, data}) => {
                                                 <FolderOpen/>
                                             </Avatar>
                                         </Grid>
-                                        <Grid item>
-                                            <Avatar
-                                                variant="rounded"
-                                                id={"menu-project-card-" + project.id}
-                                                sx={{
-                                                    ...theme.typography.commonAvatar,
-                                                    ...theme.typography.mediumAvatar,
-                                                    backgroundColor: theme.palette.secondary[800],
-                                                    color: theme.palette.secondary[200],
-                                                    zIndex: 1
-                                                }}
-                                                aria-controls="menu-project-card"
-                                                aria-haspopup="true"
-                                                onMouseDown={event => event.stopPropagation()}
-                                                onClick={event => {
-                                                    event.stopPropagation();
-                                                    event.preventDefault();
-                                                    handleClick(event)
-                                                    }
-                                                }
-                                            >
-                                                <MoreHorizIcon fontSize="inherit"/>
-                                            </Avatar>
-                                            <Menu
-                                                anchorEl={anchorEl}
-                                                keepMounted
-                                                open={Boolean(anchorEl)}
-                                                onClose={handleClose}
-                                                variant="selectedMenu"
-                                                anchorOrigin={{
-                                                    vertical: 'bottom',
-                                                    horizontal: 'right'
-                                                }}
-                                                transformOrigin={{
-                                                    vertical: 'top',
-                                                    horizontal: 'right'
-                                                }}
-                                                onMouseDown={event => event.stopPropagation()}
-                                                onClick={event => {
-                                                    event.stopPropagation();
-                                                    event.preventDefault();
-                                                    }
-                                                }
-                                            >
-                                                <MenuItem
-                                                    id={"menu-project-" + project.id + "-edit"}
+                                        {user.role === 'Admin' && (
+                                            <Grid item>
+                                                <Avatar
+                                                    variant="rounded"
+                                                    id={"menu-project-card-" + project.id}
+                                                    sx={{
+                                                        ...theme.typography.commonAvatar,
+                                                        ...theme.typography.mediumAvatar,
+                                                        backgroundColor: theme.palette.secondary[800],
+                                                        color: theme.palette.secondary[200],
+                                                        zIndex: 1
+                                                    }}
+                                                    aria-controls="menu-project-card"
+                                                    aria-haspopup="true"
                                                     onMouseDown={event => event.stopPropagation()}
                                                     onClick={event => {
                                                         event.stopPropagation();
                                                         event.preventDefault();
-                                                        onEditClick(event)
-                                                        }
+                                                        handleClick(event)
+                                                    }
                                                     }
                                                 >
-                                                    <Edit sx={{mr: 1.75}}/> Edit
-                                                </MenuItem>
-                                                <MenuItem
-                                                    id={"menu-project-" + project.id + "-delete"}
+                                                    <MoreHorizIcon fontSize="inherit"/>
+                                                </Avatar>
+                                                <Menu
+                                                    anchorEl={anchorEl}
+                                                    keepMounted
+                                                    open={Boolean(anchorEl)}
+                                                    onClose={handleClose}
+                                                    variant="selectedMenu"
+                                                    anchorOrigin={{
+                                                        vertical: 'bottom',
+                                                        horizontal: 'right'
+                                                    }}
+                                                    transformOrigin={{
+                                                        vertical: 'top',
+                                                        horizontal: 'right'
+                                                    }}
                                                     onMouseDown={event => event.stopPropagation()}
                                                     onClick={event => {
                                                         event.stopPropagation();
                                                         event.preventDefault();
-                                                        onDeleteClick(event)
-                                                        }
                                                     }
-                                                    sx={{color: 'red'}}
+                                                    }
                                                 >
-                                                    <DeleteForever sx={{mr: 1.75}}/> Delete
-                                                </MenuItem>
-                                            </Menu>
-                                        </Grid>
+                                                    <MenuItem
+                                                        id={"menu-project-" + project.id + "-edit"}
+                                                        onMouseDown={event => event.stopPropagation()}
+                                                        onClick={event => {
+                                                            event.stopPropagation();
+                                                            event.preventDefault();
+                                                            onEditClick(event)
+                                                        }
+                                                        }
+                                                    >
+                                                        <Edit sx={{mr: 1.75}}/> Edit
+                                                    </MenuItem>
+                                                    <MenuItem
+                                                        id={"menu-project-" + project.id + "-delete"}
+                                                        onMouseDown={event => event.stopPropagation()}
+                                                        onClick={event => {
+                                                            event.stopPropagation();
+                                                            event.preventDefault();
+                                                            onDeleteClick(event)
+                                                        }
+                                                        }
+                                                        sx={{color: 'red'}}
+                                                    >
+                                                        <DeleteForever sx={{mr: 1.75}}/> Delete
+                                                    </MenuItem>
+                                                </Menu>
+                                            </Grid>
+                                        )}
+
                                     </Grid>
                                 </Grid>
                                 <Grid item>
