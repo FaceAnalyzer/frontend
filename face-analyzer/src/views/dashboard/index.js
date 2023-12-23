@@ -5,6 +5,7 @@ import {Grid} from '@mui/material';
 import DashboardHeader from "../../ui-component/headers/DashboardHeader";
 import DashboardCard from "../../ui-component/cards/dashboard/DashboardCard";
 import {useAuth} from "../../context/authContext";
+import {Navigate} from "react-router";
 
 // ==============================|| LANDING DASHBOARD ||============================== //
 
@@ -18,7 +19,7 @@ const Dashboard = () => {
 
     return (
         <Grid container spacing={3}>
-            {user ? (
+            {!user ? (<Navigate to="/login" replace/>) : (
                 <>
                     <Grid item xs={12}>
                         <DashboardHeader/>
@@ -38,10 +39,6 @@ const Dashboard = () => {
                         </>
                     )}
                 </>
-            ) : (
-                <Grid item xs={12}>
-                    <DashboardHeader/>
-                </Grid>
             )}
         </Grid>
     );
