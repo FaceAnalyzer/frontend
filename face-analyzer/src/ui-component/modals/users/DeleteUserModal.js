@@ -11,6 +11,7 @@ import axios from "axios";
 import {DELETE_USER_BY_ID_API} from "../../../endpoints/BackendEndpoints";
 import {useNavigate} from "react-router-dom";
 import {PulseLoader} from "react-spinners";
+import PropTypes from "prop-types";
 
 const CardWrapper = styled(MainCard)(({ theme }) => ({
     backgroundColor: '#fff',
@@ -164,6 +165,12 @@ const DeleteUserModal = ({showModal, closeModal, userForDeletion}) => {
             )}
         </CardWrapper>
     );
+};
+
+DeleteUserModal.propTypes = {
+    showModal: PropTypes.bool,
+    closeModal: PropTypes.func,
+    userForDeletion: PropTypes.object
 };
 
 export default DeleteUserModal;

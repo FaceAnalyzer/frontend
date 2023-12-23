@@ -11,6 +11,7 @@ import axios from "axios";
 import {DEFAULT_API_CONFIG, DELETE_STIMULI_BY_ID_API} from "../../../endpoints/BackendEndpoints";
 import {useLocation, useNavigate} from "react-router-dom";
 import {PulseLoader} from "react-spinners";
+import PropTypes from "prop-types";
 
 const CardWrapper = styled(MainCard)(({theme}) => ({
     backgroundColor: '#fff',
@@ -161,6 +162,12 @@ const DeleteStimuliModal = ({showModal, closeModal, data}) => {
             )}
         </CardWrapper>
     );
+};
+
+DeleteStimuliModal.propTypes = {
+    showModal: PropTypes.bool,
+    closeModal: PropTypes.func,
+    data: PropTypes.object
 };
 
 export default DeleteStimuliModal;

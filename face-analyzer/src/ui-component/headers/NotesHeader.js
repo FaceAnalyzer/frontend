@@ -4,6 +4,7 @@ import {Box, Card, CardHeader, Link, Typography} from "@mui/material";
 import {IconChevronRight, IconClipboardList, IconFlask} from "@tabler/icons";
 import {FolderOpen} from "@mui/icons-material";
 import {useNavigate} from "react-router-dom";
+import PropTypes from "prop-types";
 
 // ===========================|| NOTES HEADER ||=========================== //
 
@@ -74,5 +75,10 @@ const NotesHeader = ({experiment, project}) => {
         </Box>
     );
 };
+
+NotesHeader.propTypes = {
+    experiment: PropTypes.object,
+    project: PropTypes.object
+}
 
 export default NotesHeader;

@@ -8,6 +8,7 @@ import EditUserModal from "../../ui-component/modals/users/EditUserModal";
 import AnimateButton from "../../ui-component/extended/AnimateButton";
 import {IconEdit, IconTrashOff} from "@tabler/icons";
 import {useTheme} from "@mui/material/styles";
+import PropTypes from "prop-types";
 
 const UserDataGrid = ({isLoading, userList, existingEmails, existingUsernames}) => {
     const theme = useTheme();
@@ -124,5 +125,12 @@ const UserDataGrid = ({isLoading, userList, existingEmails, existingUsernames}) 
         </>
     );
 }
+
+UserDataGrid.propTypes = {
+    isLoading: PropTypes.bool,
+    userList: PropTypes.array,
+    existingEmails: PropTypes.array,
+    existingUsernames: PropTypes.array
+};
 
 export default UserDataGrid

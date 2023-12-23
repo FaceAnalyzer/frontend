@@ -12,6 +12,7 @@ import {ADD_RESEARCHER_TO_PROJECT_API} from "../../../../endpoints/BackendEndpoi
 import useScriptRef from "../../../../hooks/useScriptRef";
 import {useNavigate} from "react-router-dom";
 import {PulseLoader} from "react-spinners";
+import PropTypes from "prop-types";
 
 const CardWrapper = styled(MainCard)(({theme}) => ({
     backgroundColor: '#fff',
@@ -190,6 +191,13 @@ const AddUserToProjectModal = ({showModal, closeModal, usersNotOnProjectData, pr
             )}
         </CardWrapper>
     );
+};
+
+AddUserToProjectModal.propTypes = {
+    showModal: PropTypes.bool,
+    closeModal: PropTypes.func,
+    usersNotOnProjectData: PropTypes.array,
+    projectData: PropTypes.object
 };
 
 export default AddUserToProjectModal;

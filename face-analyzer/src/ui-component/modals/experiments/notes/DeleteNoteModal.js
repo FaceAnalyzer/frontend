@@ -11,6 +11,7 @@ import {Modal, ModalBody, ModalContent, ModalFooter, ModalOverlay} from "../../M
 import AnimateButton from "../../../extended/AnimateButton";
 import {useNavigate} from "react-router-dom";
 import {PulseLoader} from "react-spinners";
+import PropTypes from "prop-types";
 
 const CardWrapper = styled(MainCard)(({theme}) => ({
     backgroundColor: '#fff',
@@ -156,6 +157,12 @@ const DeleteNoteModal = ({showModal, closeModal, data}) => {
             )}
         </CardWrapper>
     );
+};
+
+DeleteNoteModal.propTypes = {
+    showModal: PropTypes.bool,
+    closeModal: PropTypes.func,
+    data: PropTypes.object
 };
 
 export default DeleteNoteModal;

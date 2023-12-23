@@ -9,8 +9,9 @@ import AnimateButton from "../../extended/AnimateButton";
 import {Modal, ModalBody, ModalContent, ModalFooter, ModalOverlay} from "../ModalComponents";
 import {DELETE_PROJECT_API} from "../../../endpoints/BackendEndpoints";
 import axios from "axios";
-import {useNavigate, useLocation} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import {PulseLoader} from "react-spinners";
+import PropTypes from "prop-types";
 
 const CardWrapper = styled(MainCard)(({theme}) => ({
     backgroundColor: '#fff',
@@ -164,6 +165,12 @@ const DeleteProjectModal = ({showModal, closeModal, data}) => {
             )}
         </CardWrapper>
     );
+};
+
+DeleteProjectModal.propTypes = {
+    showModal: PropTypes.bool,
+    closeModal: PropTypes.func,
+    data: PropTypes.object
 };
 
 export default DeleteProjectModal;

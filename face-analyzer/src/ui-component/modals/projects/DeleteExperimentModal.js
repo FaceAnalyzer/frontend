@@ -11,6 +11,7 @@ import axios from "axios";
 import {DELETE_EXPERIMENT_API} from "../../../endpoints/BackendEndpoints";
 import {useLocation, useNavigate} from "react-router-dom";
 import {PulseLoader} from "react-spinners";
+import PropTypes from "prop-types";
 
 const CardWrapper = styled(MainCard)(({ theme }) => ({
     backgroundColor: '#fff',
@@ -167,6 +168,12 @@ const DeleteExperimentModal = ({showModal, closeModal, data}) => {
             )}
         </CardWrapper>
     );
+};
+
+DeleteExperimentModal.propTypes = {
+    showModal: PropTypes.bool,
+    closeModal: PropTypes.func,
+    data: PropTypes.object
 };
 
 export default DeleteExperimentModal;

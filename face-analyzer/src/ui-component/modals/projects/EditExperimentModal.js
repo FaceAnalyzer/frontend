@@ -12,6 +12,7 @@ import axios from "axios";
 import {DEFAULT_API_CONFIG, EDIT_EXPERIMENT_API} from "../../../endpoints/BackendEndpoints";
 import {useNavigate} from "react-router-dom";
 import {PulseLoader} from "react-spinners";
+import PropTypes from "prop-types";
 
 const CardWrapper = styled(MainCard)(({ theme }) => ({
     backgroundColor: '#fff',
@@ -192,6 +193,12 @@ const EditExperimentModal = ({showModal, closeModal, initialValues}) => {
                 )}
             </CardWrapper>
     );
+};
+
+EditExperimentModal.propTypes = {
+    showModal: PropTypes.bool,
+    closeModal: PropTypes.func,
+    initialValues: PropTypes.object
 };
 
 export default EditExperimentModal;

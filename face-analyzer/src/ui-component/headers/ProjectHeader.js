@@ -8,6 +8,7 @@ import {IconEdit, IconTrashOff} from '@tabler/icons';
 import {FolderOpen, Troubleshoot} from '@mui/icons-material';
 import {useNavigate} from "react-router-dom";
 import {useAuth} from "../../context/authContext";
+import PropTypes from "prop-types";
 
 // ===========================|| PROJECT HEADER ||=========================== //
 
@@ -125,5 +126,9 @@ const ProjectHeader = ({data}) => {
         </Box>
     );
 };
+
+ProjectHeader.propTypes = {
+    data: PropTypes.object
+}
 
 export default ProjectHeader;

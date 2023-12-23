@@ -13,6 +13,7 @@ import axios from "axios";
 import {useAuth} from "../../../../context/authContext";
 import {useNavigate} from "react-router-dom";
 import {PulseLoader} from "react-spinners";
+import PropTypes from "prop-types";
 
 const CardWrapper = styled(MainCard)(({theme}) => ({
     backgroundColor: '#fff',
@@ -192,6 +193,12 @@ const EditNoteModal = ({showModal, closeModal, note}) => {
             )}
         </CardWrapper>
     );
+};
+
+EditNoteModal.propTypes = {
+    showModal: PropTypes.bool,
+    closeModal: PropTypes.func,
+    note: PropTypes.object
 };
 
 export default EditNoteModal;

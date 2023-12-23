@@ -12,6 +12,7 @@ import axios from "axios";
 import {ADD_PROJECT_API, DEFAULT_API_CONFIG} from "../../../endpoints/BackendEndpoints";
 import {useNavigate} from "react-router-dom";
 import {PulseLoader} from "react-spinners";
+import PropTypes from "prop-types";
 
 const CardWrapper = styled(MainCard)(({theme}) => ({
     backgroundColor: '#fff',
@@ -176,6 +177,11 @@ const AddProjectModal = ({showModal, closeModal}) => {
             )}
         </CardWrapper>
     );
+};
+
+AddProjectModal.propTypes = {
+    showModal: PropTypes.bool,
+    closeModal: PropTypes.func
 };
 
 export default AddProjectModal;

@@ -12,6 +12,7 @@ import {DEFAULT_API_CONFIG, EDIT_PROJECT_API} from "../../../endpoints/BackendEn
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
 import {PulseLoader} from "react-spinners";
+import PropTypes from "prop-types";
 
 const CardWrapper = styled(MainCard)(({theme}) => ({
     backgroundColor: '#fff',
@@ -178,6 +179,12 @@ const EditProjectModal = ({showModal, closeModal, initialValues}) => {
             )}
         </CardWrapper>
     );
+};
+
+EditProjectModal.propTypes = {
+    showModal: PropTypes.bool,
+    closeModal: PropTypes.func,
+    initialValues: PropTypes.object
 };
 
 export default EditProjectModal;

@@ -13,6 +13,7 @@ import AnimateButton from "../../../extended/AnimateButton";
 import {useAuth} from "../../../../context/authContext";
 import {useNavigate} from "react-router-dom";
 import {PulseLoader} from "react-spinners";
+import PropTypes from "prop-types";
 
 const CardWrapper = styled(MainCard)(({theme}) => ({
     backgroundColor: '#fff',
@@ -181,6 +182,12 @@ const AddNoteModal = ({showModal, closeModal, experimentId}) => {
             )}
         </CardWrapper>
     );
+};
+
+AddNoteModal.propTypes = {
+    showModal: PropTypes.bool,
+    closeModal: PropTypes.func,
+    experimentId: PropTypes.number
 };
 
 export default AddNoteModal;

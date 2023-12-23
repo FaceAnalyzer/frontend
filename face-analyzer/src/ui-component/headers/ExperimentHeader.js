@@ -7,6 +7,7 @@ import AnimateButton from "../extended/AnimateButton";
 import {IconClipboardList, IconEdit, IconFlask, IconTrashOff} from "@tabler/icons";
 import {FolderOpen} from "@mui/icons-material";
 import {useNavigate} from "react-router-dom";
+import PropTypes from "prop-types";
 
 // ===========================|| EXPERIMENT HEADER ||=========================== //
 
@@ -148,5 +149,10 @@ const ExperimentHeader = ({data, projectData}) => {
         </Box>
     );
 };
+
+ExperimentHeader.propTypes = {
+    projectData: PropTypes.object,
+    data: PropTypes.object
+}
 
 export default ExperimentHeader;

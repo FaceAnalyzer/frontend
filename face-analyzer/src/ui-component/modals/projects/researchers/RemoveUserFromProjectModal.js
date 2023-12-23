@@ -11,6 +11,7 @@ import {REMOVE_RESEARCHER_FROM_PROJECT_API} from "../../../../endpoints/BackendE
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
 import {PulseLoader} from "react-spinners";
+import PropTypes from "prop-types";
 
 const CardWrapper = styled(MainCard)(({theme}) => ({
     backgroundColor: '#fff',
@@ -164,6 +165,13 @@ const RemoveUserFromProjectModal = ({showModal, closeModal, userForRemoval, proj
             )}
         </CardWrapper>
     );
+};
+
+RemoveUserFromProjectModal.propTypes = {
+    showModal: PropTypes.bool,
+    closeModal: PropTypes.func,
+    userForRemoval: PropTypes.object,
+    projectData: PropTypes.object
 };
 
 export default RemoveUserFromProjectModal;

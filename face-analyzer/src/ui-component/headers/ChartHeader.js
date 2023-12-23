@@ -233,7 +233,10 @@ ChartHeader.propTypes = {
     activeButton: PropTypes.string,
     setActiveButton: PropTypes.func,
     emotionsData: PropTypes.object,
-    reactionData: PropTypes.object
+    reactionData: PropTypes.object,
+    stimuliData: PropTypes.object,
+    experimentData: PropTypes.object,
+    projectData: PropTypes.object
 }
 
 export default ChartHeader;
