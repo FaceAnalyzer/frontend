@@ -16,7 +16,7 @@ const DashboardHeader = () => {
                             fontSize: '1.5rem',
                             fontWeight: 500
                         }}>
-                            Hello, {user ? user.name : "Anon"}!
+                            Hello, {user ? user.name : "Anonymous"}!
                         </Typography>
                     } subheader={
                         <Typography>

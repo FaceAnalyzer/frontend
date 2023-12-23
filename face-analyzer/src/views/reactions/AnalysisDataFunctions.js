@@ -42,6 +42,11 @@ export const saveDataToLocalStorage = (data) => {
 
 export const saveNewReaction = async (stimuliId, values) => {
     let retrieved = localStorage.getItem(dataKey);
+
+    if(!retrieved){
+        throw new TypeError("Analysis Data is empty. Please record a reaction before trying to save.");
+    }
+
     let stored = JSON.parse(retrieved);
 
     const tempReadings = [];

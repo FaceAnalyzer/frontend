@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import {Checkbox, FormControlLabel, Grid} from "@mui/material";
 import {Legend, Line, LineChart, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis,} from "recharts";
 import {addMilliseconds, format} from "date-fns";
+import PropTypes from "prop-types";
 
 const NewChart = ({ groupedSortedData, videoTimeMs }) => {
     const [chartData, setChartData] = useState([]);
@@ -182,4 +183,12 @@ const tooltipStyle = {
     boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
 };
 
+NewChart.propTypes = {
+    groupedSortedData: PropTypes.array,
+    videoTimeMs: PropTypes.number,
+    active: PropTypes.bool,
+    payload: PropTypes.array,
+    label: PropTypes.string,
+};
+ 
 export default NewChart;

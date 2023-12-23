@@ -7,8 +7,9 @@ import RemoveUserFromProjectModal from "../../../ui-component/modals/projects/re
 import AnimateButton from "../../../ui-component/extended/AnimateButton";
 import {PersonRemove} from "@mui/icons-material";
 import {useTheme} from "@mui/material/styles";
+import PropTypes from "prop-types";
 
-const UserDataGrid = ({isLoading, userList, projectData}) => {
+const ResearcherDataGrid = ({isLoading, userList, projectData}) => {
     const [showRemoveModal, setShowRemoveModal] = useState(false);
     const [userForRemoval, setUserForRemoval] = useState({});
     const theme = useTheme();
@@ -94,4 +95,10 @@ const UserDataGrid = ({isLoading, userList, projectData}) => {
     );
 }
 
-export default UserDataGrid;
+ResearcherDataGrid.propTypes = {
+    isLoading: PropTypes.bool,
+    userList: PropTypes.array,
+    projectData: PropTypes.object
+};
+
+export default ResearcherDataGrid;

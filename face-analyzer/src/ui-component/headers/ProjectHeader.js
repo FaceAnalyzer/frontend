@@ -8,14 +8,15 @@ import {IconEdit, IconTrashOff} from '@tabler/icons';
 import {FolderOpen, Troubleshoot} from '@mui/icons-material';
 import {useNavigate} from "react-router-dom";
 import {useAuth} from "../../context/authContext";
+import PropTypes from "prop-types";
 
 // ===========================|| PROJECT HEADER ||=========================== //
 
 const ProjectHeader = ({data}) => {
+    const {user} = useAuth();
     const theme = useTheme();
     const navigate = useNavigate();
     const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
-    const {user} = useAuth();
 
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [showEditModal, setShowEditModal] = useState(false);
@@ -125,5 +126,9 @@ const ProjectHeader = ({data}) => {
         </Box>
     );
 };
+
+ProjectHeader.propTypes = {
+    data: PropTypes.object
+}
 
 export default ProjectHeader;
