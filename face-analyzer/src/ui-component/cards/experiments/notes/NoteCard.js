@@ -11,9 +11,10 @@ import SkeletonEarningCard from 'ui-component/cards/Skeleton/EarningCard';
 
 // assets
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import {DeleteForever, OpenInFull} from '@mui/icons-material';
+import {DeleteForever, Edit, OpenInFull} from '@mui/icons-material';
 import EditNoteModal from "../../../modals/experiments/notes/EditNoteModal";
 import DeleteNoteModal from "../../../modals/experiments/notes/DeleteNoteModal";
+import {useAuth} from "../../../../context/authContext";
 
 const CardWrapper = styled(MainCard)(({theme}) => ({
     backgroundColor: '#fff',
@@ -28,7 +29,7 @@ const CardWrapper = styled(MainCard)(({theme}) => ({
 
 const NoteCard = ({isLoading, data}) => {
     const theme = useTheme();
-    // const {user} = useAuth();
+    const {user} = useAuth();
 
     const [anchorEl, setAnchorEl] = useState(null);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -94,7 +95,6 @@ const NoteCard = ({isLoading, data}) => {
                                                 color: theme.palette.secondary[200]
                                             }}
                                         >
-                                            {/*{user.name} {user.surname}*/}
                                             Note
                                         </Typography>
                                     </Grid>
@@ -153,7 +153,9 @@ const NoteCard = ({isLoading, data}) => {
                                                     }
                                                 }
                                             >
-                                                <OpenInFull sx={{mr: 1.75}}/> View
+                                                {(user.id === note.creatorId) ?
+                                                    (<><Edit sx={{mr: 1.75}}/> Edit</>) :
+                                                    (<><OpenInFull sx={{mr: 1.75}}/> View</>)}
                                             </MenuItem>
                                             <MenuItem
                                                 id={"button-delete-note-" + note.id}
