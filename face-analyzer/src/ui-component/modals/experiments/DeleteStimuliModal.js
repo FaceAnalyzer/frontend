@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 
 import {styled, useTheme} from '@mui/material/styles';
 import {Box, Button, FormHelperText, Grid, Typography} from '@mui/material';
@@ -10,6 +10,8 @@ import {Modal, ModalBody, ModalContent, ModalFooter, ModalOverlay} from "../Moda
 import axios from "axios";
 import {DEFAULT_API_CONFIG, DELETE_STIMULI_BY_ID_API} from "../../../endpoints/BackendEndpoints";
 import {useLocation, useNavigate} from "react-router-dom";
+import {PulseLoader} from "react-spinners";
+import PropTypes from "prop-types";
 
 const CardWrapper = styled(MainCard)(({theme}) => ({
     backgroundColor: '#fff',
@@ -27,17 +29,20 @@ const DeleteStimuliModal = ({showModal, closeModal, data}) => {
     const location = useLocation();
     const scriptedRef = useScriptRef();
     const deleteId = data.id;
+    const [loadingSpinner, setLoadingSpinner] = useState(false);
 
     const handleDelete = () => {
+        setLoadingSpinner(true);
         try{
             axios.delete(DELETE_STIMULI_BY_ID_API.replace("{id}", deleteId), DEFAULT_API_CONFIG)
                 .then(response => {
+                    setLoadingSpinner(false);
                     if (response.status === 204) {
                         if(location.pathname === `/experiment/${data.experimentId}`){
                             navigate(0);
                         }
                         else{
-                            navigate('/experiment/${data.experimentId}');
+                            navigate(`/experiment/${data.experimentId}`);
                             navigate(0); //without this the sidebar list doesn't refresh, a better way probably exists
                         }
                     }
@@ -50,6 +55,7 @@ const DeleteStimuliModal = ({showModal, closeModal, data}) => {
         } catch(e) {
             console.error("Error deleting stimulus:", e);
         }
+        setLoadingSpinner(false);
     };
 
 
@@ -107,6 +113,15 @@ const DeleteStimuliModal = ({showModal, closeModal, data}) => {
 
                                         </ModalBody>
                                         <ModalFooter>
+                                            {loadingSpinner && (
+                                                <div className={"loading-spinner"} style={{marginRight: "10px"}}>
+                                                    <PulseLoader
+                                                        color={theme.palette.secondary.dark}
+                                                        size={15}
+                                                        speedMultiplier={0.8}
+                                                    />
+                                                </div>
+                                            )}
                                             <AnimateButton>
                                                 <Button
                                                     id={"button-yes"}
@@ -147,6 +162,12 @@ const DeleteStimuliModal = ({showModal, closeModal, data}) => {
             )}
         </CardWrapper>
     );
+};
+
+DeleteStimuliModal.propTypes = {
+    showModal: PropTypes.bool,
+    closeModal: PropTypes.func,
+    data: PropTypes.object
 };
 
 export default DeleteStimuliModal;

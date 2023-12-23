@@ -93,7 +93,8 @@ const DashboardCard = ({isLoading, component}) => {
 };
 
 DashboardCard.propTypes = {
-    isLoading: PropTypes.bool
+    isLoading: PropTypes.bool,
+    component: PropTypes.string
 };
 
 export default DashboardCard;

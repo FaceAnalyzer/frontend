@@ -3,6 +3,7 @@ import useScriptRef from "../../../hooks/useScriptRef";
 import {Modal, ModalBody, ModalContent, ModalFooter, ModalOverlay} from "../ModalComponents";
 import {Formik} from "formik";
 import * as Yup from "yup";
+import { PulseLoader } from 'react-spinners'
 import {
     Box,
     Button,
@@ -14,7 +15,7 @@ import {
     Typography
 } from "@mui/material";
 import AnimateButton from "../../extended/AnimateButton";
-import React from "react";
+import React, {useState} from "react";
 import MainCard from "../../cards/MainCard";
 import PropTypes from "prop-types";
 import {saveNewReaction} from "../../../views/reactions/AnalysisDataFunctions";
@@ -33,15 +34,19 @@ const SaveReactionModal = ({showModal, closeModal, stimuliId}) => {
     const theme = useTheme();
     const navigate = useNavigate();
     const scriptedRef = useScriptRef();
+    const [loadingSpinner, setLoadingSpinner] = useState(false);
 
-    const handleSave = async (values, {setErrors, setStatus}) => {
-        saveNewReaction(stimuliId, values).then(() => {
+    const handleSave = async (values) => {
+        setLoadingSpinner(true);
+        try {
+            await saveNewReaction(stimuliId, values);
+            setLoadingSpinner(false);
             navigate(0);
-        }).catch(result => {
-            const data = result.data;
-            setErrors(data);
-            setStatus({success: false});
-        });
+        }
+        catch(result){
+            setLoadingSpinner(false);
+            throw result;
+        }
     };
 
     return (
@@ -61,8 +66,9 @@ const SaveReactionModal = ({showModal, closeModal, stimuliId}) => {
 
                             onSubmit={async (values, { setErrors, setStatus }) => {
                                 try {
+                                    console.log("OVDJE SAM")
                                     if (scriptedRef.current) {
-                                        await handleSave(values, {setErrors, setStatus});
+                                        await handleSave(values);
                                         setStatus({ success: true });
                                     }
                                 } catch (err) {
@@ -85,7 +91,7 @@ const SaveReactionModal = ({showModal, closeModal, stimuliId}) => {
                                                         fontWeight: 500,
                                                         color: theme.palette.secondary.dark,
                                                     }}>
-                                                        Save Reaction to Stimuli
+                                                        Save Reaction to Stimulus
                                                     </Typography>
                                                     <Typography
                                                         sx={{
@@ -136,9 +142,17 @@ const SaveReactionModal = ({showModal, closeModal, stimuliId}) => {
                                                     <FormHelperText error>{errors.submit}</FormHelperText>
                                                 </Box>
                                             )}
-
                                         </ModalBody>
                                         <ModalFooter>
+                                            {loadingSpinner && (
+                                                <div className={"loading-spinner"} style={{marginRight: "10px"}}>
+                                                    <PulseLoader
+                                                        color={theme.palette.secondary.dark}
+                                                        size={15}
+                                                        speedMultiplier={0.8}
+                                                    />
+                                                </div>
+                                            )}
                                             <AnimateButton>
                                                 <Button
                                                     id={"button-save"}

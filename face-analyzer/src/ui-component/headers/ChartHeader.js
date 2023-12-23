@@ -194,6 +194,22 @@ const ChartHeader = ({
                             Emotions distribution
                         </Button>
                     </AnimateButton>
+                    <AnimateButton>
+                        <Button
+                            id={"button-dynamic-chart"}
+                            onClick={() => handleButtonClick('dynamic')}
+                            sx={activeButton === 'dynamic' ? {
+                                color: theme.palette.secondary
+                            } : {
+                                color: theme.palette.grey[700],
+                                backgroundColor: theme.palette.grey[50],
+                            }}
+                            variant={activeButton === 'dynamic' ? 'contained' : ''}
+                            disableElevation
+                        >
+                            Dynamic chart
+                        </Button>
+                    </AnimateButton>
                 </Box>
                 <Box>
                     <AnimateButton>
@@ -217,7 +233,10 @@ ChartHeader.propTypes = {
     activeButton: PropTypes.string,
     setActiveButton: PropTypes.func,
     emotionsData: PropTypes.object,
-    reactionData: PropTypes.object
+    reactionData: PropTypes.object,
+    stimuliData: PropTypes.object,
+    experimentData: PropTypes.object,
+    projectData: PropTypes.object
 }
 
 export default ChartHeader;

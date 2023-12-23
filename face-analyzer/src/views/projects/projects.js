@@ -22,7 +22,7 @@ const Projects = () => {
             try {
                 const response = await axios.get(GET_PROJECTS_API);
                 const {items} = response.data;
-                setProjectList(items);
+                setProjectList(items.reverse()); //reverse so newest projects are shown first
 
                 setLoading(false);
             } catch (error) {
@@ -30,22 +30,27 @@ const Projects = () => {
             }
         };
 
-        fetchProjectData();
+        fetchProjectData().then();
     }, []);
 
-    return !user ? (<Navigate to="/login" replace/>) : (
+    return !user ? (
+        <Navigate to="/login" replace/>
+    ) : (
         <Grid container spacing={3}>
             <Grid item xs={12}>
                 <ProjectManagementHeader/>
             </Grid>
-            <Grid item lg={4} md={6} sm={6} xs={12}>
-                <AddProjectCard isLoading={isLoading}/>
-            </Grid>
-            {projectList && projectList.map((project) => (
-                <Grid key={project.id} item lg={4} md={6} sm={6} xs={12}>
-                    <ProjectCard isLoading={isLoading} data={project}/>
+            {user.role === 'Admin' && (
+                <Grid item lg={4} md={6} sm={6} xs={12}>
+                    <AddProjectCard isLoading={isLoading}/>
                 </Grid>
-            ))}
+            )}
+            {projectList &&
+                projectList.map((project) => (
+                    <Grid key={project.id} item lg={4} md={6} sm={6} xs={12}>
+                        <ProjectCard isLoading={isLoading} data={project}/>
+                    </Grid>
+                ))}
         </Grid>
     );
 };

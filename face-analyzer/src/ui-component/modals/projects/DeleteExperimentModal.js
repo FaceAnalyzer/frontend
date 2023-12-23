@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 
 import {styled, useTheme} from '@mui/material/styles';
 import {Box, Button, FormHelperText, Grid, Typography} from '@mui/material';
@@ -10,6 +10,8 @@ import {Modal, ModalBody, ModalContent, ModalFooter, ModalOverlay} from "../Moda
 import axios from "axios";
 import {DELETE_EXPERIMENT_API} from "../../../endpoints/BackendEndpoints";
 import {useLocation, useNavigate} from "react-router-dom";
+import {PulseLoader} from "react-spinners";
+import PropTypes from "prop-types";
 
 const CardWrapper = styled(MainCard)(({ theme }) => ({
     backgroundColor: '#fff',
@@ -26,12 +28,16 @@ const DeleteExperimentModal = ({showModal, closeModal, data}) => {
     const navigate = useNavigate();
     const location = useLocation();
     const scriptedRef = useScriptRef();
+    const [loadingSpinner, setLoadingSpinner] = useState(false);
+
     const deleteId = data.id;
 
     const handleDelete = async (values, {setErrors, setStatus}) => {
+        setLoadingSpinner(true);
         try {
             axios.delete(DELETE_EXPERIMENT_API + '/' + deleteId)
                 .then(response => {
+                    setLoadingSpinner(false);
                     // this.setState({articleId: response.data.id});
                     console.log(response.status)
                     if (response.status === 204) {
@@ -55,6 +61,7 @@ const DeleteExperimentModal = ({showModal, closeModal, data}) => {
             setErrors({submit: err.message});
             setStatus({success: false});
         }
+        setLoadingSpinner(false);
     };
 
 
@@ -112,6 +119,15 @@ const DeleteExperimentModal = ({showModal, closeModal, data}) => {
 
                                         </ModalBody>
                                         <ModalFooter>
+                                            {loadingSpinner && (
+                                                <div className={"loading-spinner"} style={{marginRight: "10px"}}>
+                                                    <PulseLoader
+                                                        color={theme.palette.secondary.dark}
+                                                        size={15}
+                                                        speedMultiplier={0.8}
+                                                    />
+                                                </div>
+                                            )}
                                             <AnimateButton>
                                                 <Button
                                                     id={"button-yes"}
@@ -152,6 +168,12 @@ const DeleteExperimentModal = ({showModal, closeModal, data}) => {
             )}
         </CardWrapper>
     );
+};
+
+DeleteExperimentModal.propTypes = {
+    showModal: PropTypes.bool,
+    closeModal: PropTypes.func,
+    data: PropTypes.object
 };
 
 export default DeleteExperimentModal;

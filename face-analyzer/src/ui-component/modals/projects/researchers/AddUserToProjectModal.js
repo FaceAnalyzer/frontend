@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 
 import {styled, useTheme} from '@mui/material/styles';
 import MainCard from "../../../cards/MainCard";
@@ -11,6 +11,8 @@ import axios from "axios";
 import {ADD_RESEARCHER_TO_PROJECT_API} from "../../../../endpoints/BackendEndpoints";
 import useScriptRef from "../../../../hooks/useScriptRef";
 import {useNavigate} from "react-router-dom";
+import {PulseLoader} from "react-spinners";
+import PropTypes from "prop-types";
 
 const CardWrapper = styled(MainCard)(({theme}) => ({
     backgroundColor: '#fff',
@@ -26,14 +28,17 @@ const AddUserToProjectModal = ({showModal, closeModal, usersNotOnProjectData, pr
     const theme = useTheme();
     const navigate = useNavigate();
     const scriptedRef = useScriptRef();
+    const [loadingSpinner, setLoadingSpinner] = useState(false);
 
     const project = projectData;
 
     const handleSave = (values, {setErrors, setStatus}) => {
+        setLoadingSpinner(true);
         const items = {researchersIds: [values.researcherId]};
         try {
             axios.put(ADD_RESEARCHER_TO_PROJECT_API.replace('{id}', project.id), JSON.stringify(items))
                 .then(response => {
+                    setLoadingSpinner(false);
                     if (response.status === 204) {
                         navigate(0);
                     } else {
@@ -52,6 +57,7 @@ const AddUserToProjectModal = ({showModal, closeModal, usersNotOnProjectData, pr
             setErrors({submit: err.message});
             setStatus({success: false});
         }
+        setLoadingSpinner(false);
     };
 
     return (
@@ -136,6 +142,15 @@ const AddUserToProjectModal = ({showModal, closeModal, usersNotOnProjectData, pr
 
                                         </ModalBody>
                                         <ModalFooter>
+                                            {loadingSpinner && (
+                                                <div className={"loading-spinner"} style={{marginRight: "10px"}}>
+                                                    <PulseLoader
+                                                        color={theme.palette.secondary.dark}
+                                                        size={15}
+                                                        speedMultiplier={0.8}
+                                                    />
+                                                </div>
+                                            )}
                                             <AnimateButton>
                                                 <Button
                                                     id={"button-save"}
@@ -176,6 +191,13 @@ const AddUserToProjectModal = ({showModal, closeModal, usersNotOnProjectData, pr
             )}
         </CardWrapper>
     );
+};
+
+AddUserToProjectModal.propTypes = {
+    showModal: PropTypes.bool,
+    closeModal: PropTypes.func,
+    usersNotOnProjectData: PropTypes.array,
+    projectData: PropTypes.object
 };
 
 export default AddUserToProjectModal;

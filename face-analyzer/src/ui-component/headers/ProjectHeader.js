@@ -7,10 +7,13 @@ import AnimateButton from '../extended/AnimateButton';
 import {IconEdit, IconTrashOff} from '@tabler/icons';
 import {FolderOpen, Troubleshoot} from '@mui/icons-material';
 import {useNavigate} from "react-router-dom";
+import {useAuth} from "../../context/authContext";
+import PropTypes from "prop-types";
 
 // ===========================|| PROJECT HEADER ||=========================== //
 
 const ProjectHeader = ({data}) => {
+    const {user} = useAuth();
     const theme = useTheme();
     const navigate = useNavigate();
     const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
@@ -70,6 +73,7 @@ const ProjectHeader = ({data}) => {
                         />
                     </Box>
                     <Box sx={{display: 'flex', gap: 1}}>
+                        {user.role === 'Admin' && (
                         <AnimateButton>
                             <Button
                                 id={"button-researchers-edit"}
@@ -86,6 +90,7 @@ const ProjectHeader = ({data}) => {
                                 </Typography>
                             </Button>
                         </AnimateButton>
+                        )}
                         <AnimateButton>
                             <Button
                                 id={"button-edit-project"}
@@ -121,5 +126,9 @@ const ProjectHeader = ({data}) => {
         </Box>
     );
 };
+
+ProjectHeader.propTypes = {
+    data: PropTypes.object
+}
 
 export default ProjectHeader;

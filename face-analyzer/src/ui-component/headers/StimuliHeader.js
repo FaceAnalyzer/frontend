@@ -116,7 +116,9 @@ const StimuliHeader = ({stimulus, experimentData, projectData}) => {
 };
 
 StimuliHeader.propTypes = {
-    stimulus: PropTypes.object
+    stimulus: PropTypes.object,
+    experimentData: PropTypes.object,
+    projectData: PropTypes.object
 }
 
 export default StimuliHeader;
