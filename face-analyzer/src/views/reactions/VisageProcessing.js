@@ -20,6 +20,16 @@ const VisageProcessing = ({canvasRef, isLoading, isRecording}) => {
         saveDataToLocalStorage(analysisData)
     }, [analysisData]);
 
+    //Load the scripts
+    useEffect(() => {
+        if(!document.getElementById('visageSDK-script')){
+            const script = document.createElement('script');
+            script.src = "/lib/visageSDK.js"
+            script.id = 'visageSDK-script'
+            document.head.appendChild(script);
+        }
+    }, []);
+
     useEffect(() => {
         if(isLoading){
             return;
