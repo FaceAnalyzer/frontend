@@ -1,10 +1,11 @@
 import {Grid} from "@mui/material";
 import Chart from "react-apexcharts";
 import {useTheme} from "@mui/material/styles";
+import Skeleton from "@mui/material/Skeleton";
 
 // ==============================|| BOX PLOT CHART ||============================== //
 
-const BoxPlotChart = (boxPlotData) => {
+const BoxPlotChart = ({isLoading, boxPlotData}) => {
     const theme = useTheme();
 
     const calculateMedian = (arr) => {
@@ -20,20 +21,21 @@ const BoxPlotChart = (boxPlotData) => {
     }
 
     const calculateBoxPlotData = (data) => {
+        const roundingDecimals = 6;
         const sortedData = data.slice().sort((a, b) => a - b);
 
-        const median = calculateMedian(sortedData);
-        const q1 = calculateMedian(sortedData.slice(0, Math.floor(sortedData.length / 2)));
-        const q3 = calculateMedian(sortedData.slice(Math.ceil(sortedData.length / 2)));
+        const median = calculateMedian(sortedData).toFixed(roundingDecimals);
+        const q1 = calculateMedian(sortedData.slice(0, Math.floor(sortedData.length / 2))).toFixed(roundingDecimals);
+        const q3 = calculateMedian(sortedData.slice(Math.ceil(sortedData.length / 2))).toFixed(roundingDecimals);
 
-        const min = sortedData[0];
-        const max = sortedData[sortedData.length - 1];
+        const min = sortedData[0].toFixed(roundingDecimals);
+        const max = sortedData[sortedData.length - 1].toFixed(roundingDecimals);
 
         return [min, q1, median, q3, max];
     };
 
     const testBoxData = [];
-    const rawData = boxPlotData.boxPlotData;
+    const rawData = boxPlotData;
     for(let key in rawData){
         const emotionData = []
         rawData[key].forEach((entry) => {
@@ -42,48 +44,57 @@ const BoxPlotChart = (boxPlotData) => {
 
         testBoxData.push({x: key, y: calculateBoxPlotData(emotionData)});
     }
-    //console.log("tbd", testBoxData);
+    console.log("tbd", testBoxData);
 
     return (
         <Grid container spacing={2}>
             <Grid item lg={12} md={12} sm={12} xs={12}>
-                <Chart
-                    type="boxPlot"
-                    height={"500vh"}
-                    series={[
-                        {
-                            type: 'boxPlot',
-                            data: testBoxData
-                        }
-                    ]}
-                    options={{
-                        chart: {
-                            id: "emotions-distribution",
-                            type: 'boxPlot',
-                            height: 350,
-                            toolbar: {
-                                show: false
+                {isLoading ? (
+                    <Skeleton animation={"wave"}>
+                        <Chart
+                            type="boxPlot"
+                            height={"500vh"}
+                        />
+                    </Skeleton>
+                    ):(
+                    <Chart
+                        type="boxPlot"
+                        height={"500vh"}
+                        series={[
+                            {
+                                type: 'boxPlot',
+                                data: testBoxData
                             }
-                        },
-                        title: {
-                            text: 'Emotions Distribution',
-                            align: 'left'
-                        },
-                        plotOptions: {
-                            boxPlot: {
-                                colors: {
-                                    upper: theme.palette.primary[800],
-                                    lower: theme.palette.primary[200]
-                                },
+                        ]}
+                        options={{
+                            chart: {
+                                id: "emotions-distribution",
+                                type: 'boxPlot',
+                                height: 350,
+                                toolbar: {
+                                    show: false
+                                }
+                            },
+                            title: {
+                                text: 'Emotions Distribution',
+                                align: 'left'
+                            },
+                            plotOptions: {
+                                boxPlot: {
+                                    colors: {
+                                        upper: theme.palette.primary[800],
+                                        lower: theme.palette.primary[200]
+                                    },
+                                }
+                            },
+                            yaxis: {
+                                max: 1.0,
+                                min: 0.0,
+                                decimalsInFloat: 2
                             }
-                        },
-                        yaxis: {
-                            max: 1.0,
-                            min: 0.0,
-                            decimalsInFloat: 2
-                        }
-                    }}
-                />
+                        }}
+                    />
+                )}
             </Grid>
         </Grid>
     );
