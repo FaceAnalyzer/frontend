@@ -1,11 +1,14 @@
 import { Grid } from "@mui/material";
+import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 import Chart from "react-apexcharts";
 import React, { useEffect, useState } from "react";
 import {format, addMilliseconds} from "date-fns";
+import Skeleton from "@mui/material/Skeleton";
+import NewChart from "./NewChart";
 
 // ==============================|| EMOTIONS OVER TIME CHART ||============================== //
 
-const EmotionsOverTimeChart = ({ groupedSortedData, annotations }) => {
+const EmotionsOverTimeChart = ({ isLoading, groupedSortedData, annotations }) => {
     const [chartOptions, setChartOptions] = useState({});
     const [seriesData, setSeriesData] = useState([]);
 
@@ -20,7 +23,6 @@ const EmotionsOverTimeChart = ({ groupedSortedData, annotations }) => {
     };
 
     const createChartConfigs = (emotionColor, groupedData) => {
-        console.log("grouped", groupedData["Anger"].length)
         const timeFormat = 'mm:ss';
         const options = {
             chart: {
@@ -101,7 +103,7 @@ const EmotionsOverTimeChart = ({ groupedSortedData, annotations }) => {
     };
 
     useEffect(() => {
-        if (groupedSortedData.length !== 0) {
+        if (Object.keys(groupedSortedData).length !== 0) {
             const { options, series } = createChartConfigs(
                 emotionColor,
                 groupedSortedData
@@ -135,32 +137,19 @@ const EmotionsOverTimeChart = ({ groupedSortedData, annotations }) => {
                 ],
             },
         })*/
-
-        ApexCharts.exec('emotions-over-time', 'updateOptions', [{
-            annotations: {
-                borderColor: "#775DD0",
-                xaxis: [
-                    {
-                        x: percentage * maxX * 10,
-                        strokeDashArray: 0,
-                        label: {
-                            style: {
-                                color: '#000',
-                            },
-                            text: 'REEEEEEEEEEEE'
-                        }
-                    },
-                ],
-            },
-        }, false, true, true]);
-        ApexCharts.exec('emotions-over-time', 'render')
     }, [annotations]);
 
     return (
         <>
             <Grid container spacing={2}>
                 <Grid item xs={12}>
-                    <Chart options={chartOptions} series={seriesData} height={"600vh"}/>
+                    {isLoading ? (
+                        <Skeleton animation={"wave"}>
+                            <NewChart groupedSortedData={groupedSortedData} />
+                        </Skeleton>
+                            ) : (
+                        <NewChart groupedSortedData={groupedSortedData} />
+                    )}
                 </Grid>
             </Grid>
         </>
