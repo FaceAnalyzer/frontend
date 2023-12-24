@@ -23,7 +23,7 @@ const CardWrapper = styled(MainCard)(({theme}) => ({
     borderWidth: '1rem',
     overflow: 'hidden',
     position: 'relative',
-    height: '184.7px'
+    height: '100%'
 }));
 // ===========================|| NOTE CARD ||=========================== //
 
@@ -179,10 +179,11 @@ const NoteCard = ({isLoading, data}) => {
                                 mt: 1.75,
                                 mb: 0.75,
                                 overflow: 'hidden',
+                                wordWrap: 'break-word',
                                 textOverflow: 'ellipsis',
-                                display: "-webkit-box",
-                                WebkitLineClamp: "3",
-                                WebkitBoxOrient: "vertical",
+                                display: '-webkit-box',
+                                WebkitBoxOrient: 'vertical',
+                                WebkitLineClamp: '3',
                             }}
                         >
                             {note.description}
