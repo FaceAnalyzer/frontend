@@ -13,6 +13,7 @@
     "@mui/utils": "^5.8.6",
     "@mui/x-data-grid": "^6.18.1",
     "@tabler/icons": "^1.72.0",
+    "@testing-library/react": "^14.1.2",
     "apexcharts": "^3.35.3",
     "axios": "^1.5.1",
     "clsx": "^2.0.0",
@@ -41,7 +42,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "jest",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
