@@ -31,13 +31,15 @@ export const DELETE_STIMULI_BY_ID_API = process.env.REACT_APP_BACKEND_API_URL + 
 
 //Reactions
 export const GET_REACTIONS_API = process.env.REACT_APP_BACKEND_API_URL + '/reactions';
+export const ADD_REACTION_API = process.env.REACT_APP_BACKEND_API_URL + '/reactions';
 export const GET_REACTIONS_BY_ID_API = process.env.REACT_APP_BACKEND_API_URL + '/reactions/{id}';
 export const DELETE_REACTIONS_BY_ID_API = process.env.REACT_APP_BACKEND_API_URL + '/reactions/{id}';
+export const GET_EXPORT_REACTION = process.env.REACT_APP_BACKEND_API_URL + '/reactions/{id}/emotions/export';
 
 //Emotions
 export const GET_EMOTIONS_API = process.env.REACT_APP_BACKEND_API_URL + '/reactions/{id}/emotions';
 export const ADD_EMOTION_API = process.env.REACT_APP_BACKEND_API_URL + '/emotions';
-export const ADD_REACTION_API = process.env.REACT_APP_BACKEND_API_URL + '/reactions';
+
 
 //Users
 export const ADD_USERS_API = process.env.REACT_APP_BACKEND_API_URL + '/users';

@@ -4,16 +4,16 @@ import {Box, Button, CardHeader, Link, Typography} from "@mui/material";
 import AnimateButton from "../extended/AnimateButton";
 import {IconChevronRight, IconDownload, IconFlask, IconGraph, IconVideo} from "@tabler/icons";
 import PropTypes from "prop-types";
-import Papa from "papaparse";
 import {FolderOpen} from "@mui/icons-material";
 import {useNavigate} from "react-router-dom";
+import axios from "axios";
+import {GET_EXPORT_REACTION} from "../../endpoints/BackendEndpoints";
 
 // ===========================|| CHART HEADER ||=========================== //
 
 const ChartHeader = ({
                          activeButton,
                          setActiveButton,
-                         emotionsData,
                          reactionData,
                          stimuliData,
                          experimentData,
@@ -22,6 +22,8 @@ const ChartHeader = ({
     const theme = useTheme();
     const navigate = useNavigate();
 
+    const reaction = reactionData;
+    const reactionId = reactionData.id;
     const stimuli = stimuliData;
     const stimuliId = stimuli.id;
     const experiment = experimentData;
@@ -33,66 +35,21 @@ const ChartHeader = ({
         setActiveButton(buttonType);
     };
 
-    const sortData = (data) => {
-        const sortedData = {};
-        for(let key in data){
-            const tempData = data[key];
-            sortedData[key] = tempData.sort((a, b) => a.timeOffset - b.timeOffset);
-        }
-        return sortedData;
+    const downloadCSV = () => {
+        axios.get(GET_EXPORT_REACTION.replace('{id}', reactionId), {responseType: "blob"})
+            .then((response) => {
+                const href = URL.createObjectURL(response.data);
+
+                const link = document.createElement('a');
+                link.href = href;
+                link.setAttribute('download', `${stimuliId}.${stimuli.name}-${reaction.participantName}.csv`);
+                document.body.appendChild(link);
+                link.click();
+
+                document.body.removeChild(link);
+                URL.revokeObjectURL(href);
+            })
     }
-
-    const createCsvString = (headers, dataArray) => {
-        const csvArray = dataArray.map((obj) => {
-            const row = {};
-            headers.forEach((header) => {
-                row[header] = obj[header];
-            });
-            return row;
-        });
-
-        return Papa.unparse({
-            fields: headers,
-            data: csvArray
-        })
-    }
-
-    const convertToCSV = (data) => {
-        const headers = ['TimeOffset', ...Object.keys(data)];
-        const sortedData = sortData(data);
-
-        const arrayLength = sortedData.Anger.length;
-        const combinedArray = Array.from({length: arrayLength}, (_, index) => {
-            const row = {TimeOffset: data.Anger[index].timeOffset};
-            Object.keys(sortedData).forEach((attribute) => {
-                row[attribute] = sortedData[attribute][index].value;
-            });
-            return row;
-        });
-
-        //console.log("sd", sortedData);
-        //console.log("ca", combinedArray);
-
-        return createCsvString(headers, combinedArray);
-    }
-
-    const exportCsv = () => {
-        const dataCSV = convertToCSV(emotionsData);
-        const filename = (() => {
-            const participantName = reactionData.participantName;
-            const stimuliId = reactionData.stimuliId;
-            const reactionId = reactionData.id;
-            return ["Reaction", participantName.replaceAll(" ", "-"), stimuliId, reactionId].join('_');
-        });
-
-        const blob = new Blob([dataCSV], {
-            type: 'text/csv;charset=utf-8;'
-        });
-        const link = document.createElement('a');
-        link.href = URL.createObjectURL(blob);
-        link.download = filename();
-        link.click();
-    };
 
     const navigateToProject = () => {
         navigate(`/project/${projectId}`);
@@ -156,7 +113,7 @@ const ChartHeader = ({
                         fontSize: '1.5rem',
                         fontWeight: 500
                     }}>
-                        {reactionData.participantName}
+                        {reaction.participantName}
                     </Typography>
                 }/>
             </Box>
@@ -218,7 +175,7 @@ const ChartHeader = ({
                             sx={{color: theme.palette.secondary}}
                             variant={'contained'}
                             disableElevation
-                            onClick={exportCsv}
+                            onClick={downloadCSV}
                         >
                             <IconDownload/> Export CSV
                         </Button>

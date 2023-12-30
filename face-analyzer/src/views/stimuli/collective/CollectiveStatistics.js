@@ -17,6 +17,7 @@ const CollectiveStatistics = () => {
     const [stimuliData, setStimuliData] = useState({});
     const [experimentData, setExperimentData] = useState({});
     const [projectData, setProjectData] = useState({});
+    const [reactionList, setReactionList] = useState([]);
 
     const groupByEmotionType = (data) => {
         const groupedData = {};
@@ -50,10 +51,11 @@ const CollectiveStatistics = () => {
                 setProjectData(projectItem);
 
                 const reactionsResponse = await axios.get(GET_REACTIONS_API);
-                const items = reactionsResponse.data.items.filter((item) => item.stimuliId === ID);
+                const reactionsToStimuli = reactionsResponse.data.items.filter((item) => item.stimuliId === ID);
+                setReactionList(reactionsToStimuli);
 
                 const data = []
-                for (const reaction of items) {
+                for (const reaction of reactionsToStimuli) {
                     const emotions = await axios.get(GET_EMOTIONS_API.replace("{id}", reaction.id));
                     data.push(emotions.data);
                 }
@@ -79,6 +81,7 @@ const CollectiveStatistics = () => {
                              stimuliData={stimuliData}
                              experimentData={experimentData}
                              projectData={projectData}
+                             reactionList={reactionList}
                 />
             </Grid>
             <Grid item xs={12}>

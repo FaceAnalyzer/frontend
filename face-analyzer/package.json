@@ -20,6 +20,7 @@
     "date-fns": "^2.30.0",
     "formik": "^2.2.9",
     "framer-motion": "^6.3.16",
+    "jszip": "^3.10.1",
     "material-ui-popup-state": "^4.0.1",
     "papaparse": "^5.4.1",
     "prop-types": "^15.8.1",

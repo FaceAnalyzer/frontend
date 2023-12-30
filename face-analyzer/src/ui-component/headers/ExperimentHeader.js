@@ -4,9 +4,11 @@ import DeleteExperimentModal from "../modals/projects/DeleteExperimentModal";
 import EditExperimentModal from "../modals/projects/EditExperimentModal";
 import {Box, Button, Card, CardHeader, Link, Typography, useMediaQuery} from "@mui/material";
 import AnimateButton from "../extended/AnimateButton";
-import {IconClipboardList, IconEdit, IconFlask, IconTrashOff} from "@tabler/icons";
+import {IconClipboardList, IconDownload, IconEdit, IconFlask, IconTrashOff} from "@tabler/icons";
 import {FolderOpen} from "@mui/icons-material";
 import {useNavigate} from "react-router-dom";
+import axios from "axios";
+import {GET_EXPORT_EXPERIMENT} from "../../endpoints/BackendEndpoints";
 
 // ===========================|| EXPERIMENT HEADER ||=========================== //
 
@@ -57,6 +59,24 @@ const ExperimentHeader = ({data, projectData}) => {
         navigate(`/project/${projectId}`);
     }
 
+    const downloadCollectiveCSV = () => {
+        console.log("clicked dl button");
+        axios.get(GET_EXPORT_EXPERIMENT.replace('{id}', experiment.id), {responseType: "blob"})
+            .then((response) => {
+                const href = URL.createObjectURL(response.data);
+
+                const link = document.createElement('a');
+                link.href = href;
+                link.setAttribute('download', 'CollectiveData.zip');
+                document.body.appendChild(link);
+                link.click();
+
+                document.body.removeChild(link);
+                URL.revokeObjectURL(href);
+            });
+
+    }
+
     return (
         <Box>
             <DeleteExperimentModal showModal={showDeleteModal}
@@ -98,6 +118,17 @@ const ExperimentHeader = ({data, projectData}) => {
                             }/>
                         </Box>
                         <Box sx={{display: 'flex', gap: 1, pr: 2}}>
+                            <AnimateButton>
+                                <Button
+                                    id={"button-export-csv"}
+                                    sx={{color: theme.palette.secondary}}
+                                    variant={'contained'}
+                                    disableElevation
+                                    onClick={downloadCollectiveCSV}
+                                >
+                                    <IconDownload/> Export Experiment
+                                </Button>
+                            </AnimateButton>
                             <AnimateButton>
                                 <Button
                                     id={"button-notes-" + experiment.id}

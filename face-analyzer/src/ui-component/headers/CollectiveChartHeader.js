@@ -7,14 +7,16 @@ import {FolderOpen} from "@mui/icons-material";
 import {useNavigate} from "react-router-dom";
 import AnimateButton from "../extended/AnimateButton";
 import axios from "axios";
-import {GET_EXPORT_EXPERIMENT} from "../../endpoints/BackendEndpoints";
+import {GET_EXPORT_REACTION} from "../../endpoints/BackendEndpoints";
+import JSZip from 'jszip';
 
 // ===========================|| CHART HEADER ||=========================== //
 
 const CollectiveChartHeader = ({
                          stimuliData,
                          experimentData,
-                         projectData
+                         projectData,
+                         reactionList,
                      }) => {
     const theme = useTheme();
     const navigate = useNavigate();
@@ -25,6 +27,8 @@ const CollectiveChartHeader = ({
     const experimentId = experiment.id;
     const project = projectData;
     const projectId = project.id;
+
+    const zip = new JSZip();
 
     const navigateToProject = () => {
         navigate(`/project/${projectId}`);
@@ -39,21 +43,35 @@ const CollectiveChartHeader = ({
     }
 
     const downloadCollectiveCSV = () => {
-        console.log("clicked dl button");
-        axios.get(GET_EXPORT_EXPERIMENT.replace('{id}', experimentId), {responseType: "blob"})
-            .then((response) => {
-                const href = URL.createObjectURL(response.data);
+        const promises = [];
 
-                const link = document.createElement('a');
-                link.href = href;
-                link.setAttribute('download', 'CollectiveData.zip');
-                document.body.appendChild(link);
-                link.click();
+        reactionList.forEach(reaction => {
+            promises.push(
+                axios.get(GET_EXPORT_REACTION.replace('{id}', reaction.id), {responseType: "blob"})
+                    .then((response) => {
+                        zip.file(`${stimuliId}.${stimuli.name}-${reaction.participantName}.csv`, response.data);
+                    })
+                    .catch((e) => {
+                        console.error(`Error fetching data for ${reaction.participantName}`, e);
+                    })
+            )
+        });
 
-                document.body.removeChild(link);
-                URL.revokeObjectURL(href);
-            });
+        Promise.all(promises)
+            .then(() => {
+                zip.generateAsync({type: 'blob'})
+                    .then((content) => {
+                        const link = document.createElement('a');
+                        link.href = URL.createObjectURL(content);
+                        link.download = 'collective_data.zip';
+                        link.click();
 
+                        URL.revokeObjectURL(link.href);
+                    })
+                    .catch((e) => {
+                        console.error('Error generating zip file.', e);
+                    })
+            })
     }
 
     return (
