@@ -92,7 +92,7 @@ const Stats = () => {
                 setProjectData(projectItem);
 
                 const emotionsResponse = await axios.get(GET_EMOTIONS_API.replace('{id}', reactionId));
-                const items = emotionsResponse.data.items.filter((item) => item.reactionId === ID);
+                const items = emotionsResponse.data.emotions.filter((item) => item.reactionId === ID);
 
                 const groupedAndSortedData = groupAndSortEmotionData(items);
 

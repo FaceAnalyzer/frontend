@@ -1,10 +1,13 @@
 import React from 'react';
 import {useTheme} from "@mui/material/styles";
-import {Box, CardHeader, Link, Typography} from "@mui/material";
-import {IconChevronRight, IconFlask, IconGraph, IconVideo} from "@tabler/icons";
+import {Box, Button, CardHeader, Link, Typography} from "@mui/material";
+import {IconChevronRight, IconDownload, IconFlask, IconGraph, IconVideo} from "@tabler/icons";
 import PropTypes from "prop-types";
 import {FolderOpen} from "@mui/icons-material";
 import {useNavigate} from "react-router-dom";
+import AnimateButton from "../extended/AnimateButton";
+import axios from "axios";
+import {GET_EXPORT_EXPERIMENT} from "../../endpoints/BackendEndpoints";
 
 // ===========================|| CHART HEADER ||=========================== //
 
@@ -33,6 +36,24 @@ const CollectiveChartHeader = ({
 
     const navigateToStimuli = () => {
         navigate(`/stimuli/${stimuliId}`);
+    }
+
+    const downloadCollectiveCSV = () => {
+        console.log("clicked dl button");
+        axios.get(GET_EXPORT_EXPERIMENT.replace('{id}', experimentId), {responseType: "blob"})
+            .then((response) => {
+                const href = URL.createObjectURL(response.data);
+
+                const link = document.createElement('a');
+                link.href = href;
+                link.setAttribute('download', 'CollectiveData.zip');
+                document.body.appendChild(link);
+                link.click();
+
+                document.body.removeChild(link);
+                URL.revokeObjectURL(href);
+            });
+
     }
 
     return (
@@ -80,16 +101,31 @@ const CollectiveChartHeader = ({
                     }
                 />
             </Box>
-            <Box sx={{display: 'flex', alignItems: 'center'}}>
-                <IconGraph/>
-                <CardHeader title={
-                    <Typography sx={{
-                        fontSize: '1.5rem',
-                        fontWeight: 500
-                    }}>
-                        {stimuliData.name}
-                    </Typography>
-                }/>
+            <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
+                <Box sx={{display: 'flex', alignItems: 'center'}}>
+                    <IconGraph/>
+                    <CardHeader title={
+                        <Typography sx={{
+                            fontSize: '1.5rem',
+                            fontWeight: 500
+                        }}>
+                            {stimuliData.name}
+                        </Typography>
+                    }/>
+                </Box>
+                <Box>
+                    <AnimateButton>
+                        <Button
+                            id={"button-export-csv"}
+                            sx={{color: theme.palette.secondary}}
+                            variant={'contained'}
+                            disableElevation
+                            onClick={downloadCollectiveCSV}
+                        >
+                            <IconDownload/> Export Collective CSV
+                        </Button>
+                    </AnimateButton>
+                </Box>
             </Box>
         </Box>
     );

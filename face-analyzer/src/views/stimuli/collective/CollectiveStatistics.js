@@ -21,7 +21,7 @@ const CollectiveStatistics = () => {
     const groupByEmotionType = (data) => {
         const groupedData = {};
         data.forEach((item) => {
-            item.items.forEach((entry) => {
+            item.emotions.forEach((entry) => {
                 const { emotionType } = entry;
                 if (!groupedData[emotionType]) {
                     groupedData[emotionType] = [];
