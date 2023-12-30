@@ -3,6 +3,7 @@ import {Box, Card, CardHeader, Link, Typography} from "@mui/material";
 import {FolderOpen, Troubleshoot} from "@mui/icons-material";
 import {useTheme} from "@mui/material/styles";
 import {useNavigate} from "react-router-dom";
+import PropTypes from "prop-types";
 
 // ===========================|| PROJECT RESEARCHERS HEADER ||=========================== //
 
@@ -53,5 +54,9 @@ const ProjectResearcherHeader = ({data}) => {
         </Box>
     );
 };
+
+ProjectResearcherHeader.propTypes = {
+    data: PropTypes.object
+}
 
 export default ProjectResearcherHeader;

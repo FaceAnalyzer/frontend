@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 
 import {styled, useTheme} from '@mui/material/styles';
 import {Box, Button, FormHelperText, Grid, Typography} from '@mui/material';
@@ -11,6 +11,7 @@ import axios from "axios";
 import {DEFAULT_API_CONFIG, DELETE_REACTIONS_BY_ID_API} from "../../../endpoints/BackendEndpoints";
 import PropTypes from "prop-types";
 import {useNavigate} from "react-router-dom";
+import {PulseLoader} from "react-spinners";
 
 const CardWrapper = styled(MainCard)(({theme}) => ({
     backgroundColor: '#fff',
@@ -24,11 +25,14 @@ const DeleteReactionModal = ({modalData, closeModal}) => {
     const theme = useTheme();
     const navigate = useNavigate();
     const scriptedRef = useScriptRef();
+    const [loadingSpinner, setLoadingSpinner] = useState(false);
 
     const handleDelete = () => {
+        setLoadingSpinner(true);
         try{
             axios.delete(DELETE_REACTIONS_BY_ID_API.replace("{id}", modalData.reactionId), DEFAULT_API_CONFIG)
                 .then(response => {
+                    setLoadingSpinner(false);
                     if (response.status === 204) {
                         navigate(0);
                     }
@@ -41,6 +45,7 @@ const DeleteReactionModal = ({modalData, closeModal}) => {
         } catch(e) {
             console.error("Error deleting reaction:", e);
         }
+        setLoadingSpinner(false);
     };
 
     return (
@@ -97,6 +102,15 @@ const DeleteReactionModal = ({modalData, closeModal}) => {
 
                                         </ModalBody>
                                         <ModalFooter>
+                                            {loadingSpinner && (
+                                                <div className={"loading-spinner"} style={{marginRight: "10px"}}>
+                                                    <PulseLoader
+                                                        color={theme.palette.secondary.dark}
+                                                        size={15}
+                                                        speedMultiplier={0.8}
+                                                    />
+                                                </div>
+                                            )}
                                             <AnimateButton>
                                                 <Button
                                                     id={"button-yes"}

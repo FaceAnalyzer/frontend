@@ -121,7 +121,8 @@ const AddNoteCard = ({isLoading, experimentId}) => {
 };
 
 AddNoteCard.propTypes = {
-    isLoading: PropTypes.bool
+    isLoading: PropTypes.bool,
+    experimentId: PropTypes.number
 };
 
 export default AddNoteCard;

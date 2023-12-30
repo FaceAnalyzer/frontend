@@ -2,7 +2,8 @@ name: Build and Deploy
 
 on:
   push:
-    branches: [ "development", "cicd" ]
+    # branches: [ "development", "cicd" ]
+    branches: [ "cicd" ]
 
 jobs:
   build:

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 
 import {styled, useTheme} from '@mui/material/styles';
 import {Box, Button, FormControl, FormHelperText, Grid, OutlinedInput, Typography} from '@mui/material';
@@ -12,6 +12,8 @@ import {Modal, ModalBody, ModalContent, ModalFooter, ModalOverlay} from "../../M
 import AnimateButton from "../../../extended/AnimateButton";
 import {useAuth} from "../../../../context/authContext";
 import {useNavigate} from "react-router-dom";
+import {PulseLoader} from "react-spinners";
+import PropTypes from "prop-types";
 
 const CardWrapper = styled(MainCard)(({theme}) => ({
     backgroundColor: '#fff',
@@ -28,14 +30,17 @@ const AddNoteModal = ({showModal, closeModal, experimentId}) => {
     const navigate = useNavigate();
     const scriptedRef = useScriptRef();
     const {user} = useAuth();
+    const [loadingSpinner, setLoadingSpinner] = useState(false);
 
     const handleSave = async (values, {setErrors, setStatus}) => {
+        setLoadingSpinner(true);
         try {
             console.log("user", user);
             values.experimentId = experimentId;
             values.creatorId = user.id;
             axios.post(ADD_NOTE_API, JSON.stringify(values), DEFAULT_API_CONFIG)
                 .then(response => {
+                    setLoadingSpinner(false);
                     if (response.status === 201) {
                         navigate(0);
                     } else {
@@ -50,6 +55,7 @@ const AddNoteModal = ({showModal, closeModal, experimentId}) => {
             setErrors({submit: err.message});
             setStatus({success: false});
         }
+        setLoadingSpinner(false);
     };
 
 
@@ -127,6 +133,15 @@ const AddNoteModal = ({showModal, closeModal, experimentId}) => {
 
                                         </ModalBody>
                                         <ModalFooter>
+                                            {loadingSpinner && (
+                                                <div className={"loading-spinner"} style={{marginRight: "10px"}}>
+                                                    <PulseLoader
+                                                        color={theme.palette.secondary.dark}
+                                                        size={15}
+                                                        speedMultiplier={0.8}
+                                                    />
+                                                </div>
+                                            )}
                                             <AnimateButton>
                                                 <Button
                                                     id={"button-save"}
@@ -167,6 +182,12 @@ const AddNoteModal = ({showModal, closeModal, experimentId}) => {
             )}
         </CardWrapper>
     );
+};
+
+AddNoteModal.propTypes = {
+    showModal: PropTypes.bool,
+    closeModal: PropTypes.func,
+    experimentId: PropTypes.number
 };
 
 export default AddNoteModal;

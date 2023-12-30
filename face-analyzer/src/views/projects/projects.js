@@ -22,7 +22,7 @@ const Projects = () => {
             try {
                 const response = await axios.get(GET_PROJECTS_API);
                 const {items} = response.data;
-                setProjectList(items);
+                setProjectList(items.reverse()); //reverse so newest projects are shown first
 
                 setLoading(false);
             } catch (error) {

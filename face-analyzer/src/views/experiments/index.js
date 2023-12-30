@@ -40,7 +40,7 @@ const Experiment = () => {
         });
 
         const stimuliItems = stimuliResponse.data.items.filter((item) => item.experimentId === ID);
-        setStimuliList(stimuliItems);
+        setStimuliList(stimuliItems.reverse()); //reverse so newest stimuli are shown first
 
         setLoading(false);
       } catch (error) {

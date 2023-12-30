@@ -9,6 +9,7 @@ import {FolderOpen} from "@mui/icons-material";
 import {useNavigate} from "react-router-dom";
 import axios from "axios";
 import {GET_EXPORT_EXPERIMENT} from "../../endpoints/BackendEndpoints";
+import PropTypes from "prop-types";
 
 // ===========================|| EXPERIMENT HEADER ||=========================== //
 
@@ -17,15 +18,12 @@ const ExperimentHeader = ({data, projectData}) => {
     const navigate = useNavigate();
     const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
     const projectId = data.projectId;
-    console.log(projectId);
 
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [showEditModal, setShowEditModal] = useState(false);
 
     const experiment = data;
     const project = projectData;
-
-    console.log("PROJ", project)
 
     const openDeleteModal = () => {
         setShowDeleteModal(true);
@@ -182,5 +180,10 @@ const ExperimentHeader = ({data, projectData}) => {
         </Box>
     );
 };
+
+ExperimentHeader.propTypes = {
+    projectData: PropTypes.object,
+    data: PropTypes.object
+}
 
 export default ExperimentHeader;

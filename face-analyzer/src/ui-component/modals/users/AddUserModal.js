@@ -8,19 +8,21 @@ import {
     Button,
     FormControl,
     FormHelperText,
-    Grid,
+    Grid, IconButton, InputAdornment,
     InputLabel,
     OutlinedInput,
     Select,
     Typography
 } from "@mui/material";
 import AnimateButton from "../../extended/AnimateButton";
-import React from "react";
+import React, {useState} from "react";
 import MainCard from "../../cards/MainCard";
 import {ADD_USERS_API} from "../../../endpoints/BackendEndpoints";
 import axios from "axios";
 import PropTypes from "prop-types";
 import {useNavigate} from "react-router-dom";
+import {Visibility, VisibilityOff} from "@mui/icons-material";
+import {PulseLoader} from "react-spinners";
 
 const CardWrapper = styled(MainCard)(({ theme }) => ({
     backgroundColor: '#fff',
@@ -35,12 +37,18 @@ const AddUserModal = ({showModal, closeModal, existingEmails, existingUsernames}
     const theme = useTheme();
     const navigate = useNavigate();
     const scriptedRef = useScriptRef();
-    const phoneRegExp = /^((\+[1-9]{1,4}[ -]*)|(\([0-9]{2,3}\)[ -]*)|([0-9]{2,4})[ -]*)*?[0-9]{3,4}?[ -]*[0-9]{3,4}?$/
+    const [showPassword, setShowPassword] = useState(false);
+    const [loadingSpinner, setLoadingSpinner] = useState(false);
+
+    //const phoneRegExp = /^((\+[1-9]{1,4}[ -]*)|(\([0-9]{2,3}\)[ -]*)|([0-9]{2,4})[ -]*)*?[0-9]{3,4}?[ -]*[0-9]{3,4}?$/
+    const phoneRegExp = /^[\d\s().\-+]+$/
 
     const handleSave = async (values, {setErrors, setStatus}) => {
+        setLoadingSpinner(true);
         try {
             axios.post(ADD_USERS_API, JSON.stringify(values))
                 .then(response => {
+                    setLoadingSpinner(false);
                     if (response.status === 201) {
                         // Refresh the page after a successful submission
                         navigate(0);
@@ -60,6 +68,15 @@ const AddUserModal = ({showModal, closeModal, existingEmails, existingUsernames}
             setErrors({submit: err.message});
             setStatus({success: false});
         }
+        setLoadingSpinner(false);
+    };
+
+    const handleClickShowPassword = () => {
+        setShowPassword(!showPassword);
+    };
+
+    const handleMouseDownPassword = (event) => {
+        event.preventDefault();
     };
 
     return (
@@ -181,10 +198,32 @@ const AddUserModal = ({showModal, closeModal, existingEmails, existingUsernames}
                                                 <InputLabel htmlFor="password">Password</InputLabel>
                                                 <OutlinedInput
                                                     id="password"
-                                                    type="password"
+                                                    type={showPassword ? 'text' : 'password'}
                                                     name="password"
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
+                                                    endAdornment={
+                                                        <InputAdornment position="end">
+                                                            <IconButton aria-label="toggle password visibility" onClick={handleClickShowPassword} onMouseDown={handleMouseDownPassword} edge="end">
+                                                                {showPassword ? <Visibility /> : <VisibilityOff />}
+                                                            </IconButton>
+                                                        </InputAdornment>
+                                                    }
+                                                    inputprops={{
+                                                        endAdornment: (
+                                                            <InputAdornment position="end">
+                                                                <IconButton
+                                                                    aria-label="toggle password visibility"
+                                                                    onClick={handleClickShowPassword}
+                                                                    onMouseDown={handleMouseDownPassword}
+                                                                    edge="end"
+                                                                    size='large'
+                                                                >
+                                                                    {showPassword ? <Visibility /> : <VisibilityOff />}
+                                                                </IconButton>
+                                                            </InputAdornment>
+                                                        )
+                                                    }}
                                                 />
                                                 {touched.password && errors.password && (
                                                     <FormHelperText error id="passwordHandler">
@@ -210,7 +249,7 @@ const AddUserModal = ({showModal, closeModal, existingEmails, existingUsernames}
                                             </FormControl>
 
                                             <FormControl fullWidth error={Boolean(touched.contactNumber && errors.contactNumber)} sx={{ ...theme.typography.customInput }}>
-                                                <InputLabel htmlFor="contactNumber">Contact</InputLabel>
+                                                <InputLabel htmlFor="contactNumber">Phone number</InputLabel>
                                                 <OutlinedInput
                                                     id="contactNumber"
                                                     type="text"
@@ -257,6 +296,15 @@ const AddUserModal = ({showModal, closeModal, existingEmails, existingUsernames}
 
                                         </ModalBody>
                                         <ModalFooter>
+                                            {loadingSpinner && (
+                                                <div className={"loading-spinner"} style={{marginRight: "10px"}}>
+                                                    <PulseLoader
+                                                        color={theme.palette.secondary.dark}
+                                                        size={15}
+                                                        speedMultiplier={0.8}
+                                                    />
+                                                </div>
+                                            )}
                                             <AnimateButton>
                                                 <Button
                                                     id={"button-save"}

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 
 import {styled, useTheme} from '@mui/material/styles';
 import {Box, Button, FormControl, FormHelperText, Grid, InputLabel, OutlinedInput, Typography} from '@mui/material';
@@ -11,6 +11,8 @@ import {Modal, ModalBody, ModalContent, ModalFooter, ModalOverlay} from "../Moda
 import {DEFAULT_API_CONFIG, EDIT_PROJECT_API} from "../../../endpoints/BackendEndpoints";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
+import {PulseLoader} from "react-spinners";
+import PropTypes from "prop-types";
 
 const CardWrapper = styled(MainCard)(({theme}) => ({
     backgroundColor: '#fff',
@@ -26,17 +28,21 @@ const EditProjectModal = ({showModal, closeModal, initialValues}) => {
     const theme = useTheme();
     const navigate = useNavigate();
     const scriptedRef = useScriptRef();
+    const [loadingSpinner, setLoadingSpinner] = useState(false);
+
     const projectId = initialValues.id;
     const project = {
         name: initialValues.name
     };
 
     const handleUpdate = async (values, {setErrors, setStatus}) => {
+        setLoadingSpinner(true);
         try {
             console.log(JSON.stringify(values));
             console.log(projectId);
             axios.put(EDIT_PROJECT_API.replace("{id}", projectId), JSON.stringify(values), DEFAULT_API_CONFIG)
                 .then(response => {
+                    setLoadingSpinner(false);
                     if (response.status === 200) {
                         navigate(0);
                     } else {
@@ -49,9 +55,8 @@ const EditProjectModal = ({showModal, closeModal, initialValues}) => {
             console.error(err);
             setErrors({submit: err.message});
             setStatus({success: false});
-        } finally {
-            // setSubmitting(false);
         }
+        setLoadingSpinner(false);
     };
 
 
@@ -125,6 +130,15 @@ const EditProjectModal = ({showModal, closeModal, initialValues}) => {
 
                                         </ModalBody>
                                         <ModalFooter>
+                                            {loadingSpinner && (
+                                                <div className={"loading-spinner"} style={{marginRight: "10px"}}>
+                                                    <PulseLoader
+                                                        color={theme.palette.secondary.dark}
+                                                        size={15}
+                                                        speedMultiplier={0.8}
+                                                    />
+                                                </div>
+                                            )}
                                             <AnimateButton>
                                                 <Button
                                                     id={"button-update"}
@@ -165,6 +179,12 @@ const EditProjectModal = ({showModal, closeModal, initialValues}) => {
             )}
         </CardWrapper>
     );
+};
+
+EditProjectModal.propTypes = {
+    showModal: PropTypes.bool,
+    closeModal: PropTypes.func,
+    initialValues: PropTypes.object
 };
 
 export default EditProjectModal;

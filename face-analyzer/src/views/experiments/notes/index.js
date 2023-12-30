@@ -39,7 +39,7 @@ const Notes = () => {
 
                 const notesResponse = await axios.get(GET_NOTES_BY_EXPERIMENT_ID_API.replace("{id}", experimentId));
                 const {items} = notesResponse.data;
-                setNotesList(items);
+                setNotesList(items.reverse()); //reverse so newest notes are shown first
 
                 setLoading(false);
             } catch (error) {
