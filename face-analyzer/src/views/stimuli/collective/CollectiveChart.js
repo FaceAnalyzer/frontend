@@ -69,7 +69,6 @@ const CollectiveChart = ({ groupedSortedData }) => {
         if (groupedSortedData.length !== 0) {
             const tmpChartData = createChartData(groupedSortedData);
             setChartData(tmpChartData);
-            console.log(tmpChartData);
 
             const bucketedData = bucketData(tmpChartData, 100);
 
@@ -100,18 +99,20 @@ const CollectiveChart = ({ groupedSortedData }) => {
 
                 result["bucketKey"] = bucketKey;
 
+                //Clamp the values to the interval [0,1]
                 for(const emotion in bucketAverages){
+                    const stdDevMin = bucketAverages[emotion] - bucketStdDeviations[emotion];
+                    const stdDevMax = bucketAverages[emotion] + bucketStdDeviations[emotion];
+
                     result[`Average${emotion}`] = bucketAverages[emotion];
                     result[`stdDevRange${emotion}`] = [
-                        bucketAverages[emotion] - bucketStdDeviations[emotion],
-                        bucketAverages[emotion] + bucketStdDeviations[emotion]
+                        stdDevMin < 0 ? 0 : stdDevMin,
+                        stdDevMax > 1 ? 0 : stdDevMax
                     ]
                 }
 
                 return result;
             });
-
-            console.log("processed", processedData);
 
             setChartData(processedData);
 
@@ -133,14 +134,12 @@ const CollectiveChart = ({ groupedSortedData }) => {
 
     const CustomTooltip = ({ active, payload, label }) => {
         if (active && payload && payload.length) {
-            console.log("krivac", active, payload, label)
             const formattedTime = format(addMilliseconds(new Date(0), label), timeFormat)
             return (
                 <div style={tooltipStyle}>
                     <p style={{color: '#fff'}}>{`Time (mm:ss): ${formattedTime}`}</p>
                     {payload.map(
                         (entry) =>{
-                            console.log(entry.dataKey);
                             return entry.dataKey.startsWith("std") ? (
                                 <p key={`emotion-${entry.dataKey}`} style={{ color: entry.color, margin: 0 }}>
                                     <span
@@ -192,8 +191,9 @@ const CollectiveChart = ({ groupedSortedData }) => {
     return (
         <Grid container spacing={2}>
             <Grid item xs={12}>
-                <ResponsiveContainer height={600}>
+                <ResponsiveContainer  height={600} key={"responsiveContainer"}>
                     <ComposedChart
+                        key={"composedChart"}
                         data={chartData}
                         margin={{ top: 5, right: 30, left: 20, bottom: 20 }}
                     >
@@ -218,7 +218,7 @@ const CollectiveChart = ({ groupedSortedData }) => {
                         <Legend />
                         {Object.keys(groupedSortedData).map((emotion) => (
                             selectedLines[emotion] && (
-                                <>
+                                <React.Fragment key={emotion + "-fragment"}>
                                     <Area
                                         key={`${emotion}-area`}
                                         name={`${emotion} stddev`}
@@ -238,7 +238,7 @@ const CollectiveChart = ({ groupedSortedData }) => {
                                         strokeWidth={2}
                                         dot={false}
                                     />
-                                </>
+                                </React.Fragment>
                             )
                         ))}
                     </ComposedChart>

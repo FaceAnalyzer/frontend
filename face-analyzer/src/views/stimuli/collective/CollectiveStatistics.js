@@ -2,12 +2,21 @@ import React, {useEffect, useState} from "react";
 import {Grid} from "@mui/material";
 import {useParams} from "react-router";
 import axios from "axios";
-import {GET_EMOTIONS_API, GET_REACTIONS_API} from "../../../endpoints/BackendEndpoints";
-import ScatterChart from "./CollectiveChart";
+import {
+    GET_EMOTIONS_API,
+    GET_EXPERIMENT_BY_ID_API, GET_PROJECT_BY_ID_API,
+    GET_REACTIONS_API,
+    GET_STIMULI_BY_ID_API
+} from "../../../endpoints/BackendEndpoints";
+import CollectiveChart from "./CollectiveChart";
+import CollectiveChartHeader from "../../../ui-component/headers/CollectiveChartHeader";
 
 const CollectiveStatistics = () => {
     const {stimuliId} = useParams();
     const [reactionsData, setReactionsData] = useState([]);
+    const [stimuliData, setStimuliData] = useState({});
+    const [experimentData, setExperimentData] = useState({});
+    const [projectData, setProjectData] = useState({});
 
     const groupByEmotionType = (data) => {
         const groupedData = {};
@@ -28,8 +37,19 @@ const CollectiveStatistics = () => {
             try {
                 const ID = parseInt(stimuliId);
 
+                const stimuliResponse = await axios.get(GET_STIMULI_BY_ID_API.replace('{id}', ID.toString()));
+                const stimuliItem = stimuliResponse.data;
+                setStimuliData(stimuliItem);
+
+                const experimentResponse = await axios.get(GET_EXPERIMENT_BY_ID_API.replace('{id}', stimuliItem.experimentId));
+                const experimentItem = experimentResponse.data;
+                setExperimentData(experimentItem);
+
+                const projectResponse = await axios.get(GET_PROJECT_BY_ID_API.replace('{id}', experimentItem.projectId));
+                const projectItem = projectResponse.data;
+                setProjectData(projectItem);
+
                 const reactionsResponse = await axios.get(GET_REACTIONS_API);
-                console.log(reactionsResponse);
                 const items = reactionsResponse.data.items.filter((item) => item.stimuliId === ID);
 
                 const data = []
@@ -38,22 +58,14 @@ const CollectiveStatistics = () => {
                     data.push(emotions.data);
                 }
                 const groupedData = groupByEmotionType(data);
-                console.log("Data", data);
-                console.log("Grouped data", groupedData);
 
                 Object.keys(groupedData).forEach((emotion) => {
                     groupedData[emotion].sort((a, b) => a.timeOffset - b.timeOffset);
                 });
 
-                console.log("Sorted data", groupedData);
-
                 setReactionsData(groupedData);
-
-                //setLoading(false);
-
             } catch (error) {
                 console.error('Error fetching reactions list:', error);
-                //setLoading(false); // Set loading to false even in case of an error
             }
         };
 
@@ -63,7 +75,14 @@ const CollectiveStatistics = () => {
     return (
         <Grid container spacing={2}>
             <Grid item xs={12}>
-                <ScatterChart groupedSortedData={reactionsData}></ScatterChart>
+                <CollectiveChartHeader
+                             stimuliData={stimuliData}
+                             experimentData={experimentData}
+                             projectData={projectData}
+                />
+            </Grid>
+            <Grid item xs={12}>
+                <CollectiveChart groupedSortedData={reactionsData}></CollectiveChart>
             </Grid>
             <Grid item xs={12}>
                 {/* Other components or UI elements */}
