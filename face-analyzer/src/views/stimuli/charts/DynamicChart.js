@@ -1,10 +1,11 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import YouTube from "react-youtube";
 import { analysisInterval } from "../../reactions/VisageProcessing";
 import NewChart from "./NewChart";
 import {Grid} from "@mui/material";
+import Skeleton from "@mui/material/Skeleton";
 
-const DynamicChart = ({ stimuliData, groupedSortedData }) => {
+const DynamicChart = ({ isLoading, stimuliData, groupedSortedData }) => {
     const [videoTimeMs, setVideoTimeMs] = useState(0);
 
     let interval = null;
@@ -22,6 +23,12 @@ const DynamicChart = ({ stimuliData, groupedSortedData }) => {
         interval = null;
     }
 
+    useEffect(() => {
+        if(groupedSortedData instanceof Array){
+            groupedSortedData = {};
+        }
+    }, [groupedSortedData]);
+
     return(
         <Grid container spacing={2}>
             <Grid item xs={12}>
@@ -36,7 +43,13 @@ const DynamicChart = ({ stimuliData, groupedSortedData }) => {
                 />
             </Grid>
             <Grid item xs={12}>
-                <NewChart groupedSortedData={groupedSortedData} videoTimeMs={videoTimeMs}/>
+                {isLoading ? (
+                    <Skeleton animation={"wave"}>
+                        <NewChart groupedSortedData={groupedSortedData} videoTimeMs={videoTimeMs}/>
+                    </Skeleton>
+                ):(
+                    <NewChart groupedSortedData={groupedSortedData} videoTimeMs={videoTimeMs}/>
+                )}
             </Grid>
         </Grid>
     )

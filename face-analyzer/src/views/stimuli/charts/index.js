@@ -25,13 +25,14 @@ import DynamicChart from "./DynamicChart";
 const Stats = () => {
     // const theme = useTheme();
     const {reactionId} = useParams();
-    const [groupedSortedData, setGroupedSortedData] = useState([]);
+    const [groupedSortedData, setGroupedSortedData] = useState({});
     const [emotionsData, setEmotionsData] = useState({});
     const [reactionData, setReactionData] = useState({});
     const [stimuliData, setStimuliData] = useState({});
     const [experimentData, setExperimentData] = useState({});
     const [projectData, setProjectData] = useState({});
     const [reactionDuration, setReactionDuration] = useState(0);
+    const [isLoading, setIsLoading] = useState(true);
 
     const {user} = useAuth();
 
@@ -69,6 +70,7 @@ const Stats = () => {
         }
 
         const fetchData = async () => {
+
             try {
                 const ID = parseInt(reactionId);
 
@@ -102,6 +104,7 @@ const Stats = () => {
 
                 //Set reaction duration in seconds
                 setReactionDuration(groupedAndSortedData['Anger'][groupedAndSortedData['Anger'].length - 1].timeOffset / 1000);
+                setIsLoading(false);
 
             } catch (error) {
                 console.error('Error fetching reactions data:', error);
@@ -125,7 +128,7 @@ const Stats = () => {
             </Grid>
             {activeButton === 'overTime' && (
                 <Grid item lg={12} md={12} sm={12} xs={12}>
-                    <EmotionsOverTimeChart groupedSortedData={groupedSortedData}/>
+                    <EmotionsOverTimeChart isLoading={isLoading} groupedSortedData={groupedSortedData}/>
                 </Grid>
             )}
             {activeButton === 'distribution' && (
@@ -136,7 +139,7 @@ const Stats = () => {
                         </Typography>
                     </Grid>
                     <Grid item lg={7} md={12} sm={12} xs={12}>
-                        <BoxPlotChart boxPlotData={emotionsData}/>
+                        <BoxPlotChart isLoading={isLoading} boxPlotData={emotionsData}/>
                     </Grid>
                     <Grid item lg={5} md={12} sm={12} xs={12}>
                         <BoxPlotLegend/>
@@ -145,7 +148,7 @@ const Stats = () => {
             )}
             {activeButton === 'dynamic' && (
                 <Grid item lg={12} md={12} sm={12} xs={12}>
-                    <DynamicChart stimuliData={stimuliData} groupedSortedData={groupedSortedData}/>
+                    <DynamicChart isLoading={isLoading} stimuliData={stimuliData} groupedSortedData={groupedSortedData}/>
                 </Grid>
             )}
         </Grid>
