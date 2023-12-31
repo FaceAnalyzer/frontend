@@ -5,7 +5,16 @@ import { useDispatch, useSelector } from 'react-redux';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
-import { Avatar, Chip, ListItemButton, ListItemIcon, ListItemText, Typography, useMediaQuery } from '@mui/material';
+import {
+    Avatar,
+    Chip,
+    ListItemButton,
+    ListItemIcon,
+    ListItemText,
+    Tooltip,
+    Typography,
+    useMediaQuery
+} from '@mui/material';
 
 // project imports
 import { MENU_OPEN, SET_MENU } from 'store/actions';
@@ -83,9 +92,13 @@ const NavItem = ({ item, level }) => {
       <ListItemIcon sx={{ my: 'auto', minWidth: !item?.icon ? 18 : 36 }}>{itemIcon}</ListItemIcon>
       <ListItemText
         primary={
-          <Typography variant={customization.isOpen.findIndex((id) => id === item.id) > -1 ? 'h5' : 'body1'} color="inherit">
-            {item.title}
-          </Typography>
+          <Tooltip title={item.title} enterDelay={500}>
+              <Typography variant={customization.isOpen.findIndex((id) => id === item.id) > -1 ? 'h5' : 'body1'} color="inherit"
+                          sx={{textOverflow: 'ellipsis', overflow: 'hidden'}}
+              >
+                {item.title}
+              </Typography>
+          </Tooltip>
         }
       />
       {item.chip && (

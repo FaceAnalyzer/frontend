@@ -52,22 +52,47 @@ const ReactionsContent = ({stimuliId}) => {
             }
         };
 
-        fetchData();
+        fetchData().then();
     }, [stimuliId]);
 
     const showStats = (reactionId) => {
         navigate(`/reaction/${reactionId}/statistics`);
     }
 
+    const showCollectiveStats = () => {
+        navigate(`/stimuli/${stimuliId}/statistics`);
+    }
+
     return (
-        <MainCard title={
-            <Typography sx={{
-                fontSize: '1.5rem',
-                fontWeight: 500
-            }}>
-                Reactions
-            </Typography>
-        }>
+        <MainCard
+            title={
+                <Typography sx={{
+                    fontSize: '1.5rem',
+                    fontWeight: 500
+                }}>
+                    Reactions
+                </Typography>
+            }
+            secondary={
+                reactionsData && reactionsData.length > 0 && (
+                <AnimateButton >
+                    <Button
+                        id={"button-collective-stats"}
+                        disableElevation
+                        variant="contained"
+                        color="secondary"
+                        style={{marginRight: "15px"}}
+                        onClick={showCollectiveStats}
+                    >
+                        <IconGraph/>
+                        <Typography sx={{display: isSmallScreen ? 'none' : 'flex'}}>
+                            Collective Statistics
+                        </Typography>
+                    </Button>
+                </AnimateButton>
+                )
+            }
+        >
             <DeleteReactionModal modalData={modalData} closeModal={closeModal}></DeleteReactionModal>
             {reactionsData && reactionsData.map((reaction) => (
                 <Box key={reaction.id}
