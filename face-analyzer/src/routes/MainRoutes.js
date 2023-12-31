@@ -57,10 +57,6 @@ const MainRoutes = {
       element: <CollectiveStatistics/>
     },
     {
-      path: 'reaction/:reactionId',
-      element: <Analyzer />
-    },
-    {
       path: 'reaction/:reactionId/statistics',
       element: <Stats/>
     },
