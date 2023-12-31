@@ -23,7 +23,7 @@ const CardWrapper = styled(MainCard)(({theme}) => ({
     borderWidth: '1rem',
     overflow: 'hidden',
     position: 'relative',
-    height: '184.7px'
+    height: '100%'
 }));
 // ===========================|| NOTE CARD ||=========================== //
 
@@ -84,104 +84,110 @@ const NoteCard = ({isLoading, data}) => {
                                      closeModal={closeDeleteModal}
                                      data={note}/>
                     <Box sx={{p: 2.25}}>
-                        <Grid container direction="column">
+                        <Grid container justifyContent="space-between">
                             <Grid item sx={{mb: 1.25}}>
-                                <Grid container justifyContent="space-between">
-                                    <Grid item sx={{mb: 1.25}}>
-                                        <Typography
-                                            sx={{
-                                                fontSize: '1rem',
-                                                fontWeight: 500,
-                                                color: theme.palette.secondary[200]
-                                            }}
-                                        >
-                                            Note
-                                        </Typography>
-                                    </Grid>
-                                    <Grid item>
-                                        <Avatar
-                                            id={"menu-notes-card-" + note.id}
-                                            variant="rounded"
-                                            sx={{
-                                                ...theme.typography.commonAvatar,
-                                                ...theme.typography.mediumAvatar,
-                                                color: theme.palette.secondary[800],
-                                                backgroundColor: theme.palette.secondary[200],
-                                                zIndex: 1
-                                            }}
-                                            aria-controls="menu-note-card"
-                                            aria-haspopup="true"
-                                            onMouseDown={event => event.stopPropagation()}
-                                            onClick={event => {
-                                                event.stopPropagation();
-                                                event.preventDefault();
-                                                handleClick(event)
-                                                }
-                                            }
-                                        >
-                                            <MoreHorizIcon fontSize="inherit"/>
-                                        </Avatar>
-                                        <Menu
-                                            id="menu-note-card"
-                                            onMouseDown={event => event.stopPropagation()}
-                                            onClick={event => {
-                                                event.stopPropagation();
-                                                event.preventDefault();
-                                                }
-                                            }
-                                            anchorEl={anchorEl}
-                                            keepMounted
-                                            open={Boolean(anchorEl)}
-                                            onClose={handleClose}
-                                            variant="selectedMenu"
-                                            anchorOrigin={{
-                                                vertical: 'bottom',
-                                                horizontal: 'right'
-                                            }}
-                                            transformOrigin={{
-                                                vertical: 'top',
-                                                horizontal: 'right'
-                                            }}
-                                        >
-                                            <MenuItem
-                                                id={"button-show-note-" + note.id}
-                                                onMouseDown={event => event.stopPropagation()}
-                                                onClick={event => {
-                                                    event.stopPropagation();
-                                                    event.preventDefault();
-                                                    onShowClick()
-                                                    }
-                                                }
-                                            >
-                                                {(user.id === note.creatorId) ?
-                                                    (<><Edit sx={{mr: 1.75}}/> Edit</>) :
-                                                    (<><OpenInFull sx={{mr: 1.75}}/> View</>)}
-                                            </MenuItem>
-                                            <MenuItem
-                                                id={"button-delete-note-" + note.id}
-                                                onMouseDown={event => event.stopPropagation()}
-                                                onClick={event => {
-                                                    event.stopPropagation();
-                                                    event.preventDefault();
-                                                    onDeleteClick()
-                                                    }
-                                                }
-                                                sx={{color: 'red'}}
-                                            >
-                                                <DeleteForever sx={{mr: 1.75}}/> Delete
-                                            </MenuItem>
-                                        </Menu>
-                                    </Grid>
-                                </Grid>
+                                <Typography
+                                    sx={{
+                                        fontSize: '1rem',
+                                        fontWeight: 500,
+                                        color: theme.palette.secondary[200]
+                                    }}
+                                >
+                                    Note
+                                </Typography>
                             </Grid>
                             <Grid item>
-                                <Grid container alignItems="center">
-                                    {/*TODO fix displayed length - bugs up on smaller screens*/}
-                                    {note.description.length > 230 ? note.description.substring(0, 230) + "..." : note.description}
-                                </Grid>
+                                <Avatar
+                                    id={"menu-notes-card-" + note.id}
+                                    variant="rounded"
+                                    sx={{
+                                        ...theme.typography.commonAvatar,
+                                        ...theme.typography.mediumAvatar,
+                                        color: theme.palette.secondary[800],
+                                        backgroundColor: theme.palette.secondary[200],
+                                        zIndex: 1
+                                    }}
+                                    aria-controls="menu-note-card"
+                                    aria-haspopup="true"
+                                    onMouseDown={event => event.stopPropagation()}
+                                    onClick={event => {
+                                        event.stopPropagation();
+                                        event.preventDefault();
+                                        handleClick(event)
+                                    }
+                                    }
+                                >
+                                    <MoreHorizIcon fontSize="inherit"/>
+                                </Avatar>
+                                <Menu
+                                    id="menu-note-card"
+                                    onMouseDown={event => event.stopPropagation()}
+                                    onClick={event => {
+                                        event.stopPropagation();
+                                        event.preventDefault();
+                                    }
+                                    }
+                                    anchorEl={anchorEl}
+                                    keepMounted
+                                    open={Boolean(anchorEl)}
+                                    onClose={handleClose}
+                                    variant="selectedMenu"
+                                    anchorOrigin={{
+                                        vertical: 'bottom',
+                                        horizontal: 'right'
+                                    }}
+                                    transformOrigin={{
+                                        vertical: 'top',
+                                        horizontal: 'right'
+                                    }}
+                                >
+                                    <MenuItem
+                                        id={"button-show-note-" + note.id}
+                                        onMouseDown={event => event.stopPropagation()}
+                                        onClick={event => {
+                                            event.stopPropagation();
+                                            event.preventDefault();
+                                            onShowClick()
+                                        }
+                                        }
+                                    >
+                                        {(user.id === note.creatorId) ?
+                                            (<><Edit sx={{mr: 1.75}}/> Edit</>) :
+                                            (<><OpenInFull sx={{mr: 1.75}}/> View</>)}
+                                    </MenuItem>
+                                    <MenuItem
+                                        id={"button-delete-note-" + note.id}
+                                        onMouseDown={event => event.stopPropagation()}
+                                        onClick={event => {
+                                            event.stopPropagation();
+                                            event.preventDefault();
+                                            onDeleteClick()
+                                        }
+                                        }
+                                        sx={{color: 'red'}}
+                                    >
+                                        <DeleteForever sx={{mr: 1.75}}/> Delete
+                                    </MenuItem>
+                                </Menu>
                             </Grid>
-
                         </Grid>
+                        <Typography
+                            sx={{
+                                fontSize: '1rem',
+                                fontWeight: 500,
+                                mr: 1,
+                                mt: 1.75,
+                                mb: 0.75,
+                                overflow: 'hidden',
+                                wordWrap: 'break-word',
+                                textOverflow: 'ellipsis',
+                                display: '-webkit-box',
+                                WebkitBoxOrient: 'vertical',
+                                WebkitLineClamp: '3',
+                            }}
+                        >
+                            {note.description}
+                        </Typography>
                     </Box>
                 </CardWrapper>
             )}
