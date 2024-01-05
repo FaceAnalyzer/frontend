@@ -226,7 +226,7 @@ const CollectiveChart = ({ groupedSortedData }) => {
                                         dataKey={`stdDevRange${emotion}`}
                                         stroke="none"
                                         fill={emotionColor[emotion]}
-                                        fillOpacity={0.3}
+                                        fillOpacity={0.2}
                                         legendType={"none"}
                                     />
                                     <Line
