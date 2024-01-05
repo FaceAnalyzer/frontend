@@ -29,17 +29,18 @@ const DeleteNoteModal = ({showModal, closeModal, data}) => {
     const scriptedRef = useScriptRef();
     const deleteId = data.id;
     const [loadingSpinner, setLoadingSpinner] = useState(false);
+    const [disableSaveButton, setDisableSaveButton] = useState(false);
 
     const handleDelete = async (values, {setErrors, setStatus}) => {
-        setLoadingSpinner(true);
         try {
             axios.delete(DELETE_NOTE_API.replace("{id}", deleteId))
                 .then(response => {
-                    setLoadingSpinner(false);
                     if (response.status === 204) {
                         navigate(0);
                     } else {
                         const data = response.data;
+                        setLoadingSpinner(false);
+                        setDisableSaveButton(false);
                         setErrors(data.errors);
                         setStatus({success: false});
                     }
@@ -47,10 +48,11 @@ const DeleteNoteModal = ({showModal, closeModal, data}) => {
 
         } catch (err) {
             console.error(err);
+            setLoadingSpinner(false);
+            setDisableSaveButton(false);
             setErrors({submit: err.message});
             setStatus({success: false});
         }
-        setLoadingSpinner(false);
     };
 
 
@@ -64,6 +66,8 @@ const DeleteNoteModal = ({showModal, closeModal, data}) => {
                                 id: {deleteId},
                             }}
                             onSubmit={async (values, {setErrors, setStatus}) => {
+                                setDisableSaveButton(true);
+                                setLoadingSpinner(true);
                                 try {
                                     if (scriptedRef.current) {
                                         await handleDelete(values, {setErrors, setStatus});
@@ -71,6 +75,8 @@ const DeleteNoteModal = ({showModal, closeModal, data}) => {
                                     }
                                 } catch (err) {
                                     console.error(err);
+                                    setLoadingSpinner(false);
+                                    setDisableSaveButton(false);
                                     if (scriptedRef.current) {
                                         setStatus({success: false});
                                         setErrors({submit: err.message});
@@ -78,7 +84,7 @@ const DeleteNoteModal = ({showModal, closeModal, data}) => {
                                 }
                             }}>
 
-                            {({errors, handleSubmit, isSubmitting}) => (
+                            {({errors, handleSubmit}) => (
                                 <form noValidate onSubmit={handleSubmit}>
                                     <ModalContent>
                                         <ModalBody>
@@ -121,7 +127,7 @@ const DeleteNoteModal = ({showModal, closeModal, data}) => {
                                                 <Button
                                                     id={"button-yes"}
                                                     disableElevation
-                                                    disabled={isSubmitting}
+                                                    disabled={disableSaveButton}
                                                     fullWidth
                                                     size="medium"
                                                     type="submit"

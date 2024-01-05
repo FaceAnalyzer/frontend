@@ -35,16 +35,16 @@ const SaveReactionModal = ({showModal, closeModal, stimuliId}) => {
     const navigate = useNavigate();
     const scriptedRef = useScriptRef();
     const [loadingSpinner, setLoadingSpinner] = useState(false);
+    const [disableSaveButton, setDisableSaveButton] = useState(false);
 
     const handleSave = async (values) => {
-        setLoadingSpinner(true);
         try {
             await saveNewReaction(stimuliId, values);
-            setLoadingSpinner(false);
             navigate(0);
         }
         catch(result){
             setLoadingSpinner(false);
+            setDisableSaveButton(false);
             throw result;
         }
     };
@@ -65,14 +65,17 @@ const SaveReactionModal = ({showModal, closeModal, stimuliId}) => {
                             })}
 
                             onSubmit={async (values, { setErrors, setStatus }) => {
+                                setDisableSaveButton(true);
+                                setLoadingSpinner(true);
                                 try {
-                                    console.log("OVDJE SAM")
                                     if (scriptedRef.current) {
                                         await handleSave(values);
                                         setStatus({ success: true });
                                     }
                                 } catch (err) {
                                     console.error(err);
+                                    setLoadingSpinner(false);
+                                    setDisableSaveButton(false);
                                     if (scriptedRef.current) {
                                         setStatus({ success: false });
                                         setErrors({ submit: err.message });
@@ -80,7 +83,7 @@ const SaveReactionModal = ({showModal, closeModal, stimuliId}) => {
                                 }
                             }}>
 
-                            {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched /*, values*/}) => (
+                            {({ errors, handleBlur, handleChange, handleSubmit, touched /*, values*/}) => (
                                 <form noValidate onSubmit={handleSubmit}>
                                     <ModalContent>
                                         <ModalBody>
@@ -157,7 +160,7 @@ const SaveReactionModal = ({showModal, closeModal, stimuliId}) => {
                                                 <Button
                                                     id={"button-save"}
                                                     disableElevation
-                                                    disabled={isSubmitting}
+                                                    disabled={disableSaveButton}
                                                     fullWidth
                                                     size="medium"
                                                     type="submit"
