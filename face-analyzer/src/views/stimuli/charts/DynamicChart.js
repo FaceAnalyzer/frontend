@@ -7,6 +7,8 @@ import Skeleton from "@mui/material/Skeleton";
 
 const DynamicChart = ({ isLoading, stimuliData, groupedSortedData }) => {
     const [videoTimeMs, setVideoTimeMs] = useState(0);
+    const [timestamp, setTimestamp] = useState(0);
+    const [youtubePlayer, setYoutubePlayer] = useState(null);
 
     let interval = null;
 
@@ -23,11 +25,21 @@ const DynamicChart = ({ isLoading, stimuliData, groupedSortedData }) => {
         interval = null;
     }
 
+    const handlerOnReady = (event) => {
+        setYoutubePlayer(event.target);
+    }
+
     useEffect(() => {
         if(groupedSortedData instanceof Array){
             groupedSortedData = {};
         }
     }, [groupedSortedData]);
+
+    useEffect(() => {
+        if(youtubePlayer){
+            youtubePlayer.seekTo(timestamp/1000);
+        }
+    }, [timestamp]);
 
     return(
         <Grid container spacing={2}>
@@ -40,6 +52,7 @@ const DynamicChart = ({ isLoading, stimuliData, groupedSortedData }) => {
                     onPlay={handlerOnPlay}
                     onPause={handlerOnPause}
                     onEnd={handlerOnPause}
+                    onReady={handlerOnReady}
                 />
             </Grid>
             <Grid item xs={12}>
@@ -48,7 +61,7 @@ const DynamicChart = ({ isLoading, stimuliData, groupedSortedData }) => {
                         <NewChart groupedSortedData={groupedSortedData} videoTimeMs={videoTimeMs}/>
                     </Skeleton>
                 ):(
-                    <NewChart groupedSortedData={groupedSortedData} videoTimeMs={videoTimeMs}/>
+                    <NewChart groupedSortedData={groupedSortedData} videoTimeMs={videoTimeMs} setTimestamp={setTimestamp}/>
                 )}
             </Grid>
         </Grid>
