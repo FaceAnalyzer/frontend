@@ -31,20 +31,20 @@ const AddNoteModal = ({showModal, closeModal, experimentId}) => {
     const scriptedRef = useScriptRef();
     const {user} = useAuth();
     const [loadingSpinner, setLoadingSpinner] = useState(false);
+    const [disableSaveButton, setDisableSaveButton] = useState(false);
 
     const handleSave = async (values, {setErrors, setStatus}) => {
-        setLoadingSpinner(true);
         try {
-            console.log("user", user);
             values.experimentId = experimentId;
             values.creatorId = user.id;
             axios.post(ADD_NOTE_API, JSON.stringify(values), DEFAULT_API_CONFIG)
                 .then(response => {
-                    setLoadingSpinner(false);
                     if (response.status === 201) {
                         navigate(0);
                     } else {
                         const data = response.data;
+                        setLoadingSpinner(false);
+                        setDisableSaveButton(false);
                         setErrors(data.errors);
                         setStatus({success: false});
                     }
@@ -52,10 +52,11 @@ const AddNoteModal = ({showModal, closeModal, experimentId}) => {
 
         } catch (err) {
             console.error(err);
+            setLoadingSpinner(false);
+            setDisableSaveButton(false);
             setErrors({submit: err.message});
             setStatus({success: false});
         }
-        setLoadingSpinner(false);
     };
 
 
@@ -74,6 +75,8 @@ const AddNoteModal = ({showModal, closeModal, experimentId}) => {
                             })}
 
                             onSubmit={async (values, {setErrors, setStatus}) => {
+                                setDisableSaveButton(true);
+                                setLoadingSpinner(true);
                                 try {
                                     if (scriptedRef.current) {
                                         await handleSave(values, {setErrors, setStatus});
@@ -81,6 +84,8 @@ const AddNoteModal = ({showModal, closeModal, experimentId}) => {
                                     }
                                 } catch (err) {
                                     console.error(err);
+                                    setLoadingSpinner(false);
+                                    setDisableSaveButton(false);
                                     if (scriptedRef.current) {
                                         setStatus({success: false});
                                         setErrors({submit: err.message});
@@ -88,7 +93,7 @@ const AddNoteModal = ({showModal, closeModal, experimentId}) => {
                                 }
                             }}>
 
-                            {({errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched}) => (
+                            {({errors, handleBlur, handleChange, handleSubmit, touched}) => (
                                 <form noValidate onSubmit={handleSubmit}>
                                     <ModalContent>
                                         <ModalBody>
@@ -146,7 +151,7 @@ const AddNoteModal = ({showModal, closeModal, experimentId}) => {
                                                 <Button
                                                     id={"button-save"}
                                                     disableElevation
-                                                    disabled={isSubmitting}
+                                                    disabled={disableSaveButton}
                                                     fullWidth
                                                     size="medium"
                                                     type="submit"

@@ -29,6 +29,7 @@ const EditExperimentModal = ({showModal, closeModal, initialValues}) => {
     const navigate = useNavigate();
     const scriptedRef = useScriptRef();
     const [loadingSpinner, setLoadingSpinner] = useState(false);
+    const [disableSaveButton, setDisableSaveButton] = useState(false);
 
     const experimentId = initialValues.id;
     const experiment = {
@@ -38,16 +39,15 @@ const EditExperimentModal = ({showModal, closeModal, initialValues}) => {
     };
 
     const handleUpdate = async (values, {setErrors, setStatus}) => {
-        setLoadingSpinner(true);
         try {
-            console.log(JSON.stringify(values));
             axios.put(EDIT_EXPERIMENT_API + '/' + experimentId, JSON.stringify(values), DEFAULT_API_CONFIG)
                     .then(response => {
-                        setLoadingSpinner(false);
                         if (response.status === 200) {
                             navigate(0);
                         } else {
                             const data = response.data;
+                            setLoadingSpinner(false);
+                            setDisableSaveButton(false);
                             setErrors(data.errors);
                             setStatus({success: false});
                         }
@@ -55,10 +55,11 @@ const EditExperimentModal = ({showModal, closeModal, initialValues}) => {
 
         } catch (err) {
             console.error(err);
+            setLoadingSpinner(false);
+            setDisableSaveButton(false);
             setErrors({submit: err.message});
             setStatus({success: false});
         }
-        setLoadingSpinner(false);
     };
 
 
@@ -75,6 +76,8 @@ const EditExperimentModal = ({showModal, closeModal, initialValues}) => {
                                         })}
 
                                         onSubmit={async (values, { setErrors, setStatus }) => {
+                                            setDisableSaveButton(true);
+                                            setLoadingSpinner(true);
                                             try {
                                                 if (scriptedRef.current) {
                                                     await handleUpdate(values, {setErrors, setStatus});
@@ -82,6 +85,8 @@ const EditExperimentModal = ({showModal, closeModal, initialValues}) => {
                                                 }
                                             } catch (err) {
                                                 console.error(err);
+                                                setLoadingSpinner(false);
+                                                setDisableSaveButton(false);
                                                 if (scriptedRef.current) {
                                                     setStatus({ success: false });
                                                     setErrors({ submit: err.message });
@@ -89,7 +94,7 @@ const EditExperimentModal = ({showModal, closeModal, initialValues}) => {
                                             }
                                         }}>
 
-                                    {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched }) => (
+                                    {({ errors, handleBlur, handleChange, handleSubmit, touched }) => (
                                             <form noValidate onSubmit={handleSubmit}>
                                 <ModalContent>
                                     <ModalBody>
@@ -157,7 +162,7 @@ const EditExperimentModal = ({showModal, closeModal, initialValues}) => {
                                             <Button
                                                 id={"button-update"}
                                                     disableElevation
-                                                    disabled={isSubmitting}
+                                                    disabled={disableSaveButton}
                                                     fullWidth
                                                     size="medium"
                                                     type="submit"

@@ -34,14 +34,16 @@ const EditNoteModal = ({showModal, closeModal, note}) => {
     console.log("nd", note);
     const {user} = useAuth();
     const [loadingSpinner, setLoadingSpinner] = useState(false);
+    const [disableSaveButton, setDisableSaveButton] = useState(false);
 
     const handleSave = async (values, {setErrors, setStatus}) => {
-        setLoadingSpinner(true);
         try {
             values.creatorId = note.creatorId;
             values.experimentId = note.experimentId;
             if (note.creatorId !== user.id) {
                 setErrors("Cannot edit the note you haven't created");
+                setLoadingSpinner(false);
+                setDisableSaveButton(false);
                 setStatus({success: false});
                 setLoadingSpinner(false);
                 return;
@@ -53,6 +55,8 @@ const EditNoteModal = ({showModal, closeModal, note}) => {
                         navigate(0);
                     } else {
                         const data = response.data;
+                        setLoadingSpinner(false);
+                        setDisableSaveButton(false);
                         setErrors(data.errors);
                         setStatus({success: false});
                     }
@@ -60,10 +64,11 @@ const EditNoteModal = ({showModal, closeModal, note}) => {
 
         } catch (err) {
             console.error(err);
+            setLoadingSpinner(false);
+            setDisableSaveButton(false);
             setErrors({submit: err.message});
             setStatus({success: false});
         }
-        setLoadingSpinner(false);
     };
 
 
@@ -82,6 +87,8 @@ const EditNoteModal = ({showModal, closeModal, note}) => {
                             })}
 
                             onSubmit={async (values, {setErrors, setStatus}) => {
+                                setDisableSaveButton(true);
+                                setLoadingSpinner(true);
                                 try {
                                     if (scriptedRef.current) {
                                         await handleSave(values, {setErrors, setStatus});
@@ -89,6 +96,8 @@ const EditNoteModal = ({showModal, closeModal, note}) => {
                                     }
                                 } catch (err) {
                                     console.error(err);
+                                    setLoadingSpinner(false);
+                                    setDisableSaveButton(false);
                                     if (scriptedRef.current) {
                                         setStatus({success: false});
                                         setErrors({submit: err.message});
@@ -96,7 +105,7 @@ const EditNoteModal = ({showModal, closeModal, note}) => {
                                 }
                             }}>
 
-                            {({errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched}) => (
+                            {({errors, handleBlur, handleChange, handleSubmit, touched}) => (
                                 <form noValidate onSubmit={handleSubmit}>
                                     <ModalContent>
                                         <ModalBody>
@@ -156,7 +165,7 @@ const EditNoteModal = ({showModal, closeModal, note}) => {
                                                 <Button
                                                     id={"button-save"}
                                                     disableElevation
-                                                    disabled={isSubmitting}
+                                                    disabled={disableSaveButton}
                                                     sx={{display: user.id === note.creatorId ? "" : "none"}}
                                                     fullWidth
                                                     size="medium"

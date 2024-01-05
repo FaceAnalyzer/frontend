@@ -29,17 +29,18 @@ const AddStimuliModal = ({showModal, closeModal, experimentId}) => {
     const navigate = useNavigate();
     const scriptedRef = useScriptRef();
     const [loadingSpinner, setLoadingSpinner] = useState(false);
+    const [disableSaveButton, setDisableSaveButton] = useState(false);
 
     const handleSave = async (values, {setErrors, setStatus}) => {
-        setLoadingSpinner(true);
         try {
             axios.post(ADD_STIMULI_API, JSON.stringify(values), DEFAULT_API_CONFIG)
                     .then(response => {
-                        setLoadingSpinner(false);
                         if (response.status === 201) {
                             navigate(0);
                         } else {
                             const data = response.data;
+                            setLoadingSpinner(false);
+                            setDisableSaveButton(false);
                             setErrors(data.errors);
                             setStatus({success: false});
                         }
@@ -47,10 +48,11 @@ const AddStimuliModal = ({showModal, closeModal, experimentId}) => {
 
         } catch (err) {
             console.error(err);
+            setLoadingSpinner(false);
+            setDisableSaveButton(false);
             setErrors({submit: err.message});
             setStatus({success: false});
         }
-        setLoadingSpinner(false);
     };
 
 
@@ -74,6 +76,8 @@ const AddStimuliModal = ({showModal, closeModal, experimentId}) => {
                                         })}
 
                                         onSubmit={async (values, { setErrors, setStatus }) => {
+                                            setDisableSaveButton(true);
+                                            setLoadingSpinner(true);
                                             try {
                                                 if (scriptedRef.current) {
                                                     await handleSave(values, {setErrors, setStatus});
@@ -81,6 +85,8 @@ const AddStimuliModal = ({showModal, closeModal, experimentId}) => {
                                                 }
                                             } catch (err) {
                                                 console.error(err);
+                                                setLoadingSpinner(false);
+                                                setDisableSaveButton(false);
                                                 if (scriptedRef.current) {
                                                     setStatus({ success: false });
                                                     setErrors({ submit: err.message });
@@ -88,7 +94,7 @@ const AddStimuliModal = ({showModal, closeModal, experimentId}) => {
                                             }
                                         }}>
 
-                                    {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched }) => (
+                                    {({ errors, handleBlur, handleChange, handleSubmit, touched }) => (
                                             <form noValidate onSubmit={handleSubmit}>
                                 <ModalContent>
                                     <ModalBody>
@@ -170,7 +176,7 @@ const AddStimuliModal = ({showModal, closeModal, experimentId}) => {
                                             <Button
                                                 id={"button-save"}
                                                 disableElevation
-                                                disabled={isSubmitting}
+                                                disabled={disableSaveButton}
                                                 fullWidth
                                                 size="medium"
                                                 type="submit"
