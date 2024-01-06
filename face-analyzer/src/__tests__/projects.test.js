@@ -1,31 +1,12 @@
 import React from "react";
 import Projects from "../views/projects/projects";
 import {render} from "@testing-library/react";
-import AuthProvider from "../context/authContext";
-import {BrowserRouter} from "react-router-dom";
+
+
+jest.mock('../context/authContext');
 
 test('should redirect from projects to login on anon user', () => {
-    jest.mock('../context/authContext', () => ({
-        useAuth: () => {
-            return {
-                user: undefined,
-                token: undefined
-            }
-        }
-    }));
-
-    const {getByText} = render(
-        <Projects/>,
-        {
-            wrapper: ({children}) => (
-                <BrowserRouter>
-                    <AuthProvider>
-                        {children}
-                    </AuthProvider>
-                </BrowserRouter>
-            )
-        }
-    );
+    const {getByText} = render(<Projects/>);
 
     const loginText = getByText(/enter your credentials to continue/i);
     expect(loginText).toBeInTheDocument();
