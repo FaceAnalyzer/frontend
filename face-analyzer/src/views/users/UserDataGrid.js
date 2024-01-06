@@ -1,7 +1,8 @@
 import React, {useState} from 'react';
 import {Button, Paper} from "@mui/material";
 import {DataGrid} from "@mui/x-data-grid";
-import LinearProgress from "@mui/material/LinearProgress";
+import Skeleton from "@mui/material/Skeleton";
+import CircularProgress from "@mui/material/CircularProgress";
 import clsx from "clsx";
 import DeleteUserModal from "../../ui-component/modals/users/DeleteUserModal";
 import EditUserModal from "../../ui-component/modals/users/EditUserModal";
@@ -97,6 +98,10 @@ const UserDataGrid = ({isLoading, userList, existingEmails, existingUsernames}) 
             }}
     ]
 
+    const skeletonRows = Array.from({ length: 5 }).map((_, index) => (
+        <Skeleton key={index} height={50} animation="wave" />
+    ));
+
     return (
         <>
             <DeleteUserModal closeModal={closeDeleteModal}
@@ -117,10 +122,15 @@ const UserDataGrid = ({isLoading, userList, existingEmails, existingUsernames}) 
                        '& .super-app.researcher': {
                            color: 'rgb(82,210,20)',
                            fontWeight: 'bold'
-                       }
+                       },
+                       position: 'relative'
                    }}
             >
-                <DataGrid rows={userList} columns={columns} loading={isLoading} slots={{loadingOverlay: LinearProgress}} />
+                {isLoading ? (
+                    skeletonRows
+                ) : (
+                    <DataGrid rows={userList} columns={columns} loading={isLoading} />
+                )}
             </Paper>
         </>
     );
