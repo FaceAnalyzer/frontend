@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import {Button, Paper} from "@mui/material";
 import {DataGrid} from "@mui/x-data-grid";
-import LinearProgress from "@mui/material/LinearProgress";
 import clsx from "clsx";
 import RemoveUserFromProjectModal from "../../../ui-component/modals/projects/researchers/RemoveUserFromProjectModal";
 import AnimateButton from "../../../ui-component/extended/AnimateButton";
