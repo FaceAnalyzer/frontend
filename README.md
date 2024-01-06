@@ -45,7 +45,7 @@ E2E tests are located on [e2e-tests](https://github.com/FaceAnalyzer/e2e-tests) 
 
 ### Makefile
 
-You can also deploy this project manually, without CI/CD. A Makefile is provided in `face-analyzer` directory.
+You can also deploy this project manually, without CI/CD. A Makefile is provided in `face-analyzer` directory. Be sure to set the right kubeconfig before deploying, since this uses your local `kubectl`.
 
 Run `make deploy VERSION=<version>` to build the Docker image, push the image, and apply the Kubernetes manifest.
 You must set a version.
