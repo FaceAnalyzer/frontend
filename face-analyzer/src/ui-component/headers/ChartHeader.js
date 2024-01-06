@@ -1,13 +1,14 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {useTheme} from "@mui/material/styles";
 import {Box, Button, CardHeader, Link, Typography} from "@mui/material";
 import AnimateButton from "../extended/AnimateButton";
-import {IconChevronRight, IconDownload, IconFlask, IconGraph, IconVideo} from "@tabler/icons";
+import {IconChevronRight, IconClipboardList, IconDownload, IconFlask, IconGraph, IconVideo} from "@tabler/icons";
 import PropTypes from "prop-types";
 import {FolderOpen} from "@mui/icons-material";
 import {useNavigate} from "react-router-dom";
 import axios from "axios";
 import {GET_EXPORT_REACTION} from "../../endpoints/BackendEndpoints";
+import AddNoteModal from "../modals/experiments/notes/AddNoteModal";
 
 // ===========================|| CHART HEADER ||=========================== //
 
@@ -21,6 +22,7 @@ const ChartHeader = ({
                      }) => {
     const theme = useTheme();
     const navigate = useNavigate();
+    const [showModal, setShowModal] = useState(false);
 
     const reaction = reactionData;
     const reactionId = reactionData.id;
@@ -63,8 +65,17 @@ const ChartHeader = ({
         navigate(`/stimuli/${stimuliId}`);
     }
 
+    const openModal = () => {
+        setShowModal(true);
+    };
+
+    const closeModal = () => {
+        setShowModal(false);
+    };
+
     return (
         <Box>
+            <AddNoteModal showModal={showModal} closeModal={closeModal} experimentId={experimentId}/>
             <Box>
                 <CardHeader sx={{padding: '5px'}}
                             subheader={
@@ -168,7 +179,18 @@ const ChartHeader = ({
                         </Button>
                     </AnimateButton>
                 </Box>
-                <Box>
+                <Box sx={{display: 'flex', gap: 1, pr: 2}}>
+                    <AnimateButton>
+                        <Button
+                            id={"button-add-note"}
+                            sx={{color: theme.palette.secondary}}
+                            variant={'contained'}
+                            disableElevation
+                            onClick={openModal}
+                        >
+                            <IconClipboardList/> Add note
+                        </Button>
+                    </AnimateButton>
                     <AnimateButton>
                         <Button
                             id={"button-export-csv"}
