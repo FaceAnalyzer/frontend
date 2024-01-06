@@ -22,6 +22,13 @@ This starts your app in development mode, rebuilding assets on file changes. The
 
 The page automatically reloads after editing and saving.
 
+## Deployment
+
+### Architecture
+i
+### CI/CD
+
+### Makefile
 
 
 ## Git Workflow
