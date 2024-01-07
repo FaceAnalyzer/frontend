@@ -29,20 +29,21 @@ const AddExperimentModal = ({showModal, closeModal, projectId}) => {
   const navigate = useNavigate();
   const scriptedRef = useScriptRef();
   const [loadingSpinner, setLoadingSpinner] = useState(false);
+  const [disableSaveButton, setDisableSaveButton] = useState(false);
 
   const handleSave = async (values, {setErrors, setStatus}) => {
-    setLoadingSpinner(true);
     try {
       values.projectId = projectId;
       axios.post(ADD_EXPERIMENT_API, JSON.stringify(values), DEFAULT_API_CONFIG)
           .then(response => {
-            setLoadingSpinner(false);
             // this.setState({articleId: response.data.id});
             if (response.status === 201) {
               // Refresh the page after a successful submission
               navigate(0);
             } else {
               const data = response.data;
+              setLoadingSpinner(false);
+              setDisableSaveButton(false);
               setErrors(data.errors);
               setStatus({success: false});
             }
@@ -50,10 +51,11 @@ const AddExperimentModal = ({showModal, closeModal, projectId}) => {
 
     } catch (err) {
       console.error(err);
+      setLoadingSpinner(false);
+      setDisableSaveButton(false);
       setErrors({submit: err.message});
       setStatus({success: false});
     }
-    setLoadingSpinner(false);
   };
 
 
@@ -74,6 +76,8 @@ const AddExperimentModal = ({showModal, closeModal, projectId}) => {
                     })}
 
                     onSubmit={async (values, { setErrors, setStatus }) => {
+                      setDisableSaveButton(true);
+                      setLoadingSpinner(true);
                       try {
                         if (scriptedRef.current) {
                           await handleSave(values, {setErrors, setStatus});
@@ -81,6 +85,8 @@ const AddExperimentModal = ({showModal, closeModal, projectId}) => {
                         }
                       } catch (err) {
                         console.error(err);
+                        setLoadingSpinner(false);
+                        setDisableSaveButton(false);
                         if (scriptedRef.current) {
                           setStatus({ success: false });
                           setErrors({ submit: err.message });
@@ -88,7 +94,7 @@ const AddExperimentModal = ({showModal, closeModal, projectId}) => {
                       }
                     }}>
 
-                  {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched }) => (
+                  {({ errors, handleBlur, handleChange, handleSubmit, touched }) => (
                       <form noValidate onSubmit={handleSubmit}>
                 <ModalContent>
                   <ModalBody>
@@ -153,7 +159,7 @@ const AddExperimentModal = ({showModal, closeModal, projectId}) => {
                       <Button
                           id={"button-save"}
                           disableElevation
-                          disabled={isSubmitting}
+                          disabled={disableSaveButton}
                           fullWidth
                           size="medium"
                           type="submit"

@@ -1,11 +1,14 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import YouTube from "react-youtube";
 import { analysisInterval } from "../../reactions/VisageProcessing";
 import NewChart from "./NewChart";
 import {Grid} from "@mui/material";
+import Skeleton from "@mui/material/Skeleton";
 
-const DynamicChart = ({ stimuliData, groupedSortedData }) => {
+const DynamicChart = ({ isLoading, stimuliData, groupedSortedData }) => {
     const [videoTimeMs, setVideoTimeMs] = useState(0);
+    const [timestamp, setTimestamp] = useState(0);
+    const [youtubePlayer, setYoutubePlayer] = useState(null);
 
     let interval = null;
 
@@ -22,6 +25,22 @@ const DynamicChart = ({ stimuliData, groupedSortedData }) => {
         interval = null;
     }
 
+    const handlerOnReady = (event) => {
+        setYoutubePlayer(event.target);
+    }
+
+    useEffect(() => {
+        if(groupedSortedData instanceof Array){
+            groupedSortedData = {};
+        }
+    }, [groupedSortedData]);
+
+    useEffect(() => {
+        if(youtubePlayer){
+            youtubePlayer.seekTo(timestamp/1000);
+        }
+    }, [timestamp]);
+
     return(
         <Grid container spacing={2}>
             <Grid item xs={12}>
@@ -33,10 +52,17 @@ const DynamicChart = ({ stimuliData, groupedSortedData }) => {
                     onPlay={handlerOnPlay}
                     onPause={handlerOnPause}
                     onEnd={handlerOnPause}
+                    onReady={handlerOnReady}
                 />
             </Grid>
             <Grid item xs={12}>
-                <NewChart groupedSortedData={groupedSortedData} videoTimeMs={videoTimeMs}/>
+                {isLoading ? (
+                    <Skeleton animation={"wave"}>
+                        <NewChart groupedSortedData={groupedSortedData} videoTimeMs={videoTimeMs}/>
+                    </Skeleton>
+                ):(
+                    <NewChart groupedSortedData={groupedSortedData} videoTimeMs={videoTimeMs} setTimestamp={setTimestamp}/>
+                )}
             </Grid>
         </Grid>
     )

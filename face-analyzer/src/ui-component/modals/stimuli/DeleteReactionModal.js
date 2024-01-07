@@ -26,26 +26,28 @@ const DeleteReactionModal = ({modalData, closeModal}) => {
     const navigate = useNavigate();
     const scriptedRef = useScriptRef();
     const [loadingSpinner, setLoadingSpinner] = useState(false);
+    const [disableSaveButton, setDisableSaveButton] = useState(false);
 
     const handleDelete = () => {
-        setLoadingSpinner(true);
         try{
             axios.delete(DELETE_REACTIONS_BY_ID_API.replace("{id}", modalData.reactionId), DEFAULT_API_CONFIG)
                 .then(response => {
-                    setLoadingSpinner(false);
                     if (response.status === 204) {
                         navigate(0);
                     }
                     else{
                         const data = response.data;
+                        setLoadingSpinner(false);
+                        setDisableSaveButton(false);
                         console.error("resp:", response);
                         console.error("Error deleting reaction:", data.errors);
                     }
                 })
         } catch(e) {
             console.error("Error deleting reaction:", e);
+            setLoadingSpinner(false);
+            setDisableSaveButton(false);
         }
-        setLoadingSpinner(false);
     };
 
     return (
@@ -58,6 +60,8 @@ const DeleteReactionModal = ({modalData, closeModal}) => {
                                 id: modalData.reactionId,
                             }}
                             onSubmit={async (values, {setErrors, setStatus}) => {
+                                setDisableSaveButton(true);
+                                setLoadingSpinner(true);
                                 try {
                                     if (scriptedRef.current) {
                                         await handleDelete(values, {setErrors, setStatus});
@@ -65,6 +69,8 @@ const DeleteReactionModal = ({modalData, closeModal}) => {
                                     }
                                 } catch (err) {
                                     console.error(err);
+                                    setLoadingSpinner(false);
+                                    setDisableSaveButton(false);
                                     if (scriptedRef.current) {
                                         setStatus({success: false});
                                         setErrors({submit: err.message});
@@ -72,7 +78,7 @@ const DeleteReactionModal = ({modalData, closeModal}) => {
                                 }
                             }}>
 
-                            {({errors, handleSubmit, isSubmitting}) => (
+                            {({errors, handleSubmit}) => (
                                 <form noValidate onSubmit={handleSubmit}>
                                     <ModalContent>
                                         <ModalBody>
@@ -115,7 +121,7 @@ const DeleteReactionModal = ({modalData, closeModal}) => {
                                                 <Button
                                                     id={"button-yes"}
                                                     disableElevation
-                                                    disabled={isSubmitting}
+                                                    disabled={disableSaveButton}
                                                     fullWidth
                                                     size="medium"
                                                     type="submit"

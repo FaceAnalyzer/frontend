@@ -30,13 +30,12 @@ const DeleteStimuliModal = ({showModal, closeModal, data}) => {
     const scriptedRef = useScriptRef();
     const deleteId = data.id;
     const [loadingSpinner, setLoadingSpinner] = useState(false);
+    const [disableSaveButton, setDisableSaveButton] = useState(false);
 
     const handleDelete = () => {
-        setLoadingSpinner(true);
         try{
             axios.delete(DELETE_STIMULI_BY_ID_API.replace("{id}", deleteId), DEFAULT_API_CONFIG)
                 .then(response => {
-                    setLoadingSpinner(false);
                     if (response.status === 204) {
                         if(location.pathname === `/experiment/${data.experimentId}`){
                             navigate(0);
@@ -48,14 +47,17 @@ const DeleteStimuliModal = ({showModal, closeModal, data}) => {
                     }
                     else{
                         const data = response.data;
+                        setLoadingSpinner(false);
+                        setDisableSaveButton(false);
                         console.error("resp:", response);
                         console.error("Error deleting stimulus:", data.errors);
                     }
                 })
         } catch(e) {
             console.error("Error deleting stimulus:", e);
+            setLoadingSpinner(false);
+            setDisableSaveButton(false);
         }
-        setLoadingSpinner(false);
     };
 
 
@@ -69,6 +71,8 @@ const DeleteStimuliModal = ({showModal, closeModal, data}) => {
                                 id: {deleteId},
                             }}
                             onSubmit={async (values, {setErrors, setStatus}) => {
+                                setDisableSaveButton(true);
+                                setLoadingSpinner(true);
                                 try {
                                     if (scriptedRef.current) {
                                         await handleDelete(values, {setErrors, setStatus});
@@ -76,6 +80,8 @@ const DeleteStimuliModal = ({showModal, closeModal, data}) => {
                                     }
                                 } catch (err) {
                                     console.error(err);
+                                    setLoadingSpinner(false);
+                                    setDisableSaveButton(false);
                                     if (scriptedRef.current) {
                                         setStatus({success: false});
                                         setErrors({submit: err.message});
@@ -83,7 +89,7 @@ const DeleteStimuliModal = ({showModal, closeModal, data}) => {
                                 }
                             }}>
 
-                            {({errors, handleSubmit, isSubmitting}) => (
+                            {({errors, handleSubmit}) => (
                                 <form noValidate onSubmit={handleSubmit}>
                                     <ModalContent>
                                         <ModalBody>
@@ -126,7 +132,7 @@ const DeleteStimuliModal = ({showModal, closeModal, data}) => {
                                                 <Button
                                                     id={"button-yes"}
                                                     disableElevation
-                                                    disabled={isSubmitting}
+                                                    disabled={disableSaveButton}
                                                     fullWidth
                                                     size="medium"
                                                     type="submit"

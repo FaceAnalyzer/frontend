@@ -5,7 +5,7 @@ import {useLocation, useNavigate} from 'react-router';
 
 // material-ui
 import {useTheme} from '@mui/material/styles';
-import {Collapse, List, ListItemButton, ListItemIcon, ListItemText, Typography} from '@mui/material';
+import {Collapse, Grid, List, ListItemButton, ListItemIcon, ListItemText, Tooltip, Typography} from '@mui/material';
 
 // project imports
 import NavItem from '../NavItem';
@@ -111,29 +111,42 @@ const NavCollapse = ({ menu, level }) => {
         selected={selected === menu.id}
         onClick={handleClick}
       >
-        <ListItemIcon onClick={handleMenuTextClick} sx={{ my: 'auto', minWidth: !menu.icon ? 18 : 36 }}>{menuIcon}</ListItemIcon>
-        <ListItemText
-          primary={
-              <Typography variant={selected === menu.id ? 'h5' : 'body1'}
-                          color="inherit"
-                          sx={{my: 'auto'}}
-                          onClick={handleMenuTextClick}>
-              {menu.title}
-            </Typography>
-          }
-          secondary={
-            menu.caption && (
-              <Typography variant="caption" sx={{ ...theme.typography.subMenuCaption }} display="block" gutterBottom>
-                {menu.caption}
-              </Typography>
-            )
-          }
-        />
-        {open ? (
-          <IconChevronUp stroke={1.5} size="1rem" style={{ marginTop: 'auto', marginBottom: 'auto' }} />
-        ) : (
-          <IconChevronDown stroke={1.5} size="1rem" style={{ marginTop: 'auto', marginBottom: 'auto' }} />
-        )}
+          <Grid container direction={"row"}>
+              <Grid item xs={2}>
+                  <ListItemIcon onClick={handleMenuTextClick} sx={{ my: 'auto', minWidth: !menu.icon ? 18 : 36 }}>{menuIcon}</ListItemIcon>
+              </Grid>
+              <Grid item xs={9}>
+                  <ListItemText
+                      primary={
+                          <Typography variant={selected === menu.id ? 'h5' : 'body1'}
+                                      color="inherit"
+                                      sx={{my: 'auto', textOverflow: 'ellipsis', overflow: 'hidden'}}
+                                      onClick={handleMenuTextClick}>
+                              <Tooltip title={menu.title} enterDelay={500}> {/* color inheritance issues so tooltip has to be here */}
+                                {menu.title}
+                              </Tooltip>
+                          </Typography>
+                      }
+                      secondary={
+                          menu.caption && (
+                              <Typography variant="caption" sx={{ ...theme.typography.subMenuCaption }} display="block" gutterBottom>
+                                  {menu.caption}
+                              </Typography>
+                          )
+                      }
+                  />
+              </Grid>
+              <Grid item xs={1}>
+                  {open ? (
+                      <IconChevronUp stroke={1.5} size="1rem" style={{ marginTop: 'auto', marginBottom: 'auto' }} />
+                  ) : (
+                      <IconChevronDown stroke={1.5} size="1rem" style={{ marginTop: 'auto', marginBottom: 'auto' }} />
+                  )}
+              </Grid>
+          </Grid>
+
+
+
       </ListItemButton>
       <Collapse in={open} timeout="auto" unmountOnExit>
         <List

@@ -29,15 +29,14 @@ const DeleteProjectModal = ({showModal, closeModal, data}) => {
     const location = useLocation();
     const scriptedRef = useScriptRef();
     const [loadingSpinner, setLoadingSpinner] = useState(false);
+    const [disableSaveButton, setDisableSaveButton] = useState(false);
 
     const deleteId = data.id;
 
     const handleDelete = async (values, {setErrors, setStatus}) => {
-        setLoadingSpinner(true);
         try {
             axios.delete(DELETE_PROJECT_API.replace("{id}", deleteId))
                 .then(response => {
-                    setLoadingSpinner(false);
                     if (response.status === 204) {
                         // Refresh if on projects page, else redirect to projects page
                         if(location.pathname === '/projects'){
@@ -49,16 +48,19 @@ const DeleteProjectModal = ({showModal, closeModal, data}) => {
                         }
                     } else {
                         const data = response.data;
+                        setLoadingSpinner(false);
+                        setDisableSaveButton(false);
                         setErrors(data.errors);
                         setStatus({success: false});
                     }
                 });
         } catch (err) {
             console.error(err);
+            setLoadingSpinner(false);
+            setDisableSaveButton(false);
             setErrors({submit: err.message});
             setStatus({success: false});
         }
-        setLoadingSpinner(false);
     };
 
 
@@ -72,6 +74,8 @@ const DeleteProjectModal = ({showModal, closeModal, data}) => {
                                 id: {deleteId},
                             }}
                             onSubmit={async (values, {setErrors, setStatus}) => {
+                                setDisableSaveButton(true);
+                                setLoadingSpinner(true);
                                 try {
                                     if (scriptedRef.current) {
                                         await handleDelete(values, {setErrors, setStatus});
@@ -79,6 +83,8 @@ const DeleteProjectModal = ({showModal, closeModal, data}) => {
                                     }
                                 } catch (err) {
                                     console.error(err);
+                                    setLoadingSpinner(false);
+                                    setDisableSaveButton(false);
                                     if (scriptedRef.current) {
                                         setStatus({success: false});
                                         setErrors({submit: err.message});
@@ -86,7 +92,7 @@ const DeleteProjectModal = ({showModal, closeModal, data}) => {
                                 }
                             }}>
 
-                            {({errors, handleSubmit, isSubmitting}) => (
+                            {({errors, handleSubmit}) => (
                                 <form noValidate onSubmit={handleSubmit}>
                                     <ModalContent>
                                         <ModalBody>
@@ -129,7 +135,7 @@ const DeleteProjectModal = ({showModal, closeModal, data}) => {
                                                 <Button
                                                     id={"button-yes"}
                                                     disableElevation
-                                                    disabled={isSubmitting}
+                                                    disabled={disableSaveButton}
                                                     fullWidth
                                                     size="medium"
                                                     type="submit"

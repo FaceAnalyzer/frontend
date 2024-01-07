@@ -4,7 +4,7 @@ import {Legend, Line, LineChart, ReferenceLine, ResponsiveContainer, Tooltip, XA
 import {addMilliseconds, format} from "date-fns";
 import PropTypes from "prop-types";
 
-const NewChart = ({ groupedSortedData, videoTimeMs }) => {
+const NewChart = ({ groupedSortedData, videoTimeMs, setTimestamp }) => {
     const [chartData, setChartData] = useState([]);
     const [referenceLineX, setReferenceLineX] = useState(0);
     const [selectedLines, setSelectedLines] = useState(() =>
@@ -24,6 +24,17 @@ const NewChart = ({ groupedSortedData, videoTimeMs }) => {
         Neutral: "#000",
     };
 
+    const formatMilliseconds = (milliseconds) => {
+        const totalSeconds = Math.floor(milliseconds / 1000);
+        const minutes = Math.floor(totalSeconds / 60);
+        const seconds = totalSeconds % 60;
+
+        const formattedMinutes = minutes < 10 ? `0${minutes}` : `${minutes}`;
+        const formattedSeconds = seconds < 10 ? `0${seconds}` : `${seconds}`;
+
+        return `${formattedMinutes}:${formattedSeconds}`;
+    }
+
     const createChartData = (groupedData) => {
         const data = Object.keys(groupedData[Object.keys(groupedData)[0]]).map(
             (dataPointIndex) => {
@@ -42,7 +53,7 @@ const NewChart = ({ groupedSortedData, videoTimeMs }) => {
     };
 
     useEffect(() => {
-        if (groupedSortedData.length !== 0) {
+        if (Object.keys(groupedSortedData).length !== 0) {
             const chartData = createChartData(groupedSortedData);
             setChartData(chartData);
 
@@ -103,6 +114,14 @@ const NewChart = ({ groupedSortedData, videoTimeMs }) => {
         }));
     };
 
+    const handleChartClick = (event) => {
+        if(event && event.activePayload && event.activePayload.length > 0) {
+            const xValue = event.activePayload[0].payload.timeOffset;
+            console.log("xval", xValue);
+            setTimestamp(xValue);
+        }
+    }
+
     useEffect(() => {
         setReferenceLineX(videoTimeMs);
     }, [videoTimeMs]);
@@ -114,6 +133,7 @@ const NewChart = ({ groupedSortedData, videoTimeMs }) => {
                     <LineChart
                         data={chartData}
                         margin={{ top: 5, right: 30, left: 20, bottom: 20 }}
+                        onClick={handleChartClick}
                     >
                         <ReferenceLine
                             x={referenceLineX}
@@ -129,8 +149,12 @@ const NewChart = ({ groupedSortedData, videoTimeMs }) => {
                                 Math.min(...chartData.map((entry) => entry.timeOffset)),
                                 Math.max(...chartData.map((entry) => entry.timeOffset)),
                             ]}
+                            tickFormatter={formatMilliseconds}
+                            interval={"preserveStartEnd"}
                             ticks={chartData.map((entry) => entry.timeOffset)}
                             label={{value: "Video time in ms", position: "bottom", offset: 25}}
+                            minTickGap={10}
+                            //angle={-45}
                         />
                         <YAxis
                             type="number"
@@ -184,7 +208,7 @@ const tooltipStyle = {
 };
 
 NewChart.propTypes = {
-    groupedSortedData: PropTypes.array,
+    groupedSortedData: PropTypes.object,
     videoTimeMs: PropTypes.number,
     active: PropTypes.bool,
     payload: PropTypes.array,

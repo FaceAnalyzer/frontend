@@ -100,6 +100,12 @@ const Stimuli = () => {
     }, [localStorage.getItem("analysisData")]);
 
     const toggleRecording = () => {
+        if(!isRecording){
+            setStimuliData({...stimuliData, link: (stimuliData.link + "?autoplay=1")});
+        }
+        else{
+            setStimuliData({...stimuliData, link: (stimuliData.link.replace("?autoplay=1", ""))});
+        }
         setIsRecording(!isRecording);
     };
 
