@@ -6,13 +6,14 @@ import AddProjectCard from "../../ui-component/cards/projects/AddProjectCard";
 import ProjectCard from "../../ui-component/cards/projects/ProjectCard";
 import {GET_PROJECTS_API} from "../../endpoints/BackendEndpoints";
 import axios from "axios";
+import {useNavigate} from 'react-router-dom';
 import ProjectManagementHeader from "../../ui-component/headers/ProjectManagementHeader";
-import {Navigate} from "react-router";
 import {useAuth} from "../../context/authContext";
 
 // ==============================|| PROJECTS DASHBOARD ||============================== //
 
 const Projects = () => {
+    const navigate = useNavigate();
     const [isLoading, setLoading] = useState(true);
     const [projectList, setProjectList] = useState([]);
     const {user} = useAuth();
@@ -30,11 +31,16 @@ const Projects = () => {
             }
         };
 
-        fetchProjectData().then();
-    }, []);
+        if(user){
+            fetchProjectData().then();
+        }
+        else{
+            navigate('/login');
+        }
+    }, [user]);
 
     return !user ? (
-        <Navigate to="/login" replace/>
+        <></>
     ) : (
         <Grid container spacing={3}>
             <Grid item xs={12}>
