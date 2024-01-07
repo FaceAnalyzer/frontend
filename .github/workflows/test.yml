@@ -1,0 +1,24 @@
+name: Test
+
+on:
+  pull_request:
+    branches: [ "main" , "develop" ]
+  push:
+    branches: [ "test-ci" ]
+
+jobs:
+  unit-tests:
+    name: Unit tests
+    runs-on: ubuntu-22.04
+    defaults:
+      run:
+        working-directory: face-analyzer
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18.x'
+      - run: npm ci
+      - run: npm run build
+      - run: npm test
