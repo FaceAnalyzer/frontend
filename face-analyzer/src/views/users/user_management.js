@@ -7,12 +7,14 @@ import axios from "axios";
 import {GET_USERS_API} from "../../endpoints/BackendEndpoints";
 import UserManagementHeader from "../../ui-component/headers/UserManagementHeader";
 import {useAuth} from "../../context/authContext";
-import {Navigate} from "react-router";
+import {useNavigate} from "react-router-dom";
 
 // ==============================|| USER MANAGEMENT DASHBOARD ||============================== //
 
 
 const UserManagement = () => {
+    const navigate = useNavigate();
+
     const [showAddModal, setShowAddModal] = useState(false);
     const [userList, setUserList] = useState([]);
     const [existingEmails, setExistingEmails] = useState([]);
@@ -38,8 +40,17 @@ const UserManagement = () => {
             }
         };
 
-        fetchUsers().then();
-    }, []);
+        if (user) {
+            if (user.role !== "Admin") {
+                navigate('/');
+            } else {
+                fetchUsers().then();
+            }
+        } else {
+            navigate('/login');
+        }
+
+    }, [navigate, user]);
 
     const openAddModal = () => {
         setShowAddModal(true);
@@ -49,31 +60,34 @@ const UserManagement = () => {
         setShowAddModal(false);
     };
 
-    return (!user) ? (<Navigate to="/login" replace/>) : (
-        (user.role !== "Admin") ? (<Navigate to="/" replace/>) : (
-        <>
-            <AddUserModal showModal={showAddModal}
-                          closeModal={closeAddModal}
-                          existingEmails={existingEmails}
-                          existingUsernames={existingUsernames}/>
-            <Grid container sx={{mb: 2}}>
-                <Grid item xs={12}>
-                    <UserManagementHeader/>
+    return !user ? (
+        <></>
+    ) : (user.role !== "Admin" ? (<></>) : (
+            <>
+                <AddUserModal showModal={showAddModal}
+                              closeModal={closeAddModal}
+                              existingEmails={existingEmails}
+                              existingUsernames={existingUsernames}/>
+                <Grid container sx={{mb: 2}}>
+                    <Grid item xs={12}>
+                        <UserManagementHeader/>
+                    </Grid>
+                    <Grid item xs={8} sm={6} md={4} lg={2} xl={1}>
+                        <Button id={"button-add-user"} onClick={openAddModal} variant="contained" disableElevation>
+                            Add user
+                        </Button>
+                    </Grid>
                 </Grid>
-                <Grid item xs={8} sm={6} md={4} lg={2} xl={1}>
-                    <Button id={"button-add-user"} onClick={openAddModal} variant="contained" disableElevation>
-                        Add user
-                    </Button>
-                </Grid>
-            </Grid>
-            <UserDataGrid
-                isLoading={isLoading}
-                userList={userList}
-                existingUsernames={existingUsernames}
-                existingEmails={existingEmails}
-            />
-        </>
-        ));
+                <UserDataGrid
+                    isLoading={isLoading}
+                    userList={userList}
+                    existingUsernames={existingUsernames}
+                    existingEmails={existingEmails}
+                />
+            </>
+        )
+
+    );
 };
 
 export default UserManagement;

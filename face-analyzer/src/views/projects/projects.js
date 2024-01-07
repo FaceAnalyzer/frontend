@@ -31,13 +31,12 @@ const Projects = () => {
             }
         };
 
-        if(user){
+        if (user) {
             fetchProjectData().then();
-        }
-        else{
+        } else {
             navigate('/login');
         }
-    }, [user]);
+    }, [navigate, user]);
 
     return !user ? (
         <></>

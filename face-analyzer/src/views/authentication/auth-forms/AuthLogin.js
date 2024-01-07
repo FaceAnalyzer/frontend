@@ -18,7 +18,6 @@ import {LOGIN_API} from 'endpoints/BackendEndpoints'; // LOGIN_API
 import axios from 'axios';
 import {Visibility, VisibilityOff} from '@mui/icons-material';
 import {useAuth} from 'context/authContext';
-import {Navigate} from "react-router";
 
 const AuthLogin = ({ ...others }) => {
   const navigate = useNavigate();
@@ -28,10 +27,10 @@ const AuthLogin = ({ ...others }) => {
   const [redirectToHome, setRedirectToHome] = useState(false);
 
   useEffect(() => {
-    if (redirectToHome) {
+    if (redirectToHome || user) {
       navigate('/');
     }
-  }, [navigate, redirectToHome]);
+  }, [navigate, redirectToHome, user]);
 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
@@ -61,7 +60,9 @@ const AuthLogin = ({ ...others }) => {
     }
   }
 
-  return user ? (<Navigate to="/" replace/>) : (
+  return user ? (
+      <></>
+  ) : (
       <Formik
           initialValues={{
             username: '',
