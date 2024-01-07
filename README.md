@@ -36,7 +36,7 @@ Apart from having Deployment, frontend also has Service and Ingress. This expose
 
 Frontend repo is supported by CI/CD. We use GitHub Actions that are built-in to GitHub.
 The deployment pipeline is straightforward. It has two jobs.
-The first job builds a Docker image using the Dockerfile in the repo, and then pushes the Docker image to a Docker registry, in our case DockerHub. This jobs also adds the appropriate production/staging Visage|SDK license to the Docker image. Lincense file is loaded from `VISAGE_SDK_LICENSE` variable that is set as a repository secret in GitHub Actions secrets. Since, FaceAnalyzer frontend connects to FaceAnalyzer backend, backend URL should also be set. The URL is set in `.env.production`.
+The first job builds a Docker image using the Dockerfile in the repo, and then pushes the Docker image to a Docker registry, in our case DockerHub. This jobs also adds the appropriate production/staging Visage|SDK license to the Docker image. License file is loaded from `VISAGE_SDK_LICENSE` variable that is set as a repository secret in GitHub Actions secrets. Since FaceAnalyzer frontend connects to FaceAnalyzer backend, backend URL should also be set. The URL is set in `.env.production`.
 The second job deploys a  Kubernetes YAML manifest to the Kubernetes cluster. Based on this manifest, Kubernetes cluster pulls the right image from the DockerHub.
 
 For CI/CD to work properly, a working Kubernetes cluster is required, including access to the cluster. Learn more on [aks-cluster](https://github.com/FaceAnalyzer/aks-cluster) repo.
