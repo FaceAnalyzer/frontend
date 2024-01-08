@@ -2,6 +2,7 @@ import { Grid } from "@mui/material";
 import React from "react";
 import Skeleton from "@mui/material/Skeleton";
 import NewChart from "./NewChart";
+import PropTypes from "prop-types";
 
 // ==============================|| EMOTIONS OVER TIME CHART ||============================== //
 
@@ -23,5 +24,10 @@ const EmotionsOverTimeChart = ({ isLoading, groupedSortedData }) => {
         </>
     );
 };
+
+EmotionsOverTimeChart.propTypes = {
+    isLoading: PropTypes.bool,
+    groupedSortedData: PropTypes.object,
+}
 
 export default EmotionsOverTimeChart;

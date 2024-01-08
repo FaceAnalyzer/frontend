@@ -97,6 +97,7 @@ const Stimuli = () => {
         else{
             setSaveDisabled(false);
         }
+        // eslint-disable-next-line
     }, [localStorage.getItem("analysisData")]);
 
     const toggleRecording = () => {
@@ -206,8 +207,8 @@ const Stimuli = () => {
                         </Box>
                         <Box>
                             <Typography sx={{color: theme.palette.grey[500], textDecoration: 'none'}}>
-                                Note: by clicking again <i>Start Recording </i> after already recording a reaction,
-                                the old reaction is automatically discarded.
+                                Note: if you press <i>Start Recording</i> again after already recording a reaction,
+                                the previous reaction will be automatically discarded.
                             </Typography>
                         </Box>
                     </AnalysisDataContext.Provider>

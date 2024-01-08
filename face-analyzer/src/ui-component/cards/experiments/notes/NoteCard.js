@@ -196,7 +196,8 @@ const NoteCard = ({isLoading, data}) => {
 };
 
 NoteCard.propTypes = {
-    isLoading: PropTypes.bool
+    isLoading: PropTypes.bool,
+    data: PropTypes.object,
 };
 
 export default NoteCard;
