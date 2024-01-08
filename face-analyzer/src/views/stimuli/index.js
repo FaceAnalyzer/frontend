@@ -93,7 +93,7 @@ const Stimuli = () => {
         return() => {
             clearLocalStorageData();
         }
-    }, [stimuliId]);
+    }, [stimuliId, user, navigate]);
 
     useEffect(() => {
         if(!localStorage.getItem("analysisData")){
