@@ -8,7 +8,7 @@ import {gridSpacing} from 'store/constant';
 import ChartHeader from "../../../ui-component/headers/ChartHeader";
 import BoxPlotChart from "./BoxPlotChart";
 import BoxPlotLegend from "./BoxPlotLegend";
-import {useParams} from "react-router";
+import {Navigate, useParams} from "react-router";
 import axios from "axios";
 import EmotionsOverTimeChart from "./EmotionsOverTimeChart";
 import {
@@ -20,11 +20,9 @@ import {
 } from "../../../endpoints/BackendEndpoints";
 import {useAuth} from "../../../context/authContext";
 import DynamicChart from "./DynamicChart";
-import {useNavigate} from "react-router-dom";
 // ==============================|| STATISTICS DASHBOARD ||============================== //
 
 const Stats = () => {
-    const navigate = useNavigate();
     // const theme = useTheme();
     const {reactionId} = useParams();
     const [groupedSortedData, setGroupedSortedData] = useState({});
@@ -113,15 +111,10 @@ const Stats = () => {
             }
         };
 
-        if (user) {
-            fetchData().then();
-        } else {
-            navigate("/login");
-        }
+        fetchData();
+    }, [reactionId]);
 
-    }, [reactionId, user, navigate]);
-
-    return !user ? (<></>) : (
+    return !user ? (<Navigate to="/login" replace/>) : (
         <Grid container spacing={gridSpacing} sx={{padding: '16px'}}>
             <Grid item xs={12}>
                 <ChartHeader activeButton={activeButton}
