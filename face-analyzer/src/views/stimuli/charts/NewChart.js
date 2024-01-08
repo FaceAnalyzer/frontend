@@ -213,6 +213,7 @@ NewChart.propTypes = {
     active: PropTypes.bool,
     payload: PropTypes.array,
     label: PropTypes.string,
+    setTimestamp: PropTypes.number,
 };
  
 export default NewChart;

@@ -372,7 +372,9 @@ const EditUserModal = ({closeModal, showModal, userForEdit, existingEmails, exis
 EditUserModal.propTypes = {
     showModal: PropTypes.bool,
     closeModal: PropTypes.func,
-    userForEdit: PropTypes.object
+    userForEdit: PropTypes.object,
+    existingEmails: PropTypes.array,
+    existingUsernames: PropTypes.array,
 }
 
 export default EditUserModal;

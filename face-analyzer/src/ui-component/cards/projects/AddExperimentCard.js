@@ -22,7 +22,8 @@ const AddExperimentCard = ({isLoading, projectId}) => {
 };
 
 AddExperimentCard.propTypes = {
-  isLoading: PropTypes.bool
+  isLoading: PropTypes.bool,
+  projectId: PropTypes.number,
 };
 
 export default AddExperimentCard;

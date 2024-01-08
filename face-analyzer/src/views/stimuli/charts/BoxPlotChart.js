@@ -2,6 +2,7 @@ import {Grid} from "@mui/material";
 import Chart from "react-apexcharts";
 import {useTheme} from "@mui/material/styles";
 import Skeleton from "@mui/material/Skeleton";
+import PropTypes from "prop-types";
 
 // ==============================|| BOX PLOT CHART ||============================== //
 
@@ -99,5 +100,10 @@ const BoxPlotChart = ({isLoading, boxPlotData}) => {
         </Grid>
     );
 };
+
+BoxPlotChart.propTypes = {
+    isLoading: PropTypes.bool,
+    boxPlotData: PropTypes.object,
+}
 
 export default BoxPlotChart;
