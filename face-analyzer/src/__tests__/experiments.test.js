@@ -29,7 +29,7 @@ describe('Experiments Component', () => {
             useAuth.mockReturnValue({user: null});
         });
 
-        test('Redirect from /projects to /login for anonymous user', async () => {
+        test('Redirect from /experiments to /login for anonymous user', async () => {
             const {container, getByText} = render(
                 <MemoryRouter>
                     <Experiments/>

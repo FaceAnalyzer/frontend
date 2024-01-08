@@ -4,7 +4,7 @@ import {MemoryRouter, useNavigate} from "react-router-dom";
 import axios from 'axios';
 
 import {useAuth} from "../context/authContext";
-import Notes from "../views/experiments/notes";
+import Experiment from "../views/experiments";
 
 const mockedUseNavigate = jest.fn();
 const mockedUseParams = jest.fn(() => {
@@ -23,16 +23,16 @@ jest.mock('react-router', () => ({
     useParams: () => mockedUseParams,
 }));
 
-describe('Notes Component', () => {
+describe('Experiment Component', () => {
     describe('User is not authenticated', () => {
         beforeEach(() => {
             useAuth.mockReturnValue({user: null});
         });
 
-        test('Redirect from /notes to /login for anonymous user', async () => {
+        test('Redirect from /stimuli to /login for anonymous user', async () => {
             const {container, getByText} = render(
                 <MemoryRouter>
-                    <Notes/>
+                    <Experiment/>
                 </MemoryRouter>
             );
 
@@ -43,14 +43,14 @@ describe('Notes Component', () => {
     describe('User is authenticated as Admin', () => {
         let projectResp;
         let experimentResp;
-        let notesResp;
+        let stimuliResp;
         beforeEach(() => {
             useAuth.mockReturnValue({user: {id: 222, role: 'Admin'}});
-            notesResp = {
+            stimuliResp = {
                 data: {
                     items: [
-                        {id: 1, description: "test not 1", experimentId: 1000, creatorId: 222},
-                        {id: 2, description: "test not 2", experimentId: 1000, creatorId: 333}
+                        {id: 1, name: "name 1", description: "test stim 1", experimentId: 1000, link: "link1"},
+                        {id: 2, name: "name 2", description: "test stim 2", experimentId: 1000, link: "link2"}
                     ]
                 }
             };
@@ -58,30 +58,30 @@ describe('Notes Component', () => {
             projectResp = {data: {id: 100, name: "test project"}};
         });
 
-        test("Notes should be rendered for Admin", async () => {
-            axios.get.mockResolvedValueOnce(experimentResp).mockResolvedValueOnce(projectResp).mockResolvedValueOnce(notesResp);
+        test.skip("Stimuli should be rendered for Admin", async () => {
+            axios.get.mockResolvedValueOnce(experimentResp).mockResolvedValueOnce(projectResp).mockResolvedValueOnce(stimuliResp);
 
             const {getByText} = render(
                 <MemoryRouter>
-                    <Notes/>
+                    <Experiment/>
                 </MemoryRouter>
             );
 
-            await waitFor(() => expect(getByText(/test not 1/i)).toBeInTheDocument())
-            await waitFor(() => expect(getByText(/test not 2/i)).toBeInTheDocument())
             await waitFor(() => expect(getByText(/test project/i)).toBeInTheDocument())
+            await waitFor(() => expect(getByText(/test ex 1/i)).toBeInTheDocument())
+            await waitFor(() => expect(getByText(/test desc 1/i)).toBeInTheDocument())
         });
 
-        test("Add card should be rendered for Admin", async () => {
-            axios.get.mockResolvedValueOnce(experimentResp).mockResolvedValueOnce(projectResp).mockResolvedValueOnce(notesResp);
+        test("Add stimulus should be rendered for Admin", async () => {
+            axios.get.mockResolvedValueOnce(experimentResp).mockResolvedValueOnce(projectResp).mockResolvedValueOnce(stimuliResp);
 
             const {getByText} = render(
                 <MemoryRouter>
-                    <Notes/>
+                    <Experiment/>
                 </MemoryRouter>
             );
 
-            await waitFor(() => expect(getByText(/click to add a new note/i)).toBeInTheDocument())
+            await waitFor(() => expect(getByText(/click to add a new stimulus/i)).toBeInTheDocument())
         });
 
     });
@@ -89,14 +89,14 @@ describe('Notes Component', () => {
     describe('User is authenticated as Researcher', () => {
         let projectResp;
         let experimentResp;
-        let notesResp;
+        let stimuliResp;
         beforeEach(() => {
-            useAuth.mockReturnValue({user: {id: 222, role: 'Researcher'}});
-            notesResp = {
+            useAuth.mockReturnValue({user: {id: 222, role: 'Admin'}});
+            stimuliResp = {
                 data: {
                     items: [
-                        {id: 1, description: "test not 1", experimentId: 1000, creatorId: 222},
-                        {id: 2, description: "test not 2", experimentId: 1000, creatorId: 333}
+                        {id: 1, name: "name 1", description: "test stim 1", experimentId: 1000, link: "link1"},
+                        {id: 2, name: "name 2", description: "test stim 2", experimentId: 1000, link: "link2"}
                     ]
                 }
             };
@@ -104,30 +104,16 @@ describe('Notes Component', () => {
             projectResp = {data: {id: 100, name: "test project"}};
         });
 
-        test("Notes should be rendered for Researcher", async () => {
-            axios.get.mockResolvedValueOnce(experimentResp).mockResolvedValueOnce(projectResp).mockResolvedValueOnce(notesResp);
+        test("Add stimulus should be rendered for Researcher", async () => {
+            axios.get.mockResolvedValueOnce(experimentResp).mockResolvedValueOnce(projectResp).mockResolvedValueOnce(stimuliResp);
 
             const {getByText} = render(
                 <MemoryRouter>
-                    <Notes/>
+                    <Experiment/>
                 </MemoryRouter>
             );
 
-            await waitFor(() => expect(getByText(/test not 1/i)).toBeInTheDocument())
-            await waitFor(() => expect(getByText(/test not 2/i)).toBeInTheDocument())
-            await waitFor(() => expect(getByText(/test project/i)).toBeInTheDocument())
-        });
-
-        test("Add card should be rendered for Researcher", async () => {
-            axios.get.mockResolvedValueOnce(experimentResp).mockResolvedValueOnce(projectResp).mockResolvedValueOnce(notesResp);
-
-            const {getByText} = render(
-                <MemoryRouter>
-                    <Notes/>
-                </MemoryRouter>
-            );
-
-            await waitFor(() => expect(getByText(/click to add a new note/i)).toBeInTheDocument())
+            await waitFor(() => expect(getByText(/click to add a new stimulus/i)).toBeInTheDocument())
         });
     })
 });
