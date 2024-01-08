@@ -24,12 +24,12 @@ const Dashboard = () => {
 
     }, [isLoading, user, navigate]);
 
-    return (
+    return !user ? (
+        <></>
+    ) : (
         <Grid container spacing={3}>
-            !user ? (
-            <></>
-            ) : (
-                <>
+
+            <>
                     <Grid item xs={12}>
                         <DashboardHeader/>
                     </Grid>
@@ -48,7 +48,6 @@ const Dashboard = () => {
                         </>
                     )}
                 </>
-            )
         </Grid>
     );
 
