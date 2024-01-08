@@ -36,6 +36,7 @@ const WebcamSetup = ({onStreamReady}) => {
                 else throw e;
             }
         };
+        // eslint-disable-next-line
     }, []);
 
     return <video className="video" ref={webcamRef} width="640px" height="480px" autoPlay playsInline hidden></video>
