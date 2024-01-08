@@ -8,15 +8,17 @@ import {
     GET_USERS_BY_PROJECT_ID_API
 } from "../../../endpoints/BackendEndpoints";
 import ProjectResearcherHeader from "../../../ui-component/headers/ResearcherHeader";
-import {Navigate, useParams} from "react-router";
+import {useParams} from "react-router";
 import ResearcherDataGrid from "./ResearcherDataGrid";
 import AddUserToProjectModal from "../../../ui-component/modals/projects/researchers/AddUserToProjectModal";
 import {useAuth} from "../../../context/authContext";
+import {useNavigate} from "react-router-dom";
 
 // ==============================|| PROJECT RESEARCHERS DASHBOARD ||============================== //
 
 
 const ProjectResearchers = () => {
+    const navigate = useNavigate();
     const {projectId} = useParams();
 
     const [isLoading, setLoading] = useState(true);
@@ -57,13 +59,22 @@ const ProjectResearchers = () => {
             }
         };
 
-        fetchProjectAndUsers().then();
-    }, [projectId]);
+        if (user) {
+            if (user.role !== "Admin") {
+                navigate("/");
+            } else {
+                fetchProjectAndUsers().then();
+            }
+        } else {
+            navigate('/login');
+        }
+
+    }, [projectId, user, navigate]);
 
     console.log(usersNotOnProjectList);
 
-    return (!user) ? (<Navigate to="/login" replace/>) : (
-        (user.role !== "Admin") ? (<Navigate to="/" replace/>) : (
+    return (!user) ? (<></>) : (
+        (user.role !== "Admin") ? (<></>) : (
         <>
             <AddUserToProjectModal showModal={showModal}
                                    closeModal={closeModal}

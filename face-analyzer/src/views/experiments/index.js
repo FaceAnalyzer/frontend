@@ -8,14 +8,16 @@ import {gridSpacing} from 'store/constant';
 import StimuliCard from '../../ui-component/cards/experiments/StimuliCard';
 import AddStimuliCard from '../../ui-component/cards/experiments/AddStimuliCard';
 import ExperimentHeader from "../../ui-component/headers/ExperimentHeader";
-import {Navigate, useParams} from "react-router";
+import {useParams} from "react-router";
 import axios from "axios";
 import {GET_EXPERIMENTS_API, GET_PROJECT_BY_ID_API, GET_STIMULI_API} from "../../endpoints/BackendEndpoints";
 import {useAuth} from "../../context/authContext";
+import {useNavigate} from "react-router-dom";
 
 // ==============================|| EXPERIMENTS DASHBOARD ||============================== //
 
 const Experiment = () => {
+  const navigate = useNavigate();
   const {experimentId} = useParams();
   const [stimuliList, setStimuliList] = useState([]);
   const [experimentData, setExperimentData] = useState([]);
@@ -49,10 +51,17 @@ const Experiment = () => {
       }
     };
 
-    fetchData().then();
-  }, [experimentId]);
+    if (user) {
+      fetchData().then();
+    } else {
+      navigate('/login');
+    }
 
-  return !user ? (<Navigate to="/login" replace/>) : (
+  }, [experimentId, user, navigate]);
+
+  return !user ? (
+      <></>
+  ) : (
       <Grid container spacing={gridSpacing} sx={{padding: '16px'}}>
         <Grid item xs={12}>
           <ExperimentHeader data={experimentData} projectData={projectData}/>
