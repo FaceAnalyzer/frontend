@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import YouTube from "react-youtube";
-import { analysisInterval } from "../../reactions/VisageProcessing";
+import {analysisInterval} from "../../reactions/VisageProcessing";
 import NewChart from "./NewChart";
 import {Grid} from "@mui/material";
 import Skeleton from "@mui/material/Skeleton";
@@ -39,7 +39,7 @@ const DynamicChart = ({ isLoading, stimuliData, groupedSortedData }) => {
 
     useEffect(() => {
         if(youtubePlayer){
-            youtubePlayer.seekTo(timestamp/1000);
+            // youtubePlayer.seekTo(timestamp/1000);
         }
     }, [timestamp, youtubePlayer]);
 
