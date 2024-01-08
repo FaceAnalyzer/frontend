@@ -150,10 +150,10 @@ const CollectiveChartHeader = ({
 };
 
 CollectiveChartHeader.propTypes = {
-    activeButton: PropTypes.string,
-    setActiveButton: PropTypes.func,
-    emotionsData: PropTypes.object,
-    reactionData: PropTypes.object
+    stimuliData: PropTypes.object,
+    experimentData: PropTypes.object,
+    projectData: PropTypes.object,
+    reactionList: PropTypes.array,
 }
 
 export default CollectiveChartHeader;

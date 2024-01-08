@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button, Typography } from '@mui/material';
+import PropTypes from "prop-types";
 
 const ErrorPage = ({error, resetErrorBoundary}) => {
     console.error("An error caused the Error page to show:", error);
@@ -17,5 +18,10 @@ const ErrorPage = ({error, resetErrorBoundary}) => {
         </div>
     );
 };
+
+ErrorPage.propTypes = {
+    error: PropTypes.object,
+    resetErrorBoundary: PropTypes.func,
+}
 
 export default ErrorPage;

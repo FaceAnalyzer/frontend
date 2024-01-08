@@ -179,7 +179,7 @@ const NewChart = ({ groupedSortedData, videoTimeMs, setTimestamp }) => {
                 </ResponsiveContainer>
             </Grid>
             <Grid item xs={12}>
-                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <div style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap'}}>
                     {Object.keys(groupedSortedData).map((emotion) => (
                         <FormControlLabel
                             key={emotion}
@@ -213,6 +213,7 @@ NewChart.propTypes = {
     active: PropTypes.bool,
     payload: PropTypes.array,
     label: PropTypes.string,
+    setTimestamp: PropTypes.number,
 };
  
 export default NewChart;

@@ -4,6 +4,7 @@ import { analysisInterval } from "../../reactions/VisageProcessing";
 import NewChart from "./NewChart";
 import {Grid} from "@mui/material";
 import Skeleton from "@mui/material/Skeleton";
+import PropTypes from "prop-types";
 
 const DynamicChart = ({ isLoading, stimuliData, groupedSortedData }) => {
     const [videoTimeMs, setVideoTimeMs] = useState(0);
@@ -31,6 +32,7 @@ const DynamicChart = ({ isLoading, stimuliData, groupedSortedData }) => {
 
     useEffect(() => {
         if(groupedSortedData instanceof Array){
+            // eslint-disable-next-line
             groupedSortedData = {};
         }
     }, [groupedSortedData]);
@@ -39,11 +41,11 @@ const DynamicChart = ({ isLoading, stimuliData, groupedSortedData }) => {
         if(youtubePlayer){
             youtubePlayer.seekTo(timestamp/1000);
         }
-    }, [timestamp]);
+    }, [timestamp, youtubePlayer]);
 
     return(
-        <Grid container spacing={2}>
-            <Grid item xs={12}>
+        <Grid container spacing={2} direction={"row"} alignItems={"center"}>
+            <Grid item xs={12} md={3}>
                 <YouTube
                     style={{ display: 'flex', justifyContent: 'center' }}
                     videoId={stimuliData.videoId}
@@ -55,7 +57,7 @@ const DynamicChart = ({ isLoading, stimuliData, groupedSortedData }) => {
                     onReady={handlerOnReady}
                 />
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={12} md={9}>
                 {isLoading ? (
                     <Skeleton animation={"wave"}>
                         <NewChart groupedSortedData={groupedSortedData} videoTimeMs={videoTimeMs}/>
@@ -67,5 +69,11 @@ const DynamicChart = ({ isLoading, stimuliData, groupedSortedData }) => {
         </Grid>
     )
 }
+
+DynamicChart.propTypes = {
+    isLoading: PropTypes.bool,
+    stimuliData: PropTypes.object,
+    groupedSortedData: PropTypes.object,
+};
 
 export default DynamicChart;

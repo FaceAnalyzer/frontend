@@ -36,7 +36,7 @@ const Projects = () => {
         } else {
             navigate('/login');
         }
-    }, [navigate, user]);
+    }, [user, navigate]);
 
     return !user ? (
         <></>
