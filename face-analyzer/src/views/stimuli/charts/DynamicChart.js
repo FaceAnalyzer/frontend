@@ -42,8 +42,8 @@ const DynamicChart = ({ isLoading, stimuliData, groupedSortedData }) => {
     }, [timestamp]);
 
     return(
-        <Grid container spacing={2}>
-            <Grid item xs={12}>
+        <Grid container spacing={2} direction={"row"} alignItems={"center"}>
+            <Grid item xs={12} md={3}>
                 <YouTube
                     style={{ display: 'flex', justifyContent: 'center' }}
                     videoId={stimuliData.videoId}
@@ -55,7 +55,7 @@ const DynamicChart = ({ isLoading, stimuliData, groupedSortedData }) => {
                     onReady={handlerOnReady}
                 />
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={12} md={9}>
                 {isLoading ? (
                     <Skeleton animation={"wave"}>
                         <NewChart groupedSortedData={groupedSortedData} videoTimeMs={videoTimeMs}/>

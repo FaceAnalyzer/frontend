@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {useTheme} from "@mui/material/styles";
-import {Box, Button, CardHeader, Link, Typography} from "@mui/material";
+import {Box, Button, CardHeader, Grid, Link, Typography} from "@mui/material";
 import AnimateButton from "../extended/AnimateButton";
 import {IconChevronRight, IconClipboardList, IconDownload, IconFlask, IconGraph, IconVideo} from "@tabler/icons";
 import PropTypes from "prop-types";
@@ -128,82 +128,96 @@ const ChartHeader = ({
                     </Typography>
                 }/>
             </Box>
-            <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
-                <Box sx={{display: 'flex', gap: 1, pr: 2}}>
-                    <AnimateButton>
-                        <Button
-                            id={"button-emotions-over-time"}
-                            onClick={() => handleButtonClick('overTime')}
-                            sx={activeButton === 'overTime' ? {
-                                color: theme.palette.secondary
-                            } : {
-                                color: theme.palette.grey[700],
-                                backgroundColor: theme.palette.grey[50],
-                            }}
-                            variant={activeButton === 'overTime' ? 'contained' : ''}
-                            disableElevation
-                        >
-                            Emotions over time
-                        </Button>
-                    </AnimateButton>
-                    <AnimateButton>
-                        <Button
-                            id={"button-emotions-distribution"}
-                            onClick={() => handleButtonClick('distribution')}
-                            sx={activeButton === 'distribution' ? {
-                                color: theme.palette.secondary
-                            } : {
-                                color: theme.palette.grey[700],
-                                backgroundColor: theme.palette.grey[50],
-                            }}
-                            variant={activeButton === 'distribution' ? 'contained' : ''}
-                            disableElevation
-                        >
-                            Emotions distribution
-                        </Button>
-                    </AnimateButton>
-                    <AnimateButton>
-                        <Button
-                            id={"button-dynamic-chart"}
-                            onClick={() => handleButtonClick('dynamic')}
-                            sx={activeButton === 'dynamic' ? {
-                                color: theme.palette.secondary
-                            } : {
-                                color: theme.palette.grey[700],
-                                backgroundColor: theme.palette.grey[50],
-                            }}
-                            variant={activeButton === 'dynamic' ? 'contained' : ''}
-                            disableElevation
-                        >
-                            Dynamic chart
-                        </Button>
-                    </AnimateButton>
-                </Box>
-                <Box sx={{display: 'flex', gap: 1, pr: 2}}>
-                    <AnimateButton>
-                        <Button
-                            id={"button-add-note"}
-                            sx={{color: theme.palette.secondary}}
-                            variant={'contained'}
-                            disableElevation
-                            onClick={openModal}
-                        >
-                            <IconClipboardList/> Add note
-                        </Button>
-                    </AnimateButton>
-                    <AnimateButton>
-                        <Button
-                            id={"button-export-csv"}
-                            sx={{color: theme.palette.secondary}}
-                            variant={'contained'}
-                            disableElevation
-                            onClick={downloadCSV}
-                        >
-                            <IconDownload/> Export CSV
-                        </Button>
-                    </AnimateButton>
-                </Box>
-            </Box>
+            <Grid container spacing={1} justifyContent={"space-between"}>
+                <Grid item>
+                    <Grid container spacing={1}>
+                        <Grid item>
+                            <AnimateButton>
+                                <Button
+                                    id={"button-emotions-over-time"}
+                                    onClick={() => handleButtonClick('overTime')}
+                                    sx={activeButton === 'overTime' ? {
+                                        color: theme.palette.secondary
+                                    } : {
+                                        color: theme.palette.grey[700],
+                                        backgroundColor: theme.palette.grey[50],
+                                    }}
+                                    variant={activeButton === 'overTime' ? 'contained' : ''}
+                                    disableElevation
+                                >
+                                    Emotions over time
+                                </Button>
+                            </AnimateButton>
+                        </Grid>
+                        <Grid item>
+                            <AnimateButton>
+                                <Button
+                                    id={"button-emotions-distribution"}
+                                    onClick={() => handleButtonClick('distribution')}
+                                    sx={activeButton === 'distribution' ? {
+                                        color: theme.palette.secondary
+                                    } : {
+                                        color: theme.palette.grey[700],
+                                        backgroundColor: theme.palette.grey[50],
+                                    }}
+                                    variant={activeButton === 'distribution' ? 'contained' : ''}
+                                    disableElevation
+                                >
+                                    Emotions distribution
+                                </Button>
+                            </AnimateButton>
+                        </Grid>
+                        <Grid item>
+                            <AnimateButton>
+                                <Button
+                                    id={"button-dynamic-chart"}
+                                    onClick={() => handleButtonClick('dynamic')}
+                                    sx={activeButton === 'dynamic' ? {
+                                        color: theme.palette.secondary
+                                    } : {
+                                        color: theme.palette.grey[700],
+                                        backgroundColor: theme.palette.grey[50],
+                                    }}
+                                    variant={activeButton === 'dynamic' ? 'contained' : ''}
+                                    disableElevation
+                                >
+                                    Dynamic chart
+                                </Button>
+                            </AnimateButton>
+                        </Grid>
+                    </Grid>
+                </Grid>
+                <Grid item>
+                    <Grid container spacing={1}>
+                        <Grid item>
+                            <AnimateButton>
+                                <Button
+                                    id={"button-add-note"}
+                                    sx={{color: theme.palette.secondary}}
+                                    variant={'contained'}
+                                    disableElevation
+                                    onClick={openModal}
+                                >
+                                    <IconClipboardList/> Add note
+                                </Button>
+                            </AnimateButton>
+                        </Grid>
+                        <Grid item>
+                            <AnimateButton>
+                                <Button
+                                    id={"button-export-csv"}
+                                    sx={{color: theme.palette.secondary}}
+                                    variant={'contained'}
+                                    disableElevation
+                                    onClick={downloadCSV}
+                                >
+                                    <IconDownload/> Export CSV
+                                </Button>
+                            </AnimateButton>
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </Grid>
         </Box>
     );
 };
