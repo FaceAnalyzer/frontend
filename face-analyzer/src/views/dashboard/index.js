@@ -5,21 +5,30 @@ import {Grid} from '@mui/material';
 import DashboardHeader from "../../ui-component/headers/DashboardHeader";
 import DashboardCard from "../../ui-component/cards/dashboard/DashboardCard";
 import {useAuth} from "../../context/authContext";
-import {Navigate} from "react-router";
+import {useNavigate} from "react-router-dom";
 
 // ==============================|| LANDING DASHBOARD ||============================== //
 
 const Dashboard = () => {
+    const navigate = useNavigate();
+
     const [isLoading, setLoading] = useState(true);
     const {user} = useAuth();
 
     useEffect(() => {
-        setLoading(false);
-    }, [isLoading]);
+        if (user) {
+            setLoading(false);
+        } else {
+            navigate('/login');
+        }
+
+    }, [isLoading, user, navigate]);
 
     return (
         <Grid container spacing={3}>
-            {!user ? (<Navigate to="/login" replace/>) : (
+            !user ? (
+            <></>
+            ) : (
                 <>
                     <Grid item xs={12}>
                         <DashboardHeader/>
@@ -39,7 +48,7 @@ const Dashboard = () => {
                         </>
                     )}
                 </>
-            )}
+            )
         </Grid>
     );
 

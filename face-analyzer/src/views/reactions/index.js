@@ -5,20 +5,26 @@ import React, {useEffect, useRef, useState} from "react";
 import {AnalysisDataContext} from "./AnalysisDataContext";
 import {saveNewReaction} from "./AnalysisDataFunctions";
 import {Button, Grid} from "@mui/material";
-import {Navigate, useParams} from "react-router";
+import {useParams} from "react-router";
 import {useAuth} from "../../context/authContext";
+import {useNavigate} from "react-router-dom";
 
 // ==============================|| Analyzer ||============================== //
 
 const Reaction = () => {
+    const navigate = useNavigate();
     const {stimuliId} = useParams();
     const [isLoading, setLoading] = useState(true);
     const [isRecording, setIsRecording] = useState(false);
     const user = useAuth();
 
     useEffect(() => {
-        setLoading(false);
-    }, []);
+        if (user) {
+            setLoading(false);
+        } else {
+            navigate("/login");
+        }
+    }, [user, navigate]);
 
     const toggleRecording = () => {
         setIsRecording(!isRecording);
@@ -40,7 +46,7 @@ const Reaction = () => {
         "time": 0
     });
 
-    return !user ? (<Navigate to="/login" replace/>) : (
+    return !user ? (<></>) : (
         <AnalysisDataContext.Provider value={{analysisData, setAnalysisData}}>
             <Grid container spacing={2}>
                 <Grid item xs={8}>
