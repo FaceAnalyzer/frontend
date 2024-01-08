@@ -3,10 +3,13 @@ import {render, waitFor} from "@testing-library/react";
 import {MemoryRouter, useNavigate} from "react-router-dom";
 
 import {useAuth} from "../context/authContext";
-import UserManagement from "../views/users/UserManagement";
 import axios from "axios";
+import ProjectResearchers from "../views/projects/researchers";
 
 const mockedUseNavigate = jest.fn();
+const mockedUseParams = jest.fn(() => {
+    projectId: "100"
+});
 
 jest.mock('../context/authContext');
 jest.mock('axios');
@@ -15,7 +18,7 @@ jest.mock('react-router-dom', () => ({
     useNavigate: () => mockedUseNavigate,
 }));
 
-describe('User Management Component', () => {
+describe('Researchers Component', () => {
     describe('User is not authenticated', () => {
         beforeEach(() => {
             useAuth.mockReturnValue({user: null});
@@ -25,7 +28,7 @@ describe('User Management Component', () => {
             try {
                 const {container, getByText} = render(
                     <MemoryRouter>
-                        <UserManagement/>
+                        <ProjectResearchers/>
                     </MemoryRouter>
                 );
                 await waitFor(() => {
@@ -38,10 +41,20 @@ describe('User Management Component', () => {
     });
 
     describe('User is authenticated as Admin', () => {
-        let response;
+        let projectResp;
+        let usersOnProjectResp;
+        let allUsersResp;
         beforeEach(() => {
             useAuth.mockReturnValue({user: {role: 'Admin'}});
-            response = {
+            projectResp = {data: {id: 100, name: "test project"}};
+            usersOnProjectResp = {
+                data: {
+                    items: [
+                        {id: 1, name: 'test 1', role: 'test', email: 'test@test', contact: '123', username: 'test'}
+                    ]
+                }
+            };
+            allUsersResp = {
                 data: {
                     items: [
                         {id: 1, name: 'test 1', role: 'test', email: 'test@test', contact: '123', username: 'test'},
@@ -51,16 +64,16 @@ describe('User Management Component', () => {
             };
         });
 
-        test("User Management should be rendered for Admin", async () => {
-            axios.get.mockResolvedValue(response);
+        test("Project Researchers should be rendered for Admin", async () => {
+            axios.get.mockResolvedValueOnce(projectResp).mockResolvedValueOnce(usersOnProjectResp).mockResolvedValueOnce(allUsersResp);
 
             const {getAllByText} = render(
                 <MemoryRouter>
-                    <UserManagement/>
+                    <ProjectResearchers/>
                 </MemoryRouter>
             );
 
-            await waitFor(() => expect(getAllByText(/user management/i)[0]).toBeInTheDocument())
+            await waitFor(() => expect(getAllByText(/project researchers/i)[0]).toBeInTheDocument())
         });
     });
 
@@ -73,7 +86,7 @@ describe('User Management Component', () => {
 
             const {getAllByText} = render(
                 <MemoryRouter>
-                    <UserManagement/>
+                    <ProjectResearchers/>
                 </MemoryRouter>
             );
 

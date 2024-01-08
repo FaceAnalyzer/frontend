@@ -39,7 +39,11 @@ const Experiments = () => {
         const filteredExperimentList = items.filter((item) => item.projectId === ID);
         console.log('Experiment List:', filteredExperimentList);
 
-        setExperimentList(filteredExperimentList.reverse()); //reverse so newest experiments are shown first
+        // setExperimentList(filteredExperimentList.reverse()); //reverse so newest experiments are shown first
+        setExperimentList([
+          {id: 1, name: 'test ex 1', description: "test desc 1", projectId: 100},
+          {id: 2, name: 'test ex 2', description: "test desc 2", projectId: 100}
+        ]);
         setProjectData(fetchedProject);
         setLoading(false);
       } catch (error) {
