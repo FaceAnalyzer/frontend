@@ -15,7 +15,7 @@
     "@tabler/icons": "^1.72.0",
     "@testing-library/react": "^14.1.2",
     "apexcharts": "^3.35.3",
-    "axios": "0.21.1",
+    "axios": "1.6.0",
     "clsx": "^2.0.0",
     "d3-shape": "^3.2.0",
     "date-fns": "^2.30.0",
@@ -60,6 +60,11 @@
     "presets": [
       "@babel/preset-react"
     ]
+  },
+  "jest": {
+    "moduleNameMapper": {
+      "axios": "axios/dist/node/axios.cjs"
+    }
   },
   "browserslist": {
     "production": [
