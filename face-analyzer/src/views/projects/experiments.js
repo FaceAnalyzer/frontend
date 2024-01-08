@@ -10,12 +10,14 @@ import axios from "axios";
 import {GET_EXPERIMENTS_API, GET_PROJECT_BY_ID_API} from "../../endpoints/BackendEndpoints";
 import {gridSpacing} from "../../store/constant";
 import ProjectHeader from "../../ui-component/headers/ProjectHeader";
-import {Navigate, useParams} from "react-router";
+import {useParams} from "react-router";
 import {useAuth} from "../../context/authContext";
+import {useNavigate} from "react-router-dom";
 
 // ==============================|| EXPERIMENTS DASHBOARD ||============================== //
 
 const Experiments = () => {
+  const navigate = useNavigate();
   const {projectId} = useParams();
   const ID = parseInt(projectId);
 
@@ -45,11 +47,18 @@ const Experiments = () => {
       }
     };
 
-    fetchExperimentData();
-  }, [ID, projectId]);
+    if (user) {
+      fetchExperimentData().then();
+    } else {
+      navigate('/login');
+    }
+
+  }, [ID, projectId, navigate, user]);
 
 
-  return !user ? (<Navigate to="/login" replace/>) : (
+  return !user ? (
+      <></>
+  ) : (
       <Grid container spacing={gridSpacing} sx={{padding: '16px'}}>
         <Grid item xs={12}>
           <ProjectHeader data={projectData}/>
