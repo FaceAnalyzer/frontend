@@ -39,36 +39,40 @@ const AddUserModal = ({showModal, closeModal, existingEmails, existingUsernames}
     const scriptedRef = useScriptRef();
     const [showPassword, setShowPassword] = useState(false);
     const [loadingSpinner, setLoadingSpinner] = useState(false);
+    const [disableSaveButton, setDisableSaveButton] = useState(false);
 
     //const phoneRegExp = /^((\+[1-9]{1,4}[ -]*)|(\([0-9]{2,3}\)[ -]*)|([0-9]{2,4})[ -]*)*?[0-9]{3,4}?[ -]*[0-9]{3,4}?$/
     const phoneRegExp = /^[\d\s().\-+]+$/
 
     const handleSave = async (values, {setErrors, setStatus}) => {
-        setLoadingSpinner(true);
         try {
             axios.post(ADD_USERS_API, JSON.stringify(values))
                 .then(response => {
-                    setLoadingSpinner(false);
                     if (response.status === 201) {
                         // Refresh the page after a successful submission
                         navigate(0);
                     } else {
                         const data = response.data;
+                        setLoadingSpinner(false);
+                        setDisableSaveButton(false);
                         setErrors(data.errors);
                         setStatus({success: false});
                     }
                 }).catch(response => {
                     const data = response.data;
+                    setLoadingSpinner(false);
+                    setDisableSaveButton(false);
                     setErrors(data);
                     setStatus({success: false});
-            });
+                });
 
         } catch (err) {
             console.error(err);
+            setLoadingSpinner(false);
+            setDisableSaveButton(false);
             setErrors({submit: err.message});
             setStatus({success: false});
         }
-        setLoadingSpinner(false);
     };
 
     const handleClickShowPassword = () => {
@@ -115,6 +119,8 @@ const AddUserModal = ({showModal, closeModal, existingEmails, existingUsernames}
                             })}
 
                             onSubmit={async (values, { setErrors, setStatus }) => {
+                                setDisableSaveButton(true);
+                                setLoadingSpinner(true);
                                 try {
                                     if (scriptedRef.current) {
                                         await handleSave(values, {setErrors, setStatus});
@@ -122,6 +128,8 @@ const AddUserModal = ({showModal, closeModal, existingEmails, existingUsernames}
                                     }
                                 } catch (err) {
                                     console.error(err);
+                                    setLoadingSpinner(false);
+                                    setDisableSaveButton(false);
                                     if (scriptedRef.current) {
                                         setStatus({ success: false });
                                         setErrors({ submit: err.message });
@@ -129,7 +137,7 @@ const AddUserModal = ({showModal, closeModal, existingEmails, existingUsernames}
                                 }
                             }}>
 
-                            {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched , values}) => (
+                            {({ errors, handleBlur, handleChange, handleSubmit, touched , values}) => (
                                 <form noValidate onSubmit={handleSubmit}>
                                     <ModalContent>
                                         <ModalBody>
@@ -309,7 +317,7 @@ const AddUserModal = ({showModal, closeModal, existingEmails, existingUsernames}
                                                 <Button
                                                     id={"button-save"}
                                                     disableElevation
-                                                    disabled={isSubmitting}
+                                                    disabled={disableSaveButton}
                                                     fullWidth
                                                     size="medium"
                                                     type="submit"

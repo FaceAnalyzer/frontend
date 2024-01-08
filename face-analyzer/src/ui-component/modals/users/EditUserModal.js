@@ -37,6 +37,7 @@ const EditUserModal = ({closeModal, showModal, userForEdit, existingEmails, exis
     const navigate = useNavigate();
     const scriptedRef = useScriptRef();
     const [loadingSpinner, setLoadingSpinner] = useState(false);
+    const [disableSaveButton, setDisableSaveButton] = useState(false);
 
     //const phoneRegExp = /^((\+[1-9]{1,4}[ -]*)|(\([0-9]{2,3}\)[ -]*)|([0-9]{2,4})[ -]*)*?[0-9]{3,4}?[ -]*[0-9]{3,4}?$/
     const phoneRegExp = /^[\d\s().\-+]+$/
@@ -45,7 +46,6 @@ const EditUserModal = ({closeModal, showModal, userForEdit, existingEmails, exis
     const user = userForEdit;
 
     const handleUpdate = async (values, {setErrors, setStatus}) => {
-        setLoadingSpinner(true);
         try {
             axios.put(PUT_USER_BY_ID_API.replace("{id}", user.id), JSON.stringify(values))
                 .then(response => {
@@ -53,16 +53,22 @@ const EditUserModal = ({closeModal, showModal, userForEdit, existingEmails, exis
                         //window.location.reload();
                     } else {
                         const data = response.data;
+                        setLoadingSpinner(false);
+                        setDisableSaveButton(false);
                         setErrors(data.errors);
                         setStatus({success: false});
                     }
                 }).catch(response => {
-                const data = response.data;
-                setErrors(data);
-                setStatus({success: false});
-            });
+                    const data = response.data;
+                    setLoadingSpinner(false);
+                    setDisableSaveButton(false);
+                    setErrors(data);
+                    setStatus({success: false});
+                });
         } catch (err) {
             console.error(err);
+            setLoadingSpinner(false);
+            setDisableSaveButton(false);
             setErrors({submit: err.message});
             setStatus({success: false});
         }
@@ -80,21 +86,26 @@ const EditUserModal = ({closeModal, showModal, userForEdit, existingEmails, exis
                             //window.location.reload();
                         } else {
                             const data = response.data;
+                            setLoadingSpinner(false);
+                            setDisableSaveButton(false);
                             setErrors(data.errors);
                             setStatus({success: false});
                         }
                     }).catch(response => {
                     const data = response.data;
+                    setLoadingSpinner(false);
+                    setDisableSaveButton(false);
                     setErrors(data);
                     setStatus({success: false});
                 });
             } catch (err) {
                 console.error(err);
+                setLoadingSpinner(false);
+                setDisableSaveButton(false);
                 setErrors({submit: err.message});
                 setStatus({success: false});
             }
         }
-        setLoadingSpinner(false);
         //Reload whether password is updated or not
         navigate(0);
     };
@@ -138,6 +149,8 @@ const EditUserModal = ({closeModal, showModal, userForEdit, existingEmails, exis
                             })}
 
                             onSubmit={async (values, { setErrors, setStatus }) => {
+                                setDisableSaveButton(true);
+                                setLoadingSpinner(true);
                                 try {
                                     if (scriptedRef.current) {
                                         await handleUpdate(values, {setErrors, setStatus});
@@ -145,6 +158,8 @@ const EditUserModal = ({closeModal, showModal, userForEdit, existingEmails, exis
                                     }
                                 } catch (err) {
                                     console.error(err);
+                                    setLoadingSpinner(false);
+                                    setDisableSaveButton(false);
                                     if (scriptedRef.current) {
                                         setStatus({ success: false });
                                         setErrors({ submit: err.message });
@@ -152,7 +167,7 @@ const EditUserModal = ({closeModal, showModal, userForEdit, existingEmails, exis
                                 }
                             }}>
 
-                            {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched , values}) => (
+                            {({ errors, handleBlur, handleChange, handleSubmit, touched , values}) => (
                                 <form noValidate onSubmit={handleSubmit}>
                                     <ModalContent>
                                         <ModalBody>
@@ -316,7 +331,7 @@ const EditUserModal = ({closeModal, showModal, userForEdit, existingEmails, exis
                                                 <Button
                                                     id={"button-save"}
                                                     disableElevation
-                                                    disabled={isSubmitting}
+                                                    disabled={disableSaveButton}
                                                     fullWidth
                                                     size="medium"
                                                     type="submit"
@@ -357,7 +372,9 @@ const EditUserModal = ({closeModal, showModal, userForEdit, existingEmails, exis
 EditUserModal.propTypes = {
     showModal: PropTypes.bool,
     closeModal: PropTypes.func,
-    userForEdit: PropTypes.object
+    userForEdit: PropTypes.object,
+    existingEmails: PropTypes.array,
+    existingUsernames: PropTypes.array,
 }
 
 export default EditUserModal;

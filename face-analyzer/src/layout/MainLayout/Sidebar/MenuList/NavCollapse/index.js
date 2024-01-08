@@ -116,25 +116,17 @@ const NavCollapse = ({ menu, level }) => {
                   <ListItemIcon onClick={handleMenuTextClick} sx={{ my: 'auto', minWidth: !menu.icon ? 18 : 36 }}>{menuIcon}</ListItemIcon>
               </Grid>
               <Grid item xs={9}>
-                  <ListItemText
-                      primary={
+                  <ListItemText>
+                      <Tooltip title={menu.title} enterDelay={500}>
                           <Typography variant={selected === menu.id ? 'h5' : 'body1'}
-                                      color="inherit"
+                                      color={"black"}
                                       sx={{my: 'auto', textOverflow: 'ellipsis', overflow: 'hidden'}}
-                                      onClick={handleMenuTextClick}>
-                              <Tooltip title={menu.title} enterDelay={500}> {/* color inheritance issues so tooltip has to be here */}
-                                {menu.title}
-                              </Tooltip>
+                                      onClick={handleMenuTextClick}
+                          >
+                              {menu.title}
                           </Typography>
-                      }
-                      secondary={
-                          menu.caption && (
-                              <Typography variant="caption" sx={{ ...theme.typography.subMenuCaption }} display="block" gutterBottom>
-                                  {menu.caption}
-                              </Typography>
-                          )
-                      }
-                  />
+                      </Tooltip>
+                  </ListItemText>
               </Grid>
               <Grid item xs={1}>
                   {open ? (

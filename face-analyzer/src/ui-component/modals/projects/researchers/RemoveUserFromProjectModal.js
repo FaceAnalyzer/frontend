@@ -28,6 +28,7 @@ const RemoveUserFromProjectModal = ({showModal, closeModal, userForRemoval, proj
     const navigate = useNavigate();
     const scriptedRef = useScriptRef();
     const [loadingSpinner, setLoadingSpinner] = useState(false);
+    const [disableSaveButton, setDisableSaveButton] = useState(false);
 
     const user = userForRemoval;
     const userId = user.id;
@@ -35,16 +36,16 @@ const RemoveUserFromProjectModal = ({showModal, closeModal, userForRemoval, proj
     const projectId = project.id;
 
     const handleDelete = async (values, {setErrors, setStatus}) => {
-        setLoadingSpinner(true);
         const items = {researchersIds: [userId]};
         try {
             await axios.put(REMOVE_RESEARCHER_FROM_PROJECT_API.replace('{id}', projectId), JSON.stringify(items))
                 .then(response => {
-                    setLoadingSpinner(false);
                     if (response.status === 204) {
                         navigate(0);
                     } else {
                         const data = response.data;
+                        setLoadingSpinner(false);
+                        setDisableSaveButton(false);
                         setErrors(data.errors);
                         setStatus({success: false});
                     }
@@ -54,10 +55,11 @@ const RemoveUserFromProjectModal = ({showModal, closeModal, userForRemoval, proj
 
         } catch (err) {
             console.error(err);
+            setLoadingSpinner(false);
+            setDisableSaveButton(false);
             setErrors({submit: err.message});
             setStatus({success: false});
         }
-        setLoadingSpinner(false);
     };
 
 
@@ -71,6 +73,8 @@ const RemoveUserFromProjectModal = ({showModal, closeModal, userForRemoval, proj
                                 id: {userId},
                             }}
                             onSubmit={async (values, {setErrors, setStatus}) => {
+                                setDisableSaveButton(true);
+                                setLoadingSpinner(true);
                                 try {
                                     if (scriptedRef.current) {
                                         await handleDelete(values, {setErrors, setStatus});
@@ -78,6 +82,8 @@ const RemoveUserFromProjectModal = ({showModal, closeModal, userForRemoval, proj
                                     }
                                 } catch (err) {
                                     console.error(err);
+                                    setLoadingSpinner(false);
+                                    setDisableSaveButton(false);
                                     if (scriptedRef.current) {
                                         setStatus({success: false});
                                         setErrors({submit: err.message});
@@ -85,7 +91,7 @@ const RemoveUserFromProjectModal = ({showModal, closeModal, userForRemoval, proj
                                 }
                             }}>
 
-                            {({errors, handleSubmit, isSubmitting}) => (
+                            {({errors, handleSubmit}) => (
                                 <form noValidate onSubmit={handleSubmit}>
                                     <ModalContent>
                                         <ModalBody>
@@ -129,7 +135,7 @@ const RemoveUserFromProjectModal = ({showModal, closeModal, userForRemoval, proj
                                                 <Button
                                                     id={"button-yes"}
                                                     disableElevation
-                                                    disabled={isSubmitting}
+                                                    disabled={disableSaveButton}
                                                     fullWidth
                                                     size="medium"
                                                     type="submit"

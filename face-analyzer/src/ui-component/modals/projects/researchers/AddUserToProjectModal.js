@@ -29,35 +29,39 @@ const AddUserToProjectModal = ({showModal, closeModal, usersNotOnProjectData, pr
     const navigate = useNavigate();
     const scriptedRef = useScriptRef();
     const [loadingSpinner, setLoadingSpinner] = useState(false);
+    const [disableSaveButton, setDisableSaveButton] = useState(false);
 
     const project = projectData;
 
     const handleSave = (values, {setErrors, setStatus}) => {
-        setLoadingSpinner(true);
         const items = {researchersIds: [values.researcherId]};
         try {
             axios.put(ADD_RESEARCHER_TO_PROJECT_API.replace('{id}', project.id), JSON.stringify(items))
                 .then(response => {
-                    setLoadingSpinner(false);
                     if (response.status === 204) {
                         navigate(0);
                     } else {
                         const data = response.data;
+                        setLoadingSpinner(false);
+                        setDisableSaveButton(false);
                         setErrors(data.errors);
                         setStatus({success: false});
                     }
                 }).catch(response => {
-                const data = response.data;
-                setErrors(data);
-                setStatus({success: false});
+                    const data = response.data;
+                    setLoadingSpinner(false);
+                    setDisableSaveButton(false);
+                    setErrors(data);
+                    setStatus({success: false});
             });
 
         } catch (err) {
             console.error(err);
+            setLoadingSpinner(false);
+            setDisableSaveButton(false);
             setErrors({submit: err.message});
             setStatus({success: false});
         }
-        setLoadingSpinner(false);
     };
 
     return (
@@ -75,6 +79,8 @@ const AddUserToProjectModal = ({showModal, closeModal, usersNotOnProjectData, pr
                             })}
 
                             onSubmit={async (values, {setErrors, setStatus}) => {
+                                setDisableSaveButton(true);
+                                setLoadingSpinner(true);
                                 try {
                                     if (scriptedRef.current) {
                                         await handleSave(values, {setErrors, setStatus});
@@ -82,6 +88,8 @@ const AddUserToProjectModal = ({showModal, closeModal, usersNotOnProjectData, pr
                                     }
                                 } catch (err) {
                                     console.error(err);
+                                    setLoadingSpinner(false);
+                                    setDisableSaveButton(false);
                                     if (scriptedRef.current) {
                                         setStatus({success: false});
                                         setErrors({submit: err.message});
@@ -89,7 +97,7 @@ const AddUserToProjectModal = ({showModal, closeModal, usersNotOnProjectData, pr
                                 }
                             }}>
 
-                            {({errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values}) => (
+                            {({errors, handleBlur, handleChange, handleSubmit, touched, values}) => (
                                 <form noValidate onSubmit={handleSubmit}>
                                     <ModalContent>
                                         <ModalBody>
@@ -155,7 +163,7 @@ const AddUserToProjectModal = ({showModal, closeModal, usersNotOnProjectData, pr
                                                 <Button
                                                     id={"button-save"}
                                                     disableElevation
-                                                    disabled={isSubmitting}
+                                                    disabled={disableSaveButton}
                                                     fullWidth
                                                     size="medium"
                                                     type="submit"

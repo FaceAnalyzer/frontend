@@ -27,7 +27,8 @@ const StimuliCard = ({isLoading, data}) => {
 };
 
 StimuliCard.propTypes = {
-  isLoading: PropTypes.bool
+    isLoading: PropTypes.bool,
+    data: PropTypes.object,
 };
 
 export default StimuliCard;

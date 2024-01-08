@@ -1,13 +1,13 @@
 import React, {useState} from 'react';
 import {Button, Paper} from "@mui/material";
 import {DataGrid} from "@mui/x-data-grid";
-import LinearProgress from "@mui/material/LinearProgress";
 import clsx from "clsx";
 import RemoveUserFromProjectModal from "../../../ui-component/modals/projects/researchers/RemoveUserFromProjectModal";
 import AnimateButton from "../../../ui-component/extended/AnimateButton";
 import {PersonRemove} from "@mui/icons-material";
 import {useTheme} from "@mui/material/styles";
 import PropTypes from "prop-types";
+import Skeleton from "@mui/material/Skeleton";
 
 const ResearcherDataGrid = ({isLoading, userList, projectData}) => {
     const [showRemoveModal, setShowRemoveModal] = useState(false);
@@ -70,6 +70,10 @@ const ResearcherDataGrid = ({isLoading, userList, projectData}) => {
         }
     ]
 
+    const skeletonRows = Array.from({ length: 5 }).map((_, index) => (
+        <Skeleton key={index} height={50} animation="wave" />
+    ));
+
     return (
         <>
             <RemoveUserFromProjectModal closeModal={closeRemoveModal}
@@ -88,8 +92,11 @@ const ResearcherDataGrid = ({isLoading, userList, projectData}) => {
                        }
                    }}
             >
-                <DataGrid rows={userList} columns={columns} loading={isLoading}
-                          slots={{loadingOverlay: LinearProgress}}/>
+                {isLoading ? (
+                    skeletonRows
+                ) : (
+                    <DataGrid rows={userList} columns={columns} loading={isLoading} />
+                )}
             </Paper>
         </>
     );

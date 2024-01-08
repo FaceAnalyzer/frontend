@@ -4,7 +4,7 @@ import {Legend, Line, LineChart, ReferenceLine, ResponsiveContainer, Tooltip, XA
 import {addMilliseconds, format} from "date-fns";
 import PropTypes from "prop-types";
 
-const NewChart = ({ groupedSortedData, videoTimeMs }) => {
+const NewChart = ({ groupedSortedData, videoTimeMs, setTimestamp }) => {
     const [chartData, setChartData] = useState([]);
     const [referenceLineX, setReferenceLineX] = useState(0);
     const [selectedLines, setSelectedLines] = useState(() =>
@@ -114,6 +114,14 @@ const NewChart = ({ groupedSortedData, videoTimeMs }) => {
         }));
     };
 
+    const handleChartClick = (event) => {
+        if(event && event.activePayload && event.activePayload.length > 0) {
+            const xValue = event.activePayload[0].payload.timeOffset;
+            console.log("xval", xValue);
+            setTimestamp(xValue);
+        }
+    }
+
     useEffect(() => {
         setReferenceLineX(videoTimeMs);
     }, [videoTimeMs]);
@@ -125,6 +133,7 @@ const NewChart = ({ groupedSortedData, videoTimeMs }) => {
                     <LineChart
                         data={chartData}
                         margin={{ top: 5, right: 30, left: 20, bottom: 20 }}
+                        onClick={handleChartClick}
                     >
                         <ReferenceLine
                             x={referenceLineX}
@@ -170,7 +179,7 @@ const NewChart = ({ groupedSortedData, videoTimeMs }) => {
                 </ResponsiveContainer>
             </Grid>
             <Grid item xs={12}>
-                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <div style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap'}}>
                     {Object.keys(groupedSortedData).map((emotion) => (
                         <FormControlLabel
                             key={emotion}
@@ -204,6 +213,7 @@ NewChart.propTypes = {
     active: PropTypes.bool,
     payload: PropTypes.array,
     label: PropTypes.string,
+    setTimestamp: PropTypes.number,
 };
  
 export default NewChart;

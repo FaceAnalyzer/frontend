@@ -150,6 +150,7 @@ GenericAddCard.propTypes = {
     data: PropTypes.object,
     iconComponent: PropTypes.node,
     AddModal: PropTypes.func,
+    modalProps: PropTypes.object,
 };
 
 export default GenericAddCard;

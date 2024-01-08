@@ -66,10 +66,12 @@ const UserManagement = () => {
                     </Button>
                 </Grid>
             </Grid>
-            {!isLoading ? <UserDataGrid isLoading={isLoading} userList={userList}
-                                        existingUsernames={existingUsernames} existingEmails={existingEmails}/>
-                : <strong>{"No users have been loaded. You're probably seeing this because you're not logged in."}</strong>
-            }
+            <UserDataGrid
+                isLoading={isLoading}
+                userList={userList}
+                existingUsernames={existingUsernames}
+                existingEmails={existingEmails}
+            />
         </>
         ));
 };

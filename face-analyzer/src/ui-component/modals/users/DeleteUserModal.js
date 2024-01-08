@@ -28,23 +28,21 @@ const DeleteUserModal = ({showModal, closeModal, userForDeletion}) => {
     const navigate = useNavigate();
     const scriptedRef = useScriptRef();
     const [loadingSpinner, setLoadingSpinner] = useState(false);
+    const [disableSaveButton, setDisableSaveButton] = useState(false);
 
     const deleteId = userForDeletion.id;
     const deleteUsername = userForDeletion.username;
 
     const handleDelete = async (values, {setErrors, setStatus}) => {
-        setLoadingSpinner(true);
         try {
             await axios.delete(DELETE_USER_BY_ID_API.replace('{id}', deleteId))
                 .then(response => {
-                    setLoadingSpinner(false);
-                    // this.setState({articleId: response.data.id});
-                    console.log(response.status)
                     if (response.status === 204) {
-                        // Redirect to users page
                         navigate(0);
                     } else {
                         const data = response.data;
+                        setLoadingSpinner(false);
+                        setDisableSaveButton(false);
                         setErrors(data.errors);
                         setStatus({success: false});
                     }
@@ -54,10 +52,11 @@ const DeleteUserModal = ({showModal, closeModal, userForDeletion}) => {
 
         } catch (err) {
             console.error(err);
+            setLoadingSpinner(false);
+            setDisableSaveButton(false);
             setErrors({submit: err.message});
             setStatus({success: false});
         }
-        setLoadingSpinner(false);
     };
 
 
@@ -71,6 +70,8 @@ const DeleteUserModal = ({showModal, closeModal, userForDeletion}) => {
                                 id: {deleteId},
                             }}
                             onSubmit={async (values, { setErrors, setStatus }) => {
+                                setDisableSaveButton(true);
+                                setLoadingSpinner(true);
                                 try {
                                     if (scriptedRef.current) {
                                         await handleDelete(values, {setErrors, setStatus});
@@ -78,6 +79,8 @@ const DeleteUserModal = ({showModal, closeModal, userForDeletion}) => {
                                     }
                                 } catch (err) {
                                     console.error(err);
+                                    setLoadingSpinner(false);
+                                    setDisableSaveButton(false);
                                     if (scriptedRef.current) {
                                         setStatus({ success: false });
                                         setErrors({ submit: err.message });
@@ -85,7 +88,7 @@ const DeleteUserModal = ({showModal, closeModal, userForDeletion}) => {
                                 }
                             }}>
 
-                            {({ errors, handleSubmit, isSubmitting }) => (
+                            {({ errors, handleSubmit }) => (
                                 <form noValidate onSubmit={handleSubmit}>
                                     <ModalContent>
                                         <ModalBody>
@@ -129,7 +132,7 @@ const DeleteUserModal = ({showModal, closeModal, userForDeletion}) => {
                                                 <Button
                                                     id={"button-yes"}
                                                     disableElevation
-                                                    disabled={isSubmitting}
+                                                    disabled={disableSaveButton}
                                                     fullWidth
                                                     size="medium"
                                                     type="submit"

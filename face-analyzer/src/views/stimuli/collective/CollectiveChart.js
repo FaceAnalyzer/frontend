@@ -4,6 +4,7 @@ import {Legend, ResponsiveContainer, Tooltip, XAxis, YAxis, Line, Area, Composed
 import {addMilliseconds, format} from "date-fns";
 import {mean, standardDeviation} from "simple-statistics";
 import {curveCardinal} from "d3-shape";
+import PropTypes from "prop-types";
 
 const CollectiveChart = ({ groupedSortedData }) => {
     const [chartData, setChartData] = useState([]);
@@ -226,7 +227,7 @@ const CollectiveChart = ({ groupedSortedData }) => {
                                         dataKey={`stdDevRange${emotion}`}
                                         stroke="none"
                                         fill={emotionColor[emotion]}
-                                        fillOpacity={0.3}
+                                        fillOpacity={0.2}
                                         legendType={"none"}
                                     />
                                     <Line
@@ -272,5 +273,12 @@ const tooltipStyle = {
     borderRadius: "5px",
     boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
 };
+
+CollectiveChart.propTypes = {
+    groupedSortedData: PropTypes.array,
+    active: PropTypes.bool,
+    payload: PropTypes.object,
+    label: PropTypes.string
+}
 
 export default CollectiveChart;
