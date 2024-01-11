@@ -8,7 +8,7 @@ import {useTheme} from '@mui/material/styles';
 import {Collapse, Grid, List, ListItemButton, ListItemIcon, ListItemText, Tooltip, Typography} from '@mui/material';
 
 // project imports
-import NavItem from '../NavItem';
+import NavItem from '../NavItem/NavItem';
 
 // assets
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';

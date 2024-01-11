@@ -3,7 +3,7 @@ import {render, waitFor} from "@testing-library/react";
 import {MemoryRouter, useNavigate} from "react-router-dom";
 
 import {useAuth} from "../context/authContext";
-import Dashboard from "../views/dashboard";
+import Dashboard from "../views/dashboard/Dashboard";
 
 const mockedUseNavigate = jest.fn();
 

@@ -5,8 +5,8 @@ import { useTheme } from '@mui/material/styles';
 import { Avatar, Box, ButtonBase } from '@mui/material';
 
 // project imports
-import LogoSection from '../LogoSection';
-import ProfileSection from './ProfileSection';
+import LogoSection from '../LogoSection/LogoSection';
+import ProfileSection from './ProfileSection/ProfileSection';
 
 // assets
 import { IconMenu2 } from '@tabler/icons';
