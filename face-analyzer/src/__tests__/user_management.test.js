@@ -3,7 +3,7 @@ import {render, waitFor} from "@testing-library/react";
 import {MemoryRouter, useNavigate} from "react-router-dom";
 
 import {useAuth} from "../context/authContext";
-import UserManagement from "../views/users/user_management";
+import UserManagement from "../views/users/UserManagement";
 import axios from "axios";
 
 const mockedUseNavigate = jest.fn();

@@ -1,6 +1,6 @@
 import React from "react";
 import {render, waitFor} from "@testing-library/react";
-import Projects from "../views/projects/projects";
+import Projects from "../views/projects/Projects";
 import {MemoryRouter, useNavigate} from "react-router-dom";
 import axios from 'axios';
 

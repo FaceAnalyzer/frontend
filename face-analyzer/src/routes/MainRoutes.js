@@ -1,21 +1,21 @@
 import {lazy} from 'react';
 
 // project imports
-import MainLayout from 'layout/MainLayout';
+import MainLayout from 'layout/MainLayout/MainLayout';
 import Loadable from 'ui-component/Loadable';
-import Notes from "../views/experiments/notes";
+import Notes from "../views/experiments/notes/Notes";
 
-const Dashboard = Loadable(lazy(() => import('views/dashboard')));
-const Projects = Loadable(lazy(() => import('views/projects/projects')));
-const Experiments = Loadable(lazy(() => import('views/projects/experiments')));
-const ProjectResearchers = Loadable(lazy(() => import('views/projects/researchers')));
+const Dashboard = Loadable(lazy(() => import('views/dashboard/Dashboard')));
+const Projects = Loadable(lazy(() => import('views/projects/Projects')));
+const Experiments = Loadable(lazy(() => import('views/projects/Experiments')));
+const ProjectResearchers = Loadable(lazy(() => import('views/projects/researchers/ProjectResearchers')));
 
 // User management
-const UserManagement = Loadable(lazy(() => import('views/users/user_management')));
+const UserManagement = Loadable(lazy(() => import('views/users/UserManagement')));
 
-const Experiment  = Loadable(lazy(() => import('views/experiments')));
-const Stimuli = Loadable(lazy(() => import('views/stimuli')));
-const Stats = Loadable(lazy(() => import('views/stimuli/charts')));
+const Experiment  = Loadable(lazy(() => import('views/experiments/Experiment')));
+const Stimuli = Loadable(lazy(() => import('views/stimuli/Stimuli')));
+const Stats = Loadable(lazy(() => import('views/stimuli/charts/Stats')));
 const CollectiveStatistics = Loadable(lazy(() => import("views/stimuli/collective/CollectiveStatistics")));
 
 // ==============================|| MAIN ROUTING ||============================== //

@@ -2,7 +2,7 @@
 import {Typography} from '@mui/material';
 
 // project imports
-import NavGroup from './NavGroup';
+import NavGroup from './NavGroup/NavGroup';
 import {IconBuildingFactory2, IconFlask, IconUser} from "@tabler/icons";
 import axios from "axios";
 import {GET_EXPERIMENTS_API, GET_PROJECTS_API} from "../../../../endpoints/BackendEndpoints";
