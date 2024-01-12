@@ -5,8 +5,8 @@ import { useTheme } from '@mui/material/styles';
 import { Divider, List, Typography } from '@mui/material';
 
 // project imports
-import NavItem from '../NavItem';
-import NavCollapse from '../NavCollapse';
+import NavItem from '../NavItem/NavItem';
+import NavCollapse from '../NavCollapse/NavCollapse';
 
 // ==============================|| SIDEBAR MENU LIST GROUP ||============================== //
 

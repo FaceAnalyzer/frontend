@@ -1,6 +1,6 @@
 import React from "react";
 import {render, waitFor} from "@testing-library/react";
-import Projects from "../views/projects/projects";
+import Projects from "../views/projects/Projects";
 import {MemoryRouter, useNavigate} from "react-router-dom";
 import axios from 'axios';
 
@@ -62,6 +62,19 @@ describe('Projects Component', () => {
 
             await waitFor(() => expect(getByText(/click to add a new project/i)).toBeInTheDocument())
         });
+
+        test("Three edit dots should be rendered for Admin", async () => {
+            axios.get.mockResolvedValue(response);
+
+            const {getAllByText} = render(
+                <MemoryRouter>
+                    <Projects/>
+                </MemoryRouter>
+            );
+
+            await waitFor(() => expect(getAllByText(/edit/i)[0]).toBeInTheDocument())
+            await waitFor(() => expect(getAllByText(/delete/i)[0]).toBeInTheDocument())
+        });
     });
 
     describe('User is authenticated as Researcher', () => {
@@ -94,5 +107,18 @@ describe('Projects Component', () => {
 
             await waitFor(() => expect(queryByText(/click to add a new project/i)).toBeNull())
         })
+
+        test("Three edit dots should not be rendered for Researcher", async () => {
+            axios.get.mockResolvedValue(response);
+
+            const {queryByText} = render(
+                <MemoryRouter>
+                    <Projects/>
+                </MemoryRouter>
+            );
+
+            await waitFor(() => expect(queryByText(/edit/i)).toBeNull())
+            await waitFor(() => expect(queryByText(/delete/i)).toBeNull())
+        });
     })
 });

@@ -11,6 +11,7 @@ export const DELETE_EXPERIMENT_API = process.env.REACT_APP_BACKEND_API_URL + '/e
 export const EDIT_EXPERIMENT_API = process.env.REACT_APP_BACKEND_API_URL + '/experiments';
 export const GET_EXPERIMENTS_API = process.env.REACT_APP_BACKEND_API_URL + '/experiments';
 export const GET_EXPERIMENT_BY_ID_API = process.env.REACT_APP_BACKEND_API_URL + '/experiments/{id}';
+export const GET_EXPERIMENTS_BY_PROJECT_ID_API = process.env.REACT_APP_BACKEND_API_URL + '/experiments?projectId={id}';
 export const GET_EXPORT_EXPERIMENT = process.env.REACT_APP_BACKEND_API_URL + '/experiments/{id}/export';
 
 //Notes
