@@ -5,7 +5,7 @@ import {Box, Button, Grid, Typography} from '@mui/material';
 
 // project imports
 import {gridSpacing} from 'store/constant';
-import {Navigate, useParams} from "react-router";
+import {useParams} from "react-router";
 import axios from "axios";
 import {GET_EXPERIMENT_BY_ID_API, GET_PROJECT_BY_ID_API, GET_STIMULI_BY_ID_API} from "../../endpoints/BackendEndpoints";
 import StimuliHeader from "../../ui-component/headers/StimuliHeader";
@@ -18,10 +18,12 @@ import {useTheme} from "@mui/material/styles";
 import ReactionsContent from "./ReactionsContent";
 import SaveReactionModal from "../../ui-component/modals/stimuli/SaveReactionModal";
 import {useAuth} from "../../context/authContext";
+import {useNavigate} from "react-router-dom";
 
 // ==============================|| STIMULUS DASHBOARD ||============================== //
 
 const Stimuli = () => {
+    const navigate = useNavigate();
     const theme = useTheme();
 
     const {stimuliId} = useParams();
@@ -81,13 +83,17 @@ const Stimuli = () => {
             }
         };
 
-        clearLocalStorageData();
-        fetchData();
+        if (user) {
+            clearLocalStorageData();
+            fetchData().then();
+        } else {
+            navigate("/login");
+        }
 
         return() => {
             clearLocalStorageData();
         }
-    }, [stimuliId]);
+    }, [stimuliId, navigate, user]);
 
     useEffect(() => {
         if(!localStorage.getItem("analysisData")){
@@ -144,7 +150,7 @@ const Stimuli = () => {
         "time": 0
     });
 
-    return !user ? (<Navigate to="/login" replace/>) : (
+    return !user ? (<></>) : (
         <>
             <Grid container spacing={gridSpacing} sx={{padding: '16px'}}>
                 <Grid item xs={12}>

@@ -7,12 +7,13 @@ import axios from "axios";
 import {GET_USERS_API} from "../../endpoints/BackendEndpoints";
 import UserManagementHeader from "../../ui-component/headers/UserManagementHeader";
 import {useAuth} from "../../context/authContext";
-import {Navigate} from "react-router";
+import {useNavigate} from "react-router-dom";
 
 // ==============================|| USER MANAGEMENT DASHBOARD ||============================== //
 
 
 const UserManagement = () => {
+    const navigate = useNavigate();
     const [showAddModal, setShowAddModal] = useState(false);
     const [userList, setUserList] = useState([]);
     const [existingEmails, setExistingEmails] = useState([]);
@@ -38,8 +39,17 @@ const UserManagement = () => {
             }
         };
 
-        fetchUsers().then();
-    }, []);
+        if (user) {
+            if (user.role !== "Admin") {
+                navigate("/");
+            } else {
+                fetchUsers().then();
+            }
+        } else {
+            navigate('/login');
+        }
+
+    }, [user, navigate]);
 
     const openAddModal = () => {
         setShowAddModal(true);
@@ -49,8 +59,8 @@ const UserManagement = () => {
         setShowAddModal(false);
     };
 
-    return (!user) ? (<Navigate to="/login" replace/>) : (
-        (user.role !== "Admin") ? (<Navigate to="/" replace/>) : (
+    return (!user) ? (<></>) : (
+        (user.role !== "Admin") ? (<></>) : (
             <>
                 <AddUserModal showModal={showAddModal}
                               closeModal={closeAddModal}
