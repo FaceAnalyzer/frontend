@@ -7,7 +7,7 @@ import {Grid} from '@mui/material';
 import ExperimentCard from '../../ui-component/cards/projects/ExperimentCard';
 import AddExperimentCard from '../../ui-component/cards/projects/AddExperimentCard';
 import axios from "axios";
-import {GET_EXPERIMENTS_API, GET_PROJECT_BY_ID_API} from "../../endpoints/BackendEndpoints";
+import {GET_EXPERIMENTS_BY_PROJECT_ID_API, GET_PROJECT_BY_ID_API} from "../../endpoints/BackendEndpoints";
 import {gridSpacing} from "../../store/constant";
 import ProjectHeader from "../../ui-component/headers/ProjectHeader";
 import {useParams} from "react-router";
@@ -30,16 +30,13 @@ const Experiments = () => {
   useEffect(() => {
     const fetchExperimentData = async () => {
       try {
-        const experimentResponse = await axios.get(GET_EXPERIMENTS_API);
-        const {items} = experimentResponse.data;
+        const experimentResponse = await axios.get(GET_EXPERIMENTS_BY_PROJECT_ID_API.replace("{id}", projectId));
+        const fetchedExperiments = experimentResponse.data.items;
 
         const projectResponse = await axios.get(GET_PROJECT_BY_ID_API.replace("{id}", projectId));
         const fetchedProject = projectResponse.data;
 
-        const filteredExperimentList = items.filter((item) => item.projectId === ID);
-        console.log('Experiment List:', filteredExperimentList);
-
-        setExperimentList(filteredExperimentList.reverse()); //reverse so newest experiments are shown first
+        setExperimentList(fetchedExperiments.reverse()); //reverse so newest experiments are shown first
         setProjectData(fetchedProject);
         setLoading(false);
       } catch (error) {
@@ -53,7 +50,7 @@ const Experiments = () => {
       navigate('/login');
     }
 
-  }, [ID, projectId, navigate, user]);
+  }, [projectId, navigate, user]);
 
 
   return !user ? (

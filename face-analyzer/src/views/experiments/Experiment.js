@@ -10,7 +10,7 @@ import AddStimuliCard from '../../ui-component/cards/experiments/AddStimuliCard'
 import ExperimentHeader from "../../ui-component/headers/ExperimentHeader";
 import {useParams} from "react-router";
 import axios from "axios";
-import {GET_EXPERIMENTS_API, GET_PROJECT_BY_ID_API, GET_STIMULI_API} from "../../endpoints/BackendEndpoints";
+import {GET_EXPERIMENT_BY_ID_API, GET_PROJECT_BY_ID_API, GET_STIMULI_API} from "../../endpoints/BackendEndpoints";
 import {useAuth} from "../../context/authContext";
 import {useNavigate} from "react-router-dom";
 
@@ -29,9 +29,8 @@ const Experiment = () => {
     const fetchData = async () => {
       try {
         const ID = parseInt(experimentId);
-        const experimentResponse = await axios.get(GET_EXPERIMENTS_API);
-        const {items} = experimentResponse.data;
-        const experiment = items.filter((item) => item.id === ID)[0];
+        const experimentResponse = await axios.get(GET_EXPERIMENT_BY_ID_API.replace("{id}", experimentId));
+        const experiment = experimentResponse.data;
         setExperimentData(experiment);
 
         const projectResponse = await axios.get(GET_PROJECT_BY_ID_API.replace("{id}", experiment.projectId));
@@ -41,7 +40,7 @@ const Experiment = () => {
           params: {ID},
         });
 
-        const stimuliItems = stimuliResponse.data.items.filter((item) => item.experimentId === ID);
+        const stimuliItems = stimuliResponse.data.items;
         setStimuliList(stimuliItems.reverse()); //reverse so newest stimuli are shown first
 
         setLoading(false);

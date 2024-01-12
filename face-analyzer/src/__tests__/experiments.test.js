@@ -8,7 +8,7 @@ import Experiments from "../views/projects/Experiments";
 
 const mockedUseNavigate = jest.fn();
 const mockedUseParams = jest.fn(() => {
-    projectId: "100"
+    projectId: 100
 });
 
 jest.mock('../context/authContext');
@@ -41,7 +41,6 @@ describe('Experiments Component', () => {
     });
 
     describe('User is authenticated as Admin', () => {
-        let response;
         let projectResp;
         let experimentsResp;
         beforeEach(() => {
@@ -85,7 +84,7 @@ describe('Experiments Component', () => {
             await waitFor(() => expect(getByText(/click to add a new experiment/i)).toBeInTheDocument())
         });
 
-        test("Edit researchers button should be render for Admin", async () => {
+        test("Edit researchers button should be rendered for Admin", async () => {
             axios.get.mockResolvedValueOnce(experimentsResp).mockResolvedValueOnce(projectResp);
 
             const {getByText} = render(

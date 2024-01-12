@@ -58,7 +58,7 @@ describe('Experiment Component', () => {
             projectResp = {data: {id: 100, name: "test project"}};
         });
 
-        test.skip("Stimuli should be rendered for Admin", async () => {
+        test("Stimuli should be rendered for Admin", async () => {
             axios.get.mockResolvedValueOnce(experimentResp).mockResolvedValueOnce(projectResp).mockResolvedValueOnce(stimuliResp);
 
             const {getByText} = render(
