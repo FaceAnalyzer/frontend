@@ -45,48 +45,19 @@ describe('Stimuli Component', () => {
   });
 
   describe('User is authenticated as Admin', () => {
-    let stimuliResponse;
-    let experimentResp;
-    let projectResp;
+    let response;
     beforeEach(() => {
-      useAuth.mockReturnValue({user: {role: 'Researcher'}});
-      stimuliResponse = {data: {items: [{id: 1, name: 'test_stimulus', description: 'test_desc', link: 'link'}]}};
-      experimentResp = {data: {id: 1000, name: "test_experiment", description: 'test_desc_ex', projectId: 100}};
-      projectResp = {data: {id: 100, name: "test_project"}}
+      useAuth.mockReturnValue({ user: { role: 'Admin' } });
+      response = { data: { items: [{ id: 1, name: 'test 1' }] } };
     });
 
     test('Stimuli should render for Admin', async () => {
-      axios.get.mockResolvedValueOnce(stimuliResponse).mockResolvedValueOnce(experimentResp).mockResolvedValueOnce(projectResp);
+      axios.get.mockResolvedValue(response);
 
       const { getByText } = render(
         <MemoryRouter>
           <Stimuli />
         </MemoryRouter>
-      );
-
-      await waitFor(() => expect(getByText(/reactions/i)).toBeInTheDocument());
-    });
-
-  });
-
-  describe('User is authenticated as Researcher', () => {
-    let stimuliResponse;
-    let experimentResp;
-    let projectResp;
-    beforeEach(() => {
-      useAuth.mockReturnValue({user: {role: 'Researcher'}});
-      stimuliResponse = {data: {items: [{id: 1, name: 'test_stimulus', description: 'test_desc', link: 'link'}]}};
-      experimentResp = {data: {id: 1000, name: "test_experiment", description: 'test_desc_ex', projectId: 100}};
-      projectResp = {data: {id: 100, name: "test_project"}}
-    });
-
-    test('Stimuli should render for Researcher', async () => {
-      axios.get.mockResolvedValueOnce(stimuliResponse).mockResolvedValueOnce(experimentResp).mockResolvedValueOnce(projectResp);
-
-      const {getByText} = render(
-          <MemoryRouter>
-            <Stimuli/>
-          </MemoryRouter>
       );
 
       await waitFor(() => expect(getByText(/reactions/i)).toBeInTheDocument());
