@@ -1,7 +1,7 @@
-import { useAuth } from '../context/authContext';
-import { MemoryRouter, useNavigate } from 'react-router-dom';
-import Stats from '../views/stimuli/charts';
-import { render, waitFor } from '@testing-library/react';
+import {useAuth} from '../context/authContext';
+import {MemoryRouter, useNavigate} from 'react-router-dom';
+import Stats from '../views/stimuli/Stimuli';
+import {render, waitFor} from '@testing-library/react';
 import React from 'react';
 import axios from 'axios';
 

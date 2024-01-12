@@ -4,7 +4,7 @@ import {MemoryRouter, useNavigate} from "react-router-dom";
 import axios from 'axios';
 
 import {useAuth} from "../context/authContext";
-import Experiments from "../views/projects/experiments";
+import Experiments from "../views/projects/Experiments";
 
 const mockedUseNavigate = jest.fn();
 const mockedUseParams = jest.fn(() => {

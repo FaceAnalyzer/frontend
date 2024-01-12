@@ -1,8 +1,8 @@
-import { useAuth } from '../context/authContext';
-import { render, waitFor } from '@testing-library/react';
-import { MemoryRouter, useNavigate } from 'react-router-dom';
+import {useAuth} from '../context/authContext';
+import {render, waitFor} from '@testing-library/react';
+import {MemoryRouter, useNavigate} from 'react-router-dom';
 import React from 'react';
-import Stimuli from '../views/stimuli';
+import Stimuli from '../views/stimuli/Stimuli';
 import axios from 'axios';
 
 axios.get = jest.fn()
